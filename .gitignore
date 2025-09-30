@@ -10,6 +10,7 @@ build/
 # Environment variables
 .env
 .env.local
+.env.docker
 .env.production.local
 frontend/.env.local
 frontend/.env.production.local

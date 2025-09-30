@@ -6,9 +6,9 @@ services:
     image: postgres:15-alpine
     container_name: yourkanjiname-db
     environment:
-      POSTGRES_DB: yourkanjiname
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_NAME:-yourkanjiname}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
@@ -31,10 +31,10 @@ services:
       PORT: 3000
       DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: yourkanjiname
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      FRONTEND_URL: http://localhost:3001
+      DB_NAME: ${DB_NAME:-yourkanjiname}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3001}
     ports:
       - "3000:3000"
     depends_on:
