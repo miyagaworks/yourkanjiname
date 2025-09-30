@@ -2,9 +2,9 @@
 
 ## 使用方法
 
-### 1. 環境変数ファイルの作成
+### 1. 環境変数ファイルの作成（必須）
 
-`.env.docker`ファイルを作成（既にテンプレートあり）:
+`.env.docker`ファイルを作成:
 
 ```bash
 cp .env.docker.example .env.docker
@@ -15,18 +15,17 @@ cp .env.docker.example .env.docker
 ```env
 DB_NAME=yourkanjiname
 DB_USER=postgres
-DB_PASSWORD=your_secure_password_here  # ← 変更してください
+DB_PASSWORD=your_secure_password_here  # ← 必ず変更してください
 FRONTEND_URL=http://localhost:3001
 ```
+
+**重要**: 環境変数ファイルなしでは起動できません。
 
 ### 2. Docker Composeで起動
 
 ```bash
 # 環境変数を読み込んで起動
 docker-compose --env-file .env.docker up -d
-
-# または環境変数なしでデフォルト値を使用
-docker-compose up -d
 ```
 
 ### 3. 停止・削除
