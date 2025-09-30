@@ -1,0 +1,936 @@
+{
+  "meta": {
+    "version": "2.0",
+    "last_updated": "2025-09-30",
+    "description": "YourKanjiName質問フロー - 実際の行動パターンを測定"
+  },
+
+  "flow": {
+    "Q0": {
+      "id": "Q0",
+      "type": "introduction",
+      "text": {
+        "ja": "これからいくつかの質問をします。全ての選択肢があなたにピッタリ当てはまるとは限りませんが、その中で最も近いと感じるものを選んでください。完全に一致しなくても大丈夫です。",
+        "en": "We will now ask you several questions. Not all options may perfectly match you, but please choose the one that feels closest. It's okay if it's not a perfect match."
+      },
+      "next": "Q1"
+    },
+
+    "Q1": {
+      "id": "Q1",
+      "type": "gender_declaration",
+      "text": {
+        "ja": "性別を教えてください。",
+        "en": "Please tell us your gender."
+      },
+      "options": [
+        {
+          "id": "male",
+          "text": {"ja": "男性", "en": "Male"},
+          "next": "M-1"
+        },
+        {
+          "id": "female",
+          "text": {"ja": "女性", "en": "Female"},
+          "next": "F-1"
+        },
+        {
+          "id": "nonbinary",
+          "text": {"ja": "ノンバイナリー/その他", "en": "Non-binary/Other"},
+          "next": "NB-1"
+        },
+        {
+          "id": "prefer_not_to_say",
+          "text": {"ja": "回答したくない", "en": "Prefer not to say"},
+          "next": "Q6"
+        }
+      ]
+    },
+
+    "M-1": {
+      "id": "M-1",
+      "type": "gender_trait_check",
+      "category": "male",
+      "text": {
+        "ja": "グループで何かを決める時、あなたはどの役割になりがちですか?",
+        "en": "When making decisions in a group, what role do you tend to take?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "リーダーとして引っ張る", "en": "Lead as a leader"}, "score": 3},
+        {"id": "B", "text": {"ja": "意見をはっきり言う", "en": "Clearly state opinions"}, "score": 2},
+        {"id": "C", "text": {"ja": "裏方で支える", "en": "Support from behind"}, "score": 0},
+        {"id": "D", "text": {"ja": "みんなの意見を聞く", "en": "Listen to everyone's opinions"}, "score": -1},
+        {"id": "E", "text": {"ja": "和を重んじて従う", "en": "Value harmony and follow"}, "score": -2}
+      ],
+      "next": "M-2"
+    },
+
+    "M-2": {
+      "id": "M-2",
+      "type": "gender_trait_check",
+      "category": "male",
+      "text": {
+        "ja": "競争や勝負事についてどう思いますか?",
+        "en": "How do you feel about competition and contests?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "燃える!勝ちたい", "en": "I'm fired up! Want to win"}, "score": 3},
+        {"id": "B", "text": {"ja": "楽しければOK", "en": "It's okay if it's fun"}, "score": 1},
+        {"id": "C", "text": {"ja": "あまり好きじゃない", "en": "Don't really like it"}, "score": -1},
+        {"id": "D", "text": {"ja": "できれば避けたい", "en": "Would prefer to avoid"}, "score": -2}
+      ],
+      "next": "M-3"
+    },
+
+    "M-3": {
+      "id": "M-3",
+      "type": "gender_trait_check",
+      "category": "male",
+      "text": {
+        "ja": "問題が起きた時、あなたの最初の反応は?",
+        "en": "When a problem occurs, what is your first reaction?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "すぐに解決策を考える", "en": "Think of solutions immediately"}, "score": 2},
+        {"id": "B", "text": {"ja": "原因を分析する", "en": "Analyze the cause"}, "score": 1},
+        {"id": "C", "text": {"ja": "人に相談する", "en": "Consult with others"}, "score": -1},
+        {"id": "D", "text": {"ja": "まず感情を整理する", "en": "First organize emotions"}, "score": -2}
+      ],
+      "next": "M-4"
+    },
+
+    "M-4": {
+      "id": "M-4",
+      "type": "gender_trait_check",
+      "category": "male",
+      "text": {
+        "ja": "嬉しい時、あなたはどう表現しますか?",
+        "en": "When you're happy, how do you express it?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "大きく喜ぶ・叫ぶ", "en": "Show great joy / shout"}, "score": 2},
+        {"id": "B", "text": {"ja": "ガッツポーズ", "en": "Fist pump"}, "score": 1},
+        {"id": "C", "text": {"ja": "にっこり笑う", "en": "Smile gently"}, "score": 0},
+        {"id": "D", "text": {"ja": "涙を流す", "en": "Shed tears"}, "score": -1}
+      ],
+      "next": "Q6"
+    },
+
+    "F-1": {
+      "id": "F-1",
+      "type": "gender_trait_check",
+      "category": "female",
+      "text": {
+        "ja": "友達が悩みを相談してきた時、あなたはどうしますか?",
+        "en": "When a friend consults you about their troubles, what do you do?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "まず気持ちに寄り添う", "en": "First empathize with their feelings"}, "score": 3},
+        {"id": "B", "text": {"ja": "『大変だったね』と共感", "en": "Empathize saying 'that must have been hard'"}, "score": 2},
+        {"id": "C", "text": {"ja": "解決策を一緒に考える", "en": "Think of solutions together"}, "score": 1},
+        {"id": "D", "text": {"ja": "『頑張れ』と励ます", "en": "Encourage saying 'do your best'"}, "score": 0},
+        {"id": "E", "text": {"ja": "具体的アドバイスをする", "en": "Give specific advice"}, "score": -1}
+      ],
+      "next": "F-2"
+    },
+
+    "F-2": {
+      "id": "F-2",
+      "type": "gender_trait_check",
+      "category": "female",
+      "text": {
+        "ja": "部屋をコーディネートする時、何を一番重視しますか?",
+        "en": "When coordinating a room, what do you prioritize most?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "色の調和・美しさ", "en": "Color harmony and beauty"}, "score": 3},
+        {"id": "B", "text": {"ja": "居心地の良さ", "en": "Comfort"}, "score": 2},
+        {"id": "C", "text": {"ja": "清潔感", "en": "Cleanliness"}, "score": 1},
+        {"id": "D", "text": {"ja": "機能性・便利さ", "en": "Functionality and convenience"}, "score": -1},
+        {"id": "E", "text": {"ja": "特にこだわらない", "en": "No particular preference"}, "score": -2}
+      ],
+      "next": "F-3"
+    },
+
+    "F-3": {
+      "id": "F-3",
+      "type": "gender_trait_check",
+      "category": "female",
+      "text": {
+        "ja": "初めて会う人との会話で、あなたは?",
+        "en": "In conversations with people you meet for the first time, you:"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "相手の話をよく聞く", "en": "Listen carefully to what they say"}, "score": 2},
+        {"id": "B", "text": {"ja": "共通点を見つけようとする", "en": "Try to find common ground"}, "score": 2},
+        {"id": "C", "text": {"ja": "自分のことを積極的に話す", "en": "Actively talk about yourself"}, "score": -1},
+        {"id": "D", "text": {"ja": "必要最小限の会話", "en": "Minimal necessary conversation"}, "score": -2}
+      ],
+      "next": "F-4"
+    },
+
+    "F-4": {
+      "id": "F-4",
+      "type": "gender_trait_check",
+      "category": "female",
+      "text": {
+        "ja": "小さな子供や動物を見た時の最初の反応は?",
+        "en": "What's your first reaction when you see small children or animals?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "可愛い!触りたい", "en": "So cute! Want to touch"}, "score": 3},
+        {"id": "B", "text": {"ja": "守ってあげたい", "en": "Want to protect them"}, "score": 2},
+        {"id": "C", "text": {"ja": "微笑ましく見守る", "en": "Watch them warmly"}, "score": 1},
+        {"id": "D", "text": {"ja": "特に何も感じない", "en": "Don't feel anything particular"}, "score": -1}
+      ],
+      "next": "Q6"
+    },
+
+    "NB-1": {
+      "id": "NB-1",
+      "type": "gender_trait_check",
+      "category": "nonbinary",
+      "text": {
+        "ja": "グループで何かを決める時、あなたはどの役割になりがちですか?",
+        "en": "When making decisions in a group, what role do you tend to take?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "リーダーとして引っ張る", "en": "Lead as a leader"}, "score": 3},
+        {"id": "B", "text": {"ja": "意見をはっきり言う", "en": "Clearly state opinions"}, "score": 2},
+        {"id": "C", "text": {"ja": "裏方で支える", "en": "Support from behind"}, "score": 0},
+        {"id": "D", "text": {"ja": "みんなの意見を聞く", "en": "Listen to everyone's opinions"}, "score": -1},
+        {"id": "E", "text": {"ja": "和を重んじて従う", "en": "Value harmony and follow"}, "score": -2}
+      ],
+      "next": "NB-2"
+    },
+
+    "NB-2": {
+      "id": "NB-2",
+      "type": "gender_trait_check",
+      "category": "nonbinary",
+      "text": {
+        "ja": "友達が悩みを相談してきた時、あなたはどうしますか?",
+        "en": "When a friend consults you about their troubles, what do you do?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "まず気持ちに寄り添う", "en": "First empathize with their feelings"}, "score": -3},
+        {"id": "B", "text": {"ja": "『大変だったね』と共感", "en": "Empathize saying 'that must have been hard'"}, "score": -2},
+        {"id": "C", "text": {"ja": "解決策を一緒に考える", "en": "Think of solutions together"}, "score": 0},
+        {"id": "D", "text": {"ja": "具体的アドバイスをする", "en": "Give specific advice"}, "score": 1}
+      ],
+      "next": "NB-3"
+    },
+
+    "NB-3": {
+      "id": "NB-3",
+      "type": "gender_trait_check",
+      "category": "nonbinary",
+      "text": {
+        "ja": "競争や勝負事についてどう思いますか?",
+        "en": "How do you feel about competition and contests?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "燃える!勝ちたい", "en": "I'm fired up! Want to win"}, "score": 3},
+        {"id": "B", "text": {"ja": "楽しければOK", "en": "It's okay if it's fun"}, "score": 1},
+        {"id": "C", "text": {"ja": "あまり好きじゃない", "en": "Don't really like it"}, "score": -1},
+        {"id": "D", "text": {"ja": "できれば避けたい", "en": "Would prefer to avoid"}, "score": -2}
+      ],
+      "next": "NB-4"
+    },
+
+    "NB-4": {
+      "id": "NB-4",
+      "type": "gender_trait_check",
+      "category": "nonbinary",
+      "text": {
+        "ja": "部屋をコーディネートする時、何を一番重視しますか?",
+        "en": "When coordinating a room, what do you prioritize most?"
+      },
+      "options": [
+        {"id": "A", "text": {"ja": "色の調和・美しさ", "en": "Color harmony and beauty"}, "score": -3},
+        {"id": "B", "text": {"ja": "居心地の良さ", "en": "Comfort"}, "score": -2},
+        {"id": "C", "text": {"ja": "清潔感", "en": "Cleanliness"}, "score": -1},
+        {"id": "D", "text": {"ja": "機能性・便利さ", "en": "Functionality and convenience"}, "score": 1},
+        {"id": "E", "text": {"ja": "特にこだわらない", "en": "No particular preference"}, "score": 2}
+      ],
+      "next": "Q6"
+    },
+
+    "Q6": {
+      "id": "Q6",
+      "type": "decisiveness_daily",
+      "text": {
+        "ja": "レストランでメニューを決める時、あなたは？",
+        "en": "When deciding on a menu at a restaurant, you:"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "1分以内にパッと決める", "en": "Decide quickly within 1 minute"},
+          "trait_scores": {"decisiveness": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "2-3個に絞ってから選ぶ", "en": "Narrow down to 2-3 options then choose"},
+          "trait_scores": {"decisiveness": 1}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "かなり悩んで、店員が来るギリギリまで迷う", "en": "Struggle a lot, hesitate until the waiter arrives"},
+          "trait_scores": {"decisiveness": -1}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "誰かに「おすすめは？」と聞いて決める", "en": "Ask someone 'what do you recommend?' and decide"},
+          "trait_scores": {"decisiveness": -2}
+        }
+      ],
+      "next": "Q7"
+    },
+
+    "Q7": {
+      "id": "Q7",
+      "type": "stress_response",
+      "text": {
+        "ja": "予期せぬトラブルが起きた時、実際にあなたがまず取る行動は？",
+        "en": "When unexpected trouble occurs, what do you actually do first?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "すぐに対処法を考えて動く", "en": "Think of solutions and act immediately"},
+          "trait_scores": {"action_oriented": 3},
+          "scores": {"dominance": 1}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "少し落ち着いてから計画を立てる", "en": "Calm down first, then make a plan"},
+          "trait_scores": {"action_oriented": 1},
+          "scores": {"knowledge": 1}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "誰かに相談する・助けを求める", "en": "Consult someone or ask for help"},
+          "trait_scores": {"action_oriented": -1},
+          "scores": {"belonging": 1}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "パニックになって何も手につかない", "en": "Panic and can't focus on anything"},
+          "trait_scores": {"action_oriented": -2},
+          "scores": {"stability": -1}
+        }
+      ],
+      "next": "Q8"
+    },
+
+    "Q8": {
+      "id": "Q8",
+      "type": "consistency_check",
+      "text": {
+        "ja": "昨日『絶対やる！』と決めたことを、翌日にはやめてしまうことは？",
+        "en": "How often do you abandon something you decided yesterday to 'definitely do'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "ほとんどない。決めたら貫く", "en": "Almost never. Once I decide, I follow through"},
+          "trait_scores": {"consistency": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "たまにある。状況次第", "en": "Sometimes. Depends on the situation"},
+          "trait_scores": {"consistency": 1}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "よくある。気分で変わる", "en": "Often. Changes with my mood"},
+          "trait_scores": {"consistency": -1}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "しょっちゅう。毎日考えが変わる", "en": "All the time. My mind changes every day"},
+          "trait_scores": {"consistency": -2}
+        }
+      ],
+      "next": "Q9"
+    },
+
+    "Q9": {
+      "id": "Q9",
+      "type": "actual_behavior",
+      "text": {
+        "ja": "先週末、実際に何をして過ごしましたか？（最も近いもの）",
+        "en": "What did you actually do last weekend? (Choose closest)"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "本を読んだり、新しいスキルを学んだ", "en": "Read books or learned new skills"},
+          "scores": {"knowledge": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "創作活動や趣味のプロジェクトに没頭した", "en": "Immersed in creative activities or hobby projects"},
+          "scores": {"creative": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "友人や家族と過ごし、会話を楽しんだ", "en": "Spent time with friends/family, enjoyed conversation"},
+          "scores": {"belonging": 3}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "競技やゲーム、目標達成に取り組んだ", "en": "Engaged in sports/games or worked on goals"},
+          "scores": {"dominance": 3}
+        },
+        {
+          "id": "E",
+          "text": {"ja": "リラックスして心身を整えた", "en": "Relaxed and restored mind/body"},
+          "scores": {"stability": 3}
+        },
+        {
+          "id": "F",
+          "text": {"ja": "旅行や新しい場所・体験を求めた", "en": "Sought travel, new places, or experiences"},
+          "scores": {"freedom": 3}
+        }
+      ],
+      "next": "Q10"
+    },
+
+    "Q10": {
+      "id": "Q10",
+      "type": "decisiveness_major",
+      "text": {
+        "ja": "人生の大きな決断（仕事、引っ越し、大きな買い物など）をする時、あなたは？",
+        "en": "When making big life decisions (job, moving, major purchases), you:"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "直感で『これだ！』と思ったら即決", "en": "Decide immediately if it feels right intuitively"},
+          "trait_scores": {"decisiveness": 3},
+          "scores": {"freedom": 1}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "1-2週間情報収集してから決める", "en": "Gather information for 1-2 weeks then decide"},
+          "trait_scores": {"decisiveness": 1},
+          "scores": {"knowledge": 1}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "何ヶ月も悩んで、結局決められないことも多い", "en": "Struggle for months, often can't decide"},
+          "trait_scores": {"decisiveness": -2},
+          "scores": {"stability": 1}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "家族や友人の意見を聞いて、その通りにする", "en": "Listen to family/friends and follow their advice"},
+          "trait_scores": {"decisiveness": -1},
+          "scores": {"belonging": 1}
+        }
+      ],
+      "next": "Q11"
+    },
+
+    "Q11": {
+      "id": "Q11",
+      "type": "current_satisfaction",
+      "text": {
+        "ja": "今のあなたの人生で、最も充実していると感じるのは？",
+        "en": "In your current life, what do you feel most fulfilled by?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "新しいことを学び、理解を深めているとき", "en": "When learning new things, deepening understanding"},
+          "scores": {"knowledge": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "自分の創造性を発揮し、何かを生み出しているとき", "en": "When exercising creativity, creating something"},
+          "scores": {"creative": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "大切な人たちと繋がり、支え合っているとき", "en": "When connecting with important people, supporting each other"},
+          "scores": {"belonging": 2}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "目標を達成し、影響力を持っているとき", "en": "When achieving goals, having influence"},
+          "scores": {"dominance": 2}
+        },
+        {
+          "id": "E",
+          "text": {"ja": "安定した日常と確かな基盤があるとき", "en": "When having stable daily life and solid foundation"},
+          "scores": {"stability": 2}
+        },
+        {
+          "id": "F",
+          "text": {"ja": "自分の意志で選択し、束縛されていないとき", "en": "When choosing by my own will, not constrained"},
+          "scores": {"freedom": 2}
+        }
+      ],
+      "next": "Q12"
+    },
+
+    "Q12": {
+      "id": "Q12",
+      "type": "future_vision",
+      "text": {
+        "ja": "10年後、こうなっていたら最高だと思うのは？",
+        "en": "10 years from now, what would be the best outcome?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "専門分野の第一人者として認められている", "en": "Being recognized as a leading expert in my field"},
+          "scores": {"knowledge": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "独自の作品や事業で世界に新しい価値を提供している", "en": "Providing new value to the world with unique works or business"},
+          "scores": {"creative": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "愛する人々に囲まれ、温かいコミュニティの一員である", "en": "Surrounded by loved ones, being part of warm community"},
+          "scores": {"belonging": 3}
+        },
+        {
+          "id": "D",
+          "text": {"ja": "リーダーとして組織や社会を動かしている", "en": "Moving organizations or society as a leader"},
+          "scores": {"dominance": 3}
+        },
+        {
+          "id": "E",
+          "text": {"ja": "経済的・精神的に安定し、揺るぎない基盤を築いている", "en": "Financially and mentally stable, with unwavering foundation"},
+          "scores": {"stability": 3}
+        },
+        {
+          "id": "F",
+          "text": {"ja": "どこでも誰とでも、自分らしく生きている", "en": "Living authentically anywhere with anyone"},
+          "scores": {"freedom": 3}
+        }
+      ],
+      "next": "CALCULATE_HIGHEST_MOTIVATION"
+    },
+
+    "Q10-knowledge-A": {
+      "id": "Q10-knowledge-A",
+      "type": "motivation_subtype",
+      "motivation": "knowledge",
+      "text": {
+        "ja": "新しいことを学ぶ時、あなたが最も興味を持つのは?",
+        "en": "When learning something new, what interests you most?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "その分野の根本的な原理や法則を理解すること", "en": "Understanding fundamental principles and laws"},
+          "scores": {"truth_seeking": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "実際に使える知識やスキルを身につけること", "en": "Acquiring practical knowledge and skills"},
+          "scores": {"learning_growth": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "学んだことを他の人にわかりやすく説明すること", "en": "Explaining what you learned clearly to others"},
+          "scores": {"understanding_sharing": 2}
+        }
+      ],
+      "next": "Q11-knowledge-B"
+    },
+
+    "Q11-knowledge-B": {
+      "id": "Q11-knowledge-B",
+      "type": "motivation_subtype",
+      "motivation": "knowledge",
+      "text": {
+        "ja": "わからないことに出会った時、あなたはどうしますか?",
+        "en": "When you encounter something you don't understand, what do you do?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "徹底的に調べて、完全に理解するまで追求する", "en": "Research thoroughly until completely understood"},
+          "scores": {"truth_seeking": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "必要な部分だけ効率よく学んで、次のステップに進む", "en": "Learn efficiently what's needed, move to next step"},
+          "scores": {"learning_growth": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "同じ疑問を持つ人と議論したり、一緒に考えたりする", "en": "Discuss with others who have same questions, think together"},
+          "scores": {"understanding_sharing": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q10-creative-A": {
+      "id": "Q10-creative-A",
+      "type": "motivation_subtype",
+      "motivation": "creative",
+      "text": {
+        "ja": "何かを創作する時、あなたが最も大切にするのは?",
+        "en": "When creating something, what do you value most?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "美しさや芸術性、自分の美的感覚を表現すること", "en": "Beauty, artistry, expressing aesthetic sense"},
+          "scores": {"pure_creation": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "今までにない新しいアイデアや方法を試すこと", "en": "Trying new ideas and methods never seen before"},
+          "scores": {"innovation_transformation": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "自分の気持ちや体験を形にして伝えること", "en": "Conveying feelings and experiences in form"},
+          "scores": {"expression_communication": 2}
+        }
+      ],
+      "next": "Q11-creative-B"
+    },
+
+    "Q11-creative-B": {
+      "id": "Q11-creative-B",
+      "type": "motivation_subtype",
+      "motivation": "creative",
+      "text": {
+        "ja": "自分が創った作品について、どんな時に最も満足感を感じますか?",
+        "en": "About your creations, when do you feel most satisfied?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "自分が思い描いた美しさを完璧に表現できた時", "en": "When perfectly expressing the beauty I envisioned"},
+          "scores": {"pure_creation": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "誰も思いつかないような斬新なものができた時", "en": "When creating something innovative nobody thought of"},
+          "scores": {"innovation_transformation": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "見る人の心に何かを伝えることができた時", "en": "When successfully conveying something to viewers' hearts"},
+          "scores": {"expression_communication": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q10-belonging-A": {
+      "id": "Q10-belonging-A",
+      "type": "motivation_subtype",
+      "motivation": "belonging",
+      "text": {
+        "ja": "人と一緒にいる時、あなたが最も心地よく感じるのは?",
+        "en": "When with others, when do you feel most comfortable?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "深い愛情で結ばれた特別な関係の中にいる時", "en": "In special relationships bound by deep affection"},
+          "scores": {"pure_love_devotion": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "みんなが仲良く、平和な雰囲気の中にいる時", "en": "When everyone is friendly, in peaceful atmosphere"},
+          "scores": {"harmony_cooperation": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "誰かの役に立ったり、支えになれていると感じる時", "en": "When feeling useful to someone, being their support"},
+          "scores": {"protection_nurturing": 2}
+        }
+      ],
+      "next": "Q11-belonging-B"
+    },
+
+    "Q11-belonging-B": {
+      "id": "Q11-belonging-B",
+      "type": "motivation_subtype",
+      "motivation": "belonging",
+      "text": {
+        "ja": "人との関係で最も深い喜びを感じるのはどんな瞬間ですか?",
+        "en": "In relationships, when do you feel the deepest joy?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "心から愛する人と深くつながり合えた時", "en": "Deeply connecting with someone I truly love"},
+          "scores": {"pure_love_devotion": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "対立していた人たちが仲直りするのを見た時", "en": "Seeing conflicting people reconcile"},
+          "scores": {"harmony_cooperation": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "困っている人を助けて、その人が笑顔になった時", "en": "Helping troubled person, seeing them smile"},
+          "scores": {"protection_nurturing": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q10-dominance-A": {
+      "id": "Q10-dominance-A",
+      "type": "motivation_subtype",
+      "motivation": "dominance",
+      "text": {
+        "ja": "グループの中で自然とリーダー的な役割になる時、あなたはどんなタイプですか?",
+        "en": "When naturally becoming a leader in a group, what type are you?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "みんなの意見を聞いて、最適な方向に導いていく", "en": "Listening to everyone, guiding to optimal direction"},
+          "scores": {"leadership_command": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "目標を明確にして、競争心を駆り立てながら勝利を目指す", "en": "Setting clear goals, aiming for victory with competitive spirit"},
+          "scores": {"competition_victory": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "新しいアイデアを提案して、変化を起こしていく", "en": "Proposing new ideas, causing change"},
+          "scores": {"influence_change": 2}
+        }
+      ],
+      "next": "Q11-dominance-B"
+    },
+
+    "Q11-dominance-B": {
+      "id": "Q11-dominance-B",
+      "type": "motivation_subtype",
+      "motivation": "dominance",
+      "text": {
+        "ja": "あなたにとって「成功」とは何ですか?",
+        "en": "What does 'success' mean to you?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "多くの人から信頼され、尊敬されるリーダーになること", "en": "Becoming a trusted, respected leader"},
+          "scores": {"leadership_command": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "競争に勝ち続け、常にトップの位置にいること", "en": "Continuously winning, always at the top"},
+          "scores": {"competition_victory": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "世界を変えるような大きな影響力を持つこと", "en": "Having great influence that changes the world"},
+          "scores": {"influence_change": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q10-stability-A": {
+      "id": "Q10-stability-A",
+      "type": "motivation_subtype",
+      "motivation": "stability",
+      "text": {
+        "ja": "心が最も安らぐのはどんな時ですか?",
+        "en": "When does your heart feel most at peace?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "すべてが静かで、何の心配もない穏やかな時", "en": "When everything is quiet, peaceful without worries"},
+          "scores": {"peace_rest": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "大切な人や物が変わらず、いつものように側にある時", "en": "When important people/things remain unchanged, always nearby"},
+          "scores": {"continuity_maintenance": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "自分の信念や価値観がしっかりしていると感じる時", "en": "When feeling my beliefs and values are solid"},
+          "scores": {"deep_rooted_belief": 2}
+        }
+      ],
+      "next": "Q11-stability-B"
+    },
+
+    "Q11-stability-B": {
+      "id": "Q11-stability-B",
+      "type": "motivation_subtype",
+      "motivation": "stability",
+      "text": {
+        "ja": "周りの環境が大きく変わる時、あなたはどう感じますか?",
+        "en": "When your environment changes greatly, how do you feel?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "できるだけ静かな場所で、変化が落ち着くのを待ちたい", "en": "Want to wait in quiet place for change to settle"},
+          "scores": {"peace_rest": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "大切なものは変えずに、変化に適応していきたい", "en": "Want to adapt while keeping important things unchanged"},
+          "scores": {"continuity_maintenance": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "自分の芯となる信念があれば、どんな変化も乗り越えられる", "en": "Can overcome any change with core beliefs"},
+          "scores": {"deep_rooted_belief": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q10-freedom-A": {
+      "id": "Q10-freedom-A",
+      "type": "motivation_subtype",
+      "motivation": "freedom",
+      "text": {
+        "ja": "何かに縛られたり、制限されたりした時、あなたはどう感じますか?",
+        "en": "When bound or restricted by something, how do you feel?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "とにかくその場から離れて、自分だけの時間を取り戻したい", "en": "Want to leave and reclaim my own time"},
+          "scores": {"liberation_independence": 2}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "新しい場所や体験を求めて、どこか遠くに行きたくなる", "en": "Want to go far seeking new places and experiences"},
+          "scores": {"adventure_exploration": 2}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "周りに合わせるのではなく、自分らしい道を選びたくなる", "en": "Want to choose my own path rather than conforming"},
+          "scores": {"individuality_expression": 2}
+        }
+      ],
+      "next": "Q11-freedom-B"
+    },
+
+    "Q11-freedom-B": {
+      "id": "Q11-freedom-B",
+      "type": "motivation_subtype",
+      "motivation": "freedom",
+      "text": {
+        "ja": "あなたにとって「自由」とは何ですか?",
+        "en": "What does 'freedom' mean to you?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "誰にも邪魔されず、完全に独立していること", "en": "Being completely independent, undisturbed by anyone"},
+          "scores": {"liberation_independence": 3}
+        },
+        {
+          "id": "B",
+          "text": {"ja": "未知の世界を探検し、新しい体験をし続けること", "en": "Exploring unknown worlds, continuing new experiences"},
+          "scores": {"adventure_exploration": 3}
+        },
+        {
+          "id": "C",
+          "text": {"ja": "自分の個性や価値観を貫いて生きること", "en": "Living with my own individuality and values"},
+          "scores": {"individuality_expression": 3}
+        }
+      ],
+      "next": "Q13"
+    },
+
+    "Q13": {
+      "id": "Q13",
+      "type": "behavioral_trait",
+      "text": {
+        "ja": "重要な決断をする時、あなたはどうしますか?",
+        "en": "When making important decisions, what do you do?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "すぐに決めて、即座に行動する", "en": "Decide quickly and act immediately"},
+          "decisiveness": 3,
+          "action_oriented": 2
+        },
+        {
+          "id": "B",
+          "text": {"ja": "少し考えてから、自分で決める", "en": "Think a bit, then decide myself"},
+          "decisiveness": 1,
+          "action_oriented": 1
+        },
+        {
+          "id": "C",
+          "text": {"ja": "じっくり考えて、慎重に決める", "en": "Think carefully and decide cautiously"},
+          "decisiveness": -1,
+          "action_oriented": 0
+        },
+        {
+          "id": "D",
+          "text": {"ja": "人に相談してから決める", "en": "Consult others before deciding"},
+          "decisiveness": -2,
+          "action_oriented": -1
+        },
+        {
+          "id": "E",
+          "text": {"ja": "なかなか決められず、迷い続ける", "en": "Can't decide easily, keep hesitating"},
+          "decisiveness": -3,
+          "action_oriented": -2
+        }
+      ],
+      "next": "Q14"
+    },
+
+    "Q14": {
+      "id": "Q14",
+      "type": "behavioral_trait",
+      "text": {
+        "ja": "あなたの考えや気持ちは、どれくらい変わりますか?",
+        "en": "How much do your thoughts and feelings change?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {"ja": "ほとんど変わらない。一度決めたらブレない", "en": "Hardly change. Once decided, I don't waver"},
+          "consistency": 3
+        },
+        {
+          "id": "B",
+          "text": {"ja": "基本は変わらないが、時々は変わる", "en": "Basically don't change, but sometimes do"},
+          "consistency": 1
+        },
+        {
+          "id": "C",
+          "text": {"ja": "状況によって結構変わる", "en": "Change quite a bit depending on situation"},
+          "consistency": -1
+        },
+        {
+          "id": "D",
+          "text": {"ja": "気分でよく変わる", "en": "Change often with mood"},
+          "consistency": -2
+        },
+        {
+          "id": "E",
+          "text": {"ja": "毎日のように考えが変わる", "en": "Thoughts change almost daily"},
+          "consistency": -3
+        }
+      ],
+      "next": "GENERATE_RESULT"
+    }
+  }
+}
