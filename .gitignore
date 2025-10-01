@@ -11,8 +11,11 @@ build/
 .env
 .env.local
 .env.docker
+.env.production
 .env.production.local
+frontend/.env
 frontend/.env.local
+frontend/.env.production
 frontend/.env.production.local
 
 # Logs
