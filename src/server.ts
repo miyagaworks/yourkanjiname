@@ -37,6 +37,11 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [process.env.FRONTEND_URL || 'http://localhost:3001'];
 
+console.log('🔧 Environment variables check:');
+console.log('ALLOWED_ORIGINS:', process.env.ALLOWED_ORIGINS);
+console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
+console.log('Resolved allowedOrigins:', allowedOrigins);
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
