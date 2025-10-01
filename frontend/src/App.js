@@ -258,8 +258,6 @@ function App() {
     if (!sessionId || !currentQuestion) return;
 
     try {
-      setLoading(true);
-
       // 回答を送信
       const response = await ApiClient.submitAnswer(
         sessionId,
@@ -269,12 +267,14 @@ function App() {
 
       // 次の質問を取得
       if (response.next_question_id === 'GENERATE_RESULT') {
-        // 全質問完了 → 漢字名生成
+        // 全質問完了 → 漢字名生成（ローディング表示開始）
+        setLoading(true);
         const kanjiResult = await ApiClient.generateKanjiName(sessionId);
         setResult(kanjiResult);
         setCurrentQuestion(null);
+        setLoading(false);
       } else {
-        // 次の質問を表示
+        // 次の質問を表示（ローディング表示なし）
         const nextResponse = await ApiClient.getNextQuestion(sessionId, language);
         setCurrentQuestion(nextResponse.question);
         setProgress(nextResponse.progress);
@@ -284,7 +284,6 @@ function App() {
     } catch (err) {
       setError('Failed to submit answer');
       console.error(err);
-    } finally {
       setLoading(false);
     }
   };
