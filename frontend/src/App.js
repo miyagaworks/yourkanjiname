@@ -22,8 +22,8 @@ const ApiClient = {
     return await response.json();
   },
 
-  async submitAnswer(sessionId, questionId, answerOption) {
-    const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}/answers`, {
+  async submitAnswer(sessionId, questionId, answerOption, lang = 'ja') {
+    const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}/answers?lang=${lang}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -258,15 +258,16 @@ function App() {
     if (!sessionId || !currentQuestion) return;
 
     try {
-      // 回答を送信
+      // 回答を送信して次の質問を取得（1回のAPIコール）
       const response = await ApiClient.submitAnswer(
         sessionId,
         currentQuestion.id,
-        optionId
+        optionId,
+        language
       );
 
-      // 次の質問を取得
-      if (response.next_question_id === 'GENERATE_RESULT') {
+      // 全質問完了チェック
+      if (response.completed) {
         // 全質問完了 → 漢字名生成（ローディング表示開始）
         setLoading(true);
         const kanjiResult = await ApiClient.generateKanjiName(sessionId);
@@ -275,9 +276,8 @@ function App() {
         setLoading(false);
       } else {
         // 次の質問を表示（ローディング表示なし）
-        const nextResponse = await ApiClient.getNextQuestion(sessionId, language);
-        setCurrentQuestion(nextResponse.question);
-        setProgress(nextResponse.progress);
+        setCurrentQuestion(response.question);
+        setProgress(response.progress);
         // ページ上部にスクロール
         window.scrollTo(0, 0);
       }

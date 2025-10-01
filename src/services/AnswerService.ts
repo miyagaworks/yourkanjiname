@@ -61,21 +61,33 @@ export class AnswerService {
     const answersResult = await this.pool.query(answersQuery, [sessionId]);
     const answers = answersResult.rows;
 
-    // Determine next question
-    const nextQuestion = this.flowService.getNextQuestion(answers, 'ja');
-
-    if ((nextQuestion as any).completed) {
-      return {
-        success: true,
-        next_question_id: 'GENERATE_RESULT',
-        message: 'All questions completed'
-      };
-    }
-
+    // Return success response
     return {
       success: true,
-      next_question_id: (nextQuestion as any).question.id,
       message: 'Answer recorded successfully'
     };
+  }
+
+  /**
+   * Submit answer and get next question
+   */
+  async submitAnswerAndGetNext(sessionId: string, questionId: string, answerOption: string, lang: string = 'ja') {
+    // Submit the answer first
+    await this.submitAnswer(sessionId, questionId, answerOption);
+
+    // Get all answers to determine next question
+    const answersQuery = `
+      SELECT question_id, answer_option
+      FROM answers
+      WHERE session_id = $1
+      ORDER BY answered_at ASC
+    `;
+    const answersResult = await this.pool.query(answersQuery, [sessionId]);
+    const answers = answersResult.rows;
+
+    // Determine next question
+    const nextQuestion = this.flowService.getNextQuestion(answers, lang);
+
+    return nextQuestion;
   }
 }
