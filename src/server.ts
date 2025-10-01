@@ -19,6 +19,10 @@ import generationRoutes from './routes/generation';
 // Load environment variables
 dotenv.config();
 
+// Debug: Log all environment variables
+console.log('🔍 All environment variables:');
+console.log(JSON.stringify(process.env, null, 2));
+
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
