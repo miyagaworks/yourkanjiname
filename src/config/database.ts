@@ -16,9 +16,12 @@ export class DatabaseConfig {
       if (process.env.DATABASE_URL) {
         this.pool = new Pool({
           connectionString: process.env.DATABASE_URL,
+          ssl: {
+            rejectUnauthorized: false
+          },
           max: 20,
           idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 2000,
+          connectionTimeoutMillis: 10000,
         });
       } else {
         this.pool = new Pool({
