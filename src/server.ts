@@ -26,6 +26,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 // ===================================
 
+// Trust proxy (required for Railway and other reverse proxies)
+app.set('trust proxy', 1);
+
 // Security
 app.use(helmet());
 
