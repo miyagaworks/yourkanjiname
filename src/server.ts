@@ -30,8 +30,12 @@ const PORT = process.env.PORT || 3000;
 app.use(helmet());
 
 // CORS
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',')
+  : [process.env.FRONTEND_URL || 'http://localhost:3001'];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3001',
+  origin: allowedOrigins,
   credentials: true
 }));
 
