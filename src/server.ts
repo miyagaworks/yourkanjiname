@@ -65,18 +65,10 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 if (process.env.NODE_ENV === 'production') {
   const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later.'
+    max: 500, // limit each IP to 500 requests per 15 minutes
+    message: JSON.stringify({ error: 'Too many requests from this IP, please try again later.' })
   });
   app.use('/api/', limiter);
-
-  // Session creation rate limit
-  const sessionLimiter = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour
-    max: 10, // 10 sessions per hour per IP
-    message: 'Too many sessions created, please try again later.'
-  });
-  app.use('/api/sessions', sessionLimiter);
 }
 
 // ===================================
