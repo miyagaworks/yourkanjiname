@@ -1,0 +1,24 @@
+{
+  "short_name": "漢字名",
+  "name": "Your Kanji Name - あなただけの漢字名",
+  "description": "漢字の名前は、あなた自身の本質を映し出します。問いかけを通じて見えてくる内面から、あなただけの意味を持つ日本の名前を贈ります。",
+  "icons": [
+    {
+      "src": "/images/icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#f8e9ac",
+  "background_color": "#f8e9ac",
+  "orientation": "portrait"
+}
