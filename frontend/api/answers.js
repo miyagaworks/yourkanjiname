@@ -3,12 +3,11 @@
  * Handles: POST /api/answers
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { AnswerService } from '../src/services/AnswerService';
+const { AnswerService } = require('../src/services/AnswerService');
 
 const answerService = new AnswerService();
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');

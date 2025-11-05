@@ -3,13 +3,12 @@
  * Handles: POST /api/sessions, GET /api/sessions/[id], GET /api/sessions/[id]/next-question
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { v4 as uuidv4 } from 'uuid';
-import { SessionService } from '../src/services/SessionService';
+const { v4: uuidv4 } = require('uuid');
+const { SessionService } = require('../src/services/SessionService');
 
 const sessionService = new SessionService();
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');

@@ -3,12 +3,11 @@
  * Handles: POST /api/generate, GET /api/generate (for getting result)
  */
 
-import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { GenerationService } from '../src/services/GenerationService';
+const { GenerationService } = require('../src/services/GenerationService');
 
 const generationService = new GenerationService();
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
