@@ -17,16 +17,17 @@ const ApiClient = {
 
   async getNextQuestion(sessionId, lang = 'ja') {
     const response = await fetch(
-      `${API_BASE_URL}/sessions/${sessionId}/next-question?lang=${lang}`
+      `${API_BASE_URL}/sessions?session_id=${sessionId}&action=next-question&lang=${lang}`
     );
     return await response.json();
   },
 
   async submitAnswer(sessionId, questionId, answerOption, lang = 'ja') {
-    const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}/answers?lang=${lang}`, {
+    const response = await fetch(`${API_BASE_URL}/answers?lang=${lang}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        session_id: sessionId,
         question_id: questionId,
         answer_option: answerOption
       })
@@ -35,7 +36,7 @@ const ApiClient = {
   },
 
   async generateKanjiName(sessionId) {
-    const response = await fetch(`${API_BASE_URL}/sessions/${sessionId}/generate`, {
+    const response = await fetch(`${API_BASE_URL}/generate?session_id=${sessionId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
     });
