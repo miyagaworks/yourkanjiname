@@ -25,6 +25,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // Check for required environment variables
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({
+        error: {
+          code: 'CONFIGURATION_ERROR',
+          message: 'DATABASE_URL environment variable is not set'
+        }
+      });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: {
+          code: 'CONFIGURATION_ERROR',
+          message: 'GEMINI_API_KEY environment variable is not set'
+        }
+      });
+    }
+
     const { session_id, action } = req.query;
 
     if (!session_id) {

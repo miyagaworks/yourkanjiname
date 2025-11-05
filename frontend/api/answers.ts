@@ -25,6 +25,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // Check for required environment variables
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({
+        error: {
+          code: 'CONFIGURATION_ERROR',
+          message: 'DATABASE_URL environment variable is not set'
+        }
+      });
+    }
+
     if (req.method !== 'POST') {
       return res.status(405).json({
         error: {

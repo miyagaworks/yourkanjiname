@@ -26,6 +26,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // Check for required environment variables
+    if (!process.env.DATABASE_URL) {
+      return res.status(500).json({
+        error: {
+          code: 'CONFIGURATION_ERROR',
+          message: 'DATABASE_URL environment variable is not set'
+        }
+      });
+    }
+
     const { action, session_id } = req.query;
 
     // POST /api/sessions - Create new session
@@ -105,11 +115,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error in sessions API:', error);
     return res.status(500).json({
       error: {
         code: 'INTERNAL_ERROR',
-        message: error instanceof Error ? error.message : 'An unexpected error occurred'
+        message: error instanceof Error ? error.message : 'An unexpected error occurred',
+        details: process.env.NODE_ENV === 'development' ? error : undefined
       }
     });
   }
