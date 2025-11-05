@@ -4,7 +4,7 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
-const { SessionService } = require('../src/services/SessionService');
+const { SessionService } = require('../dist/services/SessionService');
 
 const sessionService = new SessionService();
 

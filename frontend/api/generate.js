@@ -3,7 +3,7 @@
  * Handles: POST /api/generate, GET /api/generate (for getting result)
  */
 
-const { GenerationService } = require('../src/services/GenerationService');
+const { GenerationService } = require('../dist/services/GenerationService');
 
 const generationService = new GenerationService();
 

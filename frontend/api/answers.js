@@ -3,7 +3,7 @@
  * Handles: POST /api/answers
  */
 
-const { AnswerService } = require('../src/services/AnswerService');
+const { AnswerService } = require('../dist/services/AnswerService');
 
 const answerService = new AnswerService();
 
