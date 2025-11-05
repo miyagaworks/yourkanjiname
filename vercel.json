@@ -1,37 +1,16 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
+      "source": "/api/sessions",
+      "destination": "/api/sessions"
     },
     {
-      "src": "api/**/*.ts",
-      "use": "@vercel/node"
+      "source": "/api/answers",
+      "destination": "/api/answers"
+    },
+    {
+      "source": "/api/generate",
+      "destination": "/api/generate"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/sessions/(.*)",
-      "dest": "/api/sessions.ts"
-    },
-    {
-      "src": "/api/answers",
-      "dest": "/api/answers.ts"
-    },
-    {
-      "src": "/api/generate",
-      "dest": "/api/generate.ts"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/frontend/build/$1"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
