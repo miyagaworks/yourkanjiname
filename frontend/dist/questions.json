@@ -1,0 +1,1127 @@
+{
+    "meta": {
+        "version": "2.0",
+        "total_questions": 16,
+        "description": "時間軸に沿って人間の本質を深く洞察する質問フロー。幼少期→青年期→現在→未来の順で、根源的な恐れ、欲求、傷、愛し方、意味の源泉を測定する。",
+        "measurement_dimensions": {
+            "core_fear": "根源的な恐れ（孤独/失敗/無意味/拘束/混沌/拒絶）",
+            "core_desire": "根源的な欲求（理解/承認/自由/安全/成長/繋がり）",
+            "wound_healing": "傷と癒しのパターン",
+            "love_expression": "愛し方・愛され方",
+            "meaning_source": "意味の源泉",
+            "stress_response": "ストレス下での本性",
+            "change_attitude": "変化・成長への態度",
+            "self_vs_other": "自己認識と他者認識のギャップ"
+        }
+    },
+    "flow": {
+        "Q0": {
+            "id": "Q0",
+            "type": "introduction",
+            "text": {
+                "ja": "これからあなたの人生の旅を振り返りながら、いくつかの質問をします。正しい答えはありません。感じたままに、最も近いものを選んでください。",
+                "en": "We will take a journey through your life with several questions. There are no right answers. Please choose what feels closest to you."
+            },
+            "next": "Q1"
+        },
+        "Q1": {
+            "id": "Q1",
+            "type": "gender_declaration",
+            "text": {
+                "ja": "性別を教えてください。",
+                "en": "Please tell us your gender."
+            },
+            "options": [
+                { "id": "male", "text": { "ja": "男性", "en": "Male" }, "next": "Q2" },
+                { "id": "female", "text": { "ja": "女性", "en": "Female" }, "next": "Q2" },
+                { "id": "nonbinary", "text": { "ja": "ノンバイナリー/その他", "en": "Non-binary/Other" }, "next": "Q2" },
+                { "id": "prefer_not_to_say", "text": { "ja": "回答したくない", "en": "Prefer not to say" }, "next": "Q2" }
+            ]
+        },
+        "Q2": {
+            "id": "Q2",
+            "phase": "childhood",
+            "type": "core_nature",
+            "text": {
+                "ja": "子どもの頃（5-10歳くらい）、あなたはどんな子でしたか？",
+                "en": "When you were a child (around 5-10 years old), what kind of child were you?"
+            },
+            "options": [
+                {
+                    "id": "curious_explorer",
+                    "text": { "ja": "なんでも知りたがる、質問ばかりしていた", "en": "Always curious, asking many questions" },
+                    "scores": {
+                        "motivation": { "knowledge": 3 },
+                        "core_desire": { "understanding": 2 },
+                        "gender_trait": 1
+                    },
+                    "next": "Q3"
+                },
+                {
+                    "id": "imaginative_creator",
+                    "text": { "ja": "空想したり、何かを作ったり描いたりするのが好きだった", "en": "Loved imagining, creating, or drawing things" },
+                    "scores": {
+                        "motivation": { "creative": 3 },
+                        "core_desire": { "expression": 2 },
+                        "gender_trait": 0
+                    },
+                    "next": "Q3"
+                },
+                {
+                    "id": "social_connector",
+                    "text": { "ja": "友達といるのが好きで、一人は寂しかった", "en": "Loved being with friends, felt lonely alone" },
+                    "scores": {
+                        "motivation": { "belonging": 3 },
+                        "core_desire": { "connection": 3 },
+                        "core_fear": { "loneliness": 2 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q3"
+                },
+                {
+                    "id": "competitive_leader",
+                    "text": { "ja": "負けるのが嫌いで、リーダーになりたがった", "en": "Hated losing, wanted to be the leader" },
+                    "scores": {
+                        "motivation": { "dominance": 3 },
+                        "core_desire": { "recognition": 2 },
+                        "core_fear": { "failure": 2 },
+                        "gender_trait": 3
+                    },
+                    "next": "Q3"
+                },
+                {
+                    "id": "cautious_observer",
+                    "text": { "ja": "慎重で、よく観察してから行動していた", "en": "Cautious, observed before acting" },
+                    "scores": {
+                        "motivation": { "stability": 2, "knowledge": 1 },
+                        "action_oriented": -2,
+                        "decisiveness": -1
+                    },
+                    "next": "Q3"
+                },
+                {
+                    "id": "free_spirit",
+                    "text": { "ja": "自由に動き回るのが好きで、ルールに縛られるのが嫌だった", "en": "Loved moving freely, disliked being bound by rules" },
+                    "scores": {
+                        "motivation": { "freedom": 3 },
+                        "core_desire": { "autonomy": 2 },
+                        "core_fear": { "constraint": 2 },
+                        "gender_trait": 1
+                    },
+                    "next": "Q3"
+                }
+            ]
+        },
+        "Q3": {
+            "id": "Q3",
+            "phase": "childhood",
+            "type": "early_wound",
+            "text": {
+                "ja": "子どもの頃、一番辛かったのはどんなことでしたか？",
+                "en": "What was most difficult for you as a child?"
+            },
+            "options": [
+                {
+                    "id": "not_understood",
+                    "text": { "ja": "誰も自分のことを分かってくれないと感じた", "en": "Felt like nobody understood me" },
+                    "scores": {
+                        "wound": { "misunderstanding": 3 },
+                        "core_fear": { "invisibility": 2 },
+                        "core_desire": { "understanding": 3 }
+                    },
+                    "next": "Q4"
+                },
+                {
+                    "id": "not_enough",
+                    "text": { "ja": "自分は十分じゃないと感じた", "en": "Felt like I wasn't good enough" },
+                    "scores": {
+                        "wound": { "inadequacy": 3 },
+                        "core_fear": { "failure": 3 },
+                        "core_desire": { "recognition": 2 }
+                    },
+                    "next": "Q4"
+                },
+                {
+                    "id": "abandoned",
+                    "text": { "ja": "一人にされたり、置いていかれることが怖かった", "en": "Was afraid of being left alone or abandoned" },
+                    "scores": {
+                        "wound": { "abandonment": 3 },
+                        "core_fear": { "loneliness": 3 },
+                        "core_desire": { "connection": 3 },
+                        "gender_trait": -2
+                    },
+                    "next": "Q4"
+                },
+                {
+                    "id": "controlled",
+                    "text": { "ja": "自分で決められないことが多く、窮屈だった", "en": "Couldn't make my own choices, felt restricted" },
+                    "scores": {
+                        "wound": { "control": 3 },
+                        "core_fear": { "constraint": 3 },
+                        "core_desire": { "autonomy": 3 }
+                    },
+                    "next": "Q4"
+                },
+                {
+                    "id": "chaos_scary",
+                    "text": { "ja": "予測できないことや変化が怖かった", "en": "Unpredictable things and changes were scary" },
+                    "scores": {
+                        "wound": { "instability": 3 },
+                        "core_fear": { "chaos": 3 },
+                        "core_desire": { "safety": 3 },
+                        "motivation": { "stability": 2 }
+                    },
+                    "next": "Q4"
+                },
+                {
+                    "id": "normal_childhood",
+                    "text": { "ja": "特に辛いことはなかった", "en": "Nothing particularly difficult" },
+                    "scores": {
+                        "wound": { "minimal": 1 },
+                        "consistency": 1
+                    },
+                    "next": "Q4"
+                }
+            ]
+        },
+        "Q4": {
+            "id": "Q4",
+            "phase": "adolescence",
+            "type": "identity_formation",
+            "text": {
+                "ja": "10代の頃、あなたが一番夢中になったことは？",
+                "en": "In your teenage years, what were you most passionate about?"
+            },
+            "options": [
+                {
+                    "id": "learning",
+                    "text": { "ja": "勉強や知識を深めること", "en": "Studying and deepening knowledge" },
+                    "scores": {
+                        "motivation": { "knowledge": 3 },
+                        "meaning_source": { "truth": 2 }
+                    },
+                    "next": "Q5"
+                },
+                {
+                    "id": "creating",
+                    "text": { "ja": "何かを作ったり表現したりすること", "en": "Creating or expressing something" },
+                    "scores": {
+                        "motivation": { "creative": 3 },
+                        "meaning_source": { "expression": 2 }
+                    },
+                    "next": "Q5"
+                },
+                {
+                    "id": "friendships",
+                    "text": { "ja": "友達との関係や恋愛", "en": "Friendships and romance" },
+                    "scores": {
+                        "motivation": { "belonging": 3 },
+                        "meaning_source": { "relationships": 3 },
+                        "love_expression": { "quality_time": 2 }
+                    },
+                    "next": "Q5"
+                },
+                {
+                    "id": "achievement",
+                    "text": { "ja": "スポーツや競技で勝つこと", "en": "Winning in sports or competitions" },
+                    "scores": {
+                        "motivation": { "dominance": 3 },
+                        "meaning_source": { "achievement": 2 },
+                        "gender_trait": 2
+                    },
+                    "next": "Q5"
+                },
+                {
+                    "id": "identity_search",
+                    "text": { "ja": "自分が何者かを探すこと", "en": "Searching for who I really am" },
+                    "scores": {
+                        "motivation": { "freedom": 2, "knowledge": 1 },
+                        "meaning_source": { "self_discovery": 3 }
+                    },
+                    "next": "Q5"
+                },
+                {
+                    "id": "belonging_group",
+                    "text": { "ja": "グループや組織に所属すること", "en": "Belonging to a group or organization" },
+                    "scores": {
+                        "motivation": { "belonging": 2, "stability": 1 },
+                        "meaning_source": { "community": 2 }
+                    },
+                    "next": "Q5"
+                }
+            ]
+        },
+        "Q5": {
+            "id": "Q5",
+            "phase": "adolescence",
+            "type": "stress_response",
+            "text": {
+                "ja": "10代の頃、大きなストレスや困難に直面した時、あなたはどうしていましたか？",
+                "en": "In your teens, when facing major stress or difficulties, what did you do?"
+            },
+            "options": [
+                {
+                    "id": "withdraw",
+                    "text": { "ja": "一人になって考え込んだ", "en": "Withdrew and thought alone" },
+                    "scores": {
+                        "stress_response": { "withdrawal": 3 },
+                        "action_oriented": -2,
+                        "core_fear": { "vulnerability": 1 }
+                    },
+                    "next": "Q6"
+                },
+                {
+                    "id": "seek_help",
+                    "text": { "ja": "誰かに話を聞いてもらった", "en": "Talked to someone about it" },
+                    "scores": {
+                        "stress_response": { "connection": 3 },
+                        "motivation": { "belonging": 1 },
+                        "love_expression": { "words": 2 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q6"
+                },
+                {
+                    "id": "fight_through",
+                    "text": { "ja": "とにかく頑張って乗り越えようとした", "en": "Tried hard to push through" },
+                    "scores": {
+                        "stress_response": { "persistence": 3 },
+                        "action_oriented": 2,
+                        "consistency": 2,
+                        "gender_trait": 2
+                    },
+                    "next": "Q6"
+                },
+                {
+                    "id": "escape",
+                    "text": { "ja": "別のことに没頭して気を紛らわせた", "en": "Immersed myself in something else to distract" },
+                    "scores": {
+                        "stress_response": { "avoidance": 3 },
+                        "consistency": -1
+                    },
+                    "next": "Q6"
+                },
+                {
+                    "id": "analyze",
+                    "text": { "ja": "冷静に分析して解決策を探した", "en": "Calmly analyzed and looked for solutions" },
+                    "scores": {
+                        "stress_response": { "problem_solving": 3 },
+                        "motivation": { "knowledge": 1 },
+                        "decisiveness": 1,
+                        "gender_trait": 1
+                    },
+                    "next": "Q6"
+                },
+                {
+                    "id": "rebel",
+                    "text": { "ja": "反発したり、ルールを破ったりした", "en": "Rebelled or broke rules" },
+                    "scores": {
+                        "stress_response": { "rebellion": 3 },
+                        "motivation": { "freedom": 2 },
+                        "consistency": -2
+                    },
+                    "next": "Q6"
+                }
+            ]
+        },
+        "Q6": {
+            "id": "Q6",
+            "phase": "young_adult",
+            "type": "transformation",
+            "text": {
+                "ja": "大人になる過程で、あなたが一番大きく変わったと思うことは？",
+                "en": "What do you think changed most about you in becoming an adult?"
+            },
+            "options": [
+                {
+                    "id": "more_confident",
+                    "text": { "ja": "自信を持てるようになった", "en": "Became more confident" },
+                    "scores": {
+                        "growth": { "self_acceptance": 3 },
+                        "wound_healing": 2
+                    },
+                    "next": "Q7"
+                },
+                {
+                    "id": "more_independent",
+                    "text": { "ja": "人に頼らず自分で決められるようになった", "en": "Became able to decide independently" },
+                    "scores": {
+                        "growth": { "autonomy": 3 },
+                        "motivation": { "freedom": 1 },
+                        "decisiveness": 2
+                    },
+                    "next": "Q7"
+                },
+                {
+                    "id": "more_empathetic",
+                    "text": { "ja": "他人の気持ちを理解できるようになった", "en": "Became able to understand others' feelings" },
+                    "scores": {
+                        "growth": { "empathy": 3 },
+                        "motivation": { "belonging": 1 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q7"
+                },
+                {
+                    "id": "more_realistic",
+                    "text": { "ja": "現実的になり、無理をしなくなった", "en": "Became more realistic, stopped overextending" },
+                    "scores": {
+                        "growth": { "wisdom": 3 },
+                        "motivation": { "stability": 1 },
+                        "action_oriented": -1
+                    },
+                    "next": "Q7"
+                },
+                {
+                    "id": "more_ambitious",
+                    "text": { "ja": "もっと大きなことを目指すようになった", "en": "Started aiming for bigger things" },
+                    "scores": {
+                        "growth": { "expansion": 3 },
+                        "motivation": { "dominance": 2 }
+                    },
+                    "next": "Q7"
+                },
+                {
+                    "id": "not_much",
+                    "text": { "ja": "あまり変わっていない", "en": "Haven't changed much" },
+                    "scores": {
+                        "consistency": 3,
+                        "change_attitude": { "resistant": 2 }
+                    },
+                    "next": "Q7"
+                }
+            ]
+        },
+        "Q7": {
+            "id": "Q7",
+            "phase": "present",
+            "type": "current_fear",
+            "text": {
+                "ja": "今、あなたが心の奥で一番恐れていることは何ですか？",
+                "en": "What do you fear most deep in your heart right now?"
+            },
+            "options": [
+                {
+                    "id": "meaningless",
+                    "text": { "ja": "自分の人生が意味のないものになること", "en": "That my life will be meaningless" },
+                    "scores": {
+                        "core_fear": { "meaninglessness": 3 },
+                        "meaning_source": { "purpose": 3 }
+                    },
+                    "next": "Q8"
+                },
+                {
+                    "id": "alone",
+                    "text": { "ja": "大切な人を失い、一人になること", "en": "Losing loved ones and being alone" },
+                    "scores": {
+                        "core_fear": { "loneliness": 3 },
+                        "motivation": { "belonging": 2 },
+                        "gender_trait": -2
+                    },
+                    "next": "Q8"
+                },
+                {
+                    "id": "failure",
+                    "text": { "ja": "失敗して、期待に応えられないこと", "en": "Failing and not meeting expectations" },
+                    "scores": {
+                        "core_fear": { "failure": 3 },
+                        "motivation": { "dominance": 2 }
+                    },
+                    "next": "Q8"
+                },
+                {
+                    "id": "trapped",
+                    "text": { "ja": "自由を失い、身動きが取れなくなること", "en": "Losing freedom and being unable to move" },
+                    "scores": {
+                        "core_fear": { "constraint": 3 },
+                        "motivation": { "freedom": 2 }
+                    },
+                    "next": "Q8"
+                },
+                {
+                    "id": "unknown",
+                    "text": { "ja": "未来が不確かで、何が起こるか分からないこと", "en": "The uncertain future and not knowing what will happen" },
+                    "scores": {
+                        "core_fear": { "chaos": 3 },
+                        "motivation": { "stability": 2 }
+                    },
+                    "next": "Q8"
+                },
+                {
+                    "id": "not_growing",
+                    "text": { "ja": "成長が止まり、停滞すること", "en": "Stopping growth and stagnating" },
+                    "scores": {
+                        "core_fear": { "stagnation": 3 },
+                        "motivation": { "knowledge": 1, "creative": 1 }
+                    },
+                    "next": "Q8"
+                }
+            ]
+        },
+        "Q8": {
+            "id": "Q8",
+            "phase": "present",
+            "type": "love_expression",
+            "text": {
+                "ja": "大切な人への愛情を、あなたはどうやって表現しますか？",
+                "en": "How do you express love to people important to you?"
+            },
+            "options": [
+                {
+                    "id": "words",
+                    "text": { "ja": "言葉で伝える", "en": "Through words" },
+                    "scores": {
+                        "love_expression": { "words": 3 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q9"
+                },
+                {
+                    "id": "time",
+                    "text": { "ja": "一緒に時間を過ごす", "en": "Spending time together" },
+                    "scores": {
+                        "love_expression": { "quality_time": 3 },
+                        "motivation": { "belonging": 1 }
+                    },
+                    "next": "Q9"
+                },
+                {
+                    "id": "gifts",
+                    "text": { "ja": "贈り物をする", "en": "Giving gifts" },
+                    "scores": {
+                        "love_expression": { "gifts": 3 }
+                    },
+                    "next": "Q9"
+                },
+                {
+                    "id": "acts",
+                    "text": { "ja": "実際に何かをしてあげる", "en": "Doing things for them" },
+                    "scores": {
+                        "love_expression": { "acts_of_service": 3 },
+                        "action_oriented": 1
+                    },
+                    "next": "Q9"
+                },
+                {
+                    "id": "touch",
+                    "text": { "ja": "スキンシップや身体的な接触", "en": "Physical touch and contact" },
+                    "scores": {
+                        "love_expression": { "physical_touch": 3 },
+                        "gender_trait": 0
+                    },
+                    "next": "Q9"
+                },
+                {
+                    "id": "support",
+                    "text": { "ja": "相手の目標や夢を応援する", "en": "Supporting their goals and dreams" },
+                    "scores": {
+                        "love_expression": { "support": 3 },
+                        "motivation": { "dominance": 1 }
+                    },
+                    "next": "Q9"
+                }
+            ]
+        },
+        "Q9": {
+            "id": "Q9",
+            "phase": "present",
+            "type": "meaning_source",
+            "text": {
+                "ja": "今、あなたの人生に最も意味を与えているものは何ですか？",
+                "en": "What gives the most meaning to your life right now?"
+            },
+            "options": [
+                {
+                    "id": "learning",
+                    "text": { "ja": "学び続けること、理解を深めること", "en": "Continuous learning and deepening understanding" },
+                    "scores": {
+                        "meaning_source": { "knowledge": 3 },
+                        "motivation": { "knowledge": 2 }
+                    },
+                    "next": "Q10"
+                },
+                {
+                    "id": "creating",
+                    "text": { "ja": "何かを創り出すこと、表現すること", "en": "Creating something, expressing myself" },
+                    "scores": {
+                        "meaning_source": { "creation": 3 },
+                        "motivation": { "creative": 2 }
+                    },
+                    "next": "Q10"
+                },
+                {
+                    "id": "relationships",
+                    "text": { "ja": "人との繋がりや愛", "en": "Connections and love with people" },
+                    "scores": {
+                        "meaning_source": { "relationships": 3 },
+                        "motivation": { "belonging": 2 }
+                    },
+                    "next": "Q10"
+                },
+                {
+                    "id": "impact",
+                    "text": { "ja": "世の中に影響を与えること", "en": "Making an impact on the world" },
+                    "scores": {
+                        "meaning_source": { "impact": 3 },
+                        "motivation": { "dominance": 2 }
+                    },
+                    "next": "Q10"
+                },
+                {
+                    "id": "peace",
+                    "text": { "ja": "心の平穏や安定", "en": "Inner peace and stability" },
+                    "scores": {
+                        "meaning_source": { "peace": 3 },
+                        "motivation": { "stability": 2 }
+                    },
+                    "next": "Q10"
+                },
+                {
+                    "id": "authenticity",
+                    "text": { "ja": "自分らしく生きること", "en": "Living authentically as myself" },
+                    "scores": {
+                        "meaning_source": { "authenticity": 3 },
+                        "motivation": { "freedom": 2 }
+                    },
+                    "next": "Q10"
+                }
+            ]
+        },
+        "Q10": {
+            "id": "Q10",
+            "phase": "present",
+            "type": "self_vs_others",
+            "text": {
+                "ja": "自分が思う自分と、他人から見た自分に、ギャップがあると思いますか？",
+                "en": "Do you think there's a gap between how you see yourself and how others see you?"
+            },
+            "options": [
+                {
+                    "id": "stronger_inside",
+                    "text": { "ja": "自分は強く見られるが、実は繊細", "en": "I'm seen as strong, but I'm actually sensitive" },
+                    "scores": {
+                        "self_other_gap": { "vulnerable_strength": 3 },
+                        "wound": { "hidden_vulnerability": 2 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q11"
+                },
+                {
+                    "id": "confident_outside",
+                    "text": { "ja": "自信があるように見られるが、実は不安", "en": "I seem confident, but I'm actually anxious" },
+                    "scores": {
+                        "self_other_gap": { "insecure_confidence": 3 },
+                        "core_fear": { "inadequacy": 2 }
+                    },
+                    "next": "Q11"
+                },
+                {
+                    "id": "cold_outside",
+                    "text": { "ja": "冷たく見られるが、実は温かい", "en": "I seem cold, but I'm actually warm" },
+                    "scores": {
+                        "self_other_gap": { "warm_cold": 3 },
+                        "love_expression": { "hidden": 2 }
+                    },
+                    "next": "Q11"
+                },
+                {
+                    "id": "simple_outside",
+                    "text": { "ja": "単純に見られるが、実は複雑", "en": "I seem simple, but I'm actually complex" },
+                    "scores": {
+                        "self_other_gap": { "complex_simple": 3 },
+                        "core_desire": { "understanding": 2 }
+                    },
+                    "next": "Q11"
+                },
+                {
+                    "id": "serious_outside",
+                    "text": { "ja": "真面目に見られるが、実は自由奔放", "en": "I seem serious, but I'm actually free-spirited" },
+                    "scores": {
+                        "self_other_gap": { "free_serious": 3 },
+                        "motivation": { "freedom": 1 }
+                    },
+                    "next": "Q11"
+                },
+                {
+                    "id": "no_gap",
+                    "text": { "ja": "ギャップはあまりない", "en": "Not much of a gap" },
+                    "scores": {
+                        "self_other_gap": { "congruent": 3 },
+                        "consistency": 2
+                    },
+                    "next": "Q11"
+                }
+            ]
+        },
+        "Q11": {
+            "id": "Q11",
+            "phase": "present",
+            "type": "decision_making",
+            "text": {
+                "ja": "人生の大きな決断をする時、あなたは何を一番重視しますか？",
+                "en": "When making major life decisions, what do you prioritize most?"
+            },
+            "options": [
+                {
+                    "id": "logic",
+                    "text": { "ja": "論理と合理性", "en": "Logic and rationality" },
+                    "scores": {
+                        "decision_style": { "logical": 3 },
+                        "motivation": { "knowledge": 1 },
+                        "gender_trait": 2
+                    },
+                    "next": "Q12"
+                },
+                {
+                    "id": "intuition",
+                    "text": { "ja": "直感と内なる声", "en": "Intuition and inner voice" },
+                    "scores": {
+                        "decision_style": { "intuitive": 3 },
+                        "motivation": { "creative": 1, "freedom": 1 }
+                    },
+                    "next": "Q12"
+                },
+                {
+                    "id": "people",
+                    "text": { "ja": "大切な人たちへの影響", "en": "Impact on loved ones" },
+                    "scores": {
+                        "decision_style": { "relational": 3 },
+                        "motivation": { "belonging": 2 },
+                        "gender_trait": -2
+                    },
+                    "next": "Q12"
+                },
+                {
+                    "id": "values",
+                    "text": { "ja": "自分の価値観や信念", "en": "My values and beliefs" },
+                    "scores": {
+                        "decision_style": { "values_based": 3 },
+                        "consistency": 2,
+                        "motivation": { "stability": 1 }
+                    },
+                    "next": "Q12"
+                },
+                {
+                    "id": "outcome",
+                    "text": { "ja": "結果や成果", "en": "Results and outcomes" },
+                    "scores": {
+                        "decision_style": { "outcome_focused": 3 },
+                        "motivation": { "dominance": 2 },
+                        "action_oriented": 1
+                    },
+                    "next": "Q12"
+                },
+                {
+                    "id": "freedom",
+                    "text": { "ja": "自由や可能性", "en": "Freedom and possibilities" },
+                    "scores": {
+                        "decision_style": { "freedom_focused": 3 },
+                        "motivation": { "freedom": 2 }
+                    },
+                    "next": "Q12"
+                }
+            ]
+        },
+        "Q12": {
+            "id": "Q12",
+            "phase": "present",
+            "type": "action_style",
+            "text": {
+                "ja": "新しいことを始める時、あなたのスタイルは？",
+                "en": "When starting something new, what's your style?"
+            },
+            "options": [
+                {
+                    "id": "research_first",
+                    "text": { "ja": "まず徹底的に調べてから始める", "en": "Research thoroughly first" },
+                    "scores": {
+                        "action_oriented": -2,
+                        "decisiveness": -1,
+                        "motivation": { "knowledge": 1 }
+                    },
+                    "next": "Q13"
+                },
+                {
+                    "id": "just_start",
+                    "text": { "ja": "考えるより先に行動する", "en": "Act before thinking" },
+                    "scores": {
+                        "action_oriented": 3,
+                        "decisiveness": 2,
+                        "gender_trait": 1
+                    },
+                    "next": "Q13"
+                },
+                {
+                    "id": "with_others",
+                    "text": { "ja": "誰かと一緒に始める", "en": "Start with someone" },
+                    "scores": {
+                        "action_oriented": 1,
+                        "motivation": { "belonging": 2 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q13"
+                },
+                {
+                    "id": "plan_then_act",
+                    "text": { "ja": "計画を立ててから実行する", "en": "Plan then execute" },
+                    "scores": {
+                        "action_oriented": 0,
+                        "decisiveness": 1,
+                        "consistency": 2
+                    },
+                    "next": "Q13"
+                },
+                {
+                    "id": "small_steps",
+                    "text": { "ja": "小さく始めて様子を見る", "en": "Start small and observe" },
+                    "scores": {
+                        "action_oriented": -1,
+                        "decisiveness": 0,
+                        "motivation": { "stability": 1 }
+                    },
+                    "next": "Q13"
+                },
+                {
+                    "id": "all_in",
+                    "text": { "ja": "全力で一気に取り組む", "en": "Go all-in at once" },
+                    "scores": {
+                        "action_oriented": 3,
+                        "decisiveness": 3,
+                        "motivation": { "dominance": 1 },
+                        "gender_trait": 2
+                    },
+                    "next": "Q13"
+                }
+            ]
+        },
+        "Q13": {
+            "id": "Q13",
+            "phase": "present",
+            "type": "consistency",
+            "text": {
+                "ja": "あなたは、過去の自分と今の自分が繋がっていると感じますか？",
+                "en": "Do you feel connected between your past self and present self?"
+            },
+            "options": [
+                {
+                    "id": "very_connected",
+                    "text": { "ja": "昔から本質的には変わっていない", "en": "Essentially unchanged since long ago" },
+                    "scores": {
+                        "consistency": 3,
+                        "change_attitude": { "resistant": 2 }
+                    },
+                    "next": "Q14"
+                },
+                {
+                    "id": "evolved",
+                    "text": { "ja": "核は同じだが、成長して変化した", "en": "Core is the same, but grew and changed" },
+                    "scores": {
+                        "consistency": 2,
+                        "change_attitude": { "growth_oriented": 2 },
+                        "wound_healing": 1
+                    },
+                    "next": "Q14"
+                },
+                {
+                    "id": "transformed",
+                    "text": { "ja": "大きく変わった、別人のよう", "en": "Changed greatly, like a different person" },
+                    "scores": {
+                        "consistency": -2,
+                        "change_attitude": { "transformative": 3 },
+                        "wound_healing": 2
+                    },
+                    "next": "Q14"
+                },
+                {
+                    "id": "still_searching",
+                    "text": { "ja": "まだ自分を探している途中", "en": "Still searching for myself" },
+                    "scores": {
+                        "consistency": -1,
+                        "change_attitude": { "evolving": 2 },
+                        "core_desire": { "self_discovery": 2 }
+                    },
+                    "next": "Q14"
+                }
+            ]
+        },
+        "Q14": {
+            "id": "Q14",
+            "phase": "future",
+            "type": "future_self",
+            "text": {
+                "ja": "10年後、あなたはどんな人になっていたいですか？",
+                "en": "What kind of person do you want to be 10 years from now?"
+            },
+            "options": [
+                {
+                    "id": "wise",
+                    "text": { "ja": "深い知恵と洞察を持つ人", "en": "A person with deep wisdom and insight" },
+                    "scores": {
+                        "future_vision": { "wisdom": 3 },
+                        "motivation": { "knowledge": 2 }
+                    },
+                    "next": "Q15"
+                },
+                {
+                    "id": "creative",
+                    "text": { "ja": "独自の世界を築いている人", "en": "A person who has built their own world" },
+                    "scores": {
+                        "future_vision": { "creator": 3 },
+                        "motivation": { "creative": 2 }
+                    },
+                    "next": "Q15"
+                },
+                {
+                    "id": "loved",
+                    "text": { "ja": "愛に満ち、人と深く繋がっている人", "en": "A person filled with love and deep connections" },
+                    "scores": {
+                        "future_vision": { "connected": 3 },
+                        "motivation": { "belonging": 2 },
+                        "gender_trait": -1
+                    },
+                    "next": "Q15"
+                },
+                {
+                    "id": "influential",
+                    "text": { "ja": "影響力があり、目標を達成している人", "en": "An influential person who has achieved goals" },
+                    "scores": {
+                        "future_vision": { "achiever": 3 },
+                        "motivation": { "dominance": 2 }
+                    },
+                    "next": "Q15"
+                },
+                {
+                    "id": "peaceful",
+                    "text": { "ja": "心が安定し、満たされている人", "en": "A person with stable and fulfilled heart" },
+                    "scores": {
+                        "future_vision": { "peaceful": 3 },
+                        "motivation": { "stability": 2 }
+                    },
+                    "next": "Q15"
+                },
+                {
+                    "id": "free",
+                    "text": { "ja": "完全に自由で、自分らしく生きている人", "en": "A completely free person living authentically" },
+                    "scores": {
+                        "future_vision": { "liberated": 3 },
+                        "motivation": { "freedom": 2 }
+                    },
+                    "next": "Q15"
+                }
+            ]
+        },
+        "Q15": {
+            "id": "Q15",
+            "phase": "future",
+            "type": "legacy",
+            "text": {
+                "ja": "人生の最後に振り返った時、「これができて良かった」と思いたいことは？",
+                "en": "Looking back at the end of your life, what would you want to feel glad you did?"
+            },
+            "options": [
+                {
+                    "id": "understood",
+                    "text": { "ja": "真実を理解し、知識を残したこと", "en": "Understanding truth and leaving knowledge" },
+                    "scores": {
+                        "legacy": { "knowledge": 3 },
+                        "motivation": { "knowledge": 2 },
+                        "meaning_source": { "truth": 2 }
+                    },
+                    "next": "Q16"
+                },
+                {
+                    "id": "created",
+                    "text": { "ja": "美しいものや新しいものを創ったこと", "en": "Creating beautiful or new things" },
+                    "scores": {
+                        "legacy": { "creation": 3 },
+                        "motivation": { "creative": 2 },
+                        "meaning_source": { "creation": 2 }
+                    },
+                    "next": "Q16"
+                },
+                {
+                    "id": "loved",
+                    "text": { "ja": "愛し、愛されたこと", "en": "Loving and being loved" },
+                    "scores": {
+                        "legacy": { "love": 3 },
+                        "motivation": { "belonging": 2 },
+                        "meaning_source": { "relationships": 3 },
+                        "gender_trait": -2
+                    },
+                    "next": "Q16"
+                },
+                {
+                    "id": "impact",
+                    "text": { "ja": "世界に良い影響を与えたこと", "en": "Making a positive impact on the world" },
+                    "scores": {
+                        "legacy": { "impact": 3 },
+                        "motivation": { "dominance": 2 },
+                        "meaning_source": { "impact": 2 }
+                    },
+                    "next": "Q16"
+                },
+                {
+                    "id": "peace",
+                    "text": { "ja": "穏やかに、誠実に生きたこと", "en": "Living peacefully and with integrity" },
+                    "scores": {
+                        "legacy": { "integrity": 3 },
+                        "motivation": { "stability": 2 },
+                        "meaning_source": { "peace": 2 }
+                    },
+                    "next": "Q16"
+                },
+                {
+                    "id": "authentic",
+                    "text": { "ja": "自分らしく、後悔なく生きたこと", "en": "Living authentically without regrets" },
+                    "scores": {
+                        "legacy": { "authenticity": 3 },
+                        "motivation": { "freedom": 2 },
+                        "meaning_source": { "authenticity": 3 }
+                    },
+                    "next": "Q16"
+                }
+            ]
+        },
+        "Q16": {
+            "id": "Q16",
+            "phase": "future",
+            "type": "ultimate_desire",
+            "text": {
+                "ja": "もし魔法が使えて、心の奥底にある一つの願いを叶えられるとしたら、それは何ですか？",
+                "en": "If you could use magic to fulfill one deepest wish, what would it be?"
+            },
+            "options": [
+                {
+                    "id": "understand_all",
+                    "text": { "ja": "すべてを理解し、真理を知ること", "en": "Understanding everything and knowing the truth" },
+                    "scores": {
+                        "ultimate_desire": { "omniscience": 3 },
+                        "motivation": { "knowledge": 3 },
+                        "core_desire": { "understanding": 3 }
+                    },
+                    "next": "GENERATE_RESULT"
+                },
+                {
+                    "id": "create_freely",
+                    "text": { "ja": "思いのままに創造できる力", "en": "The power to create freely as I wish" },
+                    "scores": {
+                        "ultimate_desire": { "creation": 3 },
+                        "motivation": { "creative": 3 },
+                        "core_desire": { "expression": 3 }
+                    },
+                    "next": "GENERATE_RESULT"
+                },
+                {
+                    "id": "never_alone",
+                    "text": { "ja": "決して一人にならず、愛され続けること", "en": "Never being alone and being loved always" },
+                    "scores": {
+                        "ultimate_desire": { "eternal_connection": 3 },
+                        "motivation": { "belonging": 3 },
+                        "core_desire": { "connection": 3 },
+                        "core_fear": { "loneliness": 3 },
+                        "gender_trait": -2
+                    },
+                    "next": "GENERATE_RESULT"
+                },
+                {
+                    "id": "unlimited_power",
+                    "text": { "ja": "無限の力と影響力", "en": "Unlimited power and influence" },
+                    "scores": {
+                        "ultimate_desire": { "omnipotence": 3 },
+                        "motivation": { "dominance": 3 },
+                        "core_desire": { "recognition": 3 },
+                        "gender_trait": 3
+                    },
+                    "next": "GENERATE_RESULT"
+                },
+                {
+                    "id": "eternal_peace",
+                    "text": { "ja": "永遠の平和と安定", "en": "Eternal peace and stability" },
+                    "scores": {
+                        "ultimate_desire": { "serenity": 3 },
+                        "motivation": { "stability": 3 },
+                        "core_desire": { "safety": 3 }
+                    },
+                    "next": "GENERATE_RESULT"
+                },
+                {
+                    "id": "absolute_freedom",
+                    "text": { "ja": "完全な自由と制約からの解放", "en": "Complete freedom and liberation from constraints" },
+                    "scores": {
+                        "ultimate_desire": { "liberation": 3 },
+                        "motivation": { "freedom": 3 },
+                        "core_desire": { "autonomy": 3 },
+                        "core_fear": { "constraint": 3 }
+                    },
+                    "next": "GENERATE_RESULT"
+                }
+            ]
+        }
+    },
+    "scoring_system": {
+        "gender_trait": {
+            "description": "性別特性スコア（-10〜+10）",
+            "range": {
+                "masculine": "6-10: 強い男性的特性",
+                "moderate_masculine": "2-5: やや男性的",
+                "neutral": "-1-1: 中性的",
+                "moderate_feminine": "-5--2: やや女性的",
+                "feminine": "-10--6: 強い女性的特性"
+            }
+        },
+        "motivation": {
+            "description": "6つの主要動機スコア（最高値を特定）",
+            "types": {
+                "knowledge": "知識欲 - 学び、理解、真理探究",
+                "creative": "創造欲 - 創作、表現、革新",
+                "belonging": "所属欲 - 愛、繋がり、調和",
+                "dominance": "支配欲 - リーダーシップ、達成、影響力",
+                "stability": "安定欲 - 平穏、継続、信念",
+                "freedom": "自由欲 - 独立、冒険、個性"
+            }
+        },
+        "core_fear": {
+            "description": "根源的な恐れ",
+            "types": {
+                "meaninglessness": "無意味さへの恐れ",
+                "loneliness": "孤独への恐れ",
+                "failure": "失敗への恐れ",
+                "constraint": "拘束への恐れ",
+                "chaos": "混沌への恐れ",
+                "stagnation": "停滞への恐れ"
+            }
+        },
+        "core_desire": {
+            "description": "根源的な欲求",
+            "types": {
+                "understanding": "理解されたい",
+                "recognition": "認められたい",
+                "connection": "繋がりたい",
+                "autonomy": "自由でいたい",
+                "safety": "安全でいたい",
+                "expression": "表現したい"
+            }
+        },
+        "behavioral_traits": {
+            "decisiveness": "決断力 (-3〜+3)",
+            "action_oriented": "行動力 (-3〜+3)",
+            "consistency": "一貫性 (-3〜+3)"
+        },
+        "wound_healing": {
+            "description": "傷の深さと癒しの度合い",
+            "measure": "過去の傷が現在にどう影響しているか"
+        },
+        "meaning_source": {
+            "description": "意味の源泉 - 何に人生の意味を見出すか"
+        },
+        "legacy": {
+            "description": "残したいもの - 人生で何を成し遂げたいか"
+        }
+    },
+    "flow_logic": {
+        "gender_branching": "Q1で性別を宣言するが、分岐はなし。全員同じ質問で性別特性を測定",
+        "time_progression": "幼少期→青年期→現在→未来の時系列で進行",
+        "depth_measurement": "表面的な行動から深層心理（恐れ、欲求、意味）へ段階的に深化",
+        "final_calculation": "Q16後、すべてのスコアを統合してAIが漢字名を生成"
+    }
+}
