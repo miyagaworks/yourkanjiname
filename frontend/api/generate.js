@@ -56,13 +56,13 @@ module.exports = async function handler(req, res) {
 
     // POST /api/generate - Generate kanji name
     if (req.method === 'POST') {
-      const result = await generationService.generateKanjiName(session_id as string);
+      const result = await generationService.generateKanjiName(session_id);
       return res.json(result);
     }
 
     // GET /api/generate?session_id=xxx&action=result - Get existing result
     if (req.method === 'GET' && action === 'result') {
-      const result = await generationService.getResult(session_id as string);
+      const result = await generationService.getResult(session_id);
 
       if (!result) {
         return res.status(404).json({
@@ -84,7 +84,7 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (error) {
-    if ((error as any).code === 'INSUFFICIENT_ANSWERS') {
+    if ((error).code === 'INSUFFICIENT_ANSWERS') {
       return res.status(422).json({
         error: {
           code: 'INSUFFICIENT_ANSWERS',

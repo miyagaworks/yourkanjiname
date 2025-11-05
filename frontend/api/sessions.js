@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
     // POST /api/sessions - Create new session
     if (req.method === 'POST' && !session_id) {
       const sessionId = uuidv4();
-      const ipAddress = req.headers['x-forwarded-for'] as string || req.headers['x-real-ip'] as string || 'unknown';
+      const ipAddress = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown';
       const userAgent = req.headers['user-agent'];
       const userName = req.body?.user_name;
 
@@ -55,9 +55,9 @@ module.exports = async function handler(req, res) {
 
     // GET /api/sessions?session_id=xxx&action=next-question
     if (req.method === 'GET' && session_id && action === 'next-question') {
-      const lang = (req.query.lang as string) || 'ja';
+      const lang = req.query.lang || 'ja';
 
-      const session = await sessionService.getSession(session_id as string);
+      const session = await sessionService.getSession(session_id);
 
       if (!session) {
         return res.status(404).json({
@@ -77,14 +77,14 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const nextQuestion = await sessionService.getNextQuestion(session_id as string, lang);
+      const nextQuestion = await sessionService.getNextQuestion(session_id, lang);
 
       return res.json(nextQuestion);
     }
 
     // GET /api/sessions?session_id=xxx - Get session info
     if (req.method === 'GET' && session_id && !action) {
-      const session = await sessionService.getSession(session_id as string);
+      const session = await sessionService.getSession(session_id);
 
       if (!session) {
         return res.status(404).json({
@@ -95,7 +95,7 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const answersCount = await sessionService.getAnswersCount(session_id as string);
+      const answersCount = await sessionService.getAnswersCount(session_id);
 
       return res.json({
         session_id: session.session_id,

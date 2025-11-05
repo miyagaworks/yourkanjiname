@@ -44,7 +44,7 @@ module.exports = async function handler(req, res) {
     }
 
     const { session_id, question_id, answer_option } = req.body;
-    const lang = req.query.lang as string || 'ja';
+    const lang = req.query.lang || 'ja';
 
     // Validation
     if (!session_id || !question_id || !answer_option) {
@@ -67,7 +67,7 @@ module.exports = async function handler(req, res) {
     return res.status(201).json(result);
 
   } catch (error) {
-    if ((error as any).code === 'ALREADY_ANSWERED') {
+    if ((error).code === 'ALREADY_ANSWERED') {
       return res.status(409).json({
         error: {
           code: 'ALREADY_ANSWERED',
