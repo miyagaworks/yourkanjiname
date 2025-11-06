@@ -47,9 +47,9 @@ export class DatabaseConfig {
     }
   }
 
-  static async closePool(): Promise<void> {
-    if (this.pool) {
-      await this.pool.end();
+  static async closePool(pool: Pool): Promise<void> {
+    if (pool) {
+      await pool.end();
     }
   }
 }
