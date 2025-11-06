@@ -19,9 +19,11 @@ export class DatabaseConfig {
           ssl: {
             rejectUnauthorized: false
           },
-          max: 20,
-          idleTimeoutMillis: 30000,
-          connectionTimeoutMillis: 10000,
+          max: 1, // Serverless: use only 1 connection per function
+          min: 0,
+          idleTimeoutMillis: 10000, // Close idle connections faster
+          connectionTimeoutMillis: 5000,
+          allowExitOnIdle: true // Allow pool to close when idle
         });
       } else {
         this.pool = new Pool({
