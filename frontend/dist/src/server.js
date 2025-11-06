@@ -54,8 +54,8 @@ app.use((0, morgan_1.default)(process.env.NODE_ENV === 'production' ? 'combined'
 // Rate limiting (disabled for development)
 if (process.env.NODE_ENV === 'production') {
     const limiter = (0, express_rate_limit_1.default)({
-        windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 500, // limit each IP to 500 requests per 15 minutes
+        windowMs: 15 * 60 * 1000,
+        max: 500,
         message: JSON.stringify({ error: 'Too many requests from this IP, please try again later.' })
     });
     app.use('/api/', limiter);
