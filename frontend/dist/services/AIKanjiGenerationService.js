@@ -13,7 +13,7 @@ class AIKanjiGenerationService {
             throw new Error('GEMINI_API_KEY environment variable is not set');
         }
         this.genAI = new generative_ai_1.GoogleGenerativeAI(apiKey);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-pro' });
+        this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
     }
     /**
      * ユーザープロファイルから漢字名を生成
