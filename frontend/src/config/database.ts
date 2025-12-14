@@ -7,28 +7,36 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Cache pool at module level for serverless warm instances
+let cachedPool: Pool | null = null;
+
 export class DatabaseConfig {
-  // For serverless, create a new pool each time instead of caching
   static getPool(): Pool {
+    // Return cached pool if available
+    if (cachedPool) {
+      return cachedPool;
+    }
+
     // Use DATABASE_URL if available (production), otherwise use individual env vars (development)
     if (process.env.DATABASE_URL) {
-      const pool = new Pool({
+      cachedPool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
           rejectUnauthorized: false
         },
-        max: 1, // Serverless: use only 1 connection
-        idleTimeoutMillis: 1, // Close immediately when idle
-        connectionTimeoutMillis: 10000,
+        max: 3, // Allow a few connections for concurrent requests
+        idleTimeoutMillis: 10000, // Keep connections alive for 10 seconds
+        connectionTimeoutMillis: 5000,
       });
 
-      pool.on('error', (err) => {
+      cachedPool.on('error', (err) => {
         console.error('Unexpected database error:', err);
+        cachedPool = null; // Reset cache on error
       });
 
-      return pool;
+      return cachedPool;
     } else {
-      const pool = new Pool({
+      cachedPool = new Pool({
         host: process.env.DB_HOST || 'localhost',
         port: parseInt(process.env.DB_PORT || '5432'),
         database: process.env.DB_NAME || 'yourkanjiname',
@@ -39,17 +47,21 @@ export class DatabaseConfig {
         connectionTimeoutMillis: 2000,
       });
 
-      pool.on('error', (err) => {
+      cachedPool.on('error', (err) => {
         console.error('Unexpected database error:', err);
+        cachedPool = null;
       });
 
-      return pool;
+      return cachedPool;
     }
   }
 
   static async closePool(pool: Pool): Promise<void> {
     if (pool) {
       await pool.end();
+      if (pool === cachedPool) {
+        cachedPool = null;
+      }
     }
   }
 }
