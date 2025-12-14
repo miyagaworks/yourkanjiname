@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import questionsData from './questions.json';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
 // 全質問データ（API呼び出しなしで即座に表示）
-import questionsData from './questions.json';
 const QUESTIONS = questionsData.flow;
 
 // API Client
