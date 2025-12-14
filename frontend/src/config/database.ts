@@ -24,9 +24,9 @@ export class DatabaseConfig {
         ssl: {
           rejectUnauthorized: false
         },
-        max: 3, // Allow a few connections for concurrent requests
-        idleTimeoutMillis: 10000, // Keep connections alive for 10 seconds
-        connectionTimeoutMillis: 5000,
+        max: 1, // Serverless: only 1 connection per instance
+        idleTimeoutMillis: 0, // Close idle connections immediately
+        connectionTimeoutMillis: 10000,
       });
 
       cachedPool.on('error', (err) => {
