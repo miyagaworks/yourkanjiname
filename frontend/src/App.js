@@ -219,6 +219,7 @@ function App() {
   const [showNameInput, setShowNameInput] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
   const sessionIdRef = useRef(null);
+  const pendingSubmitsRef = useRef([]);
 
   // 背景画像を設定
   useEffect(() => {
@@ -299,21 +300,22 @@ function App() {
       });
       window.scrollTo(0, 0);
 
-      // 回答送信はバックグラウンドで実行（結果を待たない）
+      // 回答送信はバックグラウンドで実行（Promiseを追跡）
       if (sessionIdRef.current && currentQuestionId !== 'Q0') {
-        ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
+        const promise = ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
           .catch(err => console.error('Background submit failed:', err));
+        pendingSubmitsRef.current.push(promise);
       }
       return;
     }
 
-    // 最後の質問（GENERATE_RESULT）の場合はAPI完了を待つ
+    // 最後の質問（GENERATE_RESULT）の場合
     setLoading(true);
 
     // セッションがまだ準備できていない場合は待つ
     let currentSessionId = sessionIdRef.current;
     if (!currentSessionId) {
-      for (let i = 0; i < 30 && !sessionIdRef.current; i++) {
+      for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
         await new Promise(r => setTimeout(r, 100));
       }
       currentSessionId = sessionIdRef.current;
@@ -325,8 +327,13 @@ function App() {
     }
 
     try {
-      // 最後の回答を送信
-      await ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language);
+      // 最後の回答をpendingに追加
+      const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language);
+      pendingSubmitsRef.current.push(lastSubmit);
+
+      // すべてのバックグラウンド送信が完了するのを待つ
+      await Promise.all(pendingSubmitsRef.current);
+      pendingSubmitsRef.current = [];
 
       // 漢字名生成
       const kanjiResult = await ApiClient.generateKanjiName(currentSessionId);
