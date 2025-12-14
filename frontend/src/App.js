@@ -1,7 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
+
+// 最初の質問データ（API呼び出しなしで即座に表示）
+const FIRST_QUESTIONS = {
+  Q0: {
+    id: 'Q0',
+    type: 'introduction',
+    text: {
+      ja: 'これからあなたの人生の旅を振り返りながら、いくつかの質問をします。正しい答えはありません。感じたままに、最も近いものを選んでください。',
+      en: 'We will take a journey through your life with several questions. There are no right answers. Please choose what feels closest to you.'
+    }
+  },
+  Q1: {
+    id: 'Q1',
+    type: 'gender_declaration',
+    text: {
+      ja: '性別を教えてください。',
+      en: 'Please tell us your gender.'
+    },
+    options: [
+      { id: 'male', text: { ja: '男性', en: 'Male' } },
+      { id: 'female', text: { ja: '女性', en: 'Female' } },
+      { id: 'nonbinary', text: { ja: 'ノンバイナリー/その他', en: 'Non-binary/Other' } },
+      { id: 'prefer_not_to_say', text: { ja: '回答したくない', en: 'Prefer not to say' } }
+    ]
+  }
+};
 
 // API Client
 const ApiClient = {
@@ -214,6 +240,7 @@ function App() {
   const [userName, setUserName] = useState('');
   const [showNameInput, setShowNameInput] = useState(true);
   const [showSplash, setShowSplash] = useState(true);
+  const sessionIdRef = useRef(null);
 
   // 背景画像を設定
   useEffect(() => {
@@ -223,11 +250,14 @@ function App() {
     document.body.style.setProperty('background-attachment', 'fixed', 'important');
   }, []);
 
-  // スプラッシュアニメーション
+  // スプラッシュアニメーション + APIウォームアップ
   useEffect(() => {
+    // スプラッシュ表示中にAPIをウォームアップ（コールドスタート対策）
+    fetch(`${API_BASE_URL}/sessions`, { method: 'OPTIONS' }).catch(() => {});
+
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 5000); // 5秒後にフェードアウト完了
+    }, 3000); // 3秒に短縮
     return () => clearTimeout(timer);
   }, []);
 
@@ -236,32 +266,54 @@ function App() {
     e.preventDefault();
     if (!userName.trim()) return;
 
-    try {
-      setLoading(true);
-      const newSessionId = await ApiClient.createSession(userName.trim());
-      setSessionId(newSessionId);
+    // 即座にQ0を表示（API待ちなし）
+    setCurrentQuestion(FIRST_QUESTIONS.Q0);
+    setProgress({ current_step: 0, total_steps: 16, percentage: 0 });
+    setShowNameInput(false);
 
-      // 最初の質問を取得
-      const response = await ApiClient.getNextQuestion(newSessionId, language);
-      setCurrentQuestion(response.question);
-      setProgress(response.progress);
-      setShowNameInput(false);
+    // セッション作成はバックグラウンドで実行
+    try {
+      const newSessionId = await ApiClient.createSession(userName.trim());
+      sessionIdRef.current = newSessionId;
+      setSessionId(newSessionId);
     } catch (err) {
       setError('Failed to initialize session');
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 
   // 回答送信
   const handleAnswer = async (optionId) => {
-    if (!sessionId || !currentQuestion) return;
+    if (!currentQuestion) return;
+
+    // Q0（イントロ）の場合、Q1を即座に表示
+    if (currentQuestion.id === 'Q0') {
+      setCurrentQuestion(FIRST_QUESTIONS.Q1);
+      setProgress({ current_step: 1, total_steps: 16, percentage: 6 });
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // セッションがまだ準備できていない場合は待つ
+    let currentSessionId = sessionIdRef.current;
+    if (!currentSessionId) {
+      setLoading(true);
+      // 最大3秒待つ
+      for (let i = 0; i < 30 && !sessionIdRef.current; i++) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      currentSessionId = sessionIdRef.current;
+      setLoading(false);
+      if (!currentSessionId) {
+        setError('Session not ready. Please try again.');
+        return;
+      }
+    }
 
     try {
       // 回答を送信して次の質問を取得（1回のAPIコール）
       const response = await ApiClient.submitAnswer(
-        sessionId,
+        currentSessionId,
         currentQuestion.id,
         optionId,
         language
@@ -271,7 +323,7 @@ function App() {
       if (response.completed) {
         // 全質問完了 → 漢字名生成（ローディング表示開始）
         setLoading(true);
-        const kanjiResult = await ApiClient.generateKanjiName(sessionId);
+        const kanjiResult = await ApiClient.generateKanjiName(currentSessionId);
         setResult(kanjiResult);
         setCurrentQuestion(null);
         setLoading(false);
