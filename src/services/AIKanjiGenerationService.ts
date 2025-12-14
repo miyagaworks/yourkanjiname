@@ -136,8 +136,8 @@ export class AIKanjiGenerationService {
 特性: ${behavioralDesc}
 
 # タスク
-上記の性格に合った漢字2文字の日本名を提案し、400-500文字の日本語で説明してください。
-説明は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」で締めてください。数値やスコアは一切含めないでください。
+上記の性格に合った漢字2文字の日本名を提案し、日本語と英語の両方で詳細に説明してください。
+説明は2段落構成で、日本語は最後に「あなたにピッタリの漢字名が出来上がりました！」で、英語は「The perfect kanji name for you!」で締めてください。数値やスコアは一切含めないでください。
 
 ## 出力形式（JSON）
 
@@ -157,8 +157,8 @@ export class AIKanjiGenerationService {
     "meaning_en": "beautiful, excellent",
     "pronunciation": "み"
   },
-  "explanation_ja": "【ここに800-1200文字の詳細な性格分析を記述】",
-  "explanation_en": "【英語の簡潔な説明】"
+  "explanation_ja": "【ここに400-500文字の詳細な性格分析を記述】",
+  "explanation_en": "【ここに200-300語の詳細な英語説明を記述。日本語と同等の内容で、各漢字の意味とユーザーの性格との関連性を説明する】"
 }
 \`\`\``;
   }
