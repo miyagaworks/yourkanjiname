@@ -3,11 +3,29 @@
  * Handles: POST /api/generate, GET /api/generate (for getting result)
  */
 
-const { GenerationService } = require('../dist/services/GenerationService');
+let GenerationService;
+let generationService;
+let initError = null;
 
-const generationService = new GenerationService();
+try {
+  GenerationService = require('../dist/services/GenerationService').GenerationService;
+  generationService = new GenerationService();
+} catch (err) {
+  initError = err;
+  console.error('Failed to initialize GenerationService:', err);
+}
 
 module.exports = async function handler(req, res) {
+  // Check for initialization error
+  if (initError) {
+    console.error('Init error details:', initError.message, initError.stack);
+    return res.status(500).json({
+      error: {
+        code: 'INIT_ERROR',
+        message: 'Service initialization failed: ' + initError.message
+      }
+    });
+  }
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
@@ -84,6 +102,10 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (error) {
+    console.error('Generate error:', error.message);
+    console.error('Error stack:', error.stack);
+    console.error('Error code:', error.code);
+
     if ((error).code === 'INSUFFICIENT_ANSWERS') {
       return res.status(422).json({
         error: {
@@ -93,10 +115,18 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    console.error('Error:', error);
+    if ((error).code === 'SESSION_NOT_FOUND') {
+      return res.status(404).json({
+        error: {
+          code: 'SESSION_NOT_FOUND',
+          message: 'Session not found'
+        }
+      });
+    }
+
     return res.status(500).json({
       error: {
-        code: 'INTERNAL_ERROR',
+        code: error.code || 'INTERNAL_ERROR',
         message: error instanceof Error ? error.message : 'An unexpected error occurred'
       }
     });
