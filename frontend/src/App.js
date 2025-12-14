@@ -3,31 +3,9 @@ import './App.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
-// 最初の質問データ（API呼び出しなしで即座に表示）
-const FIRST_QUESTIONS = {
-  Q0: {
-    id: 'Q0',
-    type: 'introduction',
-    text: {
-      ja: 'これからあなたの人生の旅を振り返りながら、いくつかの質問をします。正しい答えはありません。感じたままに、最も近いものを選んでください。',
-      en: 'We will take a journey through your life with several questions. There are no right answers. Please choose what feels closest to you.'
-    }
-  },
-  Q1: {
-    id: 'Q1',
-    type: 'gender_declaration',
-    text: {
-      ja: '性別を教えてください。',
-      en: 'Please tell us your gender.'
-    },
-    options: [
-      { id: 'male', text: { ja: '男性', en: 'Male' } },
-      { id: 'female', text: { ja: '女性', en: 'Female' } },
-      { id: 'nonbinary', text: { ja: 'ノンバイナリー/その他', en: 'Non-binary/Other' } },
-      { id: 'prefer_not_to_say', text: { ja: '回答したくない', en: 'Prefer not to say' } }
-    ]
-  }
-};
+// 全質問データ（API呼び出しなしで即座に表示）
+import questionsData from '../questions.json';
+const QUESTIONS = questionsData.flow;
 
 // API Client
 const ApiClient = {
@@ -261,13 +239,34 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // 質問をフォーマット
+  const formatQuestion = (questionId, step) => {
+    const q = QUESTIONS[questionId];
+    return {
+      id: q.id,
+      type: q.type,
+      text: q.text,
+      options: q.options?.map(opt => ({ id: opt.id, text: opt.text }))
+    };
+  };
+
+  // 次の質問IDを取得
+  const getNextQuestionId = (questionId, optionId) => {
+    const q = QUESTIONS[questionId];
+    if (q.options) {
+      const opt = q.options.find(o => o.id === optionId);
+      return opt?.next || q.next;
+    }
+    return q.next;
+  };
+
   // 名前入力後にセッション初期化
   const handleNameSubmit = async (e) => {
     e.preventDefault();
     if (!userName.trim()) return;
 
     // 即座にQ0を表示（API待ちなし）
-    setCurrentQuestion(FIRST_QUESTIONS.Q0);
+    setCurrentQuestion(formatQuestion('Q0', 0));
     setProgress({ current_step: 0, total_steps: 16, percentage: 0 });
     setShowNameInput(false);
 
@@ -286,57 +285,57 @@ function App() {
   const handleAnswer = async (optionId) => {
     if (!currentQuestion) return;
 
-    // Q0（イントロ）の場合、Q1を即座に表示
-    if (currentQuestion.id === 'Q0') {
-      setCurrentQuestion(FIRST_QUESTIONS.Q1);
-      setProgress({ current_step: 1, total_steps: 16, percentage: 6 });
+    const currentQuestionId = currentQuestion.id;
+    const nextQuestionId = getNextQuestionId(currentQuestionId, optionId);
+
+    // 次の質問を即座に表示（API待ちなし）
+    if (nextQuestionId && nextQuestionId !== 'GENERATE_RESULT') {
+      const stepNum = parseInt(nextQuestionId.replace('Q', ''));
+      setCurrentQuestion(formatQuestion(nextQuestionId, stepNum));
+      setProgress({
+        current_step: stepNum,
+        total_steps: 16,
+        percentage: Math.round((stepNum / 16) * 100)
+      });
       window.scrollTo(0, 0);
+
+      // 回答送信はバックグラウンドで実行（結果を待たない）
+      if (sessionIdRef.current && currentQuestionId !== 'Q0') {
+        ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
+          .catch(err => console.error('Background submit failed:', err));
+      }
       return;
     }
+
+    // 最後の質問（GENERATE_RESULT）の場合はAPI完了を待つ
+    setLoading(true);
 
     // セッションがまだ準備できていない場合は待つ
     let currentSessionId = sessionIdRef.current;
     if (!currentSessionId) {
-      setLoading(true);
-      // 最大3秒待つ
       for (let i = 0; i < 30 && !sessionIdRef.current; i++) {
         await new Promise(r => setTimeout(r, 100));
       }
       currentSessionId = sessionIdRef.current;
-      setLoading(false);
       if (!currentSessionId) {
         setError('Session not ready. Please try again.');
+        setLoading(false);
         return;
       }
     }
 
     try {
-      // 回答を送信して次の質問を取得（1回のAPIコール）
-      const response = await ApiClient.submitAnswer(
-        currentSessionId,
-        currentQuestion.id,
-        optionId,
-        language
-      );
+      // 最後の回答を送信
+      await ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language);
 
-      // 全質問完了チェック
-      if (response.completed) {
-        // 全質問完了 → 漢字名生成（ローディング表示開始）
-        setLoading(true);
-        const kanjiResult = await ApiClient.generateKanjiName(currentSessionId);
-        setResult(kanjiResult);
-        setCurrentQuestion(null);
-        setLoading(false);
-      } else {
-        // 次の質問を表示（ローディング表示なし）
-        setCurrentQuestion(response.question);
-        setProgress(response.progress);
-        // ページ上部にスクロール
-        window.scrollTo(0, 0);
-      }
+      // 漢字名生成
+      const kanjiResult = await ApiClient.generateKanjiName(currentSessionId);
+      setResult(kanjiResult);
+      setCurrentQuestion(null);
     } catch (err) {
-      setError('Failed to submit answer');
+      setError('Failed to generate result');
       console.error(err);
+    } finally {
       setLoading(false);
     }
   };
