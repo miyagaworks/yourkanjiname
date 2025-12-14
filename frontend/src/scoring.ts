@@ -3,7 +3,7 @@
  * 新しい質問構造（Q2-Q16）に対応したスコアリング実装
  */
 
-import questionsData from '../questions.json';
+import questionsData from './questions.json';
 
 // ===================================
 // 型定義

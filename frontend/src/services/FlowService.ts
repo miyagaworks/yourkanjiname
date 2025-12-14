@@ -2,7 +2,7 @@
  * Flow Service - Question flow management
  */
 
-import questionsData from '../../questions.json';
+import questionsData from '../questions.json';
 
 interface Answer {
   question_id: string;

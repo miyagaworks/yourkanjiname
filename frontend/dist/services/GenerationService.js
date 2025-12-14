@@ -183,7 +183,7 @@ class GenerationService {
             Math.round(kanjiResult.matching_scores.total),
             Math.round(kanjiResult.matching_scores.gender_match),
             Math.round(kanjiResult.matching_scores.motivation_match),
-            0, // subtype_match_score not calculated separately
+            0,
             kanjiResult.explanation.ja,
             kanjiResult.explanation.en
         ]);
@@ -256,7 +256,7 @@ class GenerationService {
             Math.round(kanjiPair.total_score),
             Math.round(kanjiPair.gender_match),
             Math.round(kanjiPair.motivation_match),
-            0, // subtype_match_score (not calculated separately anymore)
+            0,
             explanationJa,
             explanationEn
         ]);

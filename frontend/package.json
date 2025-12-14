@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "npm run build:api && react-scripts build",
-    "build:api": "tsc --outDir dist --module commonjs --target es2020 --esModuleInterop true --skipLibCheck true --resolveJsonModule true src/**/*.ts",
+    "build:api": "tsc -p tsconfig.api.json",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

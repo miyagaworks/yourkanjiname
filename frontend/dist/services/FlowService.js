@@ -7,7 +7,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlowService = void 0;
-const questions_json_1 = __importDefault(require("../../questions.json"));
+const questions_json_1 = __importDefault(require("../questions.json"));
 class FlowService {
     constructor() {
         this.questions = questions_json_1.default.flow;
