@@ -113,17 +113,55 @@ export class AIKanjiGenerationService {
 
     let jsonText = jsonMatch[1] || jsonMatch[0];
 
-    // JSON文字列内の制御文字を処理（改行を\\nにエスケープ）
-    jsonText = jsonText.replace(/[\x00-\x1F\x7F]/g, (char) => {
-      if (char === '\n') return '\\n';
-      if (char === '\r') return '\\r';
-      if (char === '\t') return '\\t';
-      return '';
-    });
+    // JSON文字列値の中の制御文字のみをエスケープ（構造的な改行は保持）
+    jsonText = this.sanitizeJsonString(jsonText);
 
     const aiResult = JSON.parse(jsonText);
 
     return this.formatResult(aiResult, profile);
+  }
+
+  /**
+   * JSON文字列値内の制御文字をエスケープ
+   */
+  private sanitizeJsonString(jsonText: string): string {
+    let result = '';
+    let inString = false;
+    let escaped = false;
+
+    for (let i = 0; i < jsonText.length; i++) {
+      const char = jsonText[i];
+
+      if (escaped) {
+        result += char;
+        escaped = false;
+        continue;
+      }
+
+      if (char === '\\' && inString) {
+        result += char;
+        escaped = true;
+        continue;
+      }
+
+      if (char === '"') {
+        inString = !inString;
+        result += char;
+        continue;
+      }
+
+      // 文字列内の制御文字をエスケープ
+      if (inString && char.charCodeAt(0) < 32) {
+        if (char === '\n') result += '\\n';
+        else if (char === '\r') result += '\\r';
+        else if (char === '\t') result += '\\t';
+        continue;
+      }
+
+      result += char;
+    }
+
+    return result;
   }
 
   /**
