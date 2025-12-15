@@ -111,7 +111,17 @@ export class AIKanjiGenerationService {
       throw new Error('Failed to parse AI response: ' + text);
     }
 
-    const jsonText = jsonMatch[1] || jsonMatch[0];
+    let jsonText = jsonMatch[1] || jsonMatch[0];
+
+    // JSON文字列内の制御文字を処理（改行を\\nにエスケープ）
+    jsonText = jsonText.replace(/(?<!\\)\\n/g, '\\n'); // 既にエスケープされているものはそのまま
+    jsonText = jsonText.replace(/[\x00-\x1F\x7F]/g, (char) => {
+      if (char === '\n') return '\\n';
+      if (char === '\r') return '\\r';
+      if (char === '\t') return '\\t';
+      return ''; // その他の制御文字は削除
+    });
+
     const aiResult = JSON.parse(jsonText);
 
     return this.formatResult(aiResult, profile);
@@ -136,8 +146,9 @@ export class AIKanjiGenerationService {
 特性: ${behavioralDesc}
 
 # タスク
-上記の性格に合った漢字2文字の日本名を提案し、400-500文字の日本語で説明してください。
+上記の性格に合った漢字2文字の日本名を提案し、800-1200文字の日本語で詳細に説明してください。
 説明は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」で締めてください。数値やスコアは一切含めないでください。
+英語説明は日本語の完全な翻訳としてください。
 
 ## 出力形式（JSON）
 
@@ -158,7 +169,7 @@ export class AIKanjiGenerationService {
     "pronunciation": "み"
   },
   "explanation_ja": "【ここに800-1200文字の詳細な性格分析を記述】",
-  "explanation_en": "【英語の簡潔な説明】"
+  "explanation_en": "【explanation_jaの完全な英語翻訳】"
 }
 \`\`\``;
   }
