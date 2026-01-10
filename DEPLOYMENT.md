@@ -5,32 +5,31 @@
 - **ドメイン**: kanjiname.jp
 - **サブドメイン**: app.kanjiname.jp または your.kanjiname.jp
 - **ホスティング**: Vercel
-- **データベース**: Supabase (PostgreSQL)
+- **データベース**: Neon (PostgreSQL)
 - **DNS/Email**: Cloudflare
 
 ---
 
-## 1. Supabaseセットアップ
+## 1. Neonセットアップ
 
 ### 1.1 プロジェクト作成
 
-1. [Supabase](https://supabase.com)にログイン
+1. [Neon](https://neon.tech)にログイン
 2. "New Project"をクリック
 3. プロジェクト情報を入力:
    - Name: `yourkanjiname`
-   - Database Password: 強力なパスワードを生成
-   - Region: `Northeast Asia (Tokyo)` を選択
+   - Region: `Asia Pacific (Singapore)` を選択
 
 ### 1.2 データベーススキーマ作成
 
-1. Supabase Dashboard → SQL Editor
+1. Neon Dashboard → SQL Editor
 2. `schema.sql`の内容を全てコピー&ペースト
 3. "Run"をクリックしてスキーマを作成
 
 ### 1.3 接続情報取得
 
-1. Settings → Database → Connection string
-2. "URI"をコピー (例: `postgresql://postgres:[password]@[host]:5432/postgres`)
+1. Dashboard → Connection Details
+2. Connection stringをコピー (例: `postgresql://user:password@host/dbname?sslmode=require`)
 3. この値を`DATABASE_URL`として後でVercelに設定
 
 ---
@@ -60,7 +59,7 @@ Settings → Environment Variables で以下を追加:
 
 ```
 NODE_ENV=production
-DATABASE_URL=postgresql://postgres:[password]@[supabase-host]:5432/postgres
+DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 GEMINI_API_KEY=your_gemini_api_key_here
 FRONTEND_URL=https://app.kanjiname.jp
 ALLOWED_ORIGINS=https://app.kanjiname.jp,https://kanjiname.jp
@@ -167,7 +166,7 @@ Proxy status: Proxied
 
 ### 6.3 データベース確認
 
-Supabase Dashboard → Table Editor で確認:
+Neon Dashboard → Tables で確認:
 
 - [ ] `sessions` テーブルにレコードが追加される
 - [ ] `answers` テーブルに回答が記録される
@@ -183,7 +182,7 @@ Supabase Dashboard → Table Editor で確認:
 | 変数名 | 説明 | 例 |
 |--------|------|-----|
 | `NODE_ENV` | 環境設定 | `production` |
-| `DATABASE_URL` | Supabase接続文字列 | `postgresql://...` |
+| `DATABASE_URL` | Neon接続文字列 | `postgresql://...` |
 | `GEMINI_API_KEY` | Google Gemini API Key | `AIza...` |
 | `FRONTEND_URL` | フロントエンドURL | `https://app.kanjiname.jp` |
 | `ALLOWED_ORIGINS` | CORS許可オリジン | `https://app.kanjiname.jp,https://kanjiname.jp` |
@@ -211,9 +210,9 @@ REACT_APP_API_URL=https://app.kanjiname.jp/api
 
 **エラー**: `ECONNREFUSED` または `Connection timeout`
 **解決策**:
-- Supabaseのプロジェクトが起動しているか確認
+- Neonのプロジェクトが起動しているか確認
 - `DATABASE_URL`が正しいか確認
-- Supabase → Settings → Database → Connection pooling を有効化
+- Neon → Connection Details → Pooled connectionを使用
 
 ### CORS エラー
 
@@ -238,19 +237,19 @@ REACT_APP_API_URL=https://app.kanjiname.jp/api
 **Vercel:**
 - Dashboard → Project → Deployments → 該当デプロイ → "View Function Logs"
 
-**Supabase:**
-- Dashboard → Logs → Postgres Logs
+**Neon:**
+- Dashboard → Monitoring → Query insights
 
 ### データベースバックアップ
 
-Supabase → Settings → Database → Backups
-- Point-in-time Recovery (PITR) を有効化推奨
+Neon Dashboard → Branches
+- ブランチ機能でデータベースのスナップショットを作成可能
 
 ### モニタリング
 
 **推奨ツール:**
 - Vercel Analytics (訪問者数、パフォーマンス)
-- Supabase Monitoring (DB接続数、クエリ数)
+- Neon Monitoring (DB接続数、クエリ数)
 - Google Cloud Console (Gemini API使用量)
 
 ---
@@ -259,7 +258,6 @@ Supabase → Settings → Database → Backups
 
 - [ ] 環境変数にシークレットキーを直接コミットしていない
 - [ ] `.gitignore`に`.env`が含まれている
-- [ ] Supabase RLS (Row Level Security) を設定 (今後の改善項目)
 - [ ] Cloudflare Web Application Firewall (WAF) を有効化
 - [ ] Rate Limiting が設定されている (`express-rate-limit`)
 - [ ] Helmet.jsでセキュリティヘッダーが設定されている
@@ -271,11 +269,12 @@ Supabase → Settings → Database → Backups
 問題が発生した場合:
 
 1. Vercel Logs を確認
-2. Supabase Logs を確認
+2. Neon Logs を確認
 3. GitHub Issues にバグレポートを作成
 4. support@kanjiname.jp にお問い合わせ
 
 ---
 
 **作成日**: 2025-09-30
-**バージョン**: v2.0
+**更新日**: 2026-01-10
+**バージョン**: v2.1

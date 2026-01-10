@@ -2,8 +2,8 @@
 
 ## 前提条件
 
-✅ GitHubリポジトリ: `miyagaworks/yourkanjiname`
-✅ Supabase DATABASE_URL取得済み
+- GitHubリポジトリ: `miyagaworks/yourkanjiname`
+- Neon DATABASE_URL取得済み
 
 ---
 
@@ -55,13 +55,13 @@ Install Command: npm install
 | Key | Value | 説明 |
 |-----|-------|------|
 | `NODE_ENV` | `production` | 本番環境モード |
-| `DATABASE_URL` | `postgres://postgres:[YOUR-PASSWORD]@db.mkelvvpglrkbocykeafb.supabase.co:6543/postgres` | Supabase接続URL |
+| `DATABASE_URL` | `postgresql://user:password@host/dbname?sslmode=require` | Neon接続URL |
 | `GEMINI_API_KEY` | `あなたのGemini APIキー` | Google Gemini API |
 | `FRONTEND_URL` | `https://app.kanjiname.jp` | フロントエンドURL（一旦仮） |
 | `ALLOWED_ORIGINS` | `https://app.kanjiname.jp,https://kanjiname.jp` | CORS許可オリジン |
 
 **重要**:
-- `DATABASE_URL`: `[YOUR-PASSWORD]`を実際のパスワードに置き換えてください
+- `DATABASE_URL`: Neon DashboardのConnection Detailsから取得
 - `GEMINI_API_KEY`: [Google AI Studio](https://aistudio.google.com/app/apikey)で取得
 
 ### 3.3 Gemini API Keyの取得方法
@@ -94,8 +94,8 @@ Install Command: npm install
 
 ### 4.3 デプロイ成功確認
 
-✅ "Congratulations!" メッセージが表示される
-✅ デプロイURL: `https://yourkanjiname-xxx.vercel.app`
+- "Congratulations!" メッセージが表示される
+- デプロイURL: `https://yourkanjiname-xxx.vercel.app`
 
 ---
 
@@ -196,7 +196,7 @@ Value: cname.vercel-dns.com
 
 ## 次のステップ
 
-✅ Vercelデプロイ完了後:
+Vercelデプロイ完了後:
 - Cloudflareでカスタムドメイン設定
 - SSL証明書の自動発行を確認
 - 本番環境での動作テスト

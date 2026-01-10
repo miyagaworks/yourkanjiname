@@ -58,13 +58,13 @@ Railwayはルートディレクトリからビルドしますが、フロント�
 |---------------|-------|
 | `NODE_ENV` | `production` |
 | `PORT` | `3000` (Railwayが自動設定する場合は不要) |
-| `DATABASE_URL` | `postgres://postgres:パスワード@db.mkelvvpglrkbocykeafb.supabase.co:6543/postgres` |
+| `DATABASE_URL` | `postgresql://user:password@host/dbname?sslmode=require` |
 | `GEMINI_API_KEY` | `あなたのGemini APIキー` |
 | `FRONTEND_URL` | `https://yourkanjiname.vercel.app` (Vercel URL) |
 | `ALLOWED_ORIGINS` | `https://yourkanjiname.vercel.app,https://app.kanjiname.jp` |
 
 **重要:**
-- `DATABASE_URL`: Supabaseの接続URL
+- `DATABASE_URL`: NeonのConnection Detailsから取得
 - `FRONTEND_URL`: VercelのデプロイURL（一旦仮のURLを設定、後でカスタムドメインに変更）
 
 ---
@@ -84,7 +84,7 @@ Railwayはルートディレクトリからビルドしますが、フロント�
    Installing dependencies...
    Building TypeScript...
    Starting server...
-   ✓ Deployed
+   Deployed
    ```
 
 ### 4.3 公開URLを取得
@@ -174,7 +174,7 @@ Proxy: OFF (オレンジクラウドをグレーに)
 **原因**: DATABASE_URLが間違っている
 **解決策**:
 1. Railway → Variables → DATABASE_URLを確認
-2. Supabaseの接続URLが正しいか確認
+2. Neonの接続URLが正しいか確認
 3. 再デプロイ
 
 ### エラー: "GEMINI_API_KEY is not set"
@@ -203,7 +203,7 @@ Proxy: OFF (オレンジクラウドをグレーに)
 
 ## 次のステップ
 
-✅ Railway API デプロイ完了後:
+Railway API デプロイ完了後:
 - Vercel環境変数にRailway URLを設定
 - フロントエンド→バックエンドの通信をテスト
 - Cloudflareでカスタムドメイン設定
