@@ -208,7 +208,7 @@ const ScoreBar = ({ label, score }) => {
 
 // Main App Component
 function App() {
-  const [sessionId, setSessionId] = useState(null);
+  const [, setSessionId] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [progress, setProgress] = useState(null);
   const [result, setResult] = useState(null);
