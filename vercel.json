@@ -1,16 +1,14 @@
 {
+  "buildCommand": "npm run build && cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/build",
   "rewrites": [
     {
-      "source": "/api/sessions",
-      "destination": "/api/sessions"
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
     },
     {
-      "source": "/api/answers",
-      "destination": "/api/answers"
-    },
-    {
-      "source": "/api/generate",
-      "destination": "/api/generate"
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
