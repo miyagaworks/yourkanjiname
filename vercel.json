@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && cd frontend && npm install && npm run build && cp -r build/* ../public/",
+  "buildCommand": "npm run build && cd frontend && npm install && REACT_APP_API_URL=/api npm run build && cp -r build/* ../public/",
   "rewrites": [
     {
       "source": "/api/:path*",
