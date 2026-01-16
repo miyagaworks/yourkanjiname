@@ -397,7 +397,7 @@ function App() {
           </div>
         </div>
         <footer className="footer">
-          <p>&copy; 2025 Your Kanji Name. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
         </footer>
       </>
     );
@@ -424,7 +424,7 @@ function App() {
           <ResultCard result={result} language={language} userName={userName} />
         </div>
         <footer className="footer">
-          <p>&copy; 2025 Your Kanji Name. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
         </footer>
       </>
     );
@@ -465,7 +465,7 @@ function App() {
         )}
       </div>
       <footer className="footer">
-        <p>&copy; 2025 Your Kanji Name. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
       </footer>
     </>
   );
