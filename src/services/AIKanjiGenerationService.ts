@@ -3,7 +3,7 @@
  * Google Gemini APIを使用して性別・性格に適した漢字名を生成
  */
 
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ThinkingLevel } from '@google/genai';
 
 interface UserProfile {
   declared_gender: 'male' | 'female' | 'nonbinary' | 'prefer_not_to_say';
@@ -79,7 +79,7 @@ export class AIKanjiGenerationService {
             temperature: 0.7,
             maxOutputTokens: 4096,
             thinkingConfig: {
-              thinkingLevel: 'minimal'  // Minimal thinking for faster response
+              thinkingLevel: ThinkingLevel.MINIMAL  // Minimal thinking for faster response
             }
           }
         });
