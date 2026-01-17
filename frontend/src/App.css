@@ -550,6 +550,44 @@ body::before {
   padding: 0 40px;
 }
 
+.loading-step {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading-progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.progress-dot.active {
+  background: #d4af37;
+  transform: scale(1.2);
+}
+
 .loading-message {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);

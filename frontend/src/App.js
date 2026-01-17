@@ -206,6 +206,22 @@ const ScoreBar = ({ label, score }) => {
   );
 };
 
+// Loading messages for progressive display
+const LOADING_MESSAGES = {
+  ja: [
+    '性格を分析中...',
+    '最適な漢字を選定中...',
+    '説明文を作成中...',
+    'もうすぐ完成です...'
+  ],
+  en: [
+    'Analyzing your personality...',
+    'Selecting the perfect kanji...',
+    'Creating your story...',
+    'Almost done...'
+  ]
+};
+
 // Main App Component
 function App() {
   const [, setSessionId] = useState(null);
@@ -214,6 +230,7 @@ function App() {
   const [result, setResult] = useState(null);
   const [language, setLanguage] = useState('ja');
   const [loading, setLoading] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState('');
   const [showNameInput, setShowNameInput] = useState(true);
@@ -239,6 +256,23 @@ function App() {
     }, 3000); // 3秒に短縮
     return () => clearTimeout(timer);
   }, []);
+
+  // ローディング中のメッセージ切り替え
+  useEffect(() => {
+    if (!loading) {
+      setLoadingStep(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setLoadingStep(prev => {
+        const maxStep = LOADING_MESSAGES.ja.length - 1;
+        return prev < maxStep ? prev + 1 : prev;
+      });
+    }, 2500); // 2.5秒ごとに切り替え
+
+    return () => clearInterval(interval);
+  }, [loading]);
 
   // 質問をフォーマット
   const formatQuestion = (questionId, step) => {
@@ -454,11 +488,11 @@ function App() {
               <div className="spinner"></div>
             </div>
             <div className="loading-text">
-              <div>{language === 'ja' ? 'あなたの漢字名を生成中...' : 'Generating your Kanji name...'}</div>
-              <div className="loading-message">
-                {language === 'ja'
-                  ? 'あなたの性格や特徴を表した最適な名前を考えています。30秒程度お待ちくださいませ...'
-                  : 'Creating the perfect name that represents your personality and characteristics. Please wait about 30 seconds.'}
+              <div className="loading-step">{LOADING_MESSAGES[language][loadingStep]}</div>
+              <div className="loading-progress">
+                {[...Array(LOADING_MESSAGES[language].length)].map((_, i) => (
+                  <span key={i} className={`progress-dot ${i <= loadingStep ? 'active' : ''}`} />
+                ))}
               </div>
             </div>
           </div>
