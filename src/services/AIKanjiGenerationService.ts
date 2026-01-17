@@ -61,7 +61,16 @@ export class AIKanjiGenerationService {
       throw new Error('GEMINI_API_KEY environment variable is not set');
     }
     this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({ model: 'gemini-3-flash-preview' });
+    this.model = this.genAI.getGenerativeModel({
+      model: 'gemini-3-flash-preview',
+      generationConfig: {
+        temperature: 0.7,
+        maxOutputTokens: 4096,
+        thinkingConfig: {
+          thinkingBudget: 0  // Disable thinking for faster response
+        }
+      }
+    });
   }
 
   /**
