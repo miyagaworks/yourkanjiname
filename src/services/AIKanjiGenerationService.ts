@@ -3,7 +3,7 @@
  * Google Gemini APIを使用して性別・性格に適した漢字名を生成
  */
 
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 interface UserProfile {
   declared_gender: 'male' | 'female' | 'nonbinary' | 'prefer_not_to_say';
@@ -52,25 +52,14 @@ interface KanjiNameResult {
 }
 
 export class AIKanjiGenerationService {
-  private genAI: GoogleGenerativeAI;
-  private model: any;
+  private client: GoogleGenAI;
 
   constructor() {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       throw new Error('GEMINI_API_KEY environment variable is not set');
     }
-    this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({
-      model: 'gemini-3-flash-preview',
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 4096,
-        thinkingConfig: {
-          thinkingBudget: 0  // Disable thinking for faster response
-        }
-      }
-    });
+    this.client = new GoogleGenAI({ apiKey });
   }
 
   /**
@@ -83,9 +72,19 @@ export class AIKanjiGenerationService {
     let lastError;
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
-        const result = await this.model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const response = await this.client.models.generateContent({
+          model: 'gemini-3-flash-preview',
+          contents: prompt,
+          config: {
+            temperature: 0.7,
+            maxOutputTokens: 4096,
+            thinkingConfig: {
+              thinkingLevel: 'minimal'  // Minimal thinking for faster response
+            }
+          }
+        });
+
+        const text = response.text || '';
 
         // 成功したらパース処理へ
         return this.parseResponse(text, profile);
@@ -180,7 +179,6 @@ export class AIKanjiGenerationService {
     const genderDesc = this.getGenderDescription(profile);
     const motivationDesc = this.getMotivationDescription(profile);
     const behavioralDesc = this.getBehavioralDescription(profile);
-    const secondMotivation = this.getSecondMotivation(profile);
 
     return `あなたは日本の名前の専門家です。外国人に最適な漢字2文字の日本名を提案します。
 
@@ -257,35 +255,6 @@ export class AIKanjiGenerationService {
       freedom: '自由欲（独立、冒険、個性）'
     };
     return motivationNames[profile.highest_motivation] || profile.highest_motivation;
-  }
-
-  /**
-   * 第2動機を取得
-   */
-  private getSecondMotivation(profile: UserProfile): string {
-    const scores = { ...profile.motivation_scores };
-    delete (scores as any)[profile.highest_motivation];
-
-    let secondMotivation = '';
-    let secondScore = 0;
-
-    for (const [motivation, score] of Object.entries(scores)) {
-      if (score > secondScore) {
-        secondMotivation = motivation;
-        secondScore = score;
-      }
-    }
-
-    const motivationNames: Record<string, string> = {
-      knowledge: '知識欲',
-      creative: '創造欲',
-      belonging: '所属欲',
-      dominance: '支配欲',
-      stability: '安定欲',
-      freedom: '自由欲'
-    };
-
-    return motivationNames[secondMotivation] || secondMotivation;
   }
 
   /**
