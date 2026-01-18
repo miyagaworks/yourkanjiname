@@ -14,6 +14,38 @@ function Admin() {
   const [uploading, setUploading] = useState(false);
   const [sendingEmail, setSendingEmail] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+  const [copiedText, setCopiedText] = useState('');
+
+  // Poem explanation template
+  const poemExplanationTemplate = `Your Personal Japanese Poem (折句 Oriku)
+
+Along with your calligraphy, we have composed a special poem just for you—a traditional Japanese acrostic called Oriku (折句).
+
+In this poetic form, the first syllable of each line combines to spell out your name in Japanese. When read vertically, your name emerges from the poem itself.
+
+Your Name: [NAME] → [JAPANESE_NAME]
+
+Your Poem:
+[LINE1]
+[LINE2]
+[LINE3]
+[LINE4]
+[LINE5]
+
+Meaning:
+[MEANING]
+
+This centuries-old tradition transforms your name into a blessing—a wish for happiness and good fortune woven into the very fabric of Japanese poetry.`;
+
+  const handleCopyTemplate = async () => {
+    try {
+      await navigator.clipboard.writeText(poemExplanationTemplate);
+      setCopiedText('template');
+      setTimeout(() => setCopiedText(''), 2000);
+    } catch (err) {
+      setMessage({ type: 'error', text: 'コピーに失敗しました' });
+    }
+  };
 
   // Reset body background for admin page
   useEffect(() => {
@@ -283,6 +315,21 @@ function Admin() {
                   />
                 </div>
               )}
+            </div>
+
+            <div className="poem-template-section">
+              <label>折句説明文テンプレート:</label>
+              <textarea
+                readOnly
+                value={poemExplanationTemplate}
+                className="poem-template-textarea"
+              />
+              <button
+                onClick={handleCopyTemplate}
+                className="copy-btn"
+              >
+                {copiedText === 'template' ? 'コピーしました！' : 'テンプレートをコピー'}
+              </button>
             </div>
 
             <div className="action-buttons">
