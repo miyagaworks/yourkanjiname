@@ -1,10 +1,23 @@
 /* Admin Page Styles */
 .admin-container {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #f5f5f5 !important;
   font-family: 'Noto Sans JP', sans-serif;
-  position: relative;
-  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  writing-mode: horizontal-tb !important;
+  direction: ltr !important;
+  text-orientation: mixed !important;
+}
+
+.admin-container * {
+  writing-mode: horizontal-tb !important;
+  direction: ltr !important;
+  text-orientation: mixed !important;
 }
 
 /* Login Screen */
