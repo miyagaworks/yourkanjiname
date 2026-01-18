@@ -294,7 +294,7 @@ function Admin() {
                 value={poemText}
                 onChange={(e) => setPoemText(e.target.value)}
                 className="poem-template-textarea"
-                placeholder=""
+                placeholder="ここに折句の説明文をペーストしてください"
               />
             </div>
 
