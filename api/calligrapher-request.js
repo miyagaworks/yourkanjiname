@@ -22,6 +22,20 @@ function getPool() {
   return pool;
 }
 
+// Language code to name mapping (for admin email)
+const LANGUAGE_NAMES = {
+  ja: '日本語',
+  en: '英語 (English)',
+  fr: 'フランス語 (Français)',
+  de: 'ドイツ語 (Deutsch)',
+  es: 'スペイン語 (Español)',
+  it: 'イタリア語 (Italiano)',
+  th: 'タイ語 (ภาษาไทย)',
+  vi: 'ベトナム語 (Tiếng Việt)',
+  id: 'インドネシア語 (Bahasa Indonesia)',
+  ko: '韓国語 (한국어)'
+};
+
 // Email configuration per language
 const EMAIL_CONFIG = {
   ja: {
@@ -32,7 +46,8 @@ const EMAIL_CONFIG = {
     intro: 'あなたの漢字名「{{kanjiName}}」の書道作品のお申し込みを受け付けました。',
     yourName: 'あなたの漢字名',
     calligraphyInfo: 'プロの書道家が心を込めて筆で書き上げ、メールでお届けいたします。作品の完成までしばらくお待ちください。',
-    closing: 'Your Kanji Name チーム'
+    closing: 'Your Kanji Name チーム',
+    contact: 'お問い合わせ'
   },
   en: {
     subject: 'Your Calligraphy Request Has Been Received',
@@ -41,7 +56,8 @@ const EMAIL_CONFIG = {
     intro: 'We have received your request for a calligraphy artwork of your kanji name "{{kanjiName}}".',
     yourName: 'Your Kanji Name',
     calligraphyInfo: 'A professional calligrapher will write your name with care and dedication, and we will send it to you via email. Please wait for your artwork to be completed.',
-    closing: 'Your Kanji Name Team'
+    closing: 'Your Kanji Name Team',
+    contact: 'Contact'
   },
   fr: {
     subject: 'Votre demande de calligraphie a été reçue',
@@ -50,7 +66,8 @@ const EMAIL_CONFIG = {
     intro: 'Nous avons reçu votre demande pour une œuvre calligraphique de votre nom kanji « {{kanjiName}} ».',
     yourName: 'Votre nom en kanji',
     calligraphyInfo: 'Un calligraphe professionnel écrira votre nom avec soin et dévouement, et nous vous l\'enverrons par e-mail. Veuillez patienter pendant la réalisation de votre œuvre.',
-    closing: 'L\'équipe Your Kanji Name'
+    closing: 'L\'équipe Your Kanji Name',
+    contact: 'Contact'
   },
   de: {
     subject: 'Ihre Kalligraphie-Anfrage wurde erhalten',
@@ -59,7 +76,8 @@ const EMAIL_CONFIG = {
     intro: 'Wir haben Ihre Anfrage für ein Kalligraphie-Kunstwerk Ihres Kanji-Namens „{{kanjiName}}" erhalten.',
     yourName: 'Ihr Kanji-Name',
     calligraphyInfo: 'Ein professioneller Kalligraph wird Ihren Namen mit Sorgfalt und Hingabe schreiben, und wir werden ihn Ihnen per E-Mail zusenden. Bitte warten Sie auf die Fertigstellung Ihres Kunstwerks.',
-    closing: 'Das Your Kanji Name Team'
+    closing: 'Das Your Kanji Name Team',
+    contact: 'Kontakt'
   },
   es: {
     subject: 'Su solicitud de caligrafía ha sido recibida',
@@ -68,7 +86,8 @@ const EMAIL_CONFIG = {
     intro: 'Hemos recibido su solicitud de una obra caligráfica de su nombre kanji "{{kanjiName}}".',
     yourName: 'Su nombre en kanji',
     calligraphyInfo: 'Un calígrafo profesional escribirá su nombre con cuidado y dedicación, y se lo enviaremos por correo electrónico. Por favor, espere a que se complete su obra.',
-    closing: 'El equipo de Your Kanji Name'
+    closing: 'El equipo de Your Kanji Name',
+    contact: 'Contacto'
   },
   it: {
     subject: 'La tua richiesta di calligrafia è stata ricevuta',
@@ -77,7 +96,8 @@ const EMAIL_CONFIG = {
     intro: 'Abbiamo ricevuto la tua richiesta per un\'opera calligrafica del tuo nome kanji "{{kanjiName}}".',
     yourName: 'Il tuo nome in kanji',
     calligraphyInfo: 'Un calligrafo professionista scriverà il tuo nome con cura e dedizione, e te lo invieremo via e-mail. Per favore, attendi il completamento della tua opera.',
-    closing: 'Il team di Your Kanji Name'
+    closing: 'Il team di Your Kanji Name',
+    contact: 'Contatto'
   },
   th: {
     subject: 'ได้รับคำขอเขียนพู่กันของคุณแล้ว',
@@ -86,7 +106,8 @@ const EMAIL_CONFIG = {
     intro: 'เราได้รับคำขอสำหรับงานเขียนพู่กันชื่อคันจิของคุณ "{{kanjiName}}" แล้ว',
     yourName: 'ชื่อคันจิของคุณ',
     calligraphyInfo: 'นักเขียนพู่กันมืออาชีพจะเขียนชื่อของคุณด้วยความใส่ใจและทุ่มเท และเราจะส่งให้คุณทางอีเมล กรุณารอการเสร็จสมบูรณ์ของผลงาน',
-    closing: 'ทีม Your Kanji Name'
+    closing: 'ทีม Your Kanji Name',
+    contact: 'ติดต่อ'
   },
   vi: {
     subject: 'Yêu cầu thư pháp của bạn đã được nhận',
@@ -95,7 +116,8 @@ const EMAIL_CONFIG = {
     intro: 'Chúng tôi đã nhận được yêu cầu tác phẩm thư pháp tên kanji "{{kanjiName}}" của bạn.',
     yourName: 'Tên Kanji của bạn',
     calligraphyInfo: 'Một nhà thư pháp chuyên nghiệp sẽ viết tên bạn với sự tận tâm và chúng tôi sẽ gửi cho bạn qua email. Xin vui lòng chờ đợi tác phẩm của bạn hoàn thành.',
-    closing: 'Đội ngũ Your Kanji Name'
+    closing: 'Đội ngũ Your Kanji Name',
+    contact: 'Liên hệ'
   },
   id: {
     subject: 'Permintaan Kaligrafi Anda Telah Diterima',
@@ -104,7 +126,8 @@ const EMAIL_CONFIG = {
     intro: 'Kami telah menerima permintaan Anda untuk karya kaligrafi nama kanji Anda "{{kanjiName}}".',
     yourName: 'Nama Kanji Anda',
     calligraphyInfo: 'Seorang kaligrafer profesional akan menulis nama Anda dengan penuh perhatian dan dedikasi, dan kami akan mengirimkannya kepada Anda melalui email. Mohon tunggu hingga karya Anda selesai.',
-    closing: 'Tim Your Kanji Name'
+    closing: 'Tim Your Kanji Name',
+    contact: 'Kontak'
   },
   ko: {
     subject: '서예 요청이 접수되었습니다',
@@ -113,7 +136,8 @@ const EMAIL_CONFIG = {
     intro: '귀하의 한자 이름 "{{kanjiName}}" 서예 작품 요청이 접수되었습니다.',
     yourName: '당신의 한자 이름',
     calligraphyInfo: '전문 서예가가 정성을 다해 당신의 이름을 써서 이메일로 보내드립니다. 작품이 완성될 때까지 기다려 주세요.',
-    closing: 'Your Kanji Name 팀'
+    closing: 'Your Kanji Name 팀',
+    contact: '문의'
   }
 };
 
@@ -171,6 +195,7 @@ function buildUserEmailHtml(request, config) {
     </div>
     <div class="footer">
       <p>${config.closing}</p>
+      <p>${config.contact}: <a href="mailto:contact@kanjiname.jp" style="color: #c75450;">contact@kanjiname.jp</a></p>
       <p>&copy; ${new Date().getFullYear()} Your Kanji Name</p>
     </div>
   </div>
@@ -216,7 +241,7 @@ function buildAdminEmailHtml(request) {
       </div>
       <div class="field">
         <div class="label">選択言語</div>
-        <div class="value">${request.language || 'en'}</div>
+        <div class="value">${LANGUAGE_NAMES[request.language] || LANGUAGE_NAMES.en}</div>
       </div>
       <div class="field">
         <div class="label">漢字名</div>
