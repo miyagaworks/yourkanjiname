@@ -32,17 +32,20 @@ interface KanjiNameResult {
     char: string;
     meaning_ja: string;
     meaning_en: string;
+    meaning_user?: string;
     pronunciation: string;
   };
   second_kanji: {
     char: string;
     meaning_ja: string;
     meaning_en: string;
+    meaning_user?: string;
     pronunciation: string;
   };
   explanation: {
     ja: string;
     en: string;
+    user?: string;
   };
   matching_scores: {
     total: number;
@@ -50,6 +53,20 @@ interface KanjiNameResult {
     motivation_match: number;
   };
 }
+
+// Language configuration for Gemini prompts
+const LANGUAGE_CONFIG: Record<string, { name: string; nameJa: string; charCount: string }> = {
+  ja: { name: '日本語', nameJa: '日本語', charCount: '800-1200文字' },
+  en: { name: 'English', nameJa: '英語', charCount: '400-600 words' },
+  fr: { name: 'Français', nameJa: 'フランス語', charCount: '400-600 mots' },
+  de: { name: 'Deutsch', nameJa: 'ドイツ語', charCount: '400-600 Wörter' },
+  es: { name: 'Español', nameJa: 'スペイン語', charCount: '400-600 palabras' },
+  it: { name: 'Italiano', nameJa: 'イタリア語', charCount: '400-600 parole' },
+  th: { name: 'ภาษาไทย', nameJa: 'タイ語', charCount: '800-1200 ตัวอักษร' },
+  vi: { name: 'Tiếng Việt', nameJa: 'ベトナム語', charCount: '800-1200 ký tự' },
+  id: { name: 'Bahasa Indonesia', nameJa: 'インドネシア語', charCount: '400-600 kata' },
+  ko: { name: '한국어', nameJa: '韓国語', charCount: '800-1200자' }
+};
 
 export class AIKanjiGenerationService {
   private client: GoogleGenAI;
@@ -64,9 +81,12 @@ export class AIKanjiGenerationService {
 
   /**
    * ユーザープロファイルから漢字名を生成
+   * @param profile ユーザープロファイル
+   * @param userName ユーザー名
+   * @param language ユーザーの選択言語（デフォルト: 'en'）
    */
-  async generateKanjiName(profile: UserProfile, userName: string): Promise<KanjiNameResult> {
-    const prompt = this.buildPrompt(profile, userName);
+  async generateKanjiName(profile: UserProfile, userName: string, language: string = 'en'): Promise<KanjiNameResult> {
+    const prompt = this.buildPrompt(profile, userName, language);
 
     // リトライ処理（最大3回）
     let lastError;
@@ -174,11 +194,33 @@ export class AIKanjiGenerationService {
 
   /**
    * プロンプトを構築
+   * @param profile ユーザープロファイル
+   * @param userName ユーザー名
+   * @param language ユーザーの選択言語
    */
-  private buildPrompt(profile: UserProfile, userName: string): string {
+  private buildPrompt(profile: UserProfile, userName: string, language: string): string {
     const genderDesc = this.getGenderDescription(profile);
     const motivationDesc = this.getMotivationDescription(profile);
     const behavioralDesc = this.getBehavioralDescription(profile);
+
+    const langConfig = LANGUAGE_CONFIG[language] || LANGUAGE_CONFIG.en;
+    const isJapanese = language === 'ja';
+    const isEnglish = language === 'en';
+
+    // ユーザー言語が日本語または英語の場合は、追加のユーザー言語出力は不要
+    const needsUserLang = !isJapanese && !isEnglish;
+
+    let userLangInstructions = '';
+    let userLangOutput = '';
+
+    if (needsUserLang) {
+      userLangInstructions = `
+4. explanation_user: ${langConfig.name}で${langConfig.charCount}（ユーザー表示用、explanation_jaの翻訳）
+5. 各漢字のmeaning_user: ${langConfig.name}での意味`;
+
+      userLangOutput = `
+  "meaning_user": "${langConfig.name}での意味（例：harmonie, paisible）",`;
+    }
 
     return `あなたは日本の名前の専門家です。外国人に最適な漢字2文字の日本名を提案します。
 
@@ -188,11 +230,18 @@ export class AIKanjiGenerationService {
 性格: ${genderDesc}
 動機: ${motivationDesc}
 特性: ${behavioralDesc}
+希望言語: ${langConfig.nameJa}
 
 # タスク
-上記の性格に合った漢字2文字の日本名を提案し、800-1200文字の日本語で詳細に説明してください。
-説明は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」で締めてください。数値やスコアは一切含めないでください。
-英語説明は日本語の完全な翻訳としてください。
+上記の性格に合った漢字2文字の日本名を提案し、説明文を作成してください。
+
+## 出力要件
+1. explanation_ja: 日本語で800-1200文字（運営者用・必須）
+2. explanation_en: 英語で400-600 words（explanation_jaの翻訳）
+3. 各漢字のmeaning_ja/meaning_en: 日本語と英語での意味${userLangInstructions}
+
+説明文は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」（または各言語での同等表現）で締めてください。
+数値やスコアは一切含めないでください。
 
 ## 出力形式（JSON）
 
@@ -203,17 +252,18 @@ export class AIKanjiGenerationService {
   "first_kanji": {
     "char": "和",
     "meaning_ja": "調和、穏やか",
-    "meaning_en": "harmony, peaceful",
+    "meaning_en": "harmony, peaceful",${needsUserLang ? userLangOutput : ''}
     "pronunciation": "わ"
   },
   "second_kanji": {
     "char": "美",
     "meaning_ja": "美しい、優れた",
-    "meaning_en": "beautiful, excellent",
+    "meaning_en": "beautiful, excellent",${needsUserLang ? userLangOutput : ''}
     "pronunciation": "み"
   },
-  "explanation_ja": "【ここに800-1200文字の詳細な性格分析を記述】",
-  "explanation_en": "【explanation_jaの完全な英語翻訳】"
+  "explanation_ja": "【800-1200文字の日本語説明】",
+  "explanation_en": "【400-600 wordsの英語説明】"${needsUserLang ? `,
+  "explanation_user": "【${langConfig.charCount}の${langConfig.name}説明】"` : ''}
 }
 \`\`\``;
   }
@@ -310,17 +360,20 @@ export class AIKanjiGenerationService {
         char: aiResult.first_kanji.char,
         meaning_ja: aiResult.first_kanji.meaning_ja,
         meaning_en: aiResult.first_kanji.meaning_en,
+        meaning_user: aiResult.first_kanji.meaning_user,
         pronunciation: aiResult.first_kanji.pronunciation
       },
       second_kanji: {
         char: aiResult.second_kanji.char,
         meaning_ja: aiResult.second_kanji.meaning_ja,
         meaning_en: aiResult.second_kanji.meaning_en,
+        meaning_user: aiResult.second_kanji.meaning_user,
         pronunciation: aiResult.second_kanji.pronunciation
       },
       explanation: {
         ja: aiResult.explanation_ja,
-        en: aiResult.explanation_en || ''
+        en: aiResult.explanation_en || '',
+        user: aiResult.explanation_user
       },
       matching_scores: {
         total,

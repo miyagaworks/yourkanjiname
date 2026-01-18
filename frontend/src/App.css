@@ -323,6 +323,79 @@ body::before {
 }
 
 /* ===================================
+   Sakura Effect
+   =================================== */
+
+.sakura-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 3s ease-out;
+}
+
+.sakura-container.fading {
+  opacity: 0;
+}
+
+.sakura-petal {
+  position: absolute;
+  top: -80px;
+  animation:
+    sakuraFall linear infinite,
+    sakuraSway ease-in-out infinite;
+  animation-duration: inherit, var(--sway-duration);
+}
+
+.sakura-petal img {
+  animation: sakuraRotate linear infinite;
+  animation-duration: inherit;
+}
+
+@keyframes sakuraFall {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  5% {
+    opacity: var(--petal-opacity, 0.8);
+  }
+  95% {
+    opacity: var(--petal-opacity, 0.8);
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px));
+    opacity: 0;
+  }
+}
+
+@keyframes sakuraSway {
+  0%, 100% {
+    margin-left: 0;
+  }
+  25% {
+    margin-left: var(--sway-amount, 30px);
+  }
+  75% {
+    margin-left: calc(var(--sway-amount, 30px) * -1);
+  }
+}
+
+@keyframes sakuraRotate {
+  0% {
+    transform: rotate(var(--rotate-start, 0deg));
+  }
+  100% {
+    transform: rotate(var(--rotate-end, 360deg));
+  }
+}
+
+/* ===================================
    Result Card
    =================================== */
 
@@ -410,6 +483,132 @@ body::before {
   font-size: 14px;
   color: #718096;
   margin: 5px 0;
+}
+
+/* ===================================
+   Calligrapher Section
+   =================================== */
+
+.calligrapher-section {
+  margin: 50px 0 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(212, 175, 55, 0.1) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(139, 69, 19, 0.15);
+  text-align: center;
+}
+
+.calligrapher-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 15px;
+}
+
+.calligrapher-description {
+  font-size: 15px;
+  color: #4a5568;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.calligrapher-samples {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 25px;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.calligrapher-samples img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.calligrapher-samples img:hover {
+  transform: scale(1.03);
+}
+
+.calligrapher-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.calligrapher-email {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 16px;
+  border: 2px solid rgba(139, 69, 19, 0.2);
+  border-radius: 8px;
+  background: white;
+  transition: all 0.3s ease;
+  color: #1a202c;
+}
+
+.calligrapher-email:focus {
+  outline: none;
+  border-color: #8B4513;
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+}
+
+.calligrapher-email::placeholder {
+  color: #a0aec0;
+}
+
+.calligrapher-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #8B4513 0%, #a0522d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.calligrapher-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+}
+
+.calligrapher-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.calligrapher-success {
+  padding: 20px;
+  background: rgba(44, 95, 45, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(44, 95, 45, 0.2);
+}
+
+.calligrapher-success p {
+  font-size: 16px;
+  color: #2C5F2D;
+  font-weight: 500;
+  margin: 0;
+}
+
+.calligrapher-error {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(199, 84, 80, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(199, 84, 80, 0.2);
+  font-size: 14px;
+  color: #c75450;
 }
 
 /* ===================================
@@ -659,5 +858,23 @@ body::before {
   .score-label {
     width: 80px;
     font-size: 12px;
+  }
+
+  .calligrapher-section {
+    padding: 25px 20px;
+    margin: 40px 0 30px;
+  }
+
+  .calligrapher-title {
+    font-size: 18px;
+  }
+
+  .calligrapher-description {
+    font-size: 14px;
+  }
+
+  .calligrapher-samples {
+    max-width: 280px;
+    gap: 10px;
   }
 }

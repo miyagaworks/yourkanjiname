@@ -61,7 +61,7 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    const { session_id, action } = req.query;
+    const { session_id, action, lang } = req.query;
 
     if (!session_id) {
       return res.status(400).json({
@@ -73,8 +73,10 @@ module.exports = async function handler(req, res) {
     }
 
     // POST /api/generate - Generate kanji name
+    // Query param: lang - user's preferred language (default: 'en')
     if (req.method === 'POST') {
-      const result = await generationService.generateKanjiName(session_id);
+      const language = lang || (req.body && req.body.language) || 'en';
+      const result = await generationService.generateKanjiName(session_id, language);
       return res.json(result);
     }
 

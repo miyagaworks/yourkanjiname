@@ -19,8 +19,10 @@ export class GenerationService {
 
   /**
    * Generate kanji name for a session
+   * @param sessionId セッションID
+   * @param language ユーザーの選択言語（デフォルト: 'en'）
    */
-  async generateKanjiName(sessionId: string) {
+  async generateKanjiName(sessionId: string, language: string = 'en') {
     // Get session
     const session = await this.sessionService.getSession(sessionId);
     if (!session) {
@@ -63,7 +65,7 @@ export class GenerationService {
       behavioral_traits: scoringResult.behavioral_traits
     };
 
-    const kanjiResult = await aiService.generateKanjiName(userProfile, userName);
+    const kanjiResult = await aiService.generateKanjiName(userProfile, userName, language);
 
     // Save result to database (simplified - store AI result)
     await this.saveAIResult(sessionId, kanjiResult, scoringResult);
@@ -225,17 +227,20 @@ export class GenerationService {
         char: kanjiResult.first_kanji.char,
         meaning_en: kanjiResult.first_kanji.meaning_en,
         meaning_ja: kanjiResult.first_kanji.meaning_ja,
+        meaning_user: kanjiResult.first_kanji.meaning_user,
         pronunciation: kanjiResult.first_kanji.pronunciation
       },
       second_kanji: {
         char: kanjiResult.second_kanji.char,
         meaning_en: kanjiResult.second_kanji.meaning_en,
         meaning_ja: kanjiResult.second_kanji.meaning_ja,
+        meaning_user: kanjiResult.second_kanji.meaning_user,
         pronunciation: kanjiResult.second_kanji.pronunciation
       },
       explanation: {
         ja: kanjiResult.explanation.ja,
-        en: kanjiResult.explanation.en
+        en: kanjiResult.explanation.en,
+        user: kanjiResult.explanation.user
       },
       matching_scores: {
         total: Math.round(kanjiResult.matching_scores.total),

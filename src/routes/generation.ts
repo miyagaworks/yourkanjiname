@@ -11,12 +11,15 @@ const generationService = new GenerationService();
 /**
  * POST /api/sessions/:session_id/generate
  * Generate kanji name
+ * Query params:
+ *   - lang: User's preferred language (default: 'en')
  */
 router.post('/:session_id/generate', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { session_id } = req.params;
+    const language = (req.query.lang as string) || (req.body.language as string) || 'en';
 
-    const result = await generationService.generateKanjiName(session_id);
+    const result = await generationService.generateKanjiName(session_id, language);
 
     res.json(result);
   } catch (error) {

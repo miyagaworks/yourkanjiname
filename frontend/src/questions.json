@@ -2,6 +2,7 @@
   "meta": {
     "version": "2.0",
     "total_questions": 16,
+    "supported_languages": ["ja", "en", "fr", "de", "es", "it", "th", "vi", "id", "ko"],
     "description": "時間軸に沿って人間の本質を深く洞察する質問フロー。幼少期→青年期→現在→未来の順で、根源的な恐れ、欲求、傷、愛し方、意味の源泉を測定する。",
     "measurement_dimensions": {
       "core_fear": "根源的な恐れ（孤独/失敗/無意味/拘束/混沌/拒絶）",
@@ -20,23 +21,39 @@
       "type": "introduction",
       "text": {
         "ja": "これからあなたの人生の旅を振り返りながら、いくつかの質問をします。正しい答えはありません。感じたままに、最も近いものを選んでください。",
-        "en": "We will take a journey through your life with several questions. There are no right answers. Please choose what feels closest to you."
+        "en": "We will take a journey through your life with several questions. There are no right answers. Please choose what feels closest to you.",
+        "fr": "Nous allons parcourir votre vie à travers plusieurs questions. Il n'y a pas de bonnes réponses. Choisissez ce qui vous correspond le mieux.",
+        "de": "Wir werden mit einigen Fragen eine Reise durch Ihr Leben unternehmen. Es gibt keine richtigen Antworten. Bitte wählen Sie, was sich am besten anfühlt.",
+        "es": "Haremos un recorrido por tu vida con varias preguntas. No hay respuestas correctas. Elige lo que sientas más cercano a ti.",
+        "it": "Faremo un viaggio attraverso la tua vita con diverse domande. Non ci sono risposte giuste. Scegli ciò che senti più vicino a te.",
+        "th": "เราจะพาคุณเดินทางผ่านชีวิตของคุณด้วยคำถามหลายข้อ ไม่มีคำตอบที่ถูกหรือผิด กรุณาเลือกสิ่งที่ตรงกับความรู้สึกของคุณมากที่สุด",
+        "vi": "Chúng tôi sẽ cùng bạn hành trình qua cuộc đời bạn với một số câu hỏi. Không có câu trả lời đúng hay sai. Hãy chọn điều bạn cảm thấy gần gũi nhất.",
+        "id": "Kami akan membawa Anda dalam perjalanan melalui hidup Anda dengan beberapa pertanyaan. Tidak ada jawaban yang benar atau salah. Silakan pilih yang paling sesuai dengan perasaan Anda.",
+        "ko": "몇 가지 질문을 통해 당신의 인생 여정을 돌아보겠습니다. 정답은 없습니다. 가장 가깝게 느껴지는 것을 선택해 주세요."
       },
       "next": "Q1"
     },
-    
+
     "Q1": {
       "id": "Q1",
       "type": "gender_declaration",
       "text": {
         "ja": "性別を教えてください。",
-        "en": "Please tell us your gender."
+        "en": "Please tell us your gender.",
+        "fr": "Veuillez indiquer votre genre.",
+        "de": "Bitte geben Sie Ihr Geschlecht an.",
+        "es": "Por favor, indícanos tu género.",
+        "it": "Per favore, indicaci il tuo genere.",
+        "th": "กรุณาระบุเพศของคุณ",
+        "vi": "Vui lòng cho biết giới tính của bạn.",
+        "id": "Silakan beritahu kami jenis kelamin Anda.",
+        "ko": "성별을 알려주세요."
       },
       "options": [
-        {"id": "male", "text": {"ja": "男性", "en": "Male"}, "next": "Q2"},
-        {"id": "female", "text": {"ja": "女性", "en": "Female"}, "next": "Q2"},
-        {"id": "nonbinary", "text": {"ja": "ノンバイナリー/その他", "en": "Non-binary/Other"}, "next": "Q2"},
-        {"id": "prefer_not_to_say", "text": {"ja": "回答したくない", "en": "Prefer not to say"}, "next": "Q2"}
+        {"id": "male", "text": {"ja": "男性", "en": "Male", "fr": "Homme", "de": "Männlich", "es": "Masculino", "it": "Uomo", "th": "ชาย", "vi": "Nam", "id": "Laki-laki", "ko": "남성"}, "next": "Q2"},
+        {"id": "female", "text": {"ja": "女性", "en": "Female", "fr": "Femme", "de": "Weiblich", "es": "Femenino", "it": "Donna", "th": "หญิง", "vi": "Nữ", "id": "Perempuan", "ko": "여성"}, "next": "Q2"},
+        {"id": "nonbinary", "text": {"ja": "ノンバイナリー/その他", "en": "Non-binary/Other", "fr": "Non-binaire/Autre", "de": "Nicht-binär/Andere", "es": "No binario/Otro", "it": "Non binario/Altro", "th": "ไม่ระบุเพศ/อื่นๆ", "vi": "Phi nhị giới/Khác", "id": "Non-biner/Lainnya", "ko": "논바이너리/기타"}, "next": "Q2"},
+        {"id": "prefer_not_to_say", "text": {"ja": "回答したくない", "en": "Prefer not to say", "fr": "Je préfère ne pas répondre", "de": "Möchte ich nicht angeben", "es": "Prefiero no decirlo", "it": "Preferisco non rispondere", "th": "ไม่ต้องการระบุ", "vi": "Không muốn trả lời", "id": "Tidak ingin menjawab", "ko": "답변하고 싶지 않음"}, "next": "Q2"}
       ]
     },
 
@@ -46,12 +63,20 @@
       "type": "core_nature",
       "text": {
         "ja": "子どもの頃（5-10歳くらい）、あなたはどんな子でしたか？",
-        "en": "When you were a child (around 5-10 years old), what kind of child were you?"
+        "en": "When you were a child (around 5-10 years old), what kind of child were you?",
+        "fr": "Quand vous étiez enfant (vers 5-10 ans), quel genre d'enfant étiez-vous ?",
+        "de": "Als Sie ein Kind waren (etwa 5-10 Jahre alt), was für ein Kind waren Sie?",
+        "es": "Cuando eras niño/a (alrededor de 5-10 años), ¿qué tipo de niño/a eras?",
+        "it": "Quando eri bambino/a (intorno ai 5-10 anni), che tipo di bambino/a eri?",
+        "th": "ตอนเป็นเด็ก (ประมาณ 5-10 ขวบ) คุณเป็นเด็กแบบไหน?",
+        "vi": "Khi còn nhỏ (khoảng 5-10 tuổi), bạn là đứa trẻ như thế nào?",
+        "id": "Saat Anda masih kecil (sekitar 5-10 tahun), anak seperti apa Anda?",
+        "ko": "어린 시절(5-10세쯤), 당신은 어떤 아이였나요?"
       },
       "options": [
         {
           "id": "curious_explorer",
-          "text": {"ja": "なんでも知りたがる、質問ばかりしていた", "en": "Always curious, asking many questions"},
+          "text": {"ja": "なんでも知りたがる、質問ばかりしていた", "en": "Always curious, asking many questions", "fr": "Toujours curieux, posant beaucoup de questions", "de": "Immer neugierig, stellte viele Fragen", "es": "Siempre curioso/a, haciendo muchas preguntas", "it": "Sempre curioso/a, facevo molte domande", "th": "อยากรู้อยากเห็นตลอด ชอบถามคำถามมากมาย", "vi": "Luôn tò mò, đặt nhiều câu hỏi", "id": "Selalu ingin tahu, banyak bertanya", "ko": "항상 호기심이 많고 질문을 많이 했다"},
           "scores": {
             "motivation": {"knowledge": 3},
             "core_desire": {"understanding": 2},
@@ -61,7 +86,7 @@
         },
         {
           "id": "imaginative_creator",
-          "text": {"ja": "空想したり、何かを作ったり描いたりするのが好きだった", "en": "Loved imagining, creating, or drawing things"},
+          "text": {"ja": "空想したり、何かを作ったり描いたりするのが好きだった", "en": "Loved imagining, creating, or drawing things", "fr": "J'aimais imaginer, créer ou dessiner", "de": "Liebte es zu fantasieren, zu erschaffen oder zu zeichnen", "es": "Me encantaba imaginar, crear o dibujar cosas", "it": "Amavo immaginare, creare o disegnare", "th": "ชอบจินตนาการ สร้างสรรค์ หรือวาดรูป", "vi": "Thích tưởng tượng, sáng tạo hoặc vẽ", "id": "Suka berimajinasi, membuat, atau menggambar", "ko": "상상하거나 무언가를 만들고 그리는 것을 좋아했다"},
           "scores": {
             "motivation": {"creative": 3},
             "core_desire": {"expression": 2},
@@ -71,7 +96,7 @@
         },
         {
           "id": "social_connector",
-          "text": {"ja": "友達といるのが好きで、一人は寂しかった", "en": "Loved being with friends, felt lonely alone"},
+          "text": {"ja": "友達といるのが好きで、一人は寂しかった", "en": "Loved being with friends, felt lonely alone", "fr": "J'aimais être avec mes amis, je me sentais seul(e) sans eux", "de": "Liebte es, mit Freunden zusammen zu sein, fühlte mich allein einsam", "es": "Me encantaba estar con amigos, me sentía solo/a estando solo/a", "it": "Amavo stare con gli amici, mi sentivo solo/a da solo/a", "th": "ชอบอยู่กับเพื่อน รู้สึกเหงาเวลาอยู่คนเดียว", "vi": "Thích ở bên bạn bè, cảm thấy cô đơn khi ở một mình", "id": "Suka bersama teman-teman, merasa kesepian sendirian", "ko": "친구들과 함께 있는 것을 좋아했고, 혼자 있으면 외로웠다"},
           "scores": {
             "motivation": {"belonging": 3},
             "core_desire": {"connection": 3},
@@ -82,7 +107,7 @@
         },
         {
           "id": "competitive_leader",
-          "text": {"ja": "負けるのが嫌いで、リーダーになりたがった", "en": "Hated losing, wanted to be the leader"},
+          "text": {"ja": "負けるのが嫌いで、リーダーになりたがった", "en": "Hated losing, wanted to be the leader", "fr": "Je détestais perdre et voulais être le leader", "de": "Hasste es zu verlieren, wollte immer der Anführer sein", "es": "Odiaba perder, quería ser el/la líder", "it": "Odiavo perdere, volevo essere il/la leader", "th": "ไม่ชอบแพ้ อยากเป็นผู้นำ", "vi": "Ghét thua, muốn làm người dẫn đầu", "id": "Tidak suka kalah, ingin menjadi pemimpin", "ko": "지는 것을 싫어했고, 리더가 되고 싶어했다"},
           "scores": {
             "motivation": {"dominance": 3},
             "core_desire": {"recognition": 2},
@@ -93,7 +118,7 @@
         },
         {
           "id": "cautious_observer",
-          "text": {"ja": "慎重で、よく観察してから行動していた", "en": "Cautious, observed before acting"},
+          "text": {"ja": "慎重で、よく観察してから行動していた", "en": "Cautious, observed before acting", "fr": "Prudent, j'observais avant d'agir", "de": "Vorsichtig, beobachtete erst bevor ich handelte", "es": "Cauteloso/a, observaba antes de actuar", "it": "Cauto/a, osservavo prima di agire", "th": "ระมัดระวัง สังเกตก่อนลงมือทำ", "vi": "Thận trọng, quan sát trước khi hành động", "id": "Berhati-hati, mengamati sebelum bertindak", "ko": "신중하고, 행동하기 전에 잘 관찰했다"},
           "scores": {
             "motivation": {"stability": 2, "knowledge": 1},
             "action_oriented": -2,
@@ -103,7 +128,7 @@
         },
         {
           "id": "free_spirit",
-          "text": {"ja": "自由に動き回るのが好きで、ルールに縛られるのが嫌だった", "en": "Loved moving freely, disliked being bound by rules"},
+          "text": {"ja": "自由に動き回るのが好きで、ルールに縛られるのが嫌だった", "en": "Loved moving freely, disliked being bound by rules", "fr": "J'aimais bouger librement, je n'aimais pas être contraint par les règles", "de": "Liebte es, mich frei zu bewegen, mochte es nicht, an Regeln gebunden zu sein", "es": "Me encantaba moverme libremente, no me gustaba estar atado/a a reglas", "it": "Amavo muovermi liberamente, non mi piaceva essere vincolato/a dalle regole", "th": "ชอบเคลื่อนไหวอย่างอิสระ ไม่ชอบถูกผูกมัดด้วยกฎเกณฑ์", "vi": "Thích di chuyển tự do, không thích bị ràng buộc bởi quy tắc", "id": "Suka bergerak bebas, tidak suka terikat aturan", "ko": "자유롭게 돌아다니는 것을 좋아했고, 규칙에 얽매이는 것을 싫어했다"},
           "scores": {
             "motivation": {"freedom": 3},
             "core_desire": {"autonomy": 2},
@@ -121,12 +146,20 @@
       "type": "early_wound",
       "text": {
         "ja": "子どもの頃、一番辛かったのはどんなことでしたか？",
-        "en": "What was most difficult for you as a child?"
+        "en": "What was most difficult for you as a child?",
+        "fr": "Qu'est-ce qui était le plus difficile pour vous enfant ?",
+        "de": "Was war für Sie als Kind am schwierigsten?",
+        "es": "¿Qué fue lo más difícil para ti cuando eras niño/a?",
+        "it": "Cosa è stato più difficile per te da bambino/a?",
+        "th": "ตอนเป็นเด็ก อะไรที่ทำให้คุณรู้สึกลำบากที่สุด?",
+        "vi": "Điều gì khó khăn nhất với bạn khi còn nhỏ?",
+        "id": "Apa yang paling sulit bagi Anda saat masih kecil?",
+        "ko": "어린 시절, 가장 힘들었던 것은 무엇이었나요?"
       },
       "options": [
         {
           "id": "not_understood",
-          "text": {"ja": "誰も自分のことを分かってくれないと感じた", "en": "Felt like nobody understood me"},
+          "text": {"ja": "誰も自分のことを分かってくれないと感じた", "en": "Felt like nobody understood me", "fr": "J'avais l'impression que personne ne me comprenait", "de": "Hatte das Gefühl, dass mich niemand verstand", "es": "Sentía que nadie me entendía", "it": "Sentivo che nessuno mi capiva", "th": "รู้สึกว่าไม่มีใครเข้าใจฉัน", "vi": "Cảm thấy không ai hiểu mình", "id": "Merasa tidak ada yang memahami saya", "ko": "아무도 나를 이해해주지 않는다고 느꼈다"},
           "scores": {
             "wound": {"misunderstanding": 3},
             "core_fear": {"invisibility": 2},
@@ -136,7 +169,7 @@
         },
         {
           "id": "not_enough",
-          "text": {"ja": "自分は十分じゃないと感じた", "en": "Felt like I wasn't good enough"},
+          "text": {"ja": "自分は十分じゃないと感じた", "en": "Felt like I wasn't good enough", "fr": "J'avais l'impression de ne pas être assez bien", "de": "Hatte das Gefühl, nicht gut genug zu sein", "es": "Sentía que no era suficiente", "it": "Sentivo di non essere abbastanza", "th": "รู้สึกว่าตัวเองไม่ดีพอ", "vi": "Cảm thấy mình không đủ tốt", "id": "Merasa saya tidak cukup baik", "ko": "내가 충분하지 않다고 느꼈다"},
           "scores": {
             "wound": {"inadequacy": 3},
             "core_fear": {"failure": 3},
@@ -146,7 +179,7 @@
         },
         {
           "id": "abandoned",
-          "text": {"ja": "一人にされたり、置いていかれることが怖かった", "en": "Was afraid of being left alone or abandoned"},
+          "text": {"ja": "一人にされたり、置いていかれることが怖かった", "en": "Was afraid of being left alone or abandoned", "fr": "J'avais peur d'être laissé seul ou abandonné", "de": "Hatte Angst, allein gelassen oder verlassen zu werden", "es": "Tenía miedo de quedarme solo/a o ser abandonado/a", "it": "Avevo paura di essere lasciato/a solo/a o abbandonato/a", "th": "กลัวถูกทิ้งให้อยู่คนเดียวหรือถูกทอดทิ้ง", "vi": "Sợ bị bỏ lại một mình hoặc bị bỏ rơi", "id": "Takut ditinggal sendirian atau diabaikan", "ko": "혼자 남겨지거나 버려지는 것이 무서웠다"},
           "scores": {
             "wound": {"abandonment": 3},
             "core_fear": {"loneliness": 3},
@@ -157,7 +190,7 @@
         },
         {
           "id": "controlled",
-          "text": {"ja": "自分で決められないことが多く、窮屈だった", "en": "Couldn't make my own choices, felt restricted"},
+          "text": {"ja": "自分で決められないことが多く、窮屈だった", "en": "Couldn't make my own choices, felt restricted", "fr": "Je ne pouvais pas faire mes propres choix, je me sentais restreint", "de": "Konnte keine eigenen Entscheidungen treffen, fühlte mich eingeschränkt", "es": "No podía tomar mis propias decisiones, me sentía restringido/a", "it": "Non potevo fare le mie scelte, mi sentivo limitato/a", "th": "ไม่สามารถตัดสินใจเองได้ รู้สึกอึดอัด", "vi": "Không thể tự đưa ra quyết định, cảm thấy bị hạn chế", "id": "Tidak bisa membuat keputusan sendiri, merasa terkekang", "ko": "스스로 결정할 수 없는 일이 많아 답답했다"},
           "scores": {
             "wound": {"control": 3},
             "core_fear": {"constraint": 3},
@@ -167,7 +200,7 @@
         },
         {
           "id": "chaos_scary",
-          "text": {"ja": "予測できないことや変化が怖かった", "en": "Unpredictable things and changes were scary"},
+          "text": {"ja": "予測できないことや変化が怖かった", "en": "Unpredictable things and changes were scary", "fr": "Les choses imprévisibles et les changements me faisaient peur", "de": "Unvorhersehbare Dinge und Veränderungen machten mir Angst", "es": "Las cosas impredecibles y los cambios me asustaban", "it": "Le cose imprevedibili e i cambiamenti mi spaventavano", "th": "กลัวสิ่งที่คาดเดาไม่ได้และการเปลี่ยนแปลง", "vi": "Những điều không thể đoán trước và sự thay đổi làm tôi sợ", "id": "Hal-hal yang tidak terduga dan perubahan menakutkan", "ko": "예측할 수 없는 일이나 변화가 무서웠다"},
           "scores": {
             "wound": {"instability": 3},
             "core_fear": {"chaos": 3},
@@ -178,7 +211,7 @@
         },
         {
           "id": "normal_childhood",
-          "text": {"ja": "特に辛いことはなかった", "en": "Nothing particularly difficult"},
+          "text": {"ja": "特に辛いことはなかった", "en": "Nothing particularly difficult", "fr": "Rien de particulièrement difficile", "de": "Nichts besonders Schwieriges", "es": "Nada particularmente difícil", "it": "Niente di particolarmente difficile", "th": "ไม่มีอะไรยากลำบากเป็นพิเศษ", "vi": "Không có gì đặc biệt khó khăn", "id": "Tidak ada yang terlalu sulit", "ko": "특별히 힘든 것은 없었다"},
           "scores": {
             "wound": {"minimal": 1},
             "consistency": 1
@@ -194,12 +227,20 @@
       "type": "identity_formation",
       "text": {
         "ja": "10代の頃、あなたが一番夢中になったことは？",
-        "en": "In your teenage years, what were you most passionate about?"
+        "en": "In your teenage years, what were you most passionate about?",
+        "fr": "À l'adolescence, qu'est-ce qui vous passionnait le plus ?",
+        "de": "Was hat Sie als Teenager am meisten begeistert?",
+        "es": "En tu adolescencia, ¿qué te apasionaba más?",
+        "it": "Durante l'adolescenza, cosa ti appassionava di più?",
+        "th": "ในช่วงวัยรุ่น คุณหลงใหลอะไรมากที่สุด?",
+        "vi": "Trong những năm tuổi teen, bạn đam mê điều gì nhất?",
+        "id": "Di masa remaja, apa yang paling Anda minati?",
+        "ko": "10대 시절, 가장 열중했던 것은 무엇이었나요?"
       },
       "options": [
         {
           "id": "learning",
-          "text": {"ja": "勉強や知識を深めること", "en": "Studying and deepening knowledge"},
+          "text": {"ja": "勉強や知識を深めること", "en": "Studying and deepening knowledge", "fr": "Étudier et approfondir mes connaissances", "de": "Lernen und Wissen vertiefen", "es": "Estudiar y profundizar conocimientos", "it": "Studiare e approfondire le conoscenze", "th": "การเรียนและการเพิ่มพูนความรู้", "vi": "Học tập và mở rộng kiến thức", "id": "Belajar dan memperdalam pengetahuan", "ko": "공부하고 지식을 쌓는 것"},
           "scores": {
             "motivation": {"knowledge": 3},
             "meaning_source": {"truth": 2}
@@ -208,7 +249,7 @@
         },
         {
           "id": "creating",
-          "text": {"ja": "何かを作ったり表現したりすること", "en": "Creating or expressing something"},
+          "text": {"ja": "何かを作ったり表現したりすること", "en": "Creating or expressing something", "fr": "Créer ou exprimer quelque chose", "de": "Etwas erschaffen oder ausdrücken", "es": "Crear o expresar algo", "it": "Creare o esprimere qualcosa", "th": "การสร้างสรรค์หรือแสดงออกบางสิ่ง", "vi": "Sáng tạo hoặc thể hiện điều gì đó", "id": "Membuat atau mengekspresikan sesuatu", "ko": "무언가를 만들거나 표현하는 것"},
           "scores": {
             "motivation": {"creative": 3},
             "meaning_source": {"expression": 2}
@@ -217,7 +258,7 @@
         },
         {
           "id": "friendships",
-          "text": {"ja": "友達との関係や恋愛", "en": "Friendships and romance"},
+          "text": {"ja": "友達との関係や恋愛", "en": "Friendships and romance", "fr": "Les amitiés et les relations amoureuses", "de": "Freundschaften und Romantik", "es": "Amistades y relaciones románticas", "it": "Amicizie e relazioni romantiche", "th": "มิตรภาพและความรัก", "vi": "Tình bạn và tình yêu", "id": "Persahabatan dan percintaan", "ko": "친구 관계와 연애"},
           "scores": {
             "motivation": {"belonging": 3},
             "meaning_source": {"relationships": 3},
@@ -227,7 +268,7 @@
         },
         {
           "id": "achievement",
-          "text": {"ja": "スポーツや競技で勝つこと", "en": "Winning in sports or competitions"},
+          "text": {"ja": "スポーツや競技で勝つこと", "en": "Winning in sports or competitions", "fr": "Gagner dans le sport ou les compétitions", "de": "Im Sport oder bei Wettkämpfen gewinnen", "es": "Ganar en deportes o competiciones", "it": "Vincere nello sport o nelle competizioni", "th": "การชนะในกีฬาหรือการแข่งขัน", "vi": "Chiến thắng trong thể thao hoặc thi đấu", "id": "Menang dalam olahraga atau kompetisi", "ko": "스포츠나 경쟁에서 이기는 것"},
           "scores": {
             "motivation": {"dominance": 3},
             "meaning_source": {"achievement": 2},
@@ -237,7 +278,7 @@
         },
         {
           "id": "identity_search",
-          "text": {"ja": "自分が何者かを探すこと", "en": "Searching for who I really am"},
+          "text": {"ja": "自分が何者かを探すこと", "en": "Searching for who I really am", "fr": "Chercher qui je suis vraiment", "de": "Herausfinden, wer ich wirklich bin", "es": "Buscar quién soy realmente", "it": "Cercare chi sono veramente", "th": "ค้นหาตัวตนที่แท้จริงของตัวเอง", "vi": "Tìm kiếm con người thật của mình", "id": "Mencari jati diri", "ko": "진정한 나를 찾는 것"},
           "scores": {
             "motivation": {"freedom": 2, "knowledge": 1},
             "meaning_source": {"self_discovery": 3}
@@ -246,7 +287,7 @@
         },
         {
           "id": "belonging_group",
-          "text": {"ja": "グループや組織に所属すること", "en": "Belonging to a group or organization"},
+          "text": {"ja": "グループや組織に所属すること", "en": "Belonging to a group or organization", "fr": "Appartenir à un groupe ou une organisation", "de": "Zu einer Gruppe oder Organisation gehören", "es": "Pertenecer a un grupo u organización", "it": "Appartenere a un gruppo o un'organizzazione", "th": "การเป็นส่วนหนึ่งของกลุ่มหรือองค์กร", "vi": "Thuộc về một nhóm hoặc tổ chức", "id": "Menjadi bagian dari kelompok atau organisasi", "ko": "그룹이나 조직에 소속되는 것"},
           "scores": {
             "motivation": {"belonging": 2, "stability": 1},
             "meaning_source": {"community": 2}
@@ -262,12 +303,20 @@
       "type": "stress_response",
       "text": {
         "ja": "10代の頃、大きなストレスや困難に直面した時、あなたはどうしていましたか？",
-        "en": "In your teens, when facing major stress or difficulties, what did you do?"
+        "en": "In your teens, when facing major stress or difficulties, what did you do?",
+        "fr": "À l'adolescence, face à un stress important ou des difficultés, que faisiez-vous ?",
+        "de": "Wie haben Sie als Teenager auf großen Stress oder Schwierigkeiten reagiert?",
+        "es": "En tu adolescencia, cuando enfrentabas estrés o dificultades importantes, ¿qué hacías?",
+        "it": "Da adolescente, di fronte a stress o difficoltà importanti, cosa facevi?",
+        "th": "ในช่วงวัยรุ่น เมื่อเผชิญกับความเครียดหรือความยากลำบากครั้งใหญ่ คุณทำอย่างไร?",
+        "vi": "Khi còn là thiếu niên, khi đối mặt với căng thẳng hoặc khó khăn lớn, bạn đã làm gì?",
+        "id": "Saat remaja, ketika menghadapi stres atau kesulitan besar, apa yang Anda lakukan?",
+        "ko": "10대 시절, 큰 스트레스나 어려움에 직면했을 때 어떻게 했나요?"
       },
       "options": [
         {
           "id": "withdraw",
-          "text": {"ja": "一人になって考え込んだ", "en": "Withdrew and thought alone"},
+          "text": {"ja": "一人になって考え込んだ", "en": "Withdrew and thought alone", "fr": "Je me retirais et réfléchissais seul", "de": "Zog mich zurück und dachte allein nach", "es": "Me aislaba y pensaba solo/a", "it": "Mi isolavo e riflettevo da solo/a", "th": "ถอยออกมาอยู่คนเดียวและคิดใคร่ครวญ", "vi": "Rút lui và suy nghĩ một mình", "id": "Menyendiri dan berpikir sendiri", "ko": "혼자 있으면서 생각에 잠겼다"},
           "scores": {
             "stress_response": {"withdrawal": 3},
             "action_oriented": -2,
@@ -277,7 +326,7 @@
         },
         {
           "id": "seek_help",
-          "text": {"ja": "誰かに話を聞いてもらった", "en": "Talked to someone about it"},
+          "text": {"ja": "誰かに話を聞いてもらった", "en": "Talked to someone about it", "fr": "J'en parlais à quelqu'un", "de": "Sprach mit jemandem darüber", "es": "Hablaba con alguien sobre ello", "it": "Ne parlavo con qualcuno", "th": "พูดคุยกับใครสักคนเกี่ยวกับเรื่องนี้", "vi": "Nói chuyện với ai đó về điều đó", "id": "Berbicara dengan seseorang tentang hal itu", "ko": "누군가에게 이야기를 들어달라고 했다"},
           "scores": {
             "stress_response": {"connection": 3},
             "motivation": {"belonging": 1},
@@ -288,7 +337,7 @@
         },
         {
           "id": "fight_through",
-          "text": {"ja": "とにかく頑張って乗り越えようとした", "en": "Tried hard to push through"},
+          "text": {"ja": "とにかく頑張って乗り越えようとした", "en": "Tried hard to push through", "fr": "J'essayais de surmonter coûte que coûte", "de": "Versuchte hart, es durchzustehen", "es": "Intentaba superar las cosas con esfuerzo", "it": "Cercavo di superare tutto con la forza", "th": "พยายามอย่างหนักเพื่อผ่านมันไปให้ได้", "vi": "Cố gắng hết sức để vượt qua", "id": "Berusaha keras untuk melewatinya", "ko": "어떻게든 열심히 이겨내려고 했다"},
           "scores": {
             "stress_response": {"persistence": 3},
             "action_oriented": 2,
@@ -299,7 +348,7 @@
         },
         {
           "id": "escape",
-          "text": {"ja": "別のことに没頭して気を紛らわせた", "en": "Immersed myself in something else to distract"},
+          "text": {"ja": "別のことに没頭して気を紛らわせた", "en": "Immersed myself in something else to distract", "fr": "Je me plongeais dans autre chose pour me distraire", "de": "Vertiefte mich in etwas anderes zur Ablenkung", "es": "Me sumergía en otra cosa para distraerme", "it": "Mi immergevo in qualcos'altro per distrarmi", "th": "หมกมุ่นกับสิ่งอื่นเพื่อเบี่ยงเบนความสนใจ", "vi": "Đắm chìm vào việc khác để quên đi", "id": "Tenggelam dalam hal lain untuk mengalihkan perhatian", "ko": "다른 것에 몰두해서 기분을 전환했다"},
           "scores": {
             "stress_response": {"avoidance": 3},
             "consistency": -1
@@ -308,7 +357,7 @@
         },
         {
           "id": "analyze",
-          "text": {"ja": "冷静に分析して解決策を探した", "en": "Calmly analyzed and looked for solutions"},
+          "text": {"ja": "冷静に分析して解決策を探した", "en": "Calmly analyzed and looked for solutions", "fr": "J'analysais calmement et cherchais des solutions", "de": "Analysierte ruhig und suchte nach Lösungen", "es": "Analizaba con calma y buscaba soluciones", "it": "Analizzavo con calma e cercavo soluzioni", "th": "วิเคราะห์อย่างใจเย็นและหาทางแก้ไข", "vi": "Bình tĩnh phân tích và tìm giải pháp", "id": "Menganalisis dengan tenang dan mencari solusi", "ko": "차분하게 분석하고 해결책을 찾았다"},
           "scores": {
             "stress_response": {"problem_solving": 3},
             "motivation": {"knowledge": 1},
@@ -319,7 +368,7 @@
         },
         {
           "id": "rebel",
-          "text": {"ja": "反発したり、ルールを破ったりした", "en": "Rebelled or broke rules"},
+          "text": {"ja": "反発したり、ルールを破ったりした", "en": "Rebelled or broke rules", "fr": "Je me rebellais ou enfreignais les règles", "de": "Rebellierte oder brach Regeln", "es": "Me rebelaba o rompía las reglas", "it": "Mi ribellavo o infrangevo le regole", "th": "ต่อต้านหรือฝ่าฝืนกฎ", "vi": "Nổi loạn hoặc phá vỡ quy tắc", "id": "Memberontak atau melanggar aturan", "ko": "반발하거나 규칙을 어겼다"},
           "scores": {
             "stress_response": {"rebellion": 3},
             "motivation": {"freedom": 2},
@@ -336,12 +385,20 @@
       "type": "transformation",
       "text": {
         "ja": "大人になる過程で、あなたが一番大きく変わったと思うことは？",
-        "en": "What do you think changed most about you in becoming an adult?"
+        "en": "What do you think changed most about you in becoming an adult?",
+        "fr": "Qu'est-ce qui a le plus changé en vous en devenant adulte ?",
+        "de": "Was hat sich Ihrer Meinung nach am meisten an Ihnen verändert, als Sie erwachsen wurden?",
+        "es": "¿Qué crees que cambió más en ti al convertirte en adulto/a?",
+        "it": "Cosa pensi sia cambiato di più in te diventando adulto/a?",
+        "th": "อะไรที่คุณคิดว่าเปลี่ยนแปลงมากที่สุดเมื่อเติบโตเป็นผู้ใหญ่?",
+        "vi": "Bạn nghĩ điều gì đã thay đổi nhiều nhất ở bạn khi trưởng thành?",
+        "id": "Menurut Anda, apa yang paling berubah dari diri Anda saat menjadi dewasa?",
+        "ko": "어른이 되는 과정에서 가장 크게 변했다고 생각하는 것은?"
       },
       "options": [
         {
           "id": "more_confident",
-          "text": {"ja": "自信を持てるようになった", "en": "Became more confident"},
+          "text": {"ja": "自信を持てるようになった", "en": "Became more confident", "fr": "Je suis devenu plus confiant", "de": "Wurde selbstbewusster", "es": "Me volví más seguro/a de mí mismo/a", "it": "Sono diventato/a più sicuro/a di me", "th": "มีความมั่นใจมากขึ้น", "vi": "Trở nên tự tin hơn", "id": "Menjadi lebih percaya diri", "ko": "자신감을 갖게 되었다"},
           "scores": {
             "growth": {"self_acceptance": 3},
             "wound_healing": 2
@@ -350,7 +407,7 @@
         },
         {
           "id": "more_independent",
-          "text": {"ja": "人に頼らず自分で決められるようになった", "en": "Became able to decide independently"},
+          "text": {"ja": "人に頼らず自分で決められるようになった", "en": "Became able to decide independently", "fr": "Je suis devenu capable de décider de manière indépendante", "de": "Wurde fähig, unabhängig zu entscheiden", "es": "Pude tomar decisiones de forma independiente", "it": "Sono diventato/a capace di decidere in modo indipendente", "th": "สามารถตัดสินใจได้ด้วยตัวเองโดยไม่ต้องพึ่งพาผู้อื่น", "vi": "Có thể tự đưa ra quyết định mà không cần dựa vào người khác", "id": "Mampu mengambil keputusan sendiri", "ko": "남에게 의지하지 않고 스스로 결정할 수 있게 되었다"},
           "scores": {
             "growth": {"autonomy": 3},
             "motivation": {"freedom": 1},
@@ -360,7 +417,7 @@
         },
         {
           "id": "more_empathetic",
-          "text": {"ja": "他人の気持ちを理解できるようになった", "en": "Became able to understand others' feelings"},
+          "text": {"ja": "他人の気持ちを理解できるようになった", "en": "Became able to understand others' feelings", "fr": "Je suis devenu capable de comprendre les sentiments des autres", "de": "Wurde fähig, die Gefühle anderer zu verstehen", "es": "Pude entender los sentimientos de los demás", "it": "Sono diventato/a capace di capire i sentimenti degli altri", "th": "สามารถเข้าใจความรู้สึกของผู้อื่นได้", "vi": "Có thể hiểu được cảm xúc của người khác", "id": "Mampu memahami perasaan orang lain", "ko": "다른 사람의 감정을 이해할 수 있게 되었다"},
           "scores": {
             "growth": {"empathy": 3},
             "motivation": {"belonging": 1},
@@ -370,7 +427,7 @@
         },
         {
           "id": "more_realistic",
-          "text": {"ja": "現実的になり、無理をしなくなった", "en": "Became more realistic, stopped overextending"},
+          "text": {"ja": "現実的になり、無理をしなくなった", "en": "Became more realistic, stopped overextending", "fr": "Je suis devenu plus réaliste, j'ai arrêté de me surmener", "de": "Wurde realistischer, hörte auf, mich zu überfordern", "es": "Me volví más realista, dejé de sobreexigirme", "it": "Sono diventato/a più realista, ho smesso di strafare", "th": "กลายเป็นคนที่เป็นจริงมากขึ้น ไม่ฝืนตัวเอง", "vi": "Trở nên thực tế hơn, không còn cố quá sức", "id": "Menjadi lebih realistis, berhenti memaksakan diri", "ko": "현실적이 되어 무리하지 않게 되었다"},
           "scores": {
             "growth": {"wisdom": 3},
             "motivation": {"stability": 1},
@@ -380,7 +437,7 @@
         },
         {
           "id": "more_ambitious",
-          "text": {"ja": "もっと大きなことを目指すようになった", "en": "Started aiming for bigger things"},
+          "text": {"ja": "もっと大きなことを目指すようになった", "en": "Started aiming for bigger things", "fr": "J'ai commencé à viser plus grand", "de": "Begann, nach Größerem zu streben", "es": "Empecé a aspirar a cosas más grandes", "it": "Ho iniziato a puntare a cose più grandi", "th": "เริ่มมุ่งหวังสิ่งที่ใหญ่ขึ้น", "vi": "Bắt đầu hướng đến những điều lớn lao hơn", "id": "Mulai mengincar hal-hal yang lebih besar", "ko": "더 큰 것을 목표로 하게 되었다"},
           "scores": {
             "growth": {"expansion": 3},
             "motivation": {"dominance": 2}
@@ -389,7 +446,7 @@
         },
         {
           "id": "not_much",
-          "text": {"ja": "あまり変わっていない", "en": "Haven't changed much"},
+          "text": {"ja": "あまり変わっていない", "en": "Haven't changed much", "fr": "Je n'ai pas beaucoup changé", "de": "Habe mich nicht viel verändert", "es": "No he cambiado mucho", "it": "Non sono cambiato/a molto", "th": "ไม่ได้เปลี่ยนแปลงมากนัก", "vi": "Không thay đổi nhiều", "id": "Tidak banyak berubah", "ko": "별로 변하지 않았다"},
           "scores": {
             "consistency": 3,
             "change_attitude": {"resistant": 2}
@@ -405,12 +462,20 @@
       "type": "current_fear",
       "text": {
         "ja": "今、あなたが心の奥で一番恐れていることは何ですか？",
-        "en": "What do you fear most deep in your heart right now?"
+        "en": "What do you fear most deep in your heart right now?",
+        "fr": "Qu'est-ce que vous craignez le plus au fond de votre cœur en ce moment ?",
+        "de": "Was fürchten Sie derzeit tief in Ihrem Herzen am meisten?",
+        "es": "¿Qué es lo que más temes en el fondo de tu corazón ahora mismo?",
+        "it": "Cosa temi di più nel profondo del tuo cuore in questo momento?",
+        "th": "ตอนนี้ในส่วนลึกของหัวใจคุณกลัวอะไรมากที่สุด?",
+        "vi": "Ngay bây giờ, điều bạn sợ nhất trong sâu thẳm trái tim là gì?",
+        "id": "Saat ini, apa yang paling Anda takuti dalam hati?",
+        "ko": "지금, 마음 깊은 곳에서 가장 두려워하는 것은 무엇인가요?"
       },
       "options": [
         {
           "id": "meaningless",
-          "text": {"ja": "自分の人生が意味のないものになること", "en": "That my life will be meaningless"},
+          "text": {"ja": "自分の人生が意味のないものになること", "en": "That my life will be meaningless", "fr": "Que ma vie soit dénuée de sens", "de": "Dass mein Leben bedeutungslos wird", "es": "Que mi vida sea insignificante", "it": "Che la mia vita sia priva di significato", "th": "ว่าชีวิตของฉันจะไร้ความหมาย", "vi": "Rằng cuộc sống của tôi sẽ vô nghĩa", "id": "Bahwa hidup saya akan tidak bermakna", "ko": "내 인생이 의미 없는 것이 될까봐"},
           "scores": {
             "core_fear": {"meaninglessness": 3},
             "meaning_source": {"purpose": 3}
@@ -419,7 +484,7 @@
         },
         {
           "id": "alone",
-          "text": {"ja": "大切な人を失い、一人になること", "en": "Losing loved ones and being alone"},
+          "text": {"ja": "大切な人を失い、一人になること", "en": "Losing loved ones and being alone", "fr": "Perdre mes proches et rester seul", "de": "Geliebte Menschen zu verlieren und allein zu sein", "es": "Perder a seres queridos y quedarme solo/a", "it": "Perdere le persone care e restare solo/a", "th": "สูญเสียคนที่รักและต้องอยู่คนเดียว", "vi": "Mất đi những người thân yêu và phải ở một mình", "id": "Kehilangan orang tersayang dan sendirian", "ko": "소중한 사람을 잃고 혼자가 되는 것"},
           "scores": {
             "core_fear": {"loneliness": 3},
             "motivation": {"belonging": 2},
@@ -429,7 +494,7 @@
         },
         {
           "id": "failure",
-          "text": {"ja": "失敗して、期待に応えられないこと", "en": "Failing and not meeting expectations"},
+          "text": {"ja": "失敗して、期待に応えられないこと", "en": "Failing and not meeting expectations", "fr": "Échouer et ne pas répondre aux attentes", "de": "Zu versagen und Erwartungen nicht zu erfüllen", "es": "Fracasar y no cumplir las expectativas", "it": "Fallire e non soddisfare le aspettative", "th": "ล้มเหลวและไม่สามารถตอบสนองความคาดหวังได้", "vi": "Thất bại và không đáp ứng được kỳ vọng", "id": "Gagal dan tidak memenuhi harapan", "ko": "실패하고 기대에 부응하지 못하는 것"},
           "scores": {
             "core_fear": {"failure": 3},
             "motivation": {"dominance": 2}
@@ -438,7 +503,7 @@
         },
         {
           "id": "trapped",
-          "text": {"ja": "自由を失い、身動きが取れなくなること", "en": "Losing freedom and being unable to move"},
+          "text": {"ja": "自由を失い、身動きが取れなくなること", "en": "Losing freedom and being unable to move", "fr": "Perdre ma liberté et ne plus pouvoir bouger", "de": "Die Freiheit zu verlieren und sich nicht mehr bewegen zu können", "es": "Perder la libertad y no poder moverme", "it": "Perdere la libertà e non potermi muovere", "th": "สูญเสียอิสรภาพและไม่สามารถเคลื่อนไหวได้", "vi": "Mất tự do và không thể di chuyển", "id": "Kehilangan kebebasan dan tidak bisa bergerak", "ko": "자유를 잃고 움직일 수 없게 되는 것"},
           "scores": {
             "core_fear": {"constraint": 3},
             "motivation": {"freedom": 2}
@@ -447,7 +512,7 @@
         },
         {
           "id": "unknown",
-          "text": {"ja": "未来が不確かで、何が起こるか分からないこと", "en": "The uncertain future and not knowing what will happen"},
+          "text": {"ja": "未来が不確かで、何が起こるか分からないこと", "en": "The uncertain future and not knowing what will happen", "fr": "L'avenir incertain et ne pas savoir ce qui va se passer", "de": "Die unsichere Zukunft und nicht zu wissen, was passieren wird", "es": "El futuro incierto y no saber qué pasará", "it": "Il futuro incerto e non sapere cosa succederà", "th": "อนาคตที่ไม่แน่นอนและไม่รู้ว่าจะเกิดอะไรขึ้น", "vi": "Tương lai bất định và không biết điều gì sẽ xảy ra", "id": "Masa depan yang tidak pasti dan tidak tahu apa yang akan terjadi", "ko": "미래가 불확실하고 무슨 일이 일어날지 모르는 것"},
           "scores": {
             "core_fear": {"chaos": 3},
             "motivation": {"stability": 2}
@@ -456,7 +521,7 @@
         },
         {
           "id": "not_growing",
-          "text": {"ja": "成長が止まり、停滞すること", "en": "Stopping growth and stagnating"},
+          "text": {"ja": "成長が止まり、停滞すること", "en": "Stopping growth and stagnating", "fr": "Arrêter de grandir et stagner", "de": "Aufhören zu wachsen und zu stagnieren", "es": "Dejar de crecer y estancarse", "it": "Smettere di crescere e ristagnare", "th": "หยุดเติบโตและหยุดนิ่ง", "vi": "Ngừng phát triển và trì trệ", "id": "Berhenti berkembang dan mandek", "ko": "성장이 멈추고 정체되는 것"},
           "scores": {
             "core_fear": {"stagnation": 3},
             "motivation": {"knowledge": 1, "creative": 1}
@@ -472,12 +537,20 @@
       "type": "love_expression",
       "text": {
         "ja": "大切な人への愛情を、あなたはどうやって表現しますか？",
-        "en": "How do you express love to people important to you?"
+        "en": "How do you express love to people important to you?",
+        "fr": "Comment exprimez-vous votre amour aux personnes importantes pour vous ?",
+        "de": "Wie drücken Sie Ihre Liebe gegenüber wichtigen Menschen aus?",
+        "es": "¿Cómo expresas amor a las personas importantes para ti?",
+        "it": "Come esprimi l'amore verso le persone importanti per te?",
+        "th": "คุณแสดงความรักต่อคนสำคัญอย่างไร?",
+        "vi": "Bạn thể hiện tình yêu với những người quan trọng như thế nào?",
+        "id": "Bagaimana Anda mengekspresikan cinta kepada orang-orang penting bagi Anda?",
+        "ko": "소중한 사람에게 어떻게 사랑을 표현하나요?"
       },
       "options": [
         {
           "id": "words",
-          "text": {"ja": "言葉で伝える", "en": "Through words"},
+          "text": {"ja": "言葉で伝える", "en": "Through words", "fr": "Par les mots", "de": "Durch Worte", "es": "Con palabras", "it": "Con le parole", "th": "ผ่านคำพูด", "vi": "Qua lời nói", "id": "Melalui kata-kata", "ko": "말로 전한다"},
           "scores": {
             "love_expression": {"words": 3},
             "gender_trait": -1
@@ -486,7 +559,7 @@
         },
         {
           "id": "time",
-          "text": {"ja": "一緒に時間を過ごす", "en": "Spending time together"},
+          "text": {"ja": "一緒に時間を過ごす", "en": "Spending time together", "fr": "En passant du temps ensemble", "de": "Zeit miteinander verbringen", "es": "Pasando tiempo juntos", "it": "Trascorrendo tempo insieme", "th": "ใช้เวลาด้วยกัน", "vi": "Dành thời gian bên nhau", "id": "Menghabiskan waktu bersama", "ko": "함께 시간을 보낸다"},
           "scores": {
             "love_expression": {"quality_time": 3},
             "motivation": {"belonging": 1}
@@ -495,7 +568,7 @@
         },
         {
           "id": "gifts",
-          "text": {"ja": "贈り物をする", "en": "Giving gifts"},
+          "text": {"ja": "贈り物をする", "en": "Giving gifts", "fr": "En offrant des cadeaux", "de": "Geschenke machen", "es": "Dando regalos", "it": "Facendo regali", "th": "ให้ของขวัญ", "vi": "Tặng quà", "id": "Memberikan hadiah", "ko": "선물을 한다"},
           "scores": {
             "love_expression": {"gifts": 3}
           },
@@ -503,7 +576,7 @@
         },
         {
           "id": "acts",
-          "text": {"ja": "実際に何かをしてあげる", "en": "Doing things for them"},
+          "text": {"ja": "実際に何かをしてあげる", "en": "Doing things for them", "fr": "En faisant des choses pour eux", "de": "Dinge für sie tun", "es": "Haciendo cosas por ellos", "it": "Facendo cose per loro", "th": "ทำสิ่งต่างๆ ให้พวกเขา", "vi": "Làm việc gì đó cho họ", "id": "Melakukan sesuatu untuk mereka", "ko": "실제로 무언가를 해준다"},
           "scores": {
             "love_expression": {"acts_of_service": 3},
             "action_oriented": 1
@@ -512,7 +585,7 @@
         },
         {
           "id": "touch",
-          "text": {"ja": "スキンシップや身体的な接触", "en": "Physical touch and contact"},
+          "text": {"ja": "スキンシップや身体的な接触", "en": "Physical touch and contact", "fr": "Par le contact physique", "de": "Durch körperliche Berührung und Kontakt", "es": "Contacto físico", "it": "Contatto fisico", "th": "การสัมผัสทางกาย", "vi": "Tiếp xúc cơ thể", "id": "Sentuhan fisik", "ko": "스킨십이나 신체적 접촉"},
           "scores": {
             "love_expression": {"physical_touch": 3},
             "gender_trait": 0
@@ -521,7 +594,7 @@
         },
         {
           "id": "support",
-          "text": {"ja": "相手の目標や夢を応援する", "en": "Supporting their goals and dreams"},
+          "text": {"ja": "相手の目標や夢を応援する", "en": "Supporting their goals and dreams", "fr": "En soutenant leurs objectifs et leurs rêves", "de": "Ihre Ziele und Träume unterstützen", "es": "Apoyando sus metas y sueños", "it": "Sostenendo i loro obiettivi e sogni", "th": "สนับสนุนเป้าหมายและความฝันของพวกเขา", "vi": "Ủng hộ mục tiêu và ước mơ của họ", "id": "Mendukung tujuan dan impian mereka", "ko": "상대방의 목표와 꿈을 응원한다"},
           "scores": {
             "love_expression": {"support": 3},
             "motivation": {"dominance": 1}
@@ -537,12 +610,20 @@
       "type": "meaning_source",
       "text": {
         "ja": "今、あなたの人生に最も意味を与えているものは何ですか？",
-        "en": "What gives the most meaning to your life right now?"
+        "en": "What gives the most meaning to your life right now?",
+        "fr": "Qu'est-ce qui donne le plus de sens à votre vie en ce moment ?",
+        "de": "Was gibt Ihrem Leben derzeit am meisten Sinn?",
+        "es": "¿Qué le da más sentido a tu vida ahora mismo?",
+        "it": "Cosa dà più significato alla tua vita in questo momento?",
+        "th": "ตอนนี้อะไรให้ความหมายกับชีวิตคุณมากที่สุด?",
+        "vi": "Điều gì mang lại ý nghĩa nhất cho cuộc sống của bạn ngay bây giờ?",
+        "id": "Apa yang paling memberi makna pada hidup Anda saat ini?",
+        "ko": "지금, 당신의 인생에 가장 의미를 주는 것은 무엇인가요?"
       },
       "options": [
         {
           "id": "learning",
-          "text": {"ja": "学び続けること、理解を深めること", "en": "Continuous learning and deepening understanding"},
+          "text": {"ja": "学び続けること、理解を深めること", "en": "Continuous learning and deepening understanding", "fr": "Apprendre continuellement et approfondir ma compréhension", "de": "Kontinuierliches Lernen und Vertiefung des Verständnisses", "es": "Aprender continuamente y profundizar mi comprensión", "it": "Imparare continuamente e approfondire la comprensione", "th": "การเรียนรู้อย่างต่อเนื่องและเพิ่มพูนความเข้าใจ", "vi": "Học hỏi liên tục và hiểu sâu hơn", "id": "Terus belajar dan memperdalam pemahaman", "ko": "계속 배우고 이해를 깊게 하는 것"},
           "scores": {
             "meaning_source": {"knowledge": 3},
             "motivation": {"knowledge": 2}
@@ -551,7 +632,7 @@
         },
         {
           "id": "creating",
-          "text": {"ja": "何かを創り出すこと、表現すること", "en": "Creating something, expressing myself"},
+          "text": {"ja": "何かを創り出すこと、表現すること", "en": "Creating something, expressing myself", "fr": "Créer quelque chose, m'exprimer", "de": "Etwas erschaffen, mich ausdrücken", "es": "Crear algo, expresarme", "it": "Creare qualcosa, esprimermi", "th": "สร้างสรรค์บางสิ่ง แสดงออกตัวเอง", "vi": "Sáng tạo điều gì đó, thể hiện bản thân", "id": "Menciptakan sesuatu, mengekspresikan diri", "ko": "무언가를 창조하고 표현하는 것"},
           "scores": {
             "meaning_source": {"creation": 3},
             "motivation": {"creative": 2}
@@ -560,7 +641,7 @@
         },
         {
           "id": "relationships",
-          "text": {"ja": "人との繋がりや愛", "en": "Connections and love with people"},
+          "text": {"ja": "人との繋がりや愛", "en": "Connections and love with people", "fr": "Les liens et l'amour avec les autres", "de": "Verbindungen und Liebe mit Menschen", "es": "Conexiones y amor con las personas", "it": "Connessioni e amore con le persone", "th": "ความสัมพันธ์และความรักกับผู้คน", "vi": "Mối quan hệ và tình yêu với mọi người", "id": "Koneksi dan cinta dengan orang lain", "ko": "사람들과의 관계와 사랑"},
           "scores": {
             "meaning_source": {"relationships": 3},
             "motivation": {"belonging": 2}
@@ -569,7 +650,7 @@
         },
         {
           "id": "impact",
-          "text": {"ja": "世の中に影響を与えること", "en": "Making an impact on the world"},
+          "text": {"ja": "世の中に影響を与えること", "en": "Making an impact on the world", "fr": "Avoir un impact sur le monde", "de": "Die Welt beeinflussen", "es": "Tener un impacto en el mundo", "it": "Avere un impatto sul mondo", "th": "สร้างผลกระทบต่อโลก", "vi": "Tạo ra ảnh hưởng đến thế giới", "id": "Memberikan dampak pada dunia", "ko": "세상에 영향을 주는 것"},
           "scores": {
             "meaning_source": {"impact": 3},
             "motivation": {"dominance": 2}
@@ -578,7 +659,7 @@
         },
         {
           "id": "peace",
-          "text": {"ja": "心の平穏や安定", "en": "Inner peace and stability"},
+          "text": {"ja": "心の平穏や安定", "en": "Inner peace and stability", "fr": "La paix intérieure et la stabilité", "de": "Innerer Frieden und Stabilität", "es": "Paz interior y estabilidad", "it": "Pace interiore e stabilità", "th": "ความสงบภายในและความมั่นคง", "vi": "Sự bình an và ổn định trong tâm hồn", "id": "Kedamaian batin dan stabilitas", "ko": "마음의 평화와 안정"},
           "scores": {
             "meaning_source": {"peace": 3},
             "motivation": {"stability": 2}
@@ -587,7 +668,7 @@
         },
         {
           "id": "authenticity",
-          "text": {"ja": "自分らしく生きること", "en": "Living authentically as myself"},
+          "text": {"ja": "自分らしく生きること", "en": "Living authentically as myself", "fr": "Vivre authentiquement en étant moi-même", "de": "Authentisch als ich selbst leben", "es": "Vivir auténticamente como yo mismo/a", "it": "Vivere autenticamente come me stesso/a", "th": "ใช้ชีวิตอย่างเป็นตัวของตัวเอง", "vi": "Sống thật với chính mình", "id": "Hidup dengan otentik sebagai diri sendiri", "ko": "나답게 사는 것"},
           "scores": {
             "meaning_source": {"authenticity": 3},
             "motivation": {"freedom": 2}
@@ -603,12 +684,20 @@
       "type": "self_vs_others",
       "text": {
         "ja": "自分が思う自分と、他人から見た自分に、ギャップがあると思いますか？",
-        "en": "Do you think there's a gap between how you see yourself and how others see you?"
+        "en": "Do you think there's a gap between how you see yourself and how others see you?",
+        "fr": "Pensez-vous qu'il y a un écart entre la façon dont vous vous voyez et celle dont les autres vous voient ?",
+        "de": "Glauben Sie, dass es eine Lücke gibt zwischen dem, wie Sie sich selbst sehen, und dem, wie andere Sie sehen?",
+        "es": "¿Crees que hay una diferencia entre cómo te ves a ti mismo/a y cómo te ven los demás?",
+        "it": "Pensi che ci sia un divario tra come ti vedi e come ti vedono gli altri?",
+        "th": "คุณคิดว่ามีช่องว่างระหว่างวิธีที่คุณมองตัวเองกับวิธีที่คนอื่นมองคุณหรือไม่?",
+        "vi": "Bạn có nghĩ có khoảng cách giữa cách bạn nhìn bản thân và cách người khác nhìn bạn không?",
+        "id": "Menurut Anda, apakah ada kesenjangan antara cara Anda melihat diri sendiri dan cara orang lain melihat Anda?",
+        "ko": "자신이 생각하는 자신과 다른 사람이 보는 자신 사이에 차이가 있다고 생각하나요?"
       },
       "options": [
         {
           "id": "stronger_inside",
-          "text": {"ja": "自分は強く見られるが、実は繊細", "en": "I'm seen as strong, but I'm actually sensitive"},
+          "text": {"ja": "自分は強く見られるが、実は繊細", "en": "I'm seen as strong, but I'm actually sensitive", "fr": "On me voit comme fort, mais je suis en fait sensible", "de": "Ich werde als stark gesehen, aber ich bin eigentlich sensibel", "es": "Me ven como fuerte, pero en realidad soy sensible", "it": "Mi vedono come forte, ma in realtà sono sensibile", "th": "คนอื่นมองว่าฉันแข็งแกร่ง แต่จริงๆ แล้วฉันอ่อนไหว", "vi": "Người khác thấy tôi mạnh mẽ, nhưng thực ra tôi nhạy cảm", "id": "Saya terlihat kuat, tapi sebenarnya sensitif", "ko": "강해 보이지만 실은 섬세하다"},
           "scores": {
             "self_other_gap": {"vulnerable_strength": 3},
             "wound": {"hidden_vulnerability": 2},
@@ -618,7 +707,7 @@
         },
         {
           "id": "confident_outside",
-          "text": {"ja": "自信があるように見られるが、実は不安", "en": "I seem confident, but I'm actually anxious"},
+          "text": {"ja": "自信があるように見られるが、実は不安", "en": "I seem confident, but I'm actually anxious", "fr": "Je parais confiant, mais je suis en fait anxieux", "de": "Ich wirke selbstbewusst, aber ich bin eigentlich ängstlich", "es": "Parezco seguro/a, pero en realidad estoy ansioso/a", "it": "Sembro sicuro/a, ma in realtà sono ansioso/a", "th": "ดูเหมือนมั่นใจ แต่จริงๆ แล้วกังวล", "vi": "Có vẻ tự tin, nhưng thực ra lo lắng", "id": "Saya terlihat percaya diri, tapi sebenarnya cemas", "ko": "자신감 있어 보이지만 실은 불안하다"},
           "scores": {
             "self_other_gap": {"insecure_confidence": 3},
             "core_fear": {"inadequacy": 2}
@@ -627,7 +716,7 @@
         },
         {
           "id": "cold_outside",
-          "text": {"ja": "冷たく見られるが、実は温かい", "en": "I seem cold, but I'm actually warm"},
+          "text": {"ja": "冷たく見られるが、実は温かい", "en": "I seem cold, but I'm actually warm", "fr": "Je parais froid, mais je suis en fait chaleureux", "de": "Ich wirke kalt, aber ich bin eigentlich warmherzig", "es": "Parezco frío/a, pero en realidad soy cálido/a", "it": "Sembro freddo/a, ma in realtà sono caloroso/a", "th": "ดูเหมือนเย็นชา แต่จริงๆ แล้วอบอุ่น", "vi": "Có vẻ lạnh lùng, nhưng thực ra ấm áp", "id": "Saya terlihat dingin, tapi sebenarnya hangat", "ko": "차가워 보이지만 실은 따뜻하다"},
           "scores": {
             "self_other_gap": {"warm_cold": 3},
             "love_expression": {"hidden": 2}
@@ -636,7 +725,7 @@
         },
         {
           "id": "simple_outside",
-          "text": {"ja": "単純に見られるが、実は複雑", "en": "I seem simple, but I'm actually complex"},
+          "text": {"ja": "単純に見られるが、実は複雑", "en": "I seem simple, but I'm actually complex", "fr": "Je parais simple, mais je suis en fait complexe", "de": "Ich wirke einfach, aber ich bin eigentlich komplex", "es": "Parezco simple, pero en realidad soy complejo/a", "it": "Sembro semplice, ma in realtà sono complesso/a", "th": "ดูเหมือนเรียบง่าย แต่จริงๆ แล้วซับซ้อน", "vi": "Có vẻ đơn giản, nhưng thực ra phức tạp", "id": "Saya terlihat sederhana, tapi sebenarnya kompleks", "ko": "단순해 보이지만 실은 복잡하다"},
           "scores": {
             "self_other_gap": {"complex_simple": 3},
             "core_desire": {"understanding": 2}
@@ -645,7 +734,7 @@
         },
         {
           "id": "serious_outside",
-          "text": {"ja": "真面目に見られるが、実は自由奔放", "en": "I seem serious, but I'm actually free-spirited"},
+          "text": {"ja": "真面目に見られるが、実は自由奔放", "en": "I seem serious, but I'm actually free-spirited", "fr": "Je parais sérieux, mais je suis en fait libre d'esprit", "de": "Ich wirke ernst, aber ich bin eigentlich freigeistig", "es": "Parezco serio/a, pero en realidad soy espíritu libre", "it": "Sembro serio/a, ma in realtà sono spirito libero", "th": "ดูเหมือนจริงจัง แต่จริงๆ แล้วเป็นคนอิสระ", "vi": "Có vẻ nghiêm túc, nhưng thực ra tự do phóng khoáng", "id": "Saya terlihat serius, tapi sebenarnya bebas", "ko": "진지해 보이지만 실은 자유분방하다"},
           "scores": {
             "self_other_gap": {"free_serious": 3},
             "motivation": {"freedom": 1}
@@ -654,7 +743,7 @@
         },
         {
           "id": "no_gap",
-          "text": {"ja": "ギャップはあまりない", "en": "Not much of a gap"},
+          "text": {"ja": "ギャップはあまりない", "en": "Not much of a gap", "fr": "Pas vraiment d'écart", "de": "Nicht viel Unterschied", "es": "No hay mucha diferencia", "it": "Non c'è molta differenza", "th": "ไม่ค่อยมีช่องว่าง", "vi": "Không có nhiều khác biệt", "id": "Tidak banyak perbedaan", "ko": "별로 차이가 없다"},
           "scores": {
             "self_other_gap": {"congruent": 3},
             "consistency": 2
@@ -670,12 +759,20 @@
       "type": "decision_making",
       "text": {
         "ja": "人生の大きな決断をする時、あなたは何を一番重視しますか？",
-        "en": "When making major life decisions, what do you prioritize most?"
+        "en": "When making major life decisions, what do you prioritize most?",
+        "fr": "Lorsque vous prenez des décisions importantes dans la vie, qu'est-ce que vous priorisez le plus ?",
+        "de": "Was priorisieren Sie am meisten, wenn Sie wichtige Lebensentscheidungen treffen?",
+        "es": "Al tomar decisiones importantes en la vida, ¿qué priorizas más?",
+        "it": "Quando prendi decisioni importanti nella vita, cosa dai la priorità?",
+        "th": "เมื่อตัดสินใจเรื่องสำคัญในชีวิต คุณให้ความสำคัญกับอะไรมากที่สุด?",
+        "vi": "Khi đưa ra quyết định quan trọng trong cuộc sống, bạn ưu tiên điều gì nhất?",
+        "id": "Saat membuat keputusan besar dalam hidup, apa yang paling Anda prioritaskan?",
+        "ko": "인생의 중요한 결정을 할 때, 무엇을 가장 중시하나요?"
       },
       "options": [
         {
           "id": "logic",
-          "text": {"ja": "論理と合理性", "en": "Logic and rationality"},
+          "text": {"ja": "論理と合理性", "en": "Logic and rationality", "fr": "La logique et la rationalité", "de": "Logik und Rationalität", "es": "Lógica y racionalidad", "it": "Logica e razionalità", "th": "ตรรกะและเหตุผล", "vi": "Logic và lý trí", "id": "Logika dan rasionalitas", "ko": "논리와 합리성"},
           "scores": {
             "decision_style": {"logical": 3},
             "motivation": {"knowledge": 1},
@@ -685,7 +782,7 @@
         },
         {
           "id": "intuition",
-          "text": {"ja": "直感と内なる声", "en": "Intuition and inner voice"},
+          "text": {"ja": "直感と内なる声", "en": "Intuition and inner voice", "fr": "L'intuition et la voix intérieure", "de": "Intuition und innere Stimme", "es": "Intuición y voz interior", "it": "Intuizione e voce interiore", "th": "สัญชาตญาณและเสียงภายใน", "vi": "Trực giác và tiếng nói nội tâm", "id": "Intuisi dan suara hati", "ko": "직감과 내면의 목소리"},
           "scores": {
             "decision_style": {"intuitive": 3},
             "motivation": {"creative": 1, "freedom": 1}
@@ -694,7 +791,7 @@
         },
         {
           "id": "people",
-          "text": {"ja": "大切な人たちへの影響", "en": "Impact on loved ones"},
+          "text": {"ja": "大切な人たちへの影響", "en": "Impact on loved ones", "fr": "L'impact sur mes proches", "de": "Auswirkungen auf meine Liebsten", "es": "El impacto en mis seres queridos", "it": "L'impatto sulle persone care", "th": "ผลกระทบต่อคนที่รัก", "vi": "Ảnh hưởng đến người thân yêu", "id": "Dampak pada orang tersayang", "ko": "소중한 사람들에게 미치는 영향"},
           "scores": {
             "decision_style": {"relational": 3},
             "motivation": {"belonging": 2},
@@ -704,7 +801,7 @@
         },
         {
           "id": "values",
-          "text": {"ja": "自分の価値観や信念", "en": "My values and beliefs"},
+          "text": {"ja": "自分の価値観や信念", "en": "My values and beliefs", "fr": "Mes valeurs et convictions", "de": "Meine Werte und Überzeugungen", "es": "Mis valores y creencias", "it": "I miei valori e convinzioni", "th": "ค่านิยมและความเชื่อของตัวเอง", "vi": "Giá trị và niềm tin của tôi", "id": "Nilai dan keyakinan saya", "ko": "나의 가치관과 신념"},
           "scores": {
             "decision_style": {"values_based": 3},
             "consistency": 2,
@@ -714,7 +811,7 @@
         },
         {
           "id": "outcome",
-          "text": {"ja": "結果や成果", "en": "Results and outcomes"},
+          "text": {"ja": "結果や成果", "en": "Results and outcomes", "fr": "Les résultats et les aboutissements", "de": "Ergebnisse und Resultate", "es": "Resultados y logros", "it": "Risultati e esiti", "th": "ผลลัพธ์และความสำเร็จ", "vi": "Kết quả và thành tựu", "id": "Hasil dan pencapaian", "ko": "결과와 성과"},
           "scores": {
             "decision_style": {"outcome_focused": 3},
             "motivation": {"dominance": 2},
@@ -724,7 +821,7 @@
         },
         {
           "id": "freedom",
-          "text": {"ja": "自由や可能性", "en": "Freedom and possibilities"},
+          "text": {"ja": "自由や可能性", "en": "Freedom and possibilities", "fr": "La liberté et les possibilités", "de": "Freiheit und Möglichkeiten", "es": "Libertad y posibilidades", "it": "Libertà e possibilità", "th": "อิสรภาพและความเป็นไปได้", "vi": "Tự do và khả năng", "id": "Kebebasan dan kemungkinan", "ko": "자유와 가능성"},
           "scores": {
             "decision_style": {"freedom_focused": 3},
             "motivation": {"freedom": 2}
@@ -740,12 +837,20 @@
       "type": "action_style",
       "text": {
         "ja": "新しいことを始める時、あなたのスタイルは？",
-        "en": "When starting something new, what's your style?"
+        "en": "When starting something new, what's your style?",
+        "fr": "Quand vous commencez quelque chose de nouveau, quel est votre style ?",
+        "de": "Wenn Sie etwas Neues beginnen, was ist Ihr Stil?",
+        "es": "Al empezar algo nuevo, ¿cuál es tu estilo?",
+        "it": "Quando inizi qualcosa di nuovo, qual è il tuo stile?",
+        "th": "เมื่อเริ่มทำสิ่งใหม่ สไตล์ของคุณเป็นอย่างไร?",
+        "vi": "Khi bắt đầu điều gì mới, phong cách của bạn là gì?",
+        "id": "Saat memulai sesuatu yang baru, apa gaya Anda?",
+        "ko": "새로운 것을 시작할 때 당신의 스타일은?"
       },
       "options": [
         {
           "id": "research_first",
-          "text": {"ja": "まず徹底的に調べてから始める", "en": "Research thoroughly first"},
+          "text": {"ja": "まず徹底的に調べてから始める", "en": "Research thoroughly first", "fr": "D'abord rechercher minutieusement", "de": "Erst gründlich recherchieren", "es": "Primero investigar a fondo", "it": "Prima ricercare a fondo", "th": "ค้นคว้าอย่างละเอียดก่อน", "vi": "Nghiên cứu kỹ lưỡng trước", "id": "Riset secara menyeluruh dulu", "ko": "먼저 철저히 조사한다"},
           "scores": {
             "action_oriented": -2,
             "decisiveness": -1,
@@ -755,7 +860,7 @@
         },
         {
           "id": "just_start",
-          "text": {"ja": "考えるより先に行動する", "en": "Act before thinking"},
+          "text": {"ja": "考えるより先に行動する", "en": "Act before thinking", "fr": "Agir avant de réfléchir", "de": "Handeln vor dem Nachdenken", "es": "Actuar antes de pensar", "it": "Agire prima di pensare", "th": "ลงมือทำก่อนคิด", "vi": "Hành động trước khi suy nghĩ", "id": "Bertindak sebelum berpikir", "ko": "생각하기 전에 행동한다"},
           "scores": {
             "action_oriented": 3,
             "decisiveness": 2,
@@ -765,7 +870,7 @@
         },
         {
           "id": "with_others",
-          "text": {"ja": "誰かと一緒に始める", "en": "Start with someone"},
+          "text": {"ja": "誰かと一緒に始める", "en": "Start with someone", "fr": "Commencer avec quelqu'un", "de": "Mit jemandem anfangen", "es": "Empezar con alguien", "it": "Iniziare con qualcuno", "th": "เริ่มกับใครสักคน", "vi": "Bắt đầu cùng ai đó", "id": "Mulai bersama orang lain", "ko": "누군가와 함께 시작한다"},
           "scores": {
             "action_oriented": 1,
             "motivation": {"belonging": 2},
@@ -775,7 +880,7 @@
         },
         {
           "id": "plan_then_act",
-          "text": {"ja": "計画を立ててから実行する", "en": "Plan then execute"},
+          "text": {"ja": "計画を立ててから実行する", "en": "Plan then execute", "fr": "Planifier puis exécuter", "de": "Planen und dann ausführen", "es": "Planificar y luego ejecutar", "it": "Pianificare poi eseguire", "th": "วางแผนแล้วค่อยลงมือทำ", "vi": "Lập kế hoạch rồi thực hiện", "id": "Merencanakan kemudian melaksanakan", "ko": "계획을 세운 후 실행한다"},
           "scores": {
             "action_oriented": 0,
             "decisiveness": 1,
@@ -785,7 +890,7 @@
         },
         {
           "id": "small_steps",
-          "text": {"ja": "小さく始めて様子を見る", "en": "Start small and observe"},
+          "text": {"ja": "小さく始めて様子を見る", "en": "Start small and observe", "fr": "Commencer petit et observer", "de": "Klein anfangen und beobachten", "es": "Empezar pequeño y observar", "it": "Iniziare in piccolo e osservare", "th": "เริ่มเล็กๆ แล้วสังเกตดู", "vi": "Bắt đầu nhỏ và quan sát", "id": "Mulai kecil dan mengamati", "ko": "작게 시작해서 상황을 본다"},
           "scores": {
             "action_oriented": -1,
             "decisiveness": 0,
@@ -795,7 +900,7 @@
         },
         {
           "id": "all_in",
-          "text": {"ja": "全力で一気に取り組む", "en": "Go all-in at once"},
+          "text": {"ja": "全力で一気に取り組む", "en": "Go all-in at once", "fr": "S'y mettre à fond d'un coup", "de": "Alles auf einmal geben", "es": "Dar todo de una vez", "it": "Dare tutto in una volta", "th": "ทุ่มเทอย่างเต็มที่ในคราวเดียว", "vi": "Dốc hết sức ngay lập tức", "id": "Memberikan semua sekaligus", "ko": "전력을 다해 한꺼번에 덤빈다"},
           "scores": {
             "action_oriented": 3,
             "decisiveness": 3,
@@ -813,12 +918,20 @@
       "type": "consistency",
       "text": {
         "ja": "あなたは、過去の自分と今の自分が繋がっていると感じますか？",
-        "en": "Do you feel connected between your past self and present self?"
+        "en": "Do you feel connected between your past self and present self?",
+        "fr": "Vous sentez-vous connecté entre votre moi passé et votre moi présent ?",
+        "de": "Fühlen Sie sich mit Ihrem vergangenen und Ihrem heutigen Ich verbunden?",
+        "es": "¿Sientes conexión entre tu yo del pasado y tu yo actual?",
+        "it": "Ti senti connesso/a tra il tuo io passato e il tuo io presente?",
+        "th": "คุณรู้สึกเชื่อมโยงระหว่างตัวเองในอดีตกับตัวเองในปัจจุบันหรือไม่?",
+        "vi": "Bạn có cảm thấy kết nối giữa bản thân trong quá khứ và bản thân hiện tại không?",
+        "id": "Apakah Anda merasa terhubung antara diri Anda yang dulu dan yang sekarang?",
+        "ko": "과거의 자신과 현재의 자신이 연결되어 있다고 느끼나요?"
       },
       "options": [
         {
           "id": "very_connected",
-          "text": {"ja": "昔から本質的には変わっていない", "en": "Essentially unchanged since long ago"},
+          "text": {"ja": "昔から本質的には変わっていない", "en": "Essentially unchanged since long ago", "fr": "Fondamentalement inchangé depuis longtemps", "de": "Im Wesentlichen unverändert seit langem", "es": "Esencialmente sin cambios desde hace mucho", "it": "Essenzialmente invariato/a da molto tempo", "th": "โดยพื้นฐานไม่เปลี่ยนแปลงจากเมื่อก่อน", "vi": "Về cơ bản không thay đổi từ lâu", "id": "Pada dasarnya tidak berubah sejak dulu", "ko": "예전부터 본질적으로 변하지 않았다"},
           "scores": {
             "consistency": 3,
             "change_attitude": {"resistant": 2}
@@ -827,7 +940,7 @@
         },
         {
           "id": "evolved",
-          "text": {"ja": "核は同じだが、成長して変化した", "en": "Core is the same, but grew and changed"},
+          "text": {"ja": "核は同じだが、成長して変化した", "en": "Core is the same, but grew and changed", "fr": "Le cœur est le même, mais j'ai grandi et changé", "de": "Der Kern ist gleich, aber ich bin gewachsen und habe mich verändert", "es": "El núcleo es el mismo, pero crecí y cambié", "it": "Il nucleo è lo stesso, ma sono cresciuto/a e cambiato/a", "th": "แก่นเหมือนเดิม แต่เติบโตและเปลี่ยนแปลง", "vi": "Cốt lõi vẫn như cũ, nhưng đã trưởng thành và thay đổi", "id": "Inti sama, tapi tumbuh dan berubah", "ko": "핵심은 같지만 성장하고 변했다"},
           "scores": {
             "consistency": 2,
             "change_attitude": {"growth_oriented": 2},
@@ -837,7 +950,7 @@
         },
         {
           "id": "transformed",
-          "text": {"ja": "大きく変わった、別人のよう", "en": "Changed greatly, like a different person"},
+          "text": {"ja": "大きく変わった、別人のよう", "en": "Changed greatly, like a different person", "fr": "J'ai beaucoup changé, comme une autre personne", "de": "Stark verändert, wie eine andere Person", "es": "Cambié mucho, como otra persona", "it": "Cambiato/a molto, come un'altra persona", "th": "เปลี่ยนแปลงมาก เหมือนคนละคน", "vi": "Thay đổi rất nhiều, như một người khác", "id": "Berubah banyak, seperti orang yang berbeda", "ko": "많이 변해서 마치 다른 사람 같다"},
           "scores": {
             "consistency": -2,
             "change_attitude": {"transformative": 3},
@@ -847,7 +960,7 @@
         },
         {
           "id": "still_searching",
-          "text": {"ja": "まだ自分を探している途中", "en": "Still searching for myself"},
+          "text": {"ja": "まだ自分を探している途中", "en": "Still searching for myself", "fr": "Je suis encore à la recherche de moi-même", "de": "Ich suche immer noch nach mir selbst", "es": "Todavía me estoy buscando", "it": "Sto ancora cercando me stesso/a", "th": "ยังคงค้นหาตัวเองอยู่", "vi": "Vẫn đang tìm kiếm bản thân", "id": "Masih mencari jati diri", "ko": "아직 나를 찾고 있는 중이다"},
           "scores": {
             "consistency": -1,
             "change_attitude": {"evolving": 2},
@@ -864,12 +977,20 @@
       "type": "future_self",
       "text": {
         "ja": "10年後、あなたはどんな人になっていたいですか？",
-        "en": "What kind of person do you want to be 10 years from now?"
+        "en": "What kind of person do you want to be 10 years from now?",
+        "fr": "Quel genre de personne voulez-vous être dans 10 ans ?",
+        "de": "Was für ein Mensch möchten Sie in 10 Jahren sein?",
+        "es": "¿Qué tipo de persona quieres ser dentro de 10 años?",
+        "it": "Che tipo di persona vuoi essere tra 10 anni?",
+        "th": "อีก 10 ปีข้างหน้า คุณอยากเป็นคนแบบไหน?",
+        "vi": "10 năm sau, bạn muốn trở thành người như thế nào?",
+        "id": "Seperti apa Anda ingin menjadi 10 tahun dari sekarang?",
+        "ko": "10년 후, 어떤 사람이 되고 싶나요?"
       },
       "options": [
         {
           "id": "wise",
-          "text": {"ja": "深い知恵と洞察を持つ人", "en": "A person with deep wisdom and insight"},
+          "text": {"ja": "深い知恵と洞察を持つ人", "en": "A person with deep wisdom and insight", "fr": "Une personne avec une sagesse et une perspicacité profondes", "de": "Eine Person mit tiefer Weisheit und Einsicht", "es": "Una persona con sabiduría y perspicacia profundas", "it": "Una persona con profonda saggezza e intuizione", "th": "คนที่มีภูมิปัญญาและความเข้าใจลึกซึ้ง", "vi": "Một người có trí tuệ và cái nhìn sâu sắc", "id": "Seseorang dengan kebijaksanaan dan wawasan yang dalam", "ko": "깊은 지혜와 통찰력을 가진 사람"},
           "scores": {
             "future_vision": {"wisdom": 3},
             "motivation": {"knowledge": 2}
@@ -878,7 +999,7 @@
         },
         {
           "id": "creative",
-          "text": {"ja": "独自の世界を築いている人", "en": "A person who has built their own world"},
+          "text": {"ja": "独自の世界を築いている人", "en": "A person who has built their own world", "fr": "Une personne qui a construit son propre monde", "de": "Eine Person, die ihre eigene Welt aufgebaut hat", "es": "Una persona que ha construido su propio mundo", "it": "Una persona che ha costruito il proprio mondo", "th": "คนที่สร้างโลกของตัวเองขึ้นมา", "vi": "Một người đã xây dựng thế giới riêng của mình", "id": "Seseorang yang telah membangun dunianya sendiri", "ko": "자신만의 세계를 구축한 사람"},
           "scores": {
             "future_vision": {"creator": 3},
             "motivation": {"creative": 2}
@@ -887,7 +1008,7 @@
         },
         {
           "id": "loved",
-          "text": {"ja": "愛に満ち、人と深く繋がっている人", "en": "A person filled with love and deep connections"},
+          "text": {"ja": "愛に満ち、人と深く繋がっている人", "en": "A person filled with love and deep connections", "fr": "Une personne remplie d'amour et de liens profonds", "de": "Eine Person voller Liebe und tiefer Verbindungen", "es": "Una persona llena de amor y conexiones profundas", "it": "Una persona piena di amore e connessioni profonde", "th": "คนที่เต็มไปด้วยความรักและมีความสัมพันธ์ลึกซึ้ง", "vi": "Một người tràn đầy tình yêu và kết nối sâu sắc", "id": "Seseorang yang penuh cinta dan koneksi mendalam", "ko": "사랑이 가득하고 사람들과 깊이 연결된 사람"},
           "scores": {
             "future_vision": {"connected": 3},
             "motivation": {"belonging": 2},
@@ -897,7 +1018,7 @@
         },
         {
           "id": "influential",
-          "text": {"ja": "影響力があり、目標を達成している人", "en": "An influential person who has achieved goals"},
+          "text": {"ja": "影響力があり、目標を達成している人", "en": "An influential person who has achieved goals", "fr": "Une personne influente qui a atteint ses objectifs", "de": "Eine einflussreiche Person, die ihre Ziele erreicht hat", "es": "Una persona influyente que ha alcanzado sus metas", "it": "Una persona influente che ha raggiunto i propri obiettivi", "th": "คนที่มีอิทธิพลและบรรลุเป้าหมาย", "vi": "Một người có ảnh hưởng và đã đạt được mục tiêu", "id": "Orang berpengaruh yang telah mencapai tujuan", "ko": "영향력 있고 목표를 달성한 사람"},
           "scores": {
             "future_vision": {"achiever": 3},
             "motivation": {"dominance": 2}
@@ -906,7 +1027,7 @@
         },
         {
           "id": "peaceful",
-          "text": {"ja": "心が安定し、満たされている人", "en": "A person with stable and fulfilled heart"},
+          "text": {"ja": "心が安定し、満たされている人", "en": "A person with stable and fulfilled heart", "fr": "Une personne avec un cœur stable et épanoui", "de": "Eine Person mit einem stabilen und erfüllten Herzen", "es": "Una persona con corazón estable y pleno", "it": "Una persona con cuore stabile e appagato", "th": "คนที่มีจิตใจมั่นคงและเติมเต็ม", "vi": "Một người có trái tim ổn định và viên mãn", "id": "Seseorang dengan hati yang stabil dan terpenuhi", "ko": "마음이 안정되고 충만한 사람"},
           "scores": {
             "future_vision": {"peaceful": 3},
             "motivation": {"stability": 2}
@@ -915,7 +1036,7 @@
         },
         {
           "id": "free",
-          "text": {"ja": "完全に自由で、自分らしく生きている人", "en": "A completely free person living authentically"},
+          "text": {"ja": "完全に自由で、自分らしく生きている人", "en": "A completely free person living authentically", "fr": "Une personne complètement libre vivant authentiquement", "de": "Eine völlig freie Person, die authentisch lebt", "es": "Una persona completamente libre que vive auténticamente", "it": "Una persona completamente libera che vive autenticamente", "th": "คนที่เป็นอิสระอย่างสมบูรณ์และใช้ชีวิตเป็นตัวของตัวเอง", "vi": "Một người hoàn toàn tự do và sống thật với chính mình", "id": "Seseorang yang benar-benar bebas dan hidup autentik", "ko": "완전히 자유롭고 나답게 사는 사람"},
           "scores": {
             "future_vision": {"liberated": 3},
             "motivation": {"freedom": 2}
@@ -931,12 +1052,20 @@
       "type": "legacy",
       "text": {
         "ja": "人生の最後に振り返った時、「これができて良かった」と思いたいことは？",
-        "en": "Looking back at the end of your life, what would you want to feel glad you did?"
+        "en": "Looking back at the end of your life, what would you want to feel glad you did?",
+        "fr": "En regardant en arrière à la fin de votre vie, de quoi voudriez-vous être content d'avoir fait ?",
+        "de": "Wenn Sie am Ende Ihres Lebens zurückblicken, worüber wären Sie froh, es getan zu haben?",
+        "es": "Al mirar atrás al final de tu vida, ¿de qué te gustaría sentirte orgulloso/a de haber hecho?",
+        "it": "Guardando indietro alla fine della tua vita, di cosa vorresti essere contento/a di aver fatto?",
+        "th": "เมื่อมองย้อนกลับไปในตอนท้ายของชีวิต คุณอยากรู้สึกดีใจที่ได้ทำอะไร?",
+        "vi": "Nhìn lại cuối đời, bạn muốn cảm thấy vui vì đã làm được điều gì?",
+        "id": "Di akhir hidup Anda, apa yang ingin Anda syukuri telah dilakukan?",
+        "ko": "인생 마지막에 돌아봤을 때, '이것을 해서 좋았다'고 생각하고 싶은 것은?"
       },
       "options": [
         {
           "id": "understood",
-          "text": {"ja": "真実を理解し、知識を残したこと", "en": "Understanding truth and leaving knowledge"},
+          "text": {"ja": "真実を理解し、知識を残したこと", "en": "Understanding truth and leaving knowledge", "fr": "Avoir compris la vérité et laissé des connaissances", "de": "Die Wahrheit verstanden und Wissen hinterlassen zu haben", "es": "Haber entendido la verdad y dejado conocimiento", "it": "Aver compreso la verità e lasciato conoscenza", "th": "เข้าใจความจริงและทิ้งความรู้ไว้", "vi": "Hiểu được sự thật và để lại kiến thức", "id": "Memahami kebenaran dan meninggalkan pengetahuan", "ko": "진실을 이해하고 지식을 남긴 것"},
           "scores": {
             "legacy": {"knowledge": 3},
             "motivation": {"knowledge": 2},
@@ -946,7 +1075,7 @@
         },
         {
           "id": "created",
-          "text": {"ja": "美しいものや新しいものを創ったこと", "en": "Creating beautiful or new things"},
+          "text": {"ja": "美しいものや新しいものを創ったこと", "en": "Creating beautiful or new things", "fr": "Avoir créé de belles ou nouvelles choses", "de": "Schöne oder neue Dinge erschaffen zu haben", "es": "Haber creado cosas bellas o nuevas", "it": "Aver creato cose belle o nuove", "th": "สร้างสรรค์สิ่งสวยงามหรือสิ่งใหม่ๆ", "vi": "Tạo ra những điều đẹp đẽ hoặc mới mẻ", "id": "Menciptakan hal-hal indah atau baru", "ko": "아름다운 것이나 새로운 것을 창조한 것"},
           "scores": {
             "legacy": {"creation": 3},
             "motivation": {"creative": 2},
@@ -956,7 +1085,7 @@
         },
         {
           "id": "loved",
-          "text": {"ja": "愛し、愛されたこと", "en": "Loving and being loved"},
+          "text": {"ja": "愛し、愛されたこと", "en": "Loving and being loved", "fr": "Avoir aimé et été aimé", "de": "Geliebt zu haben und geliebt worden zu sein", "es": "Haber amado y sido amado/a", "it": "Aver amato ed essere stato/a amato/a", "th": "รักและได้รับความรัก", "vi": "Yêu thương và được yêu thương", "id": "Mencintai dan dicintai", "ko": "사랑하고 사랑받은 것"},
           "scores": {
             "legacy": {"love": 3},
             "motivation": {"belonging": 2},
@@ -967,7 +1096,7 @@
         },
         {
           "id": "impact",
-          "text": {"ja": "世界に良い影響を与えたこと", "en": "Making a positive impact on the world"},
+          "text": {"ja": "世界に良い影響を与えたこと", "en": "Making a positive impact on the world", "fr": "Avoir eu un impact positif sur le monde", "de": "Eine positive Auswirkung auf die Welt gehabt zu haben", "es": "Haber tenido un impacto positivo en el mundo", "it": "Aver avuto un impatto positivo sul mondo", "th": "สร้างผลกระทบเชิงบวกต่อโลก", "vi": "Tạo ra ảnh hưởng tích cực đến thế giới", "id": "Memberikan dampak positif pada dunia", "ko": "세상에 좋은 영향을 준 것"},
           "scores": {
             "legacy": {"impact": 3},
             "motivation": {"dominance": 2},
@@ -977,7 +1106,7 @@
         },
         {
           "id": "peace",
-          "text": {"ja": "穏やかに、誠実に生きたこと", "en": "Living peacefully and with integrity"},
+          "text": {"ja": "穏やかに、誠実に生きたこと", "en": "Living peacefully and with integrity", "fr": "Avoir vécu paisiblement et avec intégrité", "de": "Friedlich und integer gelebt zu haben", "es": "Haber vivido en paz y con integridad", "it": "Aver vissuto serenamente e con integrità", "th": "ใช้ชีวิตอย่างสงบและซื่อสัตย์", "vi": "Sống bình yên và chính trực", "id": "Hidup dengan damai dan integritas", "ko": "평온하고 성실하게 살았던 것"},
           "scores": {
             "legacy": {"integrity": 3},
             "motivation": {"stability": 2},
@@ -987,7 +1116,7 @@
         },
         {
           "id": "authentic",
-          "text": {"ja": "自分らしく、後悔なく生きたこと", "en": "Living authentically without regrets"},
+          "text": {"ja": "自分らしく、後悔なく生きたこと", "en": "Living authentically without regrets", "fr": "Avoir vécu authentiquement sans regrets", "de": "Authentisch und ohne Reue gelebt zu haben", "es": "Haber vivido auténticamente sin arrepentimientos", "it": "Aver vissuto autenticamente senza rimpianti", "th": "ใช้ชีวิตเป็นตัวของตัวเองโดยไม่เสียใจ", "vi": "Sống thật với chính mình mà không hối tiếc", "id": "Hidup autentik tanpa penyesalan", "ko": "나답게, 후회 없이 살았던 것"},
           "scores": {
             "legacy": {"authenticity": 3},
             "motivation": {"freedom": 2},
@@ -1004,12 +1133,20 @@
       "type": "ultimate_desire",
       "text": {
         "ja": "もし魔法が使えて、心の奥底にある一つの願いを叶えられるとしたら、それは何ですか？",
-        "en": "If you could use magic to fulfill one deepest wish, what would it be?"
+        "en": "If you could use magic to fulfill one deepest wish, what would it be?",
+        "fr": "Si vous pouviez utiliser la magie pour réaliser un souhait profond, quel serait-il ?",
+        "de": "Wenn Sie Magie nutzen könnten, um einen tiefsten Wunsch zu erfüllen, was wäre das?",
+        "es": "Si pudieras usar magia para cumplir un deseo profundo, ¿cuál sería?",
+        "it": "Se potessi usare la magia per realizzare un desiderio profondo, quale sarebbe?",
+        "th": "ถ้าคุณสามารถใช้เวทมนตร์เพื่อเติมเต็มความปรารถนาลึกสุดได้หนึ่งข้อ มันจะเป็นอะไร?",
+        "vi": "Nếu bạn có thể dùng phép thuật để thực hiện một điều ước sâu thẳm nhất, đó sẽ là gì?",
+        "id": "Jika Anda bisa menggunakan sihir untuk memenuhi satu keinginan terdalam, apa itu?",
+        "ko": "마법을 써서 마음 깊은 곳의 소원 하나를 이룰 수 있다면, 그것은 무엇인가요?"
       },
       "options": [
         {
           "id": "understand_all",
-          "text": {"ja": "すべてを理解し、真理を知ること", "en": "Understanding everything and knowing the truth"},
+          "text": {"ja": "すべてを理解し、真理を知ること", "en": "Understanding everything and knowing the truth", "fr": "Tout comprendre et connaître la vérité", "de": "Alles verstehen und die Wahrheit kennen", "es": "Entender todo y conocer la verdad", "it": "Capire tutto e conoscere la verità", "th": "เข้าใจทุกสิ่งและรู้ความจริง", "vi": "Hiểu tất cả và biết sự thật", "id": "Memahami segalanya dan mengetahui kebenaran", "ko": "모든 것을 이해하고 진리를 아는 것"},
           "scores": {
             "ultimate_desire": {"omniscience": 3},
             "motivation": {"knowledge": 3},
@@ -1019,7 +1156,7 @@
         },
         {
           "id": "create_freely",
-          "text": {"ja": "思いのままに創造できる力", "en": "The power to create freely as I wish"},
+          "text": {"ja": "思いのままに創造できる力", "en": "The power to create freely as I wish", "fr": "Le pouvoir de créer librement comme je le souhaite", "de": "Die Kraft, frei nach meinen Wünschen zu erschaffen", "es": "El poder de crear libremente como desee", "it": "Il potere di creare liberamente come desidero", "th": "พลังในการสร้างสรรค์ได้อย่างอิสระตามใจปรารถนา", "vi": "Sức mạnh để sáng tạo tự do theo ý muốn", "id": "Kekuatan untuk berkreasi bebas sesuai keinginan", "ko": "마음대로 창조할 수 있는 힘"},
           "scores": {
             "ultimate_desire": {"creation": 3},
             "motivation": {"creative": 3},
@@ -1029,7 +1166,7 @@
         },
         {
           "id": "never_alone",
-          "text": {"ja": "決して一人にならず、愛され続けること", "en": "Never being alone and being loved always"},
+          "text": {"ja": "決して一人にならず、愛され続けること", "en": "Never being alone and being loved always", "fr": "Ne jamais être seul et être toujours aimé", "de": "Nie allein zu sein und immer geliebt zu werden", "es": "Nunca estar solo/a y ser amado/a siempre", "it": "Non essere mai solo/a ed essere sempre amato/a", "th": "ไม่เคยอยู่คนเดียวและได้รับความรักตลอดไป", "vi": "Không bao giờ cô đơn và luôn được yêu thương", "id": "Tidak pernah sendirian dan selalu dicintai", "ko": "결코 혼자가 되지 않고 항상 사랑받는 것"},
           "scores": {
             "ultimate_desire": {"eternal_connection": 3},
             "motivation": {"belonging": 3},
@@ -1041,7 +1178,7 @@
         },
         {
           "id": "unlimited_power",
-          "text": {"ja": "無限の力と影響力", "en": "Unlimited power and influence"},
+          "text": {"ja": "無限の力と影響力", "en": "Unlimited power and influence", "fr": "Un pouvoir et une influence illimités", "de": "Unbegrenzte Macht und Einfluss", "es": "Poder e influencia ilimitados", "it": "Potere e influenza illimitati", "th": "พลังและอิทธิพลไร้ขีดจำกัด", "vi": "Sức mạnh và ảnh hưởng vô hạn", "id": "Kekuatan dan pengaruh tak terbatas", "ko": "무한한 힘과 영향력"},
           "scores": {
             "ultimate_desire": {"omnipotence": 3},
             "motivation": {"dominance": 3},
@@ -1052,7 +1189,7 @@
         },
         {
           "id": "eternal_peace",
-          "text": {"ja": "永遠の平和と安定", "en": "Eternal peace and stability"},
+          "text": {"ja": "永遠の平和と安定", "en": "Eternal peace and stability", "fr": "Paix et stabilité éternelles", "de": "Ewiger Frieden und Stabilität", "es": "Paz y estabilidad eternas", "it": "Pace e stabilità eterne", "th": "สันติภาพและความมั่นคงชั่วนิรันดร์", "vi": "Hòa bình và ổn định vĩnh cửu", "id": "Kedamaian dan stabilitas abadi", "ko": "영원한 평화와 안정"},
           "scores": {
             "ultimate_desire": {"serenity": 3},
             "motivation": {"stability": 3},
@@ -1062,7 +1199,7 @@
         },
         {
           "id": "absolute_freedom",
-          "text": {"ja": "完全な自由と制約からの解放", "en": "Complete freedom and liberation from constraints"},
+          "text": {"ja": "完全な自由と制約からの解放", "en": "Complete freedom and liberation from constraints", "fr": "Liberté totale et libération des contraintes", "de": "Vollständige Freiheit und Befreiung von Einschränkungen", "es": "Libertad completa y liberación de restricciones", "it": "Libertà completa e liberazione dai vincoli", "th": "อิสรภาพอย่างสมบูรณ์และหลุดพ้นจากข้อจำกัด", "vi": "Tự do hoàn toàn và thoát khỏi mọi ràng buộc", "id": "Kebebasan penuh dan pembebasan dari batasan", "ko": "완전한 자유와 제약으로부터의 해방"},
           "scores": {
             "ultimate_desire": {"liberation": 3},
             "motivation": {"freedom": 3},

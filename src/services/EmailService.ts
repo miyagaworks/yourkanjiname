@@ -1,0 +1,309 @@
+/**
+ * Email Service
+ * Handles sending emails using Resend API
+ */
+
+// Language configuration for email subjects and content
+const EMAIL_CONFIG: Record<string, {
+  subject: string;
+  greeting: string;
+  thankYou: string;
+  intro: string;
+  yourName: string;
+  calligraphyInfo: string;
+  closing: string;
+}> = {
+  ja: {
+    subject: '書道作品のお申し込みを受け付けました',
+    greeting: '様',
+    thankYou: 'お申し込みいただきありがとうございます。',
+    intro: 'あなたの漢字名「{{kanjiName}}」の書道作品のお申し込みを受け付けました。',
+    yourName: 'あなたの漢字名',
+    calligraphyInfo: 'プロの書道家が心を込めて筆で書き上げ、メールでお届けいたします。作品の完成までしばらくお待ちください。',
+    closing: 'Your Kanji Name チーム'
+  },
+  en: {
+    subject: 'Your Calligraphy Request Has Been Received',
+    greeting: 'Dear',
+    thankYou: 'Thank you for your request.',
+    intro: 'We have received your request for a calligraphy artwork of your kanji name "{{kanjiName}}".',
+    yourName: 'Your Kanji Name',
+    calligraphyInfo: 'A professional calligrapher will write your name with care and dedication, and we will send it to you via email. Please wait for your artwork to be completed.',
+    closing: 'Your Kanji Name Team'
+  },
+  fr: {
+    subject: 'Votre demande de calligraphie a été reçue',
+    greeting: 'Cher/Chère',
+    thankYou: 'Merci pour votre demande.',
+    intro: 'Nous avons reçu votre demande pour une œuvre calligraphique de votre nom kanji « {{kanjiName}} ».',
+    yourName: 'Votre nom en kanji',
+    calligraphyInfo: 'Un calligraphe professionnel écrira votre nom avec soin et dévouement, et nous vous l\'enverrons par e-mail. Veuillez patienter pendant la réalisation de votre œuvre.',
+    closing: 'L\'équipe Your Kanji Name'
+  },
+  de: {
+    subject: 'Ihre Kalligraphie-Anfrage wurde erhalten',
+    greeting: 'Sehr geehrte/r',
+    thankYou: 'Vielen Dank für Ihre Anfrage.',
+    intro: 'Wir haben Ihre Anfrage für ein Kalligraphie-Kunstwerk Ihres Kanji-Namens „{{kanjiName}}" erhalten.',
+    yourName: 'Ihr Kanji-Name',
+    calligraphyInfo: 'Ein professioneller Kalligraph wird Ihren Namen mit Sorgfalt und Hingabe schreiben, und wir werden ihn Ihnen per E-Mail zusenden. Bitte warten Sie auf die Fertigstellung Ihres Kunstwerks.',
+    closing: 'Das Your Kanji Name Team'
+  },
+  es: {
+    subject: 'Su solicitud de caligrafía ha sido recibida',
+    greeting: 'Estimado/a',
+    thankYou: 'Gracias por su solicitud.',
+    intro: 'Hemos recibido su solicitud de una obra caligráfica de su nombre kanji "{{kanjiName}}".',
+    yourName: 'Su nombre en kanji',
+    calligraphyInfo: 'Un calígrafo profesional escribirá su nombre con cuidado y dedicación, y se lo enviaremos por correo electrónico. Por favor, espere a que se complete su obra.',
+    closing: 'El equipo de Your Kanji Name'
+  },
+  it: {
+    subject: 'La tua richiesta di calligrafia è stata ricevuta',
+    greeting: 'Gentile',
+    thankYou: 'Grazie per la tua richiesta.',
+    intro: 'Abbiamo ricevuto la tua richiesta per un\'opera calligrafica del tuo nome kanji "{{kanjiName}}".',
+    yourName: 'Il tuo nome in kanji',
+    calligraphyInfo: 'Un calligrafo professionista scriverà il tuo nome con cura e dedizione, e te lo invieremo via e-mail. Per favore, attendi il completamento della tua opera.',
+    closing: 'Il team di Your Kanji Name'
+  },
+  th: {
+    subject: 'ได้รับคำขอเขียนพู่กันของคุณแล้ว',
+    greeting: 'เรียน',
+    thankYou: 'ขอบคุณสำหรับคำขอของคุณ',
+    intro: 'เราได้รับคำขอสำหรับงานเขียนพู่กันชื่อคันจิของคุณ "{{kanjiName}}" แล้ว',
+    yourName: 'ชื่อคันจิของคุณ',
+    calligraphyInfo: 'นักเขียนพู่กันมืออาชีพจะเขียนชื่อของคุณด้วยความใส่ใจและทุ่มเท และเราจะส่งให้คุณทางอีเมล กรุณารอการเสร็จสมบูรณ์ของผลงาน',
+    closing: 'ทีม Your Kanji Name'
+  },
+  vi: {
+    subject: 'Yêu cầu thư pháp của bạn đã được nhận',
+    greeting: 'Kính gửi',
+    thankYou: 'Cảm ơn bạn đã gửi yêu cầu.',
+    intro: 'Chúng tôi đã nhận được yêu cầu tác phẩm thư pháp tên kanji "{{kanjiName}}" của bạn.',
+    yourName: 'Tên Kanji của bạn',
+    calligraphyInfo: 'Một nhà thư pháp chuyên nghiệp sẽ viết tên bạn với sự tận tâm và chúng tôi sẽ gửi cho bạn qua email. Xin vui lòng chờ đợi tác phẩm của bạn hoàn thành.',
+    closing: 'Đội ngũ Your Kanji Name'
+  },
+  id: {
+    subject: 'Permintaan Kaligrafi Anda Telah Diterima',
+    greeting: 'Yth.',
+    thankYou: 'Terima kasih atas permintaan Anda.',
+    intro: 'Kami telah menerima permintaan Anda untuk karya kaligrafi nama kanji Anda "{{kanjiName}}".',
+    yourName: 'Nama Kanji Anda',
+    calligraphyInfo: 'Seorang kaligrafer profesional akan menulis nama Anda dengan penuh perhatian dan dedikasi, dan kami akan mengirimkannya kepada Anda melalui email. Mohon tunggu hingga karya Anda selesai.',
+    closing: 'Tim Your Kanji Name'
+  },
+  ko: {
+    subject: '서예 요청이 접수되었습니다',
+    greeting: '안녕하세요',
+    thankYou: '요청해 주셔서 감사합니다.',
+    intro: '귀하의 한자 이름 "{{kanjiName}}" 서예 작품 요청이 접수되었습니다.',
+    yourName: '당신의 한자 이름',
+    calligraphyInfo: '전문 서예가가 정성을 다해 당신의 이름을 써서 이메일로 보내드립니다. 작품이 완성될 때까지 기다려 주세요.',
+    closing: 'Your Kanji Name 팀'
+  }
+};
+
+interface CalligraphyRequest {
+  email: string;
+  userName: string;
+  kanjiName: string;
+  language: string;
+  explanationJa: string;
+  explanationUserLang?: string;
+}
+
+export class EmailService {
+  private resendApiKey: string;
+  private fromEmail: string;
+  private adminEmail: string;
+
+  constructor() {
+    this.resendApiKey = process.env.RESEND_API_KEY || '';
+    this.fromEmail = process.env.FROM_EMAIL || 'noreply@yourkanjiname.com';
+    this.adminEmail = process.env.ADMIN_EMAIL || '';
+  }
+
+  /**
+   * Send calligraphy request confirmation to user
+   */
+  async sendUserConfirmation(request: CalligraphyRequest): Promise<boolean> {
+    if (!this.resendApiKey) {
+      console.log('RESEND_API_KEY not set, skipping email');
+      return false;
+    }
+
+    const config = EMAIL_CONFIG[request.language] || EMAIL_CONFIG.en;
+
+    const htmlContent = this.buildUserEmailHtml(request, config);
+
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: this.fromEmail,
+          to: request.email,
+          subject: config.subject,
+          html: htmlContent
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Failed to send user email:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error sending user email:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Send notification to admin (always in Japanese)
+   */
+  async sendAdminNotification(request: CalligraphyRequest): Promise<boolean> {
+    if (!this.resendApiKey || !this.adminEmail) {
+      console.log('RESEND_API_KEY or ADMIN_EMAIL not set, skipping admin email');
+      return false;
+    }
+
+    const htmlContent = this.buildAdminEmailHtml(request);
+
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.resendApiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: this.fromEmail,
+          to: this.adminEmail,
+          subject: `【書道申込】${request.userName}様 - ${request.kanjiName}`,
+          html: htmlContent
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Failed to send admin email:', error);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error sending admin email:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Build HTML email for user
+   */
+  private buildUserEmailHtml(request: CalligraphyRequest, config: typeof EMAIL_CONFIG['en']): string {
+    const intro = config.intro.replace('{{kanjiName}}', request.kanjiName);
+
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif; line-height: 1.8; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; padding: 30px 0; border-bottom: 2px solid #c75450; }
+    .kanji-name { font-size: 48px; color: #c75450; margin: 20px 0; }
+    .content { padding: 30px 0; }
+    .footer { text-align: center; padding: 20px 0; color: #888; font-size: 12px; border-top: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://yourkanjiname.com/images/logo_color.svg" alt="Your Kanji Name" width="200">
+    </div>
+    <div class="content">
+      <p>${config.greeting} ${request.userName},</p>
+      <p>${config.thankYou}</p>
+      <p>${intro}</p>
+
+      <div style="text-align: center; padding: 30px 0;">
+        <p style="color: #888; margin-bottom: 10px;">${config.yourName}</p>
+        <div class="kanji-name">${request.kanjiName}</div>
+      </div>
+
+      <p>${config.calligraphyInfo}</p>
+    </div>
+    <div class="footer">
+      <p>${config.closing}</p>
+      <p>&copy; ${new Date().getFullYear()} Your Kanji Name</p>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim();
+  }
+
+  /**
+   * Build HTML email for admin (always in Japanese)
+   */
+  private buildAdminEmailHtml(request: CalligraphyRequest): string {
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #c75450; color: white; padding: 15px 20px; }
+    .content { padding: 20px; background: #f9f9f9; }
+    .field { margin-bottom: 15px; }
+    .label { font-weight: bold; color: #666; }
+    .value { margin-top: 5px; }
+    .kanji { font-size: 36px; color: #c75450; }
+    .explanation { background: white; padding: 15px; border-left: 3px solid #c75450; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>新しい書道申込がありました</h2>
+    </div>
+    <div class="content">
+      <div class="field">
+        <div class="label">申込者名</div>
+        <div class="value">${request.userName}</div>
+      </div>
+      <div class="field">
+        <div class="label">メールアドレス</div>
+        <div class="value"><a href="mailto:${request.email}">${request.email}</a></div>
+      </div>
+      <div class="field">
+        <div class="label">選択言語</div>
+        <div class="value">${request.language}</div>
+      </div>
+      <div class="field">
+        <div class="label">漢字名</div>
+        <div class="value kanji">${request.kanjiName}</div>
+      </div>
+      <div class="field">
+        <div class="label">説明文（日本語）</div>
+        <div class="explanation">${request.explanationJa.replace(/\n/g, '<br>')}</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim();
+  }
+}
