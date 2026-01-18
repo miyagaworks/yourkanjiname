@@ -211,6 +211,25 @@
   background: #a84440;
 }
 
+.action-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.delete-btn {
+  padding: 6px 12px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background: #dc3545;
+}
+
 /* Send Panel */
 .send-panel {
   width: 400px;

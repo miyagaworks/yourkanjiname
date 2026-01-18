@@ -31,6 +31,39 @@ function Admin() {
     }
   };
 
+  const handleDelete = async (requestId, kanjiName) => {
+    if (!window.confirm(`「${kanjiName}」の申込を削除しますか？\nこの操作は取り消せません。`)) {
+      return;
+    }
+
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ requestId })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessage({ type: 'success', text: '削除しました' });
+        if (selectedRequest?.id === requestId) {
+          setSelectedRequest(null);
+          setUploadFile(null);
+        }
+        fetchRequests();
+      } else {
+        throw new Error(data.error?.message || '削除に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
   // Reset body background for admin page
   useEffect(() => {
     document.body.style.setProperty('background-image', 'none', 'important');
@@ -258,7 +291,7 @@ function Admin() {
                     <td className="kanji-cell">{req.kanji_name}</td>
                     <td>{getLanguageName(req.language)}</td>
                     <td>{getStatusBadge(req.status)}</td>
-                    <td>
+                    <td className="action-cell">
                       {req.status === 'pending' && (
                         <button
                           onClick={() => setSelectedRequest(req)}
@@ -267,6 +300,12 @@ function Admin() {
                           選択
                         </button>
                       )}
+                      <button
+                        onClick={() => handleDelete(req.id, req.kanji_name)}
+                        className="delete-btn"
+                      >
+                        削除
+                      </button>
                     </td>
                   </tr>
                 ))}
