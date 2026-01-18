@@ -33,14 +33,12 @@ interface KanjiNameResult {
     meaning_ja: string;
     meaning_en: string;
     meaning_user?: string;
-    pronunciation: string;
   };
   second_kanji: {
     char: string;
     meaning_ja: string;
     meaning_en: string;
     meaning_user?: string;
-    pronunciation: string;
   };
   explanation: {
     ja: string;
@@ -249,6 +247,11 @@ ${genderKanjiGuidance}
 説明文は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」（または各言語での同等表現）で締めてください。
 数値やスコアは一切含めないでください。
 
+【重要】読み方について：
+- 説明文には読み方（ひらがな・カタカナ）を一切含めないでください
+- 日本の名前には「名乗り読み」という特別な読み方があり、標準的な音読み・訓読みとは異なります
+- 読み方は本人が自由に決められるものなので、特定の読み方を提示しないでください
+
 ## 出力形式（JSON）
 
 必ず以下のJSON形式で出力してください:
@@ -258,14 +261,12 @@ ${genderKanjiGuidance}
   "first_kanji": {
     "char": "和",
     "meaning_ja": "調和、穏やか",
-    "meaning_en": "harmony, peaceful",${needsUserLang ? userLangOutput : ''}
-    "pronunciation": "わ"
+    "meaning_en": "harmony, peaceful"${needsUserLang ? ',' + userLangOutput : ''}
   },
   "second_kanji": {
     "char": "美",
     "meaning_ja": "美しい、優れた",
-    "meaning_en": "beautiful, excellent",${needsUserLang ? userLangOutput : ''}
-    "pronunciation": "み"
+    "meaning_en": "beautiful, excellent"${needsUserLang ? ',' + userLangOutput : ''}
   },
   "explanation_ja": "【800-1200文字の日本語説明】",
   "explanation_en": "【400-600 wordsの英語説明】"${needsUserLang ? `,
@@ -410,15 +411,13 @@ ${genderKanjiGuidance}
         char: aiResult.first_kanji.char,
         meaning_ja: aiResult.first_kanji.meaning_ja,
         meaning_en: aiResult.first_kanji.meaning_en,
-        meaning_user: aiResult.first_kanji.meaning_user,
-        pronunciation: aiResult.first_kanji.pronunciation
+        meaning_user: aiResult.first_kanji.meaning_user
       },
       second_kanji: {
         char: aiResult.second_kanji.char,
         meaning_ja: aiResult.second_kanji.meaning_ja,
         meaning_en: aiResult.second_kanji.meaning_en,
-        meaning_user: aiResult.second_kanji.meaning_user,
-        pronunciation: aiResult.second_kanji.pronunciation
+        meaning_user: aiResult.second_kanji.meaning_user
       },
       explanation: {
         ja: aiResult.explanation_ja,
