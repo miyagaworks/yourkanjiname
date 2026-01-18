@@ -52,6 +52,7 @@ const EMAIL_CONFIG = {
     intro: 'お待たせいたしました。あなたの漢字名「{{kanjiName}}」の書道作品が完成しました。',
     message: 'プロの書道家が心を込めて筆で書き上げました。日本の伝統文化である書道の美しさを、ぜひお楽しみください。',
     yourArtwork: 'あなたの書道作品',
+    poemTitle: 'あなただけの折句（おりく）',
     closing: 'Your Kanji Name チーム',
     contact: 'お問い合わせ',
     note: '※画像は30日後に削除されますので、お早めにダウンロードしてください。'
@@ -62,6 +63,7 @@ const EMAIL_CONFIG = {
     intro: 'Thank you for waiting. Your calligraphy artwork for "{{kanjiName}}" is now complete.',
     message: 'A professional calligrapher has carefully crafted your name with traditional Japanese brush techniques. We hope you enjoy the beauty of Japanese calligraphy.',
     yourArtwork: 'Your Calligraphy Artwork',
+    poemTitle: 'Your Personal Japanese Poem (折句 Oriku)',
     closing: 'Your Kanji Name Team',
     contact: 'Contact',
     note: '* Please download the image within 30 days as it will be deleted after that.'
@@ -72,6 +74,7 @@ const EMAIL_CONFIG = {
     intro: 'Merci de votre patience. Votre œuvre calligraphique pour « {{kanjiName}} » est maintenant terminée.',
     message: 'Un calligraphe professionnel a soigneusement créé votre nom avec les techniques traditionnelles du pinceau japonais. Nous espérons que vous apprécierez la beauté de la calligraphie japonaise.',
     yourArtwork: 'Votre œuvre calligraphique',
+    poemTitle: 'Votre poème japonais personnel (折句 Oriku)',
     closing: "L'équipe Your Kanji Name",
     contact: 'Contact',
     note: '* Veuillez télécharger l\'image dans les 30 jours car elle sera supprimée après.'
@@ -82,6 +85,7 @@ const EMAIL_CONFIG = {
     intro: 'Vielen Dank für Ihre Geduld. Ihr Kalligraphie-Kunstwerk für „{{kanjiName}}" ist nun fertig.',
     message: 'Ein professioneller Kalligraph hat Ihren Namen sorgfältig mit traditionellen japanischen Pinseltechniken gestaltet. Wir hoffen, dass Sie die Schönheit der japanischen Kalligraphie genießen.',
     yourArtwork: 'Ihr Kalligraphie-Kunstwerk',
+    poemTitle: 'Ihr persönliches japanisches Gedicht (折句 Oriku)',
     closing: 'Das Your Kanji Name Team',
     contact: 'Kontakt',
     note: '* Bitte laden Sie das Bild innerhalb von 30 Tagen herunter, da es danach gelöscht wird.'
@@ -92,6 +96,7 @@ const EMAIL_CONFIG = {
     intro: 'Gracias por esperar. Su obra caligráfica para "{{kanjiName}}" ya está completa.',
     message: 'Un calígrafo profesional ha creado cuidadosamente su nombre con técnicas tradicionales de pincel japonés. Esperamos que disfrute de la belleza de la caligrafía japonesa.',
     yourArtwork: 'Su obra caligráfica',
+    poemTitle: 'Su poema japonés personal (折句 Oriku)',
     closing: 'El equipo de Your Kanji Name',
     contact: 'Contacto',
     note: '* Por favor descargue la imagen dentro de 30 días ya que será eliminada después.'
@@ -102,6 +107,7 @@ const EMAIL_CONFIG = {
     intro: 'Grazie per l\'attesa. La tua opera calligrafica per "{{kanjiName}}" è ora completa.',
     message: 'Un calligrafo professionista ha creato con cura il tuo nome con le tecniche tradizionali del pennello giapponese. Speriamo che apprezzerai la bellezza della calligrafia giapponese.',
     yourArtwork: 'La tua opera calligrafica',
+    poemTitle: 'La tua poesia giapponese personale (折句 Oriku)',
     closing: 'Il team di Your Kanji Name',
     contact: 'Contatto',
     note: '* Si prega di scaricare l\'immagine entro 30 giorni poiché verrà eliminata dopo.'
@@ -112,6 +118,7 @@ const EMAIL_CONFIG = {
     intro: 'ขอบคุณที่รอ ผลงานเขียนพู่กันสำหรับ "{{kanjiName}}" ของคุณเสร็จสมบูรณ์แล้ว',
     message: 'นักเขียนพู่กันมืออาชีพได้สร้างสรรค์ชื่อของคุณอย่างพิถีพิถันด้วยเทคนิคพู่กันแบบญี่ปุ่นดั้งเดิม เราหวังว่าคุณจะชื่นชมความงามของการเขียนพู่กันญี่ปุ่น',
     yourArtwork: 'ผลงานเขียนพู่กันของคุณ',
+    poemTitle: 'บทกวีญี่ปุ่นส่วนตัวของคุณ (折句 Oriku)',
     closing: 'ทีม Your Kanji Name',
     contact: 'ติดต่อ',
     note: '* กรุณาดาวน์โหลดรูปภาพภายใน 30 วัน เนื่องจากจะถูกลบหลังจากนั้น'
@@ -122,6 +129,7 @@ const EMAIL_CONFIG = {
     intro: 'Cảm ơn bạn đã chờ đợi. Tác phẩm thư pháp cho "{{kanjiName}}" của bạn đã hoàn thành.',
     message: 'Một nhà thư pháp chuyên nghiệp đã cẩn thận tạo ra tên của bạn bằng kỹ thuật bút lông truyền thống Nhật Bản. Chúng tôi hy vọng bạn sẽ thưởng thức vẻ đẹp của thư pháp Nhật Bản.',
     yourArtwork: 'Tác phẩm thư pháp của bạn',
+    poemTitle: 'Bài thơ Nhật Bản cá nhân của bạn (折句 Oriku)',
     closing: 'Đội ngũ Your Kanji Name',
     contact: 'Liên hệ',
     note: '* Vui lòng tải xuống hình ảnh trong vòng 30 ngày vì nó sẽ bị xóa sau đó.'
@@ -132,6 +140,7 @@ const EMAIL_CONFIG = {
     intro: 'Terima kasih telah menunggu. Karya kaligrafi Anda untuk "{{kanjiName}}" sekarang sudah selesai.',
     message: 'Seorang kaligrafer profesional telah dengan hati-hati membuat nama Anda dengan teknik kuas tradisional Jepang. Kami harap Anda menikmati keindahan kaligrafi Jepang.',
     yourArtwork: 'Karya Kaligrafi Anda',
+    poemTitle: 'Puisi Jepang Pribadi Anda (折句 Oriku)',
     closing: 'Tim Your Kanji Name',
     contact: 'Kontak',
     note: '* Silakan unduh gambar dalam 30 hari karena akan dihapus setelah itu.'
@@ -142,6 +151,7 @@ const EMAIL_CONFIG = {
     intro: '기다려 주셔서 감사합니다. "{{kanjiName}}"의 서예 작품이 완성되었습니다.',
     message: '전문 서예가가 일본 전통 붓 기법으로 정성껏 당신의 이름을 써 주었습니다. 일본 서예의 아름다움을 즐겨 주세요.',
     yourArtwork: '당신의 서예 작품',
+    poemTitle: '당신만의 일본 시 (折句 Oriku)',
     closing: 'Your Kanji Name 팀',
     contact: '문의',
     note: '* 이미지는 30일 후에 삭제되므로 그 전에 다운로드해 주세요.'
@@ -163,7 +173,7 @@ function buildEmailHtml(request, config, imageUrl, poemText) {
   // Convert poem text to HTML (preserve line breaks)
   const poemHtml = poemText
     ? `<div class="poem-section">
-        <h3 style="color: #c75450; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px;">Your Personal Japanese Poem (折句 Oriku)</h3>
+        <h3 style="color: #c75450; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px;">${config.poemTitle}</h3>
         <div style="white-space: pre-wrap; font-family: 'Noto Sans JP', monospace; line-height: 2; background: #f9f9f9; padding: 20px; border-radius: 8px;">${poemText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
       </div>`
     : '';
