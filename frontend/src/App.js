@@ -410,10 +410,8 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
-  // Admin page routing
-  if (window.location.pathname === '/admin') {
-    return <Admin />;
-  }
+  // Check if admin page
+  const isAdminPage = window.location.pathname === '/admin';
 
   const [, setSessionId] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -584,6 +582,11 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Admin page
+  if (isAdminPage) {
+    return <Admin />;
+  }
 
   // スプラッシュスクリーン
   if (showSplash) {
