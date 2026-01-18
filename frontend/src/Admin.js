@@ -15,29 +15,17 @@ function Admin() {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [poemText, setPoemText] = useState('');
-  const [copiedTemplate, setCopiedTemplate] = useState('');
+  const [copied, setCopied] = useState(false);
 
-  // Japanese explanation template
-  const explanationJa = `このたび、あなたのお名前を織り込んだ短歌を詠みました。
-日本の伝統的な詩の形式である「折句（おりく）」という技法を用いて、五つの句の頭文字にあなたのお名前が隠されています。
-
-お名前: [NAME] → ひらがなで「[HIRAGANA]」
-
-[LINE1]（[CHAR1]）
-[LINE2]（[CHAR2]）
-[LINE3]（[CHAR3]）
-[LINE4]（[CHAR4]）
-[LINE5]（[CHAR5]）
-
-[MEANING]
-
-この短歌が、あなたの人生に寄り添う小さな贈り物となれば幸いです。`;
-
-  const handleCopyTemplate = async (templateName, text) => {
+  const handleCopyExplanation = async () => {
+    if (!selectedRequest?.explanation_ja) {
+      setMessage({ type: 'error', text: '説明文がありません' });
+      return;
+    }
     try {
-      await navigator.clipboard.writeText(text);
-      setCopiedTemplate(templateName);
-      setTimeout(() => setCopiedTemplate(''), 2000);
+      await navigator.clipboard.writeText(selectedRequest.explanation_ja);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       setMessage({ type: 'error', text: 'コピーに失敗しました' });
     }
@@ -316,12 +304,12 @@ function Admin() {
             </div>
 
             <div className="template-copy-section">
-              <label>テンプレート</label>
               <button
-                onClick={() => handleCopyTemplate('ja', explanationJa)}
+                onClick={handleCopyExplanation}
                 className="template-copy-btn"
+                disabled={!selectedRequest?.explanation_ja}
               >
-                {copiedTemplate === 'ja' ? 'コピーしました！' : 'explanation_ja をコピー'}
+                {copied ? 'コピーしました！' : '日本語説明文をコピー'}
               </button>
             </div>
 
