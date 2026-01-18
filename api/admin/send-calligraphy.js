@@ -156,9 +156,17 @@ function buildGreeting(config, userName) {
   return name ? `${config.greeting} ${name},` : '';
 }
 
-function buildEmailHtml(request, config, imageUrl) {
+function buildEmailHtml(request, config, imageUrl, poemText) {
   const intro = config.intro.replace('{{kanjiName}}', request.kanji_name);
   const greeting = buildGreeting(config, request.user_name);
+
+  // Convert poem text to HTML (preserve line breaks)
+  const poemHtml = poemText
+    ? `<div class="poem-section">
+        <h3 style="color: #c75450; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px;">Your Personal Japanese Poem (折句 Oriku)</h3>
+        <div style="white-space: pre-wrap; font-family: 'Noto Sans JP', monospace; line-height: 2; background: #f9f9f9; padding: 20px; border-radius: 8px;">${poemText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+      </div>`
+    : '';
 
   return `
 <!DOCTYPE html>
@@ -174,6 +182,7 @@ function buildEmailHtml(request, config, imageUrl) {
     .artwork-section { text-align: center; padding: 30px 0; background: #f9f9f9; margin: 20px 0; border-radius: 8px; }
     .artwork-label { color: #888; margin-bottom: 15px; font-size: 14px; }
     .artwork-image { max-width: 100%; border: 1px solid #ddd; border-radius: 4px; }
+    .poem-section { margin: 30px 0; }
     .note { font-size: 12px; color: #888; margin-top: 20px; padding: 15px; background: #fff9e6; border-radius: 4px; }
     .footer { text-align: center; padding: 20px 0; color: #888; font-size: 12px; border-top: 1px solid #eee; }
   </style>
@@ -192,6 +201,8 @@ function buildEmailHtml(request, config, imageUrl) {
         <p class="artwork-label">${config.yourArtwork}</p>
         <img src="${imageUrl}" alt="${request.kanji_name}" class="artwork-image">
       </div>
+
+      ${poemHtml}
 
       <div class="note">${config.note}</div>
     </div>
@@ -257,7 +268,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { requestId, imageUrl } = req.body;
+    const { requestId, imageUrl, poemText } = req.body;
 
     if (!requestId || !imageUrl) {
       return res.status(400).json({
@@ -284,7 +295,7 @@ module.exports = async function handler(req, res) {
     const config = EMAIL_CONFIG[request.language] || EMAIL_CONFIG.en;
 
     // Build and send email
-    const emailHtml = buildEmailHtml(request, config, imageUrl);
+    const emailHtml = buildEmailHtml(request, config, imageUrl, poemText || '');
     await sendEmail(request.email, config.subject, emailHtml);
 
     // Update request status
