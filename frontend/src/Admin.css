@@ -390,7 +390,7 @@
 }
 
 
-/* Responsive */
+/* Responsive - Tablet */
 @media (max-width: 1024px) {
   .admin-content {
     flex-direction: column;
@@ -403,5 +403,150 @@
   .send-panel {
     width: 100%;
     position: static;
+  }
+}
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .admin-container {
+    position: relative;
+    overflow-y: auto;
+  }
+
+  .admin-header {
+    padding: 12px 15px;
+  }
+
+  .admin-header h1 {
+    font-size: 18px;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  .admin-content {
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .requests-list {
+    padding: 15px;
+  }
+
+  .requests-list h2 {
+    font-size: 16px;
+  }
+
+  /* Convert table to card layout on mobile */
+  .requests-list table,
+  .requests-list thead,
+  .requests-list tbody,
+  .requests-list th,
+  .requests-list td,
+  .requests-list tr {
+    display: block;
+  }
+
+  .requests-list thead {
+    display: none;
+  }
+
+  .requests-list tr {
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    background: #fff;
+  }
+
+  .requests-list tr.selected {
+    border-color: #c75450;
+  }
+
+  .requests-list td {
+    padding: 6px 0;
+    border-bottom: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .requests-list td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+  }
+
+  .requests-list td:last-child {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+
+  .action-cell {
+    justify-content: flex-end;
+  }
+
+  .kanji-cell {
+    font-size: 24px;
+  }
+
+  /* Send Panel Mobile */
+  .send-panel {
+    padding: 15px;
+  }
+
+  .send-panel h2 {
+    font-size: 16px;
+  }
+
+  .request-detail {
+    padding: 12px;
+  }
+
+  .request-detail p {
+    font-size: 14px;
+  }
+
+  .kanji-large {
+    font-size: 24px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .send-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+
+  .template-copy-btn {
+    width: 100%;
+  }
+
+  .poem-template-textarea {
+    font-size: 14px;
+    height: 150px;
+  }
+
+  /* Login Mobile */
+  .admin-login {
+    width: 90%;
+    max-width: 350px;
+    padding: 25px;
+  }
+
+  .admin-login h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .message {
+    padding: 12px 15px;
+    font-size: 14px;
   }
 }

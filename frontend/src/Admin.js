@@ -286,11 +286,11 @@ function Admin() {
               <tbody>
                 {requests.map(req => (
                   <tr key={req.id} className={selectedRequest?.id === req.id ? 'selected' : ''}>
-                    <td>{new Date(req.created_at).toLocaleString('ja-JP')}</td>
-                    <td>{req.user_name || '-'}</td>
-                    <td className="kanji-cell">{req.kanji_name}</td>
-                    <td>{getLanguageName(req.language)}</td>
-                    <td>{getStatusBadge(req.status)}</td>
+                    <td data-label="日時">{new Date(req.created_at).toLocaleString('ja-JP')}</td>
+                    <td data-label="名前">{req.user_name || '-'}</td>
+                    <td data-label="漢字名" className="kanji-cell">{req.kanji_name}</td>
+                    <td data-label="言語">{getLanguageName(req.language)}</td>
+                    <td data-label="状態">{getStatusBadge(req.status)}</td>
                     <td className="action-cell">
                       {req.status === 'pending' && (
                         <button
