@@ -4,6 +4,7 @@ import questionsData from './questions.json';
 import { useLanguage } from './contexts/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 import LanguageSelector from './components/LanguageSelector';
+import Admin from './Admin';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -409,6 +410,11 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
+  // Admin page routing
+  if (window.location.pathname === '/admin') {
+    return <Admin />;
+  }
+
   const [, setSessionId] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [progress, setProgress] = useState(null);
