@@ -427,12 +427,23 @@
   }
 
   .admin-content {
-    padding: 15px;
-    gap: 15px;
+    padding: 0;
+    gap: 0;
   }
 
   .requests-list {
-    padding: 15px;
+    padding: 10px;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+  }
+
+  .send-panel {
+    padding: 10px;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    border-top: 1px solid #e0e0e0;
   }
 
   .requests-list h2 {
