@@ -315,6 +315,33 @@
   background: #dee2e6;
 }
 
+/* Template Copy Section */
+.template-copy-section {
+  margin-bottom: 15px;
+}
+
+.template-copy-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #666;
+}
+
+.template-copy-btn {
+  padding: 10px 20px;
+  background: #4a90a4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.template-copy-btn:hover {
+  background: #3a7a94;
+}
+
 /* Poem Template Section */
 .poem-template-section {
   margin-bottom: 20px;
