@@ -15,6 +15,12 @@ function Admin() {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
+  // Reset body background for admin page
+  useEffect(() => {
+    document.body.style.setProperty('background-image', 'none', 'important');
+    document.body.style.setProperty('background-color', '#f5f5f5', 'important');
+  }, []);
+
   // Check session on mount
   useEffect(() => {
     const session = sessionStorage.getItem('adminSession');
