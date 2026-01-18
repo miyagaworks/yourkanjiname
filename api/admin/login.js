@@ -1,6 +1,7 @@
 /**
  * Admin Login API
  * POST /api/admin/login
+ * Vercel Serverless Function
  */
 
 const crypto = require('crypto');
