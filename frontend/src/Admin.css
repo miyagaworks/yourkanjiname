@@ -478,7 +478,7 @@
   }
 
   .requests-list tr.selected {
-    border-color: #c75450;
+    background: #fff8f8;
   }
 
   .requests-list td {
