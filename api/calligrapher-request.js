@@ -155,7 +155,7 @@ function buildUserEmailHtml(request, config) {
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="200">
+      <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="300" style="max-width: 100%; height: auto;">
     </div>
     <div class="content">
       ${greeting ? `<p>${greeting}</p>` : ''}
