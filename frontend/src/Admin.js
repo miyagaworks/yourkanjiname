@@ -35,7 +35,7 @@ function Admin() {
     setLoginError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
+      const response = await fetch(`${API_BASE_URL}/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password })
@@ -59,7 +59,7 @@ function Admin() {
     setLoading(true);
     try {
       const token = sessionStorage.getItem('adminSession');
-      const response = await fetch(`${API_BASE_URL}/api/admin/requests`, {
+      const response = await fetch(`${API_BASE_URL}/admin/requests`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -98,7 +98,7 @@ function Admin() {
       formData.append('image', uploadFile);
       formData.append('requestId', selectedRequest.id);
 
-      const uploadResponse = await fetch(`${API_BASE_URL}/api/admin/upload`, {
+      const uploadResponse = await fetch(`${API_BASE_URL}/admin/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
@@ -114,7 +114,7 @@ function Admin() {
       setSendingEmail(true);
 
       // Send email with the image
-      const sendResponse = await fetch(`${API_BASE_URL}/api/admin/send-calligraphy`, {
+      const sendResponse = await fetch(`${API_BASE_URL}/admin/send-calligraphy`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
