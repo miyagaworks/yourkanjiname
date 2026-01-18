@@ -27,6 +27,7 @@ const EMAIL_CONFIG = {
   ja: {
     subject: '書道作品のお申し込みを受け付けました',
     greeting: '様',
+    greetingFormat: 'name_first', // Japanese: 名前様
     thankYou: 'お申し込みいただきありがとうございます。',
     intro: 'あなたの漢字名「{{kanjiName}}」の書道作品のお申し込みを受け付けました。',
     yourName: 'あなたの漢字名',
@@ -117,10 +118,24 @@ const EMAIL_CONFIG = {
 };
 
 /**
+ * Build greeting line based on language format
+ */
+function buildGreeting(config, userName) {
+  const name = userName || '';
+  if (config.greetingFormat === 'name_first') {
+    // Japanese style: 名前様
+    return name ? `${name}${config.greeting}` : '';
+  }
+  // Western style: Dear Name,
+  return name ? `${config.greeting} ${name},` : '';
+}
+
+/**
  * Build user confirmation email HTML
  */
 function buildUserEmailHtml(request, config) {
   const intro = config.intro.replace('{{kanjiName}}', request.kanji_name);
+  const greeting = buildGreeting(config, request.user_name);
 
   return `
 <!DOCTYPE html>
@@ -140,10 +155,10 @@ function buildUserEmailHtml(request, config) {
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://yourkanjiname.com/images/logo_color.svg" alt="Your Kanji Name" width="200">
+      <img src="https://app.kanjiname.jp/logo_color.svg" alt="Your Kanji Name" width="200">
     </div>
     <div class="content">
-      <p>${config.greeting} ${request.user_name || ''},</p>
+      ${greeting ? `<p>${greeting}</p>` : ''}
       <p>${config.thankYou}</p>
       <p>${intro}</p>
 
