@@ -23,7 +23,7 @@ function Admin() {
   const [showPartnerForm, setShowPartnerForm] = useState(false);
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
-    phone: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
+    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -113,7 +113,7 @@ function Admin() {
         setShowPartnerForm(false);
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
-          phone: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
+          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
         });
         fetchPartners();
       } else {
@@ -662,6 +662,14 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
+                      <label>住所</label>
+                      <input
+                        type="text"
+                        value={partnerForm.address}
+                        onChange={(e) => setPartnerForm({...partnerForm, address: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
                       <label>銀行名</label>
                       <input
                         type="text"
@@ -765,6 +773,7 @@ function Admin() {
                       email: editingPartner.email,
                       contact_name: editingPartner.contact_name,
                       phone: editingPartner.phone,
+                      address: editingPartner.address,
                       bank_name: editingPartner.bank_name,
                       bank_branch: editingPartner.bank_branch,
                       bank_account: editingPartner.bank_account,
@@ -804,6 +813,14 @@ function Admin() {
                         type="tel"
                         value={editingPartner.phone || ''}
                         onChange={(e) => setEditingPartner({...editingPartner, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>住所</label>
+                      <input
+                        type="text"
+                        value={editingPartner.address || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, address: e.target.value})}
                       />
                     </div>
                     <div className="form-row">
