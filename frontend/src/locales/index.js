@@ -327,7 +327,7 @@ const translations = {
     requestError: '\uC804\uC1A1\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4. \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.',
 
     landingTitle: '나만의 한자 이름을 받으세요',
-    landingDesc: '전문 서예가가 손으로 쓴 맞춤형 일본 한자 이름을 발견하세요.',
+    landingDesc: '나만의 특별한 한자 이름을 만들고, 전문 서예가가 정성껏 손글씨로 보내드립니다.',
     feature1: '자신에 대한 몇 가지 질문에 답하세요',
     feature2: '고유한 한자 이름이 생성됩니다',
     feature3: '전문 서예를 이메일로 배송',
@@ -364,7 +364,7 @@ const translations = {
     requestError: '\u9001\u4FE1\u306B\u5931\u6557\u3057\u307E\u3057\u305F\u3002\u3082\u3046\u4E00\u5EA6\u304A\u8A66\u3057\u304F\u3060\u3055\u3044\u3002',
 
     landingTitle: 'あなただけの漢字名を手に入れよう',
-    landingDesc: 'プロの書道家が手書きした、あなただけの日本の漢字名を発見してください。',
+    landingDesc: 'あなただけのオリジナル漢字名を作成し、プロの書道家が心を込めて手書きでお届けします。',
     feature1: '自分についての質問に答える',
     feature2: 'あなただけの漢字名を生成',
     feature3: 'プロの書道をメールでお届け',
