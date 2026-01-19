@@ -7,6 +7,7 @@ function Admin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [activeTab, setActiveTab] = useState('calligraphy');
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -16,6 +17,183 @@ function Admin() {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [poemText, setPoemText] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Partner management state
+  const [partners, setPartners] = useState([]);
+  const [showPartnerForm, setShowPartnerForm] = useState(false);
+  const [partnerForm, setPartnerForm] = useState({
+    code: '', name: '', email: '', password: '', contact_name: '',
+    phone: '', bank_name: '', bank_account: '', royalty_rate: '0.10'
+  });
+  const [editingPartner, setEditingPartner] = useState(null);
+
+  // Payments state
+  const [payments, setPayments] = useState([]);
+  const [paymentStats, setPaymentStats] = useState(null);
+
+  // Payouts state
+  const [pendingPayouts, setPendingPayouts] = useState([]);
+  const [payoutSummary, setPayoutSummary] = useState(null);
+
+  // Fetch partners
+  const fetchPartners = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/partners`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.partners) {
+        setPartners(data.partners);
+      }
+    } catch (error) {
+      console.error('Failed to fetch partners:', error);
+    }
+  };
+
+  // Fetch payments
+  const fetchPayments = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/payments`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.payments) {
+        setPayments(data.payments);
+        setPaymentStats(data.stats);
+      }
+    } catch (error) {
+      console.error('Failed to fetch payments:', error);
+    }
+  };
+
+  // Fetch payouts
+  const fetchPayouts = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/payouts`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.pending_payouts) {
+        setPendingPayouts(data.pending_payouts);
+        setPayoutSummary(data.summary);
+      }
+    } catch (error) {
+      console.error('Failed to fetch payouts:', error);
+    }
+  };
+
+  // Handle tab change
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === 'partners') fetchPartners();
+    else if (tab === 'payments') fetchPayments();
+    else if (tab === 'payouts') fetchPayouts();
+    else if (tab === 'calligraphy') fetchRequests();
+  };
+
+  // Create partner
+  const handleCreatePartner = async (e) => {
+    e.preventDefault();
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/partners`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(partnerForm)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: 'パートナーを作成しました' });
+        setShowPartnerForm(false);
+        setPartnerForm({
+          code: '', name: '', email: '', password: '', contact_name: '',
+          phone: '', bank_name: '', bank_account: '', royalty_rate: '0.10'
+        });
+        fetchPartners();
+      } else {
+        throw new Error(data.error?.message || 'パートナー作成に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Update partner
+  const handleUpdatePartner = async (partnerId, updates) => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/partners/${partnerId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updates)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: 'パートナーを更新しました' });
+        setEditingPartner(null);
+        fetchPartners();
+      } else {
+        throw new Error(data.error?.message || '更新に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Delete partner
+  const handleDeletePartner = async (partnerId, partnerName) => {
+    if (!window.confirm(`「${partnerName}」を削除しますか？`)) return;
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/partners/${partnerId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: 'パートナーを削除しました' });
+        fetchPartners();
+      } else {
+        throw new Error(data.error?.message || '削除に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Mark payout as paid
+  const handleMarkPaid = async (partnerId, yearMonth) => {
+    if (!window.confirm(`${yearMonth}分の支払いを完了としてマークしますか？`)) return;
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/payouts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ partner_id: partnerId, year_month: yearMonth })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: '支払い完了としてマークしました' });
+        fetchPayouts();
+      } else {
+        throw new Error(data.error?.message || '処理に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
 
   const handleCopyExplanation = async () => {
     if (!selectedRequest?.explanation_ja) {
@@ -253,7 +431,33 @@ function Admin() {
   return (
     <div className="admin-container">
       <header className="admin-header">
-        <h1>書道申込管理</h1>
+        <h1>管理画面</h1>
+        <nav className="admin-tabs">
+          <button
+            className={activeTab === 'calligraphy' ? 'active' : ''}
+            onClick={() => handleTabChange('calligraphy')}
+          >
+            書道申込
+          </button>
+          <button
+            className={activeTab === 'partners' ? 'active' : ''}
+            onClick={() => handleTabChange('partners')}
+          >
+            パートナー
+          </button>
+          <button
+            className={activeTab === 'payments' ? 'active' : ''}
+            onClick={() => handleTabChange('payments')}
+          >
+            決済
+          </button>
+          <button
+            className={activeTab === 'payouts' ? 'active' : ''}
+            onClick={() => handleTabChange('payouts')}
+          >
+            支払い
+          </button>
+        </nav>
         <button onClick={handleLogout} className="logout-btn">ログアウト</button>
       </header>
 
@@ -264,6 +468,9 @@ function Admin() {
       )}
 
       <div className="admin-content">
+        {/* Calligraphy Tab */}
+        {activeTab === 'calligraphy' && (
+        <>
         <div className="requests-list">
           <h2>申込一覧 ({requests.filter(r => r.status === 'pending').length}件未対応)</h2>
 
@@ -380,6 +587,383 @@ function Admin() {
                 キャンセル
               </button>
             </div>
+          </div>
+        )}
+        </>
+        )}
+
+        {/* Partners Tab */}
+        {activeTab === 'partners' && (
+          <div className="partners-section">
+            <div className="section-header">
+              <h2>パートナー一覧 ({partners.length}件)</h2>
+              <button onClick={() => setShowPartnerForm(true)} className="add-btn">
+                + 新規パートナー
+              </button>
+            </div>
+
+            {showPartnerForm && (
+              <div className="partner-form-overlay">
+                <div className="partner-form">
+                  <h3>新規パートナー作成</h3>
+                  <form onSubmit={handleCreatePartner}>
+                    <div className="form-row">
+                      <label>コード (URL用)</label>
+                      <input
+                        type="text"
+                        value={partnerForm.code}
+                        onChange={(e) => setPartnerForm({...partnerForm, code: e.target.value})}
+                        placeholder="例: hiroshima-okonomiyaki"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>店舗名</label>
+                      <input
+                        type="text"
+                        value={partnerForm.name}
+                        onChange={(e) => setPartnerForm({...partnerForm, name: e.target.value})}
+                        placeholder="例: お好み焼き○○"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>メールアドレス</label>
+                      <input
+                        type="email"
+                        value={partnerForm.email}
+                        onChange={(e) => setPartnerForm({...partnerForm, email: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>パスワード</label>
+                      <input
+                        type="password"
+                        value={partnerForm.password}
+                        onChange={(e) => setPartnerForm({...partnerForm, password: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>担当者名</label>
+                      <input
+                        type="text"
+                        value={partnerForm.contact_name}
+                        onChange={(e) => setPartnerForm({...partnerForm, contact_name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>電話番号</label>
+                      <input
+                        type="tel"
+                        value={partnerForm.phone}
+                        onChange={(e) => setPartnerForm({...partnerForm, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>銀行名</label>
+                      <input
+                        type="text"
+                        value={partnerForm.bank_name}
+                        onChange={(e) => setPartnerForm({...partnerForm, bank_name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>口座番号</label>
+                      <input
+                        type="text"
+                        value={partnerForm.bank_account}
+                        onChange={(e) => setPartnerForm({...partnerForm, bank_account: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>ロイヤリティ率</label>
+                      <select
+                        value={partnerForm.royalty_rate}
+                        onChange={(e) => setPartnerForm({...partnerForm, royalty_rate: e.target.value})}
+                      >
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
+                        <option value="0.20">20%</option>
+                      </select>
+                    </div>
+                    <div className="form-actions">
+                      <button type="submit" className="submit-btn">作成</button>
+                      <button type="button" onClick={() => setShowPartnerForm(false)} className="cancel-btn">
+                        キャンセル
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            <table className="partners-table">
+              <thead>
+                <tr>
+                  <th>コード</th>
+                  <th>店舗名</th>
+                  <th>メール</th>
+                  <th>ロイヤリティ率</th>
+                  <th>総売上</th>
+                  <th>未払い</th>
+                  <th>状態</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {partners.map(p => (
+                  <tr key={p.id}>
+                    <td><code>{p.code}</code></td>
+                    <td>{p.name}</td>
+                    <td>{p.email}</td>
+                    <td>{(p.royalty_rate * 100).toFixed(0)}%</td>
+                    <td>${p.total_revenue?.toFixed(2) || '0.00'}</td>
+                    <td className="pending-amount">${p.pending_royalty?.toFixed(2) || '0.00'}</td>
+                    <td>
+                      <span className={`status-badge status-${p.status}`}>
+                        {p.status === 'active' ? '有効' : '無効'}
+                      </span>
+                    </td>
+                    <td className="action-cell">
+                      <button
+                        onClick={() => setEditingPartner(p)}
+                        className="edit-btn"
+                      >
+                        編集
+                      </button>
+                      <button
+                        onClick={() => handleDeletePartner(p.id, p.name)}
+                        className="delete-btn"
+                      >
+                        削除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {editingPartner && (
+              <div className="partner-form-overlay">
+                <div className="partner-form">
+                  <h3>パートナー編集: {editingPartner.name}</h3>
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleUpdatePartner(editingPartner.id, {
+                      name: editingPartner.name,
+                      email: editingPartner.email,
+                      contact_name: editingPartner.contact_name,
+                      phone: editingPartner.phone,
+                      bank_name: editingPartner.bank_name,
+                      bank_account: editingPartner.bank_account,
+                      royalty_rate: editingPartner.royalty_rate,
+                      status: editingPartner.status
+                    });
+                  }}>
+                    <div className="form-row">
+                      <label>店舗名</label>
+                      <input
+                        type="text"
+                        value={editingPartner.name}
+                        onChange={(e) => setEditingPartner({...editingPartner, name: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>メールアドレス</label>
+                      <input
+                        type="email"
+                        value={editingPartner.email}
+                        onChange={(e) => setEditingPartner({...editingPartner, email: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>担当者名</label>
+                      <input
+                        type="text"
+                        value={editingPartner.contact_name || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, contact_name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>電話番号</label>
+                      <input
+                        type="tel"
+                        value={editingPartner.phone || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>銀行名</label>
+                      <input
+                        type="text"
+                        value={editingPartner.bank_name || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, bank_name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>口座番号</label>
+                      <input
+                        type="text"
+                        value={editingPartner.bank_account || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, bank_account: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>ロイヤリティ率</label>
+                      <select
+                        value={editingPartner.royalty_rate}
+                        onChange={(e) => setEditingPartner({...editingPartner, royalty_rate: e.target.value})}
+                      >
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
+                        <option value="0.20">20%</option>
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>状態</label>
+                      <select
+                        value={editingPartner.status}
+                        onChange={(e) => setEditingPartner({...editingPartner, status: e.target.value})}
+                      >
+                        <option value="active">有効</option>
+                        <option value="inactive">無効</option>
+                      </select>
+                    </div>
+                    <div className="form-actions">
+                      <button type="submit" className="submit-btn">更新</button>
+                      <button type="button" onClick={() => setEditingPartner(null)} className="cancel-btn">
+                        キャンセル
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Payments Tab */}
+        {activeTab === 'payments' && (
+          <div className="payments-section">
+            <h2>決済一覧</h2>
+
+            {paymentStats && (
+              <div className="payment-stats">
+                <div className="stat-card">
+                  <div className="stat-label">総売上</div>
+                  <div className="stat-value">${paymentStats.total_revenue?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">パートナー経由</div>
+                  <div className="stat-value">${paymentStats.partner_revenue?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">直接</div>
+                  <div className="stat-value">${paymentStats.direct_revenue?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">決済数</div>
+                  <div className="stat-value">{paymentStats.total_payments || 0}</div>
+                </div>
+              </div>
+            )}
+
+            <table className="payments-table">
+              <thead>
+                <tr>
+                  <th>日時</th>
+                  <th>漢字名</th>
+                  <th>金額</th>
+                  <th>パートナー</th>
+                  <th>状態</th>
+                </tr>
+              </thead>
+              <tbody>
+                {payments.map(p => (
+                  <tr key={p.id}>
+                    <td>{new Date(p.created_at).toLocaleString('ja-JP')}</td>
+                    <td className="kanji-cell">{p.kanji_name || '-'}</td>
+                    <td>${p.amount?.toFixed(2)}</td>
+                    <td>{p.partner_name || <span className="muted">直接</span>}</td>
+                    <td>
+                      <span className={`status-badge status-${p.status}`}>
+                        {p.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Payouts Tab */}
+        {activeTab === 'payouts' && (
+          <div className="payouts-section">
+            <h2>支払い管理</h2>
+
+            {payoutSummary && (
+              <div className="payout-summary">
+                <div className="stat-card highlight">
+                  <div className="stat-label">未払い総額</div>
+                  <div className="stat-value">${payoutSummary.total_pending?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">対象パートナー数</div>
+                  <div className="stat-value">{payoutSummary.partners_count || 0}</div>
+                </div>
+              </div>
+            )}
+
+            <table className="payouts-table">
+              <thead>
+                <tr>
+                  <th>パートナー</th>
+                  <th>対象月</th>
+                  <th>決済数</th>
+                  <th>売上</th>
+                  <th>ロイヤリティ</th>
+                  <th>振込先</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pendingPayouts.map(p => (
+                  <tr key={`${p.partner_id}-${p.year_month}`}>
+                    <td>{p.partner_name}</td>
+                    <td>{p.year_month}</td>
+                    <td>{p.total_payments}</td>
+                    <td>${p.total_revenue?.toFixed(2)}</td>
+                    <td className="royalty-amount">${p.royalty_amount?.toFixed(2)}</td>
+                    <td className="bank-info">
+                      {p.bank_name && p.bank_account ? (
+                        <span>{p.bank_name} / {p.bank_account}</span>
+                      ) : (
+                        <span className="muted">未設定</span>
+                      )}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleMarkPaid(p.partner_id, p.year_month)}
+                        className="paid-btn"
+                      >
+                        支払い完了
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {pendingPayouts.length === 0 && (
+              <p className="no-data">未払いの支払いはありません</p>
+            )}
           </div>
         )}
       </div>

@@ -1,0 +1,142 @@
+.partner-login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+}
+
+.partner-login-card {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.partner-login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.partner-logo {
+  width: 180px;
+  margin-bottom: 24px;
+}
+
+.partner-login-header h1 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0 0 8px 0;
+}
+
+.partner-login-header p {
+  color: #666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.partner-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #c75450;
+  box-shadow: 0 0 0 3px rgba(199, 84, 80, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #aaa;
+}
+
+.login-error {
+  background: #fff0f0;
+  color: #c00;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.partner-login-btn {
+  padding: 14px 24px;
+  border: none;
+  background: #c75450;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.partner-login-btn:hover:not(:disabled) {
+  background: #b04541;
+  transform: translateY(-1px);
+}
+
+.partner-login-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.partner-login-footer {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.back-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: #c75450;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .partner-login-container {
+    padding: 0;
+    align-items: flex-start;
+  }
+
+  .partner-login-card {
+    border-radius: 0;
+    min-height: 100vh;
+    padding: 40px 24px;
+  }
+
+  .partner-logo {
+    width: 150px;
+  }
+}

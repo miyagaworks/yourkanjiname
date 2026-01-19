@@ -5,6 +5,7 @@ import { useLanguage } from './contexts/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 import LanguageSelector from './components/LanguageSelector';
 import Admin from './Admin';
+import Partner from './Partner';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -13,6 +14,19 @@ const QUESTIONS = questionsData.flow;
 
 // 開発用プレビューモード: ?preview=result でアクセス
 const PREVIEW_MODE = new URLSearchParams(window.location.search).get('preview');
+
+// パートナーコード（アフィリエイト追跡用）: ?ref=CODE でアクセス
+const getPartnerCode = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const refCode = urlParams.get('ref');
+  if (refCode) {
+    // Store in sessionStorage for the duration of the session
+    sessionStorage.setItem('partnerCode', refCode);
+    return refCode;
+  }
+  // Return stored code if exists
+  return sessionStorage.getItem('partnerCode');
+};
 
 // プレビュー用モックデータ
 const MOCK_RESULT = {
@@ -410,8 +424,12 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
-  // Check if admin page
+  // Check if admin or partner page
   const isAdminPage = window.location.pathname === '/admin';
+  const isPartnerPage = window.location.pathname === '/partner';
+
+  // Track partner code from URL (stores to sessionStorage)
+  getPartnerCode();
 
   const [, setSessionId] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -582,6 +600,11 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Partner page
+  if (isPartnerPage) {
+    return <Partner />;
+  }
 
   // Admin page
   if (isAdminPage) {
