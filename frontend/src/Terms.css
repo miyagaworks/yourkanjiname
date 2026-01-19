@@ -45,6 +45,8 @@
   line-height: 1.8;
   margin: 0;
   white-space: pre-line;
+  text-align: justify;
+  text-justify: inter-ideograph;
 }
 
 .terms-back-btn {

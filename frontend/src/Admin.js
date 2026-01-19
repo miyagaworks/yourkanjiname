@@ -23,7 +23,7 @@ function Admin() {
   const [showPartnerForm, setShowPartnerForm] = useState(false);
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
-    phone: '', bank_name: '', bank_account: '', royalty_rate: '0.10'
+    phone: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -113,7 +113,7 @@ function Admin() {
         setShowPartnerForm(false);
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
-          phone: '', bank_name: '', bank_account: '', royalty_rate: '0.10'
+          phone: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
         });
         fetchPartners();
       } else {
@@ -670,6 +670,14 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
+                      <label>支店名</label>
+                      <input
+                        type="text"
+                        value={partnerForm.bank_branch}
+                        onChange={(e) => setPartnerForm({...partnerForm, bank_branch: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
                       <label>口座番号</label>
                       <input
                         type="text"
@@ -758,6 +766,7 @@ function Admin() {
                       contact_name: editingPartner.contact_name,
                       phone: editingPartner.phone,
                       bank_name: editingPartner.bank_name,
+                      bank_branch: editingPartner.bank_branch,
                       bank_account: editingPartner.bank_account,
                       royalty_rate: editingPartner.royalty_rate,
                       status: editingPartner.status
@@ -803,6 +812,14 @@ function Admin() {
                         type="text"
                         value={editingPartner.bank_name || ''}
                         onChange={(e) => setEditingPartner({...editingPartner, bank_name: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>支店名</label>
+                      <input
+                        type="text"
+                        value={editingPartner.bank_branch || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, bank_branch: e.target.value})}
                       />
                     </div>
                     <div className="form-row">

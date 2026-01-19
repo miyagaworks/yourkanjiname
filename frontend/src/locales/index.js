@@ -31,7 +31,7 @@ const translations = {
     // Landing page
     landingTitle: 'Get Your Unique Kanji Name',
     landingDesc: 'Discover your personalized Japanese kanji name, handwritten by a professional calligrapher and delivered to your email.',
-    feature1: 'Answer a few questions about yourself',
+    feature1: 'Answer questions that explore your inner self',
     feature2: 'Your unique kanji name is generated',
     feature3: 'Professional calligraphy delivered by email',
     priceLabel: 'Service Fee',
@@ -69,7 +69,7 @@ const translations = {
 
     landingTitle: 'Obtenez votre nom Kanji unique',
     landingDesc: 'Découvrez votre nom japonais personnalisé en kanji, écrit à la main par un calligraphe professionnel.',
-    feature1: 'Répondez à quelques questions sur vous',
+    feature1: 'Répondez à des questions qui explorent votre personnalité profonde',
     feature2: 'Votre nom kanji unique est généré',
     feature3: 'Calligraphie professionnelle envoyée par e-mail',
     priceLabel: 'Frais de service',
@@ -106,7 +106,7 @@ const translations = {
 
     landingTitle: 'Erhalten Sie Ihren einzigartigen Kanji-Namen',
     landingDesc: 'Entdecken Sie Ihren personalisierten japanischen Kanji-Namen, handgeschrieben von einem professionellen Kalligraphen.',
-    feature1: 'Beantworten Sie einige Fragen über sich',
+    feature1: 'Beantworten Sie Fragen, die Ihr inneres Selbst erkunden',
     feature2: 'Ihr einzigartiger Kanji-Name wird generiert',
     feature3: 'Professionelle Kalligraphie per E-Mail geliefert',
     priceLabel: 'Servicegebühr',
@@ -143,7 +143,7 @@ const translations = {
 
     landingTitle: 'Obtén tu nombre Kanji único',
     landingDesc: 'Descubre tu nombre japonés personalizado en kanji, escrito a mano por un calígrafo profesional.',
-    feature1: 'Responde algunas preguntas sobre ti',
+    feature1: 'Responde preguntas que exploran tu ser interior',
     feature2: 'Se genera tu nombre kanji único',
     feature3: 'Caligrafía profesional enviada por correo',
     priceLabel: 'Tarifa del servicio',
@@ -180,7 +180,7 @@ const translations = {
 
     landingTitle: 'Ottieni il tuo nome Kanji unico',
     landingDesc: 'Scopri il tuo nome giapponese personalizzato in kanji, scritto a mano da un calligrafo professionista.',
-    feature1: 'Rispondi a qualche domanda su di te',
+    feature1: 'Rispondi a domande che esplorano il tuo io interiore',
     feature2: 'Il tuo nome kanji unico viene generato',
     feature3: 'Calligrafia professionale consegnata via e-mail',
     priceLabel: 'Tariffa del servizio',
@@ -217,7 +217,7 @@ const translations = {
 
     landingTitle: 'รับชื่อคันจิที่ไม่ซ้ำใครของคุณ',
     landingDesc: 'ค้นพบชื่อญี่ปุ่นเฉพาะตัวในรูปแบบคันจิ เขียนด้วยมือโดยนักเขียนพู่กันมืออาชีพ',
-    feature1: 'ตอบคำถามสั้นๆ เกี่ยวกับตัวคุณ',
+    feature1: 'ตอบคำถามที่สำรวจตัวตนภายในของคุณ',
     feature2: 'ชื่อคันจิที่เป็นเอกลักษณ์ของคุณถูกสร้างขึ้น',
     feature3: 'งานเขียนพู่กันมืออาชีพส่งทางอีเมล',
     priceLabel: 'ค่าบริการ',
@@ -254,7 +254,7 @@ const translations = {
 
     landingTitle: 'Nhận tên Kanji độc đáo của bạn',
     landingDesc: 'Khám phá tên Nhật Bản cá nhân hóa bằng kanji, viết tay bởi nhà thư pháp chuyên nghiệp.',
-    feature1: 'Trả lời một vài câu hỏi về bạn',
+    feature1: 'Trả lời câu hỏi khám phá con người bên trong bạn',
     feature2: 'Tên kanji độc đáo của bạn được tạo ra',
     feature3: 'Thư pháp chuyên nghiệp gửi qua email',
     priceLabel: 'Phí dịch vụ',
@@ -291,7 +291,7 @@ const translations = {
 
     landingTitle: 'Dapatkan Nama Kanji Unik Anda',
     landingDesc: 'Temukan nama Jepang pribadi Anda dalam kanji, ditulis tangan oleh kaligrafer profesional.',
-    feature1: 'Jawab beberapa pertanyaan tentang diri Anda',
+    feature1: 'Jawab pertanyaan yang mengeksplorasi diri Anda yang sebenarnya',
     feature2: 'Nama kanji unik Anda dihasilkan',
     feature3: 'Kaligrafi profesional dikirim via email',
     priceLabel: 'Biaya Layanan',
@@ -328,7 +328,7 @@ const translations = {
 
     landingTitle: '나만의 한자 이름을 받으세요',
     landingDesc: '나만의 특별한 한자 이름을 만들고, 전문 서예가가 정성껏 손글씨로 보내드립니다.',
-    feature1: '자신에 대한 몇 가지 질문에 답하세요',
+    feature1: '내면을 탐구하는 질문에 답하세요',
     feature2: '고유한 한자 이름이 생성됩니다',
     feature3: '전문 서예를 이메일로 배송',
     priceLabel: '서비스 요금',
@@ -365,7 +365,7 @@ const translations = {
 
     landingTitle: 'あなただけの漢字名を手に入れよう',
     landingDesc: 'あなただけのオリジナル漢字名を作成し、プロの書道家が心を込めて手書きでお届けします。',
-    feature1: '自分についての質問に答える',
+    feature1: 'あなたの内面を探る質問に回答',
     feature2: 'あなただけの漢字名を生成',
     feature3: 'プロの書道をメールでお届け',
     priceLabel: 'サービス料金',

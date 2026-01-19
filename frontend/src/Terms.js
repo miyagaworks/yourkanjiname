@@ -11,7 +11,7 @@ const Terms = ({ onBack, language = 'en' }) => {
           title: '1. Service Description',
           content: `Your Kanji Name is a service that creates personalized Japanese kanji names for customers based on their preferences and personality. The service includes:
 
-• Personalized kanji name creation based on questionnaire responses
+• Personalized kanji name creation based on your question responses
 • Professional calligraphy artwork of your kanji name
 • Explanation of the meaning and significance of your name
 • Digital delivery of the calligraphy image via email`
@@ -48,7 +48,7 @@ const Terms = ({ onBack, language = 'en' }) => {
         {
           title: '6. Privacy',
           content: `• We collect your email address to deliver your calligraphy
-• Your questionnaire responses are used solely to create your personalized name
+• Your question responses are used solely to create your personalized name
 • We do not sell or share your personal information with third parties
 • Payment information is processed securely by Stripe and not stored on our servers`
         },
@@ -61,7 +61,9 @@ const Terms = ({ onBack, language = 'en' }) => {
         },
         {
           title: '8. Contact',
-          content: `For questions or concerns about our service, please contact us through our website.`
+          content: `For questions or concerns about our service, please contact us at:
+
+contact@kanjiname.jp`
         }
       ],
       backButton: 'Back'
@@ -74,7 +76,7 @@ const Terms = ({ onBack, language = 'en' }) => {
           title: '1. サービス内容',
           content: `Your Kanji Nameは、お客様のご希望や個性に基づいて、オリジナルの漢字名を作成するサービスです。サービスには以下が含まれます：
 
-• アンケート回答に基づくオリジナル漢字名の作成
+• 質問回答に基づくオリジナル漢字名の作成
 • プロの書道家による書道作品
 • お名前の意味と由来の説明
 • 書道画像のメール配信`
@@ -111,7 +113,7 @@ const Terms = ({ onBack, language = 'en' }) => {
         {
           title: '6. プライバシー',
           content: `• 書道をお届けするためにメールアドレスを収集します
-• アンケート回答はお名前作成のみに使用されます
+• 質問回答はお名前作成のみに使用されます
 • 個人情報を第三者に販売・共有することはありません
 • 決済情報はStripeが安全に処理し、当社サーバーには保存されません`
         },
@@ -124,7 +126,9 @@ const Terms = ({ onBack, language = 'en' }) => {
         },
         {
           title: '8. お問い合わせ',
-          content: `サービスに関するご質問やご懸念は、ウェブサイトからお問い合わせください。`
+          content: `サービスに関するご質問やご懸念は、下記までお問い合わせください。
+
+contact@kanjiname.jp`
         }
       ],
       backButton: '戻る'

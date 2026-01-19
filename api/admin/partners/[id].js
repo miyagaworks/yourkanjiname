@@ -78,7 +78,7 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         SELECT
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
-          p.bank_name, p.bank_account, p.royalty_rate, p.status,
+          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
           p.created_at, p.updated_at,
           COALESCE(COUNT(pay.id), 0) as total_payments,
           COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount ELSE 0 END), 0) as total_revenue
@@ -131,6 +131,7 @@ module.exports = async function handler(req, res) {
         phone,
         address,
         bank_name,
+        bank_branch,
         bank_account,
         royalty_rate,
         status
@@ -194,6 +195,12 @@ module.exports = async function handler(req, res) {
         values.push(bank_name);
       }
 
+      if (bank_branch !== undefined) {
+        paramCount++;
+        updates.push(`bank_branch = $${paramCount}`);
+        values.push(bank_branch);
+      }
+
       if (bank_account !== undefined) {
         paramCount++;
         updates.push(`bank_account = $${paramCount}`);
@@ -232,7 +239,7 @@ module.exports = async function handler(req, res) {
         SET ${updates.join(', ')}, updated_at = NOW()
         WHERE id = $${paramCount}
         RETURNING id, code, name, email, contact_name, phone, address,
-                  bank_name, bank_account, royalty_rate, status, created_at, updated_at
+                  bank_name, bank_branch, bank_account, royalty_rate, status, created_at, updated_at
       `;
 
       const result = await dbPool.query(updateQuery, values);

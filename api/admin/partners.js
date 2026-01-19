@@ -70,7 +70,7 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         SELECT
           p.id, p.code, p.name, p.email, p.contact_name, p.phone,
-          p.bank_name, p.bank_account, p.royalty_rate, p.status,
+          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
           p.created_at, p.updated_at,
           COALESCE(COUNT(pay.id), 0) as total_payments,
           COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount ELSE 0 END), 0) as total_revenue,
@@ -103,6 +103,7 @@ module.exports = async function handler(req, res) {
         phone,
         address,
         bank_name,
+        bank_branch,
         bank_account,
         royalty_rate
       } = req.body;
@@ -148,10 +149,10 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         INSERT INTO partners (
           code, name, email, password_hash, contact_name, phone, address,
-          bank_name, bank_account, royalty_rate, status
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, 'active')
+          bank_name, bank_branch, bank_account, royalty_rate, status
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'active')
         RETURNING id, code, name, email, contact_name, phone, address,
-                  bank_name, bank_account, royalty_rate, status, created_at
+                  bank_name, bank_branch, bank_account, royalty_rate, status, created_at
       `, [
         code,
         name,
@@ -161,6 +162,7 @@ module.exports = async function handler(req, res) {
         phone || null,
         address || null,
         bank_name || null,
+        bank_branch || null,
         bank_account || null,
         royalty_rate || 0.10
       ]);

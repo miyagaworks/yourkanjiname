@@ -1067,7 +1067,10 @@ body::before {
 @media (max-width: 768px) {
   .landing-card {
     padding: 24px 20px;
-    border-radius: 12px;
+    border-radius: 0;
+    margin: -20px;
+    min-height: 100vh;
+    box-shadow: none;
   }
 
   .landing-logo {
