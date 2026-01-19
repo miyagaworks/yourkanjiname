@@ -45,13 +45,7 @@ module.exports = async function handler(req, res) {
   try {
     const { session_id, partner_code, customer_email, kanji_name } = req.body;
 
-    // Validate required fields
-    if (!session_id) {
-      return res.status(400).json({
-        error: { code: 'INVALID_REQUEST', message: 'session_id is required' }
-      });
-    }
-
+    // session_id is optional - payment can happen before session creation
     const dbPool = getPool();
     let partnerId = null;
     let partnerRoyaltyRate = 0.10;
@@ -76,7 +70,7 @@ module.exports = async function handler(req, res) {
       amount,
       currency: 'usd',
       metadata: {
-        session_id,
+        session_id: session_id || '',
         partner_code: partner_code || '',
         partner_id: partnerId ? partnerId.toString() : '',
         kanji_name: kanji_name || ''
@@ -91,7 +85,7 @@ module.exports = async function handler(req, res) {
         partner_code, partner_id, customer_email, kanji_name
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [
-        session_id,
+        session_id || null,
         paymentIntent.id,
         5.00,
         'usd',
