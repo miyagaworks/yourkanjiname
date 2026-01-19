@@ -6,6 +6,7 @@ import { useTranslation } from './hooks/useTranslation';
 import LanguageSelector from './components/LanguageSelector';
 import Admin from './Admin';
 import Partner from './Partner';
+import PaymentModal from './components/PaymentModal';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -251,18 +252,25 @@ const SakuraEffect = () => {
   );
 };
 
-// Calligrapher Email Signup Section
+// Calligrapher Email Signup Section with Payment
 const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, explanationUser }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [showPayment, setShowPayment] = useState(false);
   const { t } = useTranslation();
 
-  const handleSubmit = async (e) => {
+  const partnerCode = sessionStorage.getItem('partnerCode');
+
+  const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (!email.trim()) return;
+    setShowPayment(true);
+  };
 
+  const handlePaymentSuccess = async (paymentIntentId) => {
+    setShowPayment(false);
     setSubmitting(true);
     setError(null);
     try {
@@ -275,7 +283,9 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
           user_name: userName,
           language,
           explanation_ja: explanationJa,
-          explanation_user_lang: explanationUser
+          explanation_user_lang: explanationUser,
+          payment_intent_id: paymentIntentId,
+          partner_code: partnerCode
         })
       });
 
@@ -292,6 +302,10 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
     }
   };
 
+  const handlePaymentCancel = () => {
+    setShowPayment(false);
+  };
+
   if (submitted) {
     return (
       <div className="calligrapher-section">
@@ -306,6 +320,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
     <div className="calligrapher-section">
       <h3 className="calligrapher-title">{t('calligrapherTitle')}</h3>
       <p className="calligrapher-description">{t('calligrapherDesc')}</p>
+      <p className="calligrapher-price">$5.00 USD</p>
 
       <div className="calligrapher-samples">
         <img src="/images/calligraphy/01.png" alt="Sample 1" />
@@ -314,23 +329,33 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
         <img src="/images/calligraphy/04.png" alt="Sample 4" />
       </div>
 
-      <form className="calligrapher-form" onSubmit={handleSubmit}>
-        <input
-          type="email"
-          className="calligrapher-email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder={t('emailPlaceholder')}
-          required
+      {!showPayment ? (
+        <form className="calligrapher-form" onSubmit={handleEmailSubmit}>
+          <input
+            type="email"
+            className="calligrapher-email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={t('emailPlaceholder')}
+            required
+          />
+          <button
+            type="submit"
+            className="calligrapher-submit"
+            disabled={!email.trim() || submitting}
+          >
+            {submitting ? t('sending') : t('request')}
+          </button>
+        </form>
+      ) : (
+        <PaymentModal
+          email={email}
+          kanjiName={kanjiName}
+          partnerCode={partnerCode}
+          onSuccess={handlePaymentSuccess}
+          onCancel={handlePaymentCancel}
         />
-        <button
-          type="submit"
-          className="calligrapher-submit"
-          disabled={!email.trim() || submitting}
-        >
-          {submitting ? t('sending') : t('request')}
-        </button>
-      </form>
+      )}
       {error && <p className="calligrapher-error">{error}</p>}
     </div>
   );
