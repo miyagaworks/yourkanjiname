@@ -7,6 +7,7 @@ import LanguageSelector from './components/LanguageSelector';
 import Admin from './Admin';
 import Partner from './Partner';
 import PaymentModal from './components/PaymentModal';
+import Terms from './Terms';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -252,25 +253,20 @@ const SakuraEffect = () => {
   );
 };
 
-// Calligrapher Email Signup Section with Payment
-const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, explanationUser }) => {
+// Calligrapher Email Signup Section (payment already done at start)
+const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, explanationUser, paymentIntentId }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
-  const [showPayment, setShowPayment] = useState(false);
   const { t } = useTranslation();
 
   const partnerCode = sessionStorage.getItem('partnerCode');
 
-  const handleEmailSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
-    setShowPayment(true);
-  };
 
-  const handlePaymentSuccess = async (paymentIntentId) => {
-    setShowPayment(false);
     setSubmitting(true);
     setError(null);
     try {
@@ -302,10 +298,6 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
     }
   };
 
-  const handlePaymentCancel = () => {
-    setShowPayment(false);
-  };
-
   if (submitted) {
     return (
       <div className="calligrapher-section">
@@ -319,8 +311,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
   return (
     <div className="calligrapher-section">
       <h3 className="calligrapher-title">{t('calligrapherTitle')}</h3>
-      <p className="calligrapher-description">{t('calligrapherDesc')}</p>
-      <p className="calligrapher-price">$5.00 USD</p>
+      <p className="calligrapher-description">{t('calligrapherDescPaid') || 'Enter your email address to receive your calligraphy artwork.'}</p>
 
       <div className="calligrapher-samples">
         <img src="/images/calligraphy/01.png" alt="Sample 1" />
@@ -329,40 +320,30 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
         <img src="/images/calligraphy/04.png" alt="Sample 4" />
       </div>
 
-      {!showPayment ? (
-        <form className="calligrapher-form" onSubmit={handleEmailSubmit}>
-          <input
-            type="email"
-            className="calligrapher-email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={t('emailPlaceholder')}
-            required
-          />
-          <button
-            type="submit"
-            className="calligrapher-submit"
-            disabled={!email.trim() || submitting}
-          >
-            {submitting ? t('sending') : t('request')}
-          </button>
-        </form>
-      ) : (
-        <PaymentModal
-          email={email}
-          kanjiName={kanjiName}
-          partnerCode={partnerCode}
-          onSuccess={handlePaymentSuccess}
-          onCancel={handlePaymentCancel}
+      <form className="calligrapher-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          className="calligrapher-email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder={t('emailPlaceholder')}
+          required
         />
-      )}
+        <button
+          type="submit"
+          className="calligrapher-submit"
+          disabled={!email.trim() || submitting}
+        >
+          {submitting ? t('sending') : t('sendCalligraphy') || 'Send Calligraphy'}
+        </button>
+      </form>
       {error && <p className="calligrapher-error">{error}</p>}
     </div>
   );
 };
 
 // Result Component
-const ResultCard = ({ result, language, userName }) => {
+const ResultCard = ({ result, language, userName, paymentIntentId }) => {
   const { t } = useTranslation();
 
   if (!result || !result.explanation) {
@@ -417,6 +398,7 @@ const ResultCard = ({ result, language, userName }) => {
         userName={userName}
         explanationJa={result.explanation?.ja || result.explanation}
         explanationUser={result.explanation?.[language] || result.explanation?.en}
+        paymentIntentId={paymentIntentId}
       />
 
       <div className="matching-scores">
@@ -466,10 +448,15 @@ function App() {
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState('');
-  const [showNameInput, setShowNameInput] = useState(true);
+  const [showNameInput, setShowNameInput] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
+  const [showLanding, setShowLanding] = useState(true);
+  const [showTerms, setShowTerms] = useState(false);
+  const [hasPaid, setHasPaid] = useState(false);
+  const [paymentIntentId, setPaymentIntentId] = useState(null);
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
+  const partnerCode = sessionStorage.getItem('partnerCode');
 
   // 背景画像を設定
   useEffect(() => {
@@ -538,6 +525,14 @@ function App() {
       return opt?.next || q.next;
     }
     return q.next;
+  };
+
+  // 決済成功後の処理
+  const handlePaymentSuccess = (intentId) => {
+    setPaymentIntentId(intentId);
+    setHasPaid(true);
+    setShowLanding(false);
+    setShowNameInput(true);
   };
 
   // 名前入力後にセッション初期化
@@ -649,6 +644,76 @@ function App() {
     );
   }
 
+  // 利用規約ページ
+  if (showTerms) {
+    return <Terms language={language} onBack={() => setShowTerms(false)} />;
+  }
+
+  // ランディングページ（決済前）
+  if (showLanding && !hasPaid) {
+    return (
+      <>
+        <div className="container">
+          <LanguageSelector />
+          <div className="landing-card">
+            <img
+              src="/images/logo_color.svg"
+              alt="Your Kanji Name"
+              className="landing-logo"
+            />
+            <h1 className="landing-title">{t('landingTitle') || 'Get Your Unique Kanji Name'}</h1>
+            <p className="landing-description">
+              {t('landingDesc') || 'Discover your personalized Japanese kanji name, handwritten by a professional calligrapher and delivered to your email.'}
+            </p>
+
+            <div className="landing-samples">
+              <img src="/images/calligraphy/01.png" alt="Sample 1" />
+              <img src="/images/calligraphy/02.png" alt="Sample 2" />
+              <img src="/images/calligraphy/03.png" alt="Sample 3" />
+              <img src="/images/calligraphy/04.png" alt="Sample 4" />
+            </div>
+
+            <div className="landing-features">
+              <div className="feature">
+                <span className="feature-icon">1</span>
+                <span>{t('feature1') || 'Answer a few questions about yourself'}</span>
+              </div>
+              <div className="feature">
+                <span className="feature-icon">2</span>
+                <span>{t('feature2') || 'AI generates your unique kanji name'}</span>
+              </div>
+              <div className="feature">
+                <span className="feature-icon">3</span>
+                <span>{t('feature3') || 'Professional calligraphy delivered by email'}</span>
+              </div>
+            </div>
+
+            <div className="landing-price">
+              <span className="price-label">{t('priceLabel') || 'Service Fee'}</span>
+              <span className="price-amount">$5.00 USD</span>
+            </div>
+
+            <PaymentModal
+              email=""
+              kanjiName=""
+              partnerCode={partnerCode}
+              onSuccess={handlePaymentSuccess}
+              onCancel={() => {}}
+              isLandingPage={true}
+            />
+
+            <button className="terms-link" onClick={() => setShowTerms(true)}>
+              {t('termsLink') || 'Terms of Service'}
+            </button>
+          </div>
+        </div>
+        <footer className="footer">
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
+        </footer>
+      </>
+    );
+  }
+
   // 名前入力画面
   if (showNameInput) {
     return (
@@ -701,7 +766,7 @@ function App() {
       <>
         <div className="container">
           <LanguageSelector />
-          <ResultCard result={result} language={language} userName={userName} />
+          <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} />
         </div>
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>

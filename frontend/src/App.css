@@ -878,3 +878,239 @@ body::before {
     gap: 10px;
   }
 }
+
+/* ===================================
+   Landing Page (Payment)
+   =================================== */
+
+.landing-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.landing-logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.landing-title {
+  font-size: 1.75rem;
+  color: #c75450;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.landing-description {
+  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.landing-samples {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto 32px;
+}
+
+.landing-samples img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.landing-features {
+  text-align: left;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.feature:last-child {
+  border-bottom: none;
+}
+
+.feature-icon {
+  width: 32px;
+  height: 32px;
+  background: #c75450;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.feature span:last-child {
+  color: #333;
+  font-size: 0.9375rem;
+}
+
+.landing-price {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.price-label {
+  font-size: 0.9375rem;
+}
+
+.price-amount {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.terms-link {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 16px;
+}
+
+.terms-link:hover {
+  color: #c75450;
+}
+
+/* Payment inline styles for landing */
+.payment-inline {
+  margin-top: 8px;
+}
+
+.payment-inline .payment-loading {
+  padding: 30px;
+}
+
+.payment-inline .spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #c75450;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.payment-form.landing-mode {
+  background: transparent;
+  padding: 0;
+}
+
+.payment-form.landing-mode .payment-element {
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.payment-actions.landing-actions {
+  justify-content: center;
+}
+
+.payment-submit-btn.landing-submit {
+  width: 100%;
+  padding: 16px 32px;
+  font-size: 1.125rem;
+  border-radius: 8px;
+}
+
+.payment-retry-btn {
+  padding: 12px 24px;
+  background: #c75450;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.payment-retry-btn:hover {
+  background: #a84440;
+}
+
+/* Landing responsive */
+@media (max-width: 768px) {
+  .landing-card {
+    padding: 24px 20px;
+    border-radius: 12px;
+  }
+
+  .landing-logo {
+    width: 160px;
+  }
+
+  .landing-title {
+    font-size: 1.375rem;
+  }
+
+  .landing-description {
+    font-size: 0.9375rem;
+  }
+
+  .landing-samples {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 200px;
+  }
+
+  .landing-features {
+    padding: 16px;
+  }
+
+  .feature {
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .feature-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+
+  .feature span:last-child {
+    font-size: 0.875rem;
+  }
+
+  .landing-price {
+    padding: 12px;
+  }
+
+  .price-amount {
+    font-size: 1.5rem;
+  }
+}
