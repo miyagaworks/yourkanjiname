@@ -6,10 +6,12 @@ function Partner() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [partnerInfo, setPartnerInfo] = useState(null);
 
-  // Reset body background for partner page
+  // Reset body styles for partner page
   useEffect(() => {
     document.body.style.setProperty('background-image', 'none', 'important');
     document.body.style.setProperty('background-color', '#f5f5f5', 'important');
+    document.body.style.setProperty('padding', '0', 'important');
+    document.body.style.setProperty('display', 'block', 'important');
   }, []);
 
   // Check for existing session

@@ -9,10 +9,12 @@ function PartnerLogin({ onLogin }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Reset body background for partner page
+  // Reset body styles for partner page
   useEffect(() => {
     document.body.style.setProperty('background-image', 'none', 'important');
     document.body.style.setProperty('background-color', '#f5f5f5', 'important');
+    document.body.style.setProperty('padding', '0', 'important');
+    document.body.style.setProperty('display', 'block', 'important');
   }, []);
 
   const handleSubmit = async (e) => {
@@ -35,11 +37,11 @@ function PartnerLogin({ onLogin }) {
         sessionStorage.setItem('partnerInfo', JSON.stringify(data.partner));
         onLogin(data.partner);
       } else {
-        setError(data.error?.message || 'Login failed');
+        setError(data.error?.message || 'ログインに失敗しました');
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError('Login failed. Please try again.');
+      setError('ログインに失敗しました。もう一度お試しください。');
     }
 
     setLoading(false);
@@ -54,32 +56,32 @@ function PartnerLogin({ onLogin }) {
             alt="Your Kanji Name"
             className="partner-logo"
           />
-          <h1>Partner Portal</h1>
-          <p>Sign in to view your affiliate dashboard</p>
+          <h1>パートナーポータル</h1>
+          <p>アフィリエイトダッシュボードにログイン</p>
         </div>
 
         <form onSubmit={handleSubmit} className="partner-login-form">
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">メールアドレス</label>
             <input
               type="email"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
+              placeholder="example@email.com"
               required
               autoFocus
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">パスワード</label>
             <input
               type="password"
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Your password"
+              placeholder="パスワード"
               required
             />
           </div>
@@ -91,12 +93,12 @@ function PartnerLogin({ onLogin }) {
             className="partner-login-btn"
             disabled={loading || !email || !password}
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? 'ログイン中...' : 'ログイン'}
           </button>
         </form>
 
         <div className="partner-login-footer">
-          <a href="/" className="back-link">Back to Your Kanji Name</a>
+          <a href="/" className="back-link">Your Kanji Nameに戻る</a>
         </div>
       </div>
     </div>

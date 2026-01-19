@@ -9,6 +9,14 @@ function PartnerDashboard({ partner, onLogout }) {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
 
+  // Reset body styles for partner dashboard
+  useEffect(() => {
+    document.body.style.setProperty('background-image', 'none', 'important');
+    document.body.style.setProperty('background-color', '#f5f5f5', 'important');
+    document.body.style.setProperty('padding', '0', 'important');
+    document.body.style.setProperty('display', 'block', 'important');
+  }, []);
+
   useEffect(() => {
     fetchDashboardData();
   }, []);
@@ -32,7 +40,7 @@ function PartnerDashboard({ partner, onLogout }) {
       setDashboardData(data);
     } catch (err) {
       console.error('Dashboard fetch error:', err);
-      setError(err.message || 'Failed to load dashboard');
+      setError(err.message || 'ダッシュボードの読み込みに失敗しました');
     }
 
     setLoading(false);
@@ -47,7 +55,7 @@ function PartnerDashboard({ partner, onLogout }) {
   const copyToClipboard = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert('Copied to clipboard!');
+      alert('コピーしました');
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -61,18 +69,35 @@ function PartnerDashboard({ partner, onLogout }) {
   };
 
   const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+    return new Date(dateStr).toLocaleDateString('ja-JP', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     });
   };
 
+  const getStatusLabel = (status) => {
+    const labels = {
+      succeeded: '完了',
+      pending: '処理中',
+      failed: '失敗'
+    };
+    return labels[status] || status;
+  };
+
+  const getPayoutStatusLabel = (status) => {
+    const labels = {
+      pending: '未払い',
+      paid: '支払済'
+    };
+    return labels[status] || status;
+  };
+
   if (loading) {
     return (
       <div className="partner-dashboard loading-state">
         <div className="spinner"></div>
-        <p>Loading dashboard...</p>
+        <p>読み込み中...</p>
       </div>
     );
   }
@@ -81,7 +106,7 @@ function PartnerDashboard({ partner, onLogout }) {
     return (
       <div className="partner-dashboard error-state">
         <p>{error}</p>
-        <button onClick={fetchDashboardData}>Retry</button>
+        <button onClick={fetchDashboardData}>再試行</button>
       </div>
     );
   }
@@ -91,14 +116,11 @@ function PartnerDashboard({ partner, onLogout }) {
   return (
     <div className="partner-dashboard">
       <header className="partner-header">
-        <div className="header-left">
-          <img src="/images/logo_color.svg" alt="Your Kanji Name" className="header-logo" />
-          <div className="header-info">
-            <h1>Partner Dashboard</h1>
-            <p>Welcome, {partner.name}</p>
-          </div>
+        <div className="header-info">
+          <h1>パートナーダッシュボード</h1>
+          <p>{partner.name} 様</p>
         </div>
-        <button onClick={handleLogout} className="logout-btn">Logout</button>
+        <button onClick={handleLogout} className="logout-btn">ログアウト</button>
       </header>
 
       <nav className="partner-nav">
@@ -106,19 +128,19 @@ function PartnerDashboard({ partner, onLogout }) {
           className={activeTab === 'overview' ? 'active' : ''}
           onClick={() => setActiveTab('overview')}
         >
-          Overview
+          概要
         </button>
         <button
           className={activeTab === 'history' ? 'active' : ''}
           onClick={() => setActiveTab('history')}
         >
-          History
+          履歴
         </button>
         <button
           className={activeTab === 'qrcode' ? 'active' : ''}
           onClick={() => setActiveTab('qrcode')}
         >
-          QR Code
+          QRコード
         </button>
       </nav>
 
@@ -127,43 +149,43 @@ function PartnerDashboard({ partner, onLogout }) {
           <div className="overview-tab">
             <div className="stats-grid">
               <div className="stat-card highlight">
-                <div className="stat-label">Pending Royalty</div>
+                <div className="stat-label">未払いロイヤリティ</div>
                 <div className="stat-value">{formatCurrency(stats.pending_royalty)}</div>
-                <div className="stat-note">Available for payout</div>
+                <div className="stat-note">支払い可能額</div>
               </div>
 
               <div className="stat-card">
-                <div className="stat-label">This Month</div>
+                <div className="stat-label">今月</div>
                 <div className="stat-value">{formatCurrency(stats.current_month.royalty)}</div>
-                <div className="stat-note">{stats.current_month.payments} payments</div>
+                <div className="stat-note">{stats.current_month.payments}件</div>
               </div>
 
               <div className="stat-card">
-                <div className="stat-label">All Time Revenue</div>
+                <div className="stat-label">累計売上</div>
                 <div className="stat-value">{formatCurrency(stats.all_time.revenue)}</div>
-                <div className="stat-note">{stats.all_time.payments} total payments</div>
+                <div className="stat-note">合計{stats.all_time.payments}件</div>
               </div>
 
               <div className="stat-card">
-                <div className="stat-label">Total Royalty Earned</div>
+                <div className="stat-label">累計ロイヤリティ</div>
                 <div className="stat-value">{formatCurrency(stats.all_time.royalty)}</div>
-                <div className="stat-note">{(dashboardData.partner.royalty_rate * 100).toFixed(0)}% rate</div>
+                <div className="stat-note">還元率 {(dashboardData.partner.royalty_rate * 100).toFixed(0)}%</div>
               </div>
             </div>
 
             <div className="recent-section">
-              <h2>Recent Payments</h2>
+              <h2>最近の決済</h2>
               {recent_payments.length === 0 ? (
-                <p className="no-data">No payments yet. Share your QR code to start earning!</p>
+                <p className="no-data">まだ決済がありません。QRコードを共有して収益を獲得しましょう！</p>
               ) : (
                 <table className="payments-table">
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Kanji Name</th>
-                      <th>Amount</th>
-                      <th>Royalty</th>
-                      <th>Status</th>
+                      <th>日付</th>
+                      <th>漢字名</th>
+                      <th>金額</th>
+                      <th>ロイヤリティ</th>
+                      <th>状態</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -175,7 +197,7 @@ function PartnerDashboard({ partner, onLogout }) {
                         <td>{formatCurrency(payment.amount * dashboardData.partner.royalty_rate)}</td>
                         <td>
                           <span className={`status-badge status-${payment.status}`}>
-                            {payment.status}
+                            {getStatusLabel(payment.status)}
                           </span>
                         </td>
                       </tr>
@@ -189,19 +211,19 @@ function PartnerDashboard({ partner, onLogout }) {
 
         {activeTab === 'history' && (
           <div className="history-tab">
-            <h2>Monthly History</h2>
+            <h2>月別履歴</h2>
             {monthly_history.length === 0 ? (
-              <p className="no-data">No history yet.</p>
+              <p className="no-data">まだ履歴がありません。</p>
             ) : (
               <table className="history-table">
                 <thead>
                   <tr>
-                    <th>Month</th>
-                    <th>Payments</th>
-                    <th>Revenue</th>
-                    <th>Royalty</th>
-                    <th>Status</th>
-                    <th>Paid Date</th>
+                    <th>月</th>
+                    <th>件数</th>
+                    <th>売上</th>
+                    <th>ロイヤリティ</th>
+                    <th>状態</th>
+                    <th>支払日</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -213,7 +235,7 @@ function PartnerDashboard({ partner, onLogout }) {
                       <td>{formatCurrency(row.royalty)}</td>
                       <td>
                         <span className={`payout-badge payout-${row.payout_status}`}>
-                          {row.payout_status}
+                          {getPayoutStatusLabel(row.payout_status)}
                         </span>
                       </td>
                       <td>{row.paid_at ? formatDate(row.paid_at) : '-'}</td>
@@ -228,8 +250,8 @@ function PartnerDashboard({ partner, onLogout }) {
         {activeTab === 'qrcode' && (
           <div className="qrcode-tab">
             <div className="qrcode-card">
-              <h2>Your Affiliate Link</h2>
-              <p>Share this link or QR code with your customers. When they complete a purchase, you'll earn {(dashboardData.partner.royalty_rate * 100).toFixed(0)}% royalty!</p>
+              <h2>アフィリエイトリンク</h2>
+              <p>このリンクまたはQRコードをお客様に共有してください。お客様が購入を完了すると、{(dashboardData.partner.royalty_rate * 100).toFixed(0)}%のロイヤリティが獲得できます！</p>
 
               <div className="affiliate-link-box">
                 <input
@@ -242,7 +264,7 @@ function PartnerDashboard({ partner, onLogout }) {
                   onClick={() => copyToClipboard(qr_code_url)}
                   className="copy-btn"
                 >
-                  Copy
+                  コピー
                 </button>
               </div>
 
@@ -260,13 +282,13 @@ function PartnerDashboard({ partner, onLogout }) {
                   download="yourkanjiname-qr.png"
                   className="download-btn"
                 >
-                  Download QR Code (PNG)
+                  QRコードをダウンロード (PNG)
                 </a>
               </div>
 
               <div className="partner-code-info">
-                <p>Your partner code: <strong>{partner.code}</strong></p>
-                <p>Customers can also access your link by adding <code>?ref={partner.code}</code> to the website URL.</p>
+                <p>パートナーコード: <strong>{partner.code}</strong></p>
+                <p>お客様はウェブサイトのURLに <code>?ref={partner.code}</code> を追加してアクセスすることもできます。</p>
               </div>
             </div>
           </div>

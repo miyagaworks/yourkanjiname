@@ -36,16 +36,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.header-logo {
-  height: 40px;
-}
-
 .header-info h1 {
   font-size: 1.25rem;
   margin: 0;
@@ -374,16 +364,25 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .partner-header {
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
+  .partner-dashboard {
+    min-height: 100vh;
   }
 
-  .header-left {
-    flex-direction: column;
-    text-align: center;
-    gap: 12px;
+  .partner-header {
+    padding: 12px 16px;
+  }
+
+  .header-info h1 {
+    font-size: 1rem;
+  }
+
+  .header-info p {
+    font-size: 0.8125rem;
+  }
+
+  .logout-btn {
+    padding: 6px 12px;
+    font-size: 0.8125rem;
   }
 
   .partner-nav {
@@ -392,25 +391,42 @@
   }
 
   .partner-nav button {
-    padding: 12px 16px;
+    padding: 12px 8px;
     font-size: 0.8125rem;
+    flex: 1;
+    text-align: center;
   }
 
   .partner-content {
-    padding: 16px;
+    padding: 12px;
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .stat-card {
-    padding: 20px;
+    padding: 12px;
+    border-radius: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
   }
 
   .stat-value {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+  }
+
+  .stat-note {
+    font-size: 0.7rem;
+  }
+
+  .recent-section h2,
+  .history-tab h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
   }
 
   .payments-table,
@@ -418,13 +434,74 @@
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+    font-size: 0.8125rem;
+    border-radius: 8px;
+  }
+
+  .payments-table th,
+  .history-table th {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+  }
+
+  .payments-table td,
+  .history-table td {
+    padding: 10px 12px;
+    font-size: 0.8125rem;
+  }
+
+  .qrcode-tab {
+    max-width: 100%;
   }
 
   .qrcode-card {
-    padding: 24px 16px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .qrcode-card h2 {
+    font-size: 1.125rem;
+  }
+
+  .qrcode-card > p {
+    font-size: 0.875rem;
   }
 
   .affiliate-link-box {
     flex-direction: column;
+    gap: 8px;
+  }
+
+  .affiliate-link-input {
+    font-size: 0.8125rem;
+    padding: 10px 12px;
+  }
+
+  .copy-btn {
+    padding: 10px 16px;
+  }
+
+  .qrcode-image {
+    width: 160px;
+    height: 160px;
+  }
+
+  .download-btn {
+    font-size: 0.8125rem;
+    padding: 10px 16px;
+  }
+
+  .partner-code-info {
+    padding: 12px;
+  }
+
+  .partner-code-info p {
+    font-size: 0.8125rem;
+  }
+
+  .no-data {
+    padding: 24px 16px;
+    font-size: 0.875rem;
+    border-radius: 8px;
   }
 }
