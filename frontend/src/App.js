@@ -326,8 +326,8 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
           className="calligrapher-email"
           value={email}
           onChange={(e) => {
-            // Only allow email-valid characters (alphanumeric, @, ., -, _, +)
-            const filtered = e.target.value.replace(/[^\w@.+-]/g, '');
+            // Only allow ASCII email-valid characters (a-z, A-Z, 0-9, @, ., -, _, +)
+            const filtered = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, '');
             setEmail(filtered);
           }}
           placeholder={t('emailPlaceholder')}
