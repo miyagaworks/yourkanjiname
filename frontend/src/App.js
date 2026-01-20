@@ -327,7 +327,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
           value={email}
           onChange={(e) => {
             // Only allow email-valid characters (alphanumeric, @, ., -, _, +)
-            const filtered = e.target.value.replace(/[^\w@.+\-]/g, '');
+            const filtered = e.target.value.replace(/[^\w@.+-]/g, '');
             setEmail(filtered);
           }}
           placeholder={t('emailPlaceholder')}
