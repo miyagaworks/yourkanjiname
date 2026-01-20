@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Terms.css';
 
 const Terms = ({ onBack, language = 'en' }) => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const content = {
     en: {
       title: 'Terms of Service',
-      lastUpdated: 'Last Updated: January 2025',
+      lastUpdated: 'Last Updated: January 2026',
       sections: [
         {
           title: '1. Service Description',
@@ -70,7 +75,7 @@ contact@kanjiname.jp`
     },
     ja: {
       title: '利用規約',
-      lastUpdated: '最終更新日: 2025年1月',
+      lastUpdated: '最終更新日: 2026年1月',
       sections: [
         {
           title: '1. サービス内容',
