@@ -9,6 +9,7 @@
   right: 0;
   bottom: 0;
   z-index: 9999;
+  overflow-y: auto;
   writing-mode: horizontal-tb !important;
   direction: ltr !important;
   text-orientation: mixed !important;
