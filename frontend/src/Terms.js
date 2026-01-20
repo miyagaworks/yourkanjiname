@@ -30,7 +30,7 @@ const Terms = ({ onBack, language = 'en' }) => {
         },
         {
           title: '3. What You Receive',
-          content: `After completing the questionnaire, you will receive:
+          content: `After answering the questions, you will receive:
 
 • A unique kanji name created specifically for you
 • Explanation of the meaning in your selected language
@@ -95,7 +95,7 @@ contact@kanjiname.jp`
         },
         {
           title: '3. お届けするもの',
-          content: `アンケート完了後、以下をお届けします：
+          content: `質問回答後、以下をお届けします：
 
 • お客様専用に作成されたオリジナル漢字名
 • 選択された言語での意味の説明

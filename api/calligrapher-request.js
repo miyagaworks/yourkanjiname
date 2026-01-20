@@ -45,6 +45,7 @@ const EMAIL_CONFIG = {
     thankYou: 'お申し込みいただきありがとうございます。',
     intro: 'あなたの漢字名「{{kanjiName}}」の書道作品のお申し込みを受け付けました。',
     yourName: 'あなたの漢字名',
+    aboutYourName: '漢字名について',
     calligraphyInfo: 'プロの書道家が心を込めて筆で書き上げ、メールでお届けいたします。作品の完成までしばらくお待ちください。',
     closing: 'Your Kanji Name チーム',
     contact: 'お問い合わせ'
@@ -55,6 +56,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Thank you for your request.',
     intro: 'We have received your request for a calligraphy artwork of your kanji name "{{kanjiName}}".',
     yourName: 'Your Kanji Name',
+    aboutYourName: 'About Your Kanji Name',
     calligraphyInfo: 'A professional calligrapher will write your name with care and dedication, and we will send it to you via email. Please wait for your artwork to be completed.',
     closing: 'Your Kanji Name Team',
     contact: 'Contact'
@@ -65,6 +67,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Merci pour votre demande.',
     intro: 'Nous avons reçu votre demande pour une œuvre calligraphique de votre nom kanji « {{kanjiName}} ».',
     yourName: 'Votre nom en kanji',
+    aboutYourName: 'À propos de votre nom en kanji',
     calligraphyInfo: 'Un calligraphe professionnel écrira votre nom avec soin et dévouement, et nous vous l\'enverrons par e-mail. Veuillez patienter pendant la réalisation de votre œuvre.',
     closing: 'L\'équipe Your Kanji Name',
     contact: 'Contact'
@@ -75,6 +78,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Vielen Dank für Ihre Anfrage.',
     intro: 'Wir haben Ihre Anfrage für ein Kalligraphie-Kunstwerk Ihres Kanji-Namens „{{kanjiName}}" erhalten.',
     yourName: 'Ihr Kanji-Name',
+    aboutYourName: 'Über Ihren Kanji-Namen',
     calligraphyInfo: 'Ein professioneller Kalligraph wird Ihren Namen mit Sorgfalt und Hingabe schreiben, und wir werden ihn Ihnen per E-Mail zusenden. Bitte warten Sie auf die Fertigstellung Ihres Kunstwerks.',
     closing: 'Das Your Kanji Name Team',
     contact: 'Kontakt'
@@ -85,6 +89,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Gracias por su solicitud.',
     intro: 'Hemos recibido su solicitud de una obra caligráfica de su nombre kanji "{{kanjiName}}".',
     yourName: 'Su nombre en kanji',
+    aboutYourName: 'Sobre su nombre en kanji',
     calligraphyInfo: 'Un calígrafo profesional escribirá su nombre con cuidado y dedicación, y se lo enviaremos por correo electrónico. Por favor, espere a que se complete su obra.',
     closing: 'El equipo de Your Kanji Name',
     contact: 'Contacto'
@@ -95,6 +100,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Grazie per la tua richiesta.',
     intro: 'Abbiamo ricevuto la tua richiesta per un\'opera calligrafica del tuo nome kanji "{{kanjiName}}".',
     yourName: 'Il tuo nome in kanji',
+    aboutYourName: 'Informazioni sul tuo nome in kanji',
     calligraphyInfo: 'Un calligrafo professionista scriverà il tuo nome con cura e dedizione, e te lo invieremo via e-mail. Per favore, attendi il completamento della tua opera.',
     closing: 'Il team di Your Kanji Name',
     contact: 'Contatto'
@@ -105,6 +111,7 @@ const EMAIL_CONFIG = {
     thankYou: 'ขอบคุณสำหรับคำขอของคุณ',
     intro: 'เราได้รับคำขอสำหรับงานเขียนพู่กันชื่อคันจิของคุณ "{{kanjiName}}" แล้ว',
     yourName: 'ชื่อคันจิของคุณ',
+    aboutYourName: 'เกี่ยวกับชื่อคันจิของคุณ',
     calligraphyInfo: 'นักเขียนพู่กันมืออาชีพจะเขียนชื่อของคุณด้วยความใส่ใจและทุ่มเท และเราจะส่งให้คุณทางอีเมล กรุณารอการเสร็จสมบูรณ์ของผลงาน',
     closing: 'ทีม Your Kanji Name',
     contact: 'ติดต่อ'
@@ -115,6 +122,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Cảm ơn bạn đã gửi yêu cầu.',
     intro: 'Chúng tôi đã nhận được yêu cầu tác phẩm thư pháp tên kanji "{{kanjiName}}" của bạn.',
     yourName: 'Tên Kanji của bạn',
+    aboutYourName: 'Về tên Kanji của bạn',
     calligraphyInfo: 'Một nhà thư pháp chuyên nghiệp sẽ viết tên bạn với sự tận tâm và chúng tôi sẽ gửi cho bạn qua email. Xin vui lòng chờ đợi tác phẩm của bạn hoàn thành.',
     closing: 'Đội ngũ Your Kanji Name',
     contact: 'Liên hệ'
@@ -125,6 +133,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Terima kasih atas permintaan Anda.',
     intro: 'Kami telah menerima permintaan Anda untuk karya kaligrafi nama kanji Anda "{{kanjiName}}".',
     yourName: 'Nama Kanji Anda',
+    aboutYourName: 'Tentang Nama Kanji Anda',
     calligraphyInfo: 'Seorang kaligrafer profesional akan menulis nama Anda dengan penuh perhatian dan dedikasi, dan kami akan mengirimkannya kepada Anda melalui email. Mohon tunggu hingga karya Anda selesai.',
     closing: 'Tim Your Kanji Name',
     contact: 'Kontak'
@@ -135,6 +144,7 @@ const EMAIL_CONFIG = {
     thankYou: '요청해 주셔서 감사합니다.',
     intro: '귀하의 한자 이름 "{{kanjiName}}" 서예 작품 요청이 접수되었습니다.',
     yourName: '당신의 한자 이름',
+    aboutYourName: '당신의 한자 이름에 대하여',
     calligraphyInfo: '전문 서예가가 정성을 다해 당신의 이름을 써서 이메일로 보내드립니다. 작품이 완성될 때까지 기다려 주세요.',
     closing: 'Your Kanji Name 팀',
     contact: '문의'
@@ -161,6 +171,11 @@ function buildUserEmailHtml(request, config) {
   const intro = config.intro.replace('{{kanjiName}}', request.kanji_name);
   const greeting = buildGreeting(config, request.user_name);
 
+  // Format explanation text with line breaks for HTML
+  const explanationHtml = request.explanation_user_lang
+    ? request.explanation_user_lang.replace(/\n/g, '<br>')
+    : '';
+
   return `
 <!DOCTYPE html>
 <html>
@@ -173,6 +188,9 @@ function buildUserEmailHtml(request, config) {
     .header { text-align: center; padding: 30px 0; border-bottom: 2px solid #c75450; }
     .kanji-name { font-size: 48px; color: #c75450; margin: 20px 0; }
     .content { padding: 30px 0; }
+    .explanation-box { background: #f9f5f5; padding: 20px; border-left: 3px solid #c75450; margin: 20px 0; }
+    .explanation-title { font-weight: bold; color: #c75450; margin-bottom: 10px; }
+    .explanation-text { line-height: 1.8; }
     .footer { text-align: center; padding: 20px 0; color: #888; font-size: 12px; border-top: 1px solid #eee; }
   </style>
 </head>
@@ -190,6 +208,13 @@ function buildUserEmailHtml(request, config) {
         <p style="color: #888; margin-bottom: 10px;">${config.yourName}</p>
         <div class="kanji-name">${request.kanji_name}</div>
       </div>
+
+      ${explanationHtml ? `
+      <div class="explanation-box">
+        <div class="explanation-title">${config.aboutYourName}</div>
+        <div class="explanation-text">${explanationHtml}</div>
+      </div>
+      ` : ''}
 
       <p>${config.calligraphyInfo}</p>
     </div>
@@ -378,7 +403,7 @@ module.exports = async function handler(req, res) {
     }
 
     // Send emails
-    const request = { email, kanji_name, user_name, language, explanation_ja };
+    const request = { email, kanji_name, user_name, language, explanation_ja, explanation_user_lang };
 
     // Send user confirmation email
     const config = EMAIL_CONFIG[language] || EMAIL_CONFIG.en;
