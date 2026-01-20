@@ -819,9 +819,8 @@ body::before {
 @media (max-width: 768px) {
   body {
     padding: 0;
-    align-items: stretch;
-    background-color: rgba(255, 255, 255, 0.95);
-    background-image: none !important;
+    align-items: flex-start;
+    background: white;
   }
 
   body::before {
@@ -831,8 +830,6 @@ body::before {
   #root {
     width: 100%;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
   }
 
   .language-toggle {
@@ -1112,7 +1109,7 @@ body::before {
     max-width: 100%;
     min-height: auto;
     box-shadow: none;
-    background: transparent;
+    background: white;
   }
 
   .landing-logo {
@@ -1129,7 +1126,8 @@ body::before {
 
   .landing-samples {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 200px;
+    max-width: 280px;
+    gap: 12px;
   }
 
   .landing-features {
