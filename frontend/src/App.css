@@ -819,7 +819,14 @@ body::before {
 @media (max-width: 768px) {
   body {
     padding: 0;
-    align-items: flex-start;
+    align-items: stretch;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   .language-toggle {
@@ -1076,8 +1083,9 @@ body::before {
     margin: 0;
     width: 100%;
     max-width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     box-shadow: none;
+    flex: 1;
   }
 
   .landing-logo {
