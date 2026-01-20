@@ -11,7 +11,9 @@ import './PaymentModal.css';
 const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 // Load Stripe outside of component to avoid recreating on re-render
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+// Only load if key is available (not in skip payment mode)
+const stripeKey = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
+const stripePromise = stripeKey ? loadStripe(stripeKey) : null;
 
 // Payment form component
 const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
@@ -95,6 +97,12 @@ const PaymentModal = ({
   const amount = 500; // $5.00 in cents
 
   useEffect(() => {
+    // If Stripe is not configured, skip
+    if (!stripePromise) {
+      setLoading(false);
+      return;
+    }
+
     // Create payment intent on mount
     const createPaymentIntent = async () => {
       try {
@@ -125,6 +133,11 @@ const PaymentModal = ({
 
     createPaymentIntent();
   }, [partnerCode, email, kanjiName]);
+
+  // If Stripe is not configured, don't render anything
+  if (!stripePromise) {
+    return null;
+  }
 
   const stripeOptions = {
     clientSecret,

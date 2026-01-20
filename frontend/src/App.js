@@ -325,8 +325,14 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
           type="email"
           className="calligrapher-email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            // Only allow email-valid characters (alphanumeric, @, ., -, _, +)
+            const filtered = e.target.value.replace(/[^\w@.+\-]/g, '');
+            setEmail(filtered);
+          }}
           placeholder={t('emailPlaceholder')}
+          inputMode="email"
+          autoComplete="email"
           required
         />
         <button
@@ -359,9 +365,59 @@ const ResultCard = ({ result, language, userName, paymentIntentId }) => {
 
   // For explanation, use user language if available, fallback to en, then ja
   const getExplanation = () => {
-    if (result.explanation?.[language]) return result.explanation[language];
-    if (language === 'ja') return result.explanation?.ja || result.explanation;
-    return result.explanation?.en || result.explanation?.ja || result.explanation;
+    let text;
+    if (result.explanation?.[language]) {
+      text = result.explanation[language];
+    } else if (language === 'ja') {
+      text = result.explanation?.ja || result.explanation;
+    } else {
+      text = result.explanation?.en || result.explanation?.ja || result.explanation;
+    }
+    // Add line breaks before specific phrases (all languages)
+    // Using \n\n for blank line separation
+    if (text && typeof text === 'string') {
+      // Japanese
+      text = text.replace(/まず一文字目の漢字は、/g, '\n\nまず一文字目の漢字は、');
+      text = text.replace(/二文字目の漢字は、/g, '\n\n二文字目の漢字は、');
+      text = text.replace(/あなたにピッタリの漢字名が出来上がりました/g, '\n\nあなたにピッタリの漢字名が出来上がりました');
+      // English
+      text = text.replace(/The first character/gi, '\n\nThe first character');
+      text = text.replace(/The second character/gi, '\n\nThe second character');
+      text = text.replace(/Your perfect kanji name has been created/gi, '\n\nYour perfect kanji name has been created');
+      // French
+      text = text.replace(/Le premier caractère/gi, '\n\nLe premier caractère');
+      text = text.replace(/Le (deuxième|second) caractère/gi, '\n\nLe $1 caractère');
+      text = text.replace(/Votre nom kanji parfait a été créé/gi, '\n\nVotre nom kanji parfait a été créé');
+      // German
+      text = text.replace(/Das erste Zeichen/gi, '\n\nDas erste Zeichen');
+      text = text.replace(/Das zweite Zeichen/gi, '\n\nDas zweite Zeichen');
+      text = text.replace(/Ihr perfekter Kanji-Name wurde erstellt/gi, '\n\nIhr perfekter Kanji-Name wurde erstellt');
+      // Spanish
+      text = text.replace(/El primer carácter/gi, '\n\nEl primer carácter');
+      text = text.replace(/El segundo carácter/gi, '\n\nEl segundo carácter');
+      text = text.replace(/¡?Tu nombre kanji perfecto ha sido creado/gi, '\n\n¡Tu nombre kanji perfecto ha sido creado');
+      // Italian
+      text = text.replace(/Il primo carattere/gi, '\n\nIl primo carattere');
+      text = text.replace(/Il secondo carattere/gi, '\n\nIl secondo carattere');
+      text = text.replace(/Il tuo nome kanji perfetto è stato creato/gi, '\n\nIl tuo nome kanji perfetto è stato creato');
+      // Korean
+      text = text.replace(/첫 번째 한자는/g, '\n\n첫 번째 한자는');
+      text = text.replace(/두 번째 한자는/g, '\n\n두 번째 한자는');
+      text = text.replace(/당신에게 딱 맞는 한자 이름이 완성되었습니다/g, '\n\n당신에게 딱 맞는 한자 이름이 완성되었습니다');
+      // Thai
+      text = text.replace(/ตัวอักษรคันจิตัวแรก/g, '\n\nตัวอักษรคันจิตัวแรก');
+      text = text.replace(/ตัวอักษรคันจิตัวที่สอง/g, '\n\nตัวอักษรคันจิตัวที่สอง');
+      text = text.replace(/ชื่อคันจิที่เหมาะกับคุณถูกสร้างขึ้นแล้ว/g, '\n\nชื่อคันจิที่เหมาะกับคุณถูกสร้างขึ้นแล้ว');
+      // Vietnamese
+      text = text.replace(/Ký tự kanji đầu tiên/gi, '\n\nKý tự kanji đầu tiên');
+      text = text.replace(/Ký tự kanji thứ hai/gi, '\n\nKý tự kanji thứ hai');
+      text = text.replace(/Tên kanji hoàn hảo của bạn đã được tạo/gi, '\n\nTên kanji hoàn hảo của bạn đã được tạo');
+      // Indonesian
+      text = text.replace(/Karakter kanji pertama/gi, '\n\nKarakter kanji pertama');
+      text = text.replace(/Karakter kanji kedua/gi, '\n\nKarakter kanji kedua');
+      text = text.replace(/Nama kanji sempurna Anda telah dibuat/gi, '\n\nNama kanji sempurna Anda telah dibuat');
+    }
+    return text;
   };
 
   return (

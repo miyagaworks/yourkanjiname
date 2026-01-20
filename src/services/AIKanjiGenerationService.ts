@@ -244,7 +244,27 @@ ${genderKanjiGuidance}
 2. explanation_en: 英語で400-600 words（explanation_jaの翻訳）
 3. 各漢字のmeaning_ja/meaning_en: 日本語と英語での意味${userLangInstructions}
 
-説明文は2段落構成で、最後に「あなたにピッタリの漢字名が出来上がりました！」（または各言語での同等表現）で締めてください。
+## 説明文の構造（必ず従ってください）
+説明文は以下の3部構成で書いてください：
+
+1. **導入部**: ユーザーの名前と性格分析の概要（1段落）
+2. **漢字の説明**:
+   - 一文字目の漢字の説明（必ず「まず一文字目の漢字は、」または各言語の同等表現で始める）
+   - 二文字目の漢字の説明（必ず「二文字目の漢字は、」または各言語の同等表現で始める）
+3. **結び**: 必ず「あなたにピッタリの漢字名が出来上がりました！」または各言語の同等表現で締める
+
+各言語での必須フレーズ：
+- 日本語: 「まず一文字目の漢字は、」「二文字目の漢字は、」「あなたにピッタリの漢字名が出来上がりました！」
+- English: "The first character" "The second character" "Your perfect kanji name has been created!"
+- Français: "Le premier caractère" "Le deuxième caractère" "Votre nom kanji parfait a été créé !"
+- Deutsch: "Das erste Zeichen" "Das zweite Zeichen" "Ihr perfekter Kanji-Name wurde erstellt!"
+- Español: "El primer carácter" "El segundo carácter" "¡Tu nombre kanji perfecto ha sido creado!"
+- Italiano: "Il primo carattere" "Il secondo carattere" "Il tuo nome kanji perfetto è stato creato!"
+- 한국어: "첫 번째 한자는" "두 번째 한자는" "당신에게 딱 맞는 한자 이름이 완성되었습니다!"
+- ภาษาไทย: "ตัวอักษรคันจิตัวแรก" "ตัวอักษรคันจิตัวที่สอง" "ชื่อคันจิที่เหมาะกับคุณถูกสร้างขึ้นแล้ว!"
+- Tiếng Việt: "Ký tự kanji đầu tiên" "Ký tự kanji thứ hai" "Tên kanji hoàn hảo của bạn đã được tạo!"
+- Bahasa Indonesia: "Karakter kanji pertama" "Karakter kanji kedua" "Nama kanji sempurna Anda telah dibuat!"
+
 数値やスコアは一切含めないでください。
 
 【重要】読み方について：

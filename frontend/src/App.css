@@ -160,7 +160,7 @@ body::before {
    =================================== */
 
 .question-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.90);
   border-radius: 8px;
   padding: 40px;
   box-shadow: 0 10px 30px rgba(47, 47, 47, 0.1);
@@ -400,7 +400,7 @@ body::before {
    =================================== */
 
 .result-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.90);
   border-radius: 8px;
   padding: 50px;
   box-shadow: 0 10px 30px rgba(47, 47, 47, 0.1);
@@ -819,12 +819,7 @@ body::before {
 @media (max-width: 768px) {
   body {
     padding: 0;
-    align-items: flex-start;
-    background: white;
-  }
-
-  body::before {
-    display: none;
+    background-color: white;
   }
 
   #root {
@@ -832,9 +827,27 @@ body::before {
     min-height: 100vh;
   }
 
+  .container {
+    margin-top: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .container:has(.landing-card) {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .container:has(.result-card) {
+    justify-content: flex-start;
+  }
+
   .language-toggle {
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     padding: 6px 12px;
     font-size: 14px;
   }
@@ -899,7 +912,7 @@ body::before {
    =================================== */
 
 .landing-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.90);
   border-radius: 16px;
   padding: 40px;
   max-width: 600px;
@@ -1102,14 +1115,14 @@ body::before {
 /* Landing responsive */
 @media (max-width: 768px) {
   .landing-card {
-    padding: 24px 20px;
+    padding: 65px 20px 24px 20px;
     border-radius: 0;
     margin: 0;
     width: 100%;
     max-width: 100%;
-    min-height: auto;
+    min-height: 100vh;
     box-shadow: none;
-    background: white;
+    background: rgba(255, 255, 255, 0.90);
   }
 
   .landing-logo {
