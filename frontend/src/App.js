@@ -718,7 +718,7 @@ function App() {
   if (showLanding && !hasPaid) {
     return (
       <>
-        <div className="container">
+        <div className="container landing-container">
           <LanguageSelector />
           <div className="landing-card">
             <img
@@ -839,7 +839,7 @@ function App() {
   if (result) {
     return (
       <>
-        <div className="container">
+        <div className="container result-container">
           <LanguageSelector />
           <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} />
         </div>

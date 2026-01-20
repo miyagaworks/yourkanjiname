@@ -836,12 +836,12 @@ body::before {
     padding: 20px;
   }
 
-  .container:has(.landing-card) {
+  .container.landing-container {
     justify-content: flex-start;
     padding: 0;
   }
 
-  .container:has(.result-card) {
+  .container.result-container {
     justify-content: flex-start;
   }
 
