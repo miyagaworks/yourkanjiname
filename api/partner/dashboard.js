@@ -9,6 +9,37 @@
 const crypto = require('crypto');
 const { Pool } = require('pg');
 
+// Cache for exchange rate (5 minutes)
+let exchangeRateCache = { rate: null, timestamp: 0 };
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+/**
+ * Fetch USD to JPY exchange rate from Frankfurter API (ECB rates)
+ */
+async function getExchangeRate() {
+  const now = Date.now();
+
+  // Return cached rate if still valid
+  if (exchangeRateCache.rate && (now - exchangeRateCache.timestamp) < CACHE_DURATION) {
+    return exchangeRateCache.rate;
+  }
+
+  try {
+    const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=JPY');
+    const data = await response.json();
+
+    if (data.rates && data.rates.JPY) {
+      exchangeRateCache = { rate: data.rates.JPY, timestamp: now };
+      return data.rates.JPY;
+    }
+  } catch (error) {
+    console.error('Exchange rate fetch error:', error);
+  }
+
+  // Fallback rate if API fails
+  return exchangeRateCache.rate || 150;
+}
+
 // Initialize database pool
 let pool;
 function getPool() {
@@ -157,7 +188,10 @@ module.exports = async function handler(req, res) {
     );
 
     // Generate QR code URL
-    const qrCodeUrl = `https://yourkanjiname.com?ref=${partner.code}`;
+    const qrCodeUrl = `https://app.kanjiname.jp/?ref=${partner.code}`;
+
+    // Get current exchange rate
+    const exchangeRate = await getExchangeRate();
 
     return res.json({
       partner: {
@@ -199,7 +233,12 @@ module.exports = async function handler(req, res) {
         kanji_name: row.kanji_name,
         created_at: row.created_at
       })),
-      qr_code_url: qrCodeUrl
+      qr_code_url: qrCodeUrl,
+      exchange_rate: {
+        usd_jpy: exchangeRate,
+        source: 'ECB (Frankfurter API)',
+        updated_at: new Date().toISOString()
+      }
     });
 
   } catch (error) {

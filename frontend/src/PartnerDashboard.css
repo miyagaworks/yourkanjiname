@@ -148,6 +148,14 @@
   margin-top: 8px;
 }
 
+/* Exchange rate info */
+.exchange-rate-info {
+  text-align: right;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 24px;
+}
+
 /* Tables */
 .recent-section h2,
 .history-tab h2 {
