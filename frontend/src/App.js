@@ -535,6 +535,15 @@ function App() {
     setShowNameInput(true);
   };
 
+  // 決済スキップ（テスト用）
+  const skipPayment = process.env.REACT_APP_SKIP_PAYMENT === 'true';
+  const handleSkipPayment = () => {
+    setPaymentIntentId('skip_payment_test');
+    setHasPaid(true);
+    setShowLanding(false);
+    setShowNameInput(true);
+  };
+
   // 名前入力後にセッション初期化
   const handleNameSubmit = async (e) => {
     e.preventDefault();
@@ -688,19 +697,29 @@ function App() {
               </div>
             </div>
 
-            <div className="landing-price">
-              <span className="price-label">{t('priceLabel') || 'Service Fee'}</span>
-              <span className="price-amount">$5.00 USD</span>
-            </div>
+            {skipPayment ? (
+              <>
+                <button className="start-free-btn" onClick={handleSkipPayment}>
+                  {t('startFree') || 'Start Free'}
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="landing-price">
+                  <span className="price-label">{t('priceLabel') || 'Service Fee'}</span>
+                  <span className="price-amount">$5.00 USD</span>
+                </div>
 
-            <PaymentModal
-              email=""
-              kanjiName=""
-              partnerCode={partnerCode}
-              onSuccess={handlePaymentSuccess}
-              onCancel={() => {}}
-              isLandingPage={true}
-            />
+                <PaymentModal
+                  email=""
+                  kanjiName=""
+                  partnerCode={partnerCode}
+                  onSuccess={handlePaymentSuccess}
+                  onCancel={() => {}}
+                  isLandingPage={true}
+                />
+              </>
+            )}
 
             <button className="terms-link" onClick={() => setShowTerms(true)}>
               {t('termsLink') || 'Terms of Service'}
