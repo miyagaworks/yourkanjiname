@@ -312,6 +312,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
     <div className="calligrapher-section">
       <h3 className="calligrapher-title">{t('calligrapherTitle')}</h3>
       <p className="calligrapher-description">{t('calligrapherDescPaid') || 'Enter your email address to receive your calligraphy artwork.'}</p>
+      <p className="calligrapher-warning">{t('emailWarning')}</p>
 
       <div className="calligrapher-samples">
         <img src="/images/calligraphy/01.png" alt="Sample 1" />
