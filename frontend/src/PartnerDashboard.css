@@ -370,6 +370,88 @@
   font-size: 0.8125rem;
 }
 
+/* Monthly Tab */
+.monthly-tab h2 {
+  font-size: 1.25rem;
+  color: #333;
+  margin: 0 0 16px 0;
+}
+
+.monthly-summary {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.monthly-summary p {
+  margin: 0;
+  color: #666;
+  font-size: 0.9375rem;
+}
+
+.diff {
+  font-size: 0.75rem;
+  margin-left: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.diff.up {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.diff.down {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.paid-amount {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* Full History Table */
+.history-count {
+  margin: 0 0 16px 0;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.full-history-table {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-collapse: collapse;
+}
+
+.full-history-table th {
+  text-align: left;
+  padding: 14px 16px;
+  background: #f9f9f9;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.full-history-table td {
+  padding: 14px 16px;
+  border-top: 1px solid #eee;
+  font-size: 0.9375rem;
+  color: #333;
+}
+
+.full-history-table .kanji {
+  font-size: 1.125rem;
+  color: #c75450;
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .partner-dashboard {
@@ -511,5 +593,48 @@
     padding: 24px 16px;
     font-size: 0.875rem;
     border-radius: 8px;
+  }
+
+  .monthly-tab h2 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .monthly-summary {
+    padding: 12px;
+    margin-top: 12px;
+  }
+
+  .monthly-summary p {
+    font-size: 0.8125rem;
+  }
+
+  .diff {
+    font-size: 0.625rem;
+    margin-left: 4px;
+    padding: 1px 4px;
+  }
+
+  .history-count {
+    font-size: 0.8125rem;
+    margin-bottom: 12px;
+  }
+
+  .full-history-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    border-radius: 8px;
+  }
+
+  .full-history-table th {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+  }
+
+  .full-history-table td {
+    padding: 10px 12px;
+    font-size: 0.8125rem;
   }
 }

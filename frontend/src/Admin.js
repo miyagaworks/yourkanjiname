@@ -33,7 +33,15 @@ function Admin() {
 
   // Payouts state
   const [pendingPayouts, setPendingPayouts] = useState([]);
+  const [allPayoutStats, setAllPayoutStats] = useState([]);
   const [payoutSummary, setPayoutSummary] = useState(null);
+  const [selectedPayout, setSelectedPayout] = useState(null);
+  const [payoutForm, setPayoutForm] = useState({
+    exchange_rate_jpy: '',
+    transfer_fee_jpy: '0',
+    send_email: true
+  });
+  const [processingPayout, setProcessingPayout] = useState(false);
 
   // Fetch partners
   const fetchPartners = async () => {
@@ -78,6 +86,7 @@ function Admin() {
       const data = await response.json();
       if (data.pending_payouts) {
         setPendingPayouts(data.pending_payouts);
+        setAllPayoutStats(data.all_stats || []);
         setPayoutSummary(data.summary);
       }
     } catch (error) {
@@ -170,9 +179,43 @@ function Admin() {
     }
   };
 
-  // Mark payout as paid
-  const handleMarkPaid = async (partnerId, yearMonth) => {
-    if (!window.confirm(`${yearMonth}分の支払いを完了としてマークしますか？`)) return;
+  // Open payout modal
+  const openPayoutModal = (payout) => {
+    setSelectedPayout(payout);
+    setPayoutForm({
+      exchange_rate_jpy: '',
+      transfer_fee_jpy: '0',
+      send_email: true
+    });
+  };
+
+  // Calculate payout amounts
+  const calculatePayoutAmounts = () => {
+    if (!selectedPayout || !payoutForm.exchange_rate_jpy) return null;
+    const royaltyUsd = selectedPayout.pending_royalty;
+    const exchangeRate = parseFloat(payoutForm.exchange_rate_jpy);
+    const fee = parseInt(payoutForm.transfer_fee_jpy) || 0;
+    const grossJpy = Math.round(royaltyUsd * exchangeRate);
+    const netJpy = grossJpy - fee;
+    return { royaltyUsd, exchangeRate, fee, grossJpy, netJpy };
+  };
+
+  // Process payout
+  const handleProcessPayout = async () => {
+    if (!selectedPayout) return;
+
+    const amounts = calculatePayoutAmounts();
+    if (!amounts || amounts.netJpy < 0) {
+      setMessage({ type: 'error', text: '為替レートを正しく入力してください' });
+      return;
+    }
+
+    if (amounts.netJpy < 0) {
+      setMessage({ type: 'error', text: '振込手数料が振込金額を超えています' });
+      return;
+    }
+
+    setProcessingPayout(true);
     try {
       const token = sessionStorage.getItem('adminSession');
       const response = await fetch(`${API_BASE_URL}/admin/payouts`, {
@@ -181,11 +224,19 @@ function Admin() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ partner_id: partnerId, year_month: yearMonth })
+        body: JSON.stringify({
+          partner_id: selectedPayout.partner_id,
+          year_months: selectedPayout.pending_months,
+          exchange_rate_jpy: parseFloat(payoutForm.exchange_rate_jpy),
+          transfer_fee_jpy: parseInt(payoutForm.transfer_fee_jpy) || 0,
+          send_email: payoutForm.send_email
+        })
       });
       const data = await response.json();
       if (data.success) {
-        setMessage({ type: 'success', text: '支払い完了としてマークしました' });
+        const emailMsg = data.email_sent ? '（メール送信済み）' : '';
+        setMessage({ type: 'success', text: `支払い完了としてマークしました${emailMsg}` });
+        setSelectedPayout(null);
         fetchPayouts();
       } else {
         throw new Error(data.error?.message || '処理に失敗しました');
@@ -193,6 +244,7 @@ function Admin() {
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
     }
+    setProcessingPayout(false);
   };
 
   const handleCopyExplanation = async () => {
@@ -949,12 +1001,17 @@ function Admin() {
                   <div className="stat-value">${payoutSummary.total_pending?.toFixed(2) || '0.00'}</div>
                 </div>
                 <div className="stat-card">
+                  <div className="stat-label">支払い済み総額</div>
+                  <div className="stat-value">${payoutSummary.total_paid?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
                   <div className="stat-label">対象パートナー数</div>
-                  <div className="stat-value">{payoutSummary.partners_count || 0}</div>
+                  <div className="stat-value">{payoutSummary.partners_pending || 0}</div>
                 </div>
               </div>
             )}
 
+            <h3>未払いパートナー</h3>
             <table className="payouts-table">
               <thead>
                 <tr>
@@ -969,25 +1026,34 @@ function Admin() {
               </thead>
               <tbody>
                 {pendingPayouts.map(p => (
-                  <tr key={`${p.partner_id}-${p.year_month}`}>
-                    <td>{p.partner_name}</td>
-                    <td>{p.year_month}</td>
+                  <tr key={p.partner_id}>
+                    <td>
+                      <strong>{p.name}</strong>
+                      <br />
+                      <small className="muted">{p.code}</small>
+                    </td>
+                    <td>{p.pending_months?.join(', ') || '-'}</td>
                     <td>{p.total_payments}</td>
                     <td>${p.total_revenue?.toFixed(2)}</td>
-                    <td className="royalty-amount">${p.royalty_amount?.toFixed(2)}</td>
+                    <td className="royalty-amount">${p.pending_royalty?.toFixed(2)}</td>
                     <td className="bank-info">
-                      {p.bank_name && p.bank_account ? (
-                        <span>{p.bank_name} / {p.bank_account}</span>
+                      {p.bank_name ? (
+                        <span>
+                          {p.bank_name}
+                          {p.bank_branch && <><br />{p.bank_branch}</>}
+                          {p.bank_account && <><br />{p.bank_account}</>}
+                        </span>
                       ) : (
                         <span className="muted">未設定</span>
                       )}
                     </td>
                     <td>
                       <button
-                        onClick={() => handleMarkPaid(p.partner_id, p.year_month)}
+                        onClick={() => openPayoutModal(p)}
                         className="paid-btn"
+                        disabled={!p.bank_name || !p.bank_account}
                       >
-                        支払い完了
+                        支払い処理
                       </button>
                     </td>
                   </tr>
@@ -997,6 +1063,156 @@ function Admin() {
 
             {pendingPayouts.length === 0 && (
               <p className="no-data">未払いの支払いはありません</p>
+            )}
+
+            {/* Payout History */}
+            <h3 style={{ marginTop: '40px' }}>支払い履歴</h3>
+            <table className="payouts-table">
+              <thead>
+                <tr>
+                  <th>パートナー</th>
+                  <th>対象月</th>
+                  <th>ロイヤリティ</th>
+                  <th>為替レート</th>
+                  <th>振込手数料</th>
+                  <th>振込金額</th>
+                  <th>支払日</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allPayoutStats.filter(s => s.payout_status === 'paid').map(s => (
+                  <tr key={s.id}>
+                    <td>{s.partner_name}</td>
+                    <td>{s.year_month}</td>
+                    <td>${s.royalty_amount?.toFixed(2)}</td>
+                    <td>¥{s.exchange_rate_jpy?.toFixed(2) || '-'}</td>
+                    <td>¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
+                    <td className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
+                    <td>{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {allPayoutStats.filter(s => s.payout_status === 'paid').length === 0 && (
+              <p className="no-data">支払い履歴はありません</p>
+            )}
+
+            {/* Payout Modal */}
+            {selectedPayout && (
+              <div className="partner-form-overlay">
+                <div className="partner-form payout-modal">
+                  <h3>支払い処理</h3>
+
+                  <div className="payout-partner-info">
+                    <h4>{selectedPayout.name}</h4>
+                    <p className="muted">{selectedPayout.email}</p>
+                  </div>
+
+                  <div className="payout-bank-info">
+                    <h4>振込先</h4>
+                    <p>
+                      <strong>{selectedPayout.bank_name}</strong>
+                      {selectedPayout.bank_branch && <><br />{selectedPayout.bank_branch}</>}
+                      <br />{selectedPayout.bank_account}
+                    </p>
+                  </div>
+
+                  <div className="payout-details">
+                    <h4>支払い内容</h4>
+                    <div className="payout-detail-row">
+                      <span>対象月:</span>
+                      <span>{selectedPayout.pending_months?.join(', ')}</span>
+                    </div>
+                    <div className="payout-detail-row">
+                      <span>決済数:</span>
+                      <span>{selectedPayout.total_payments}件</span>
+                    </div>
+                    <div className="payout-detail-row">
+                      <span>ロイヤリティ (USD):</span>
+                      <span className="highlight-amount">${selectedPayout.pending_royalty?.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <div className="payout-form">
+                    <div className="form-row">
+                      <label>為替レート (USD/JPY) *</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={payoutForm.exchange_rate_jpy}
+                        onChange={(e) => setPayoutForm({...payoutForm, exchange_rate_jpy: e.target.value})}
+                        placeholder="例: 150.00"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>振込手数料 (円)</label>
+                      <input
+                        type="number"
+                        value={payoutForm.transfer_fee_jpy}
+                        onChange={(e) => setPayoutForm({...payoutForm, transfer_fee_jpy: e.target.value})}
+                        placeholder="0"
+                      />
+                    </div>
+                    <div className="form-row checkbox-row">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={payoutForm.send_email}
+                          onChange={(e) => setPayoutForm({...payoutForm, send_email: e.target.checked})}
+                        />
+                        パートナーにメール通知を送信
+                      </label>
+                    </div>
+                  </div>
+
+                  {payoutForm.exchange_rate_jpy && (
+                    <div className="payout-calculation">
+                      <h4>振込金額計算</h4>
+                      {(() => {
+                        const amounts = calculatePayoutAmounts();
+                        if (!amounts) return null;
+                        return (
+                          <>
+                            <div className="payout-detail-row">
+                              <span>円換算額:</span>
+                              <span>¥{amounts.grossJpy.toLocaleString()}</span>
+                            </div>
+                            <div className="payout-detail-row">
+                              <span>振込手数料:</span>
+                              <span>-¥{amounts.fee.toLocaleString()}</span>
+                            </div>
+                            <div className="payout-detail-row total">
+                              <span>お振込金額:</span>
+                              <span className={amounts.netJpy < 0 ? 'error' : 'highlight-amount'}>
+                                ¥{amounts.netJpy.toLocaleString()}
+                              </span>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  )}
+
+                  <div className="form-actions">
+                    <button
+                      onClick={handleProcessPayout}
+                      disabled={!payoutForm.exchange_rate_jpy || processingPayout}
+                      className="submit-btn"
+                    >
+                      {processingPayout ? '処理中...' : '支払い完了として記録'}
+                    </button>
+                    <button
+                      onClick={() => setSelectedPayout(null)}
+                      className="cancel-btn"
+                      disabled={processingPayout}
+                    >
+                      キャンセル
+                    </button>
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         )}

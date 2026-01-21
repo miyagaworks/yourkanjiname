@@ -121,7 +121,7 @@ function PartnerDashboard({ partner, onLogout }) {
     );
   }
 
-  const { stats, monthly_history, recent_payments, qr_code_url, exchange_rate } = dashboardData;
+  const { stats, monthly_history, recent_payments, all_payments, qr_code_url, exchange_rate } = dashboardData;
 
   return (
     <div className="partner-dashboard">
@@ -141,10 +141,16 @@ function PartnerDashboard({ partner, onLogout }) {
           概要
         </button>
         <button
+          className={activeTab === 'monthly' ? 'active' : ''}
+          onClick={() => setActiveTab('monthly')}
+        >
+          月別
+        </button>
+        <button
           className={activeTab === 'history' ? 'active' : ''}
           onClick={() => setActiveTab('history')}
         >
-          履歴
+          利用履歴
         </button>
         <button
           className={activeTab === 'qrcode' ? 'active' : ''}
@@ -225,36 +231,101 @@ function PartnerDashboard({ partner, onLogout }) {
           </div>
         )}
 
-        {activeTab === 'history' && (
-          <div className="history-tab">
-            <h2>月別履歴</h2>
+        {activeTab === 'monthly' && (
+          <div className="monthly-tab">
+            <h2>月別比較</h2>
             {monthly_history.length === 0 ? (
               <p className="no-data">まだ履歴がありません。</p>
             ) : (
-              <table className="history-table">
+              <>
+                <table className="history-table">
+                  <thead>
+                    <tr>
+                      <th>月</th>
+                      <th>件数</th>
+                      <th>売上</th>
+                      <th>ロイヤリティ</th>
+                      <th>状態</th>
+                      <th>振込金額</th>
+                      <th>支払日</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {monthly_history.map((row, index) => {
+                      const prevMonth = monthly_history[index + 1];
+                      const paymentsDiff = prevMonth ? row.payments - prevMonth.payments : 0;
+                      return (
+                        <tr key={row.year_month}>
+                          <td>{row.year_month}</td>
+                          <td>
+                            {row.payments}
+                            {prevMonth && paymentsDiff !== 0 && (
+                              <span className={`diff ${paymentsDiff > 0 ? 'up' : 'down'}`}>
+                                {paymentsDiff > 0 ? `+${paymentsDiff}` : paymentsDiff}
+                              </span>
+                            )}
+                          </td>
+                          <td>{formatJPY(row.revenue)}</td>
+                          <td>{formatJPY(row.royalty)}</td>
+                          <td>
+                            <span className={`payout-badge payout-${row.payout_status}`}>
+                              {getPayoutStatusLabel(row.payout_status)}
+                            </span>
+                          </td>
+                          <td>
+                            {row.payout_status === 'paid' && row.net_payout_jpy ? (
+                              <span className="paid-amount">¥{row.net_payout_jpy.toLocaleString()}</span>
+                            ) : (
+                              '-'
+                            )}
+                          </td>
+                          <td>{row.paid_at ? formatDate(row.paid_at) : '-'}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                <div className="monthly-summary">
+                  <p>
+                    合計: {monthly_history.reduce((sum, m) => sum + m.payments, 0)}件 /
+                    売上 {formatJPY(monthly_history.reduce((sum, m) => sum + m.revenue, 0))} /
+                    ロイヤリティ {formatJPY(monthly_history.reduce((sum, m) => sum + m.royalty, 0))}
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {activeTab === 'history' && (
+          <div className="history-tab">
+            <h2>全利用履歴</h2>
+            <p className="history-count">全{all_payments?.length || 0}件</p>
+            {(!all_payments || all_payments.length === 0) ? (
+              <p className="no-data">まだ利用履歴がありません。</p>
+            ) : (
+              <table className="full-history-table">
                 <thead>
                   <tr>
-                    <th>月</th>
-                    <th>件数</th>
-                    <th>売上</th>
+                    <th>日時</th>
+                    <th>漢字名</th>
+                    <th>金額</th>
                     <th>ロイヤリティ</th>
                     <th>状態</th>
-                    <th>支払日</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {monthly_history.map((row) => (
-                    <tr key={row.year_month}>
-                      <td>{row.year_month}</td>
-                      <td>{row.payments}</td>
-                      <td>{formatJPY(row.revenue)}</td>
-                      <td>{formatJPY(row.royalty)}</td>
+                  {all_payments.map((payment) => (
+                    <tr key={payment.id}>
+                      <td>{new Date(payment.created_at).toLocaleString('ja-JP')}</td>
+                      <td className="kanji">{payment.kanji_name || '-'}</td>
+                      <td>{formatJPY(payment.amount)}</td>
+                      <td>{formatJPY(payment.amount * dashboardData.partner.royalty_rate)}</td>
                       <td>
-                        <span className={`payout-badge payout-${row.payout_status}`}>
-                          {getPayoutStatusLabel(row.payout_status)}
+                        <span className={`status-badge status-${payment.status}`}>
+                          {getStatusLabel(payment.status)}
                         </span>
                       </td>
-                      <td>{row.paid_at ? formatDate(row.paid_at) : '-'}</td>
                     </tr>
                   ))}
                 </tbody>

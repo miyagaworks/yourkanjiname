@@ -932,6 +932,135 @@
   font-style: italic;
 }
 
+/* ===== Payout Modal ===== */
+.payout-modal {
+  max-width: 550px;
+}
+
+.payout-partner-info {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.payout-partner-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.payout-partner-info .muted {
+  margin: 0;
+}
+
+.payout-bank-info {
+  background: #fff8e7;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border-left: 4px solid #f0ad4e;
+}
+
+.payout-bank-info h4 {
+  margin: 0 0 10px 0;
+  color: #8a6d3b;
+}
+
+.payout-bank-info p {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.payout-details {
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.payout-details h4 {
+  margin: 0 0 10px 0;
+  color: #666;
+}
+
+.payout-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.payout-detail-row:last-child {
+  border-bottom: none;
+}
+
+.payout-detail-row.total {
+  border-top: 2px solid #ccc;
+  margin-top: 10px;
+  padding-top: 15px;
+  font-size: 18px;
+}
+
+.highlight-amount {
+  color: #c75450;
+  font-weight: bold;
+}
+
+.payout-form {
+  margin-bottom: 20px;
+}
+
+.checkbox-row {
+  margin-top: 20px;
+}
+
+.checkbox-row label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.payout-calculation {
+  background: #e8f5e9;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #28a745;
+}
+
+.payout-calculation h4 {
+  margin: 0 0 10px 0;
+  color: #155724;
+}
+
+.payout-calculation .error {
+  color: #dc3545;
+}
+
+.payouts-section h3 {
+  margin: 0 0 15px 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.paid-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.submit-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 /* ===== Mobile Responsive for New Tabs ===== */
 @media (max-width: 768px) {
   .admin-tabs {
@@ -969,5 +1098,9 @@
 
   .form-actions {
     flex-direction: column;
+  }
+
+  .payout-modal {
+    max-height: 95vh;
   }
 }

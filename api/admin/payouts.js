@@ -45,6 +45,129 @@ function verifyToken(req) {
   return tokenHash === expectedHash;
 }
 
+/**
+ * Send payout notification email to partner
+ */
+async function sendPayoutEmail(partner, payoutDetails) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@yourkanjiname.com>';
+
+  if (!resendApiKey) {
+    console.log('RESEND_API_KEY not set, skipping email');
+    return false;
+  }
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #c75450; color: white; padding: 20px; text-align: center; }
+    .content { padding: 30px 20px; }
+    .amount-box { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; text-align: center; }
+    .amount { font-size: 32px; color: #c75450; font-weight: bold; }
+    .details { margin: 20px 0; }
+    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>ロイヤリティのお振込完了のお知らせ</h2>
+    </div>
+    <div class="content">
+      <p>${partner.name} 様</p>
+      <p>いつもYour Kanji Nameパートナープログラムにご参加いただき、誠にありがとうございます。</p>
+      <p>下記の通り、ロイヤリティのお振込が完了いたしましたのでご報告いたします。</p>
+
+      <div class="amount-box">
+        <div>お振込金額</div>
+        <div class="amount">¥${payoutDetails.net_payout_jpy.toLocaleString()}</div>
+      </div>
+
+      <div class="details">
+        <div class="detail-row">
+          <span>対象期間</span>
+          <span>${payoutDetails.year_months.join(', ')}</span>
+        </div>
+        <div class="detail-row">
+          <span>ロイヤリティ（税込）</span>
+          <span>$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
+        </div>
+        <div class="detail-row">
+          <span>適用為替レート</span>
+          <span>$1 = ¥${payoutDetails.exchange_rate_jpy.toFixed(2)}</span>
+        </div>
+        <div class="detail-row">
+          <span>円換算額</span>
+          <span>¥${payoutDetails.gross_payout_jpy.toLocaleString()}</span>
+        </div>
+        <div class="detail-row">
+          <span>振込手数料</span>
+          <span>-¥${payoutDetails.transfer_fee_jpy.toLocaleString()}</span>
+        </div>
+        <div class="detail-row">
+          <span><strong>お振込金額</strong></span>
+          <span><strong>¥${payoutDetails.net_payout_jpy.toLocaleString()}</strong></span>
+        </div>
+      </div>
+
+      <div class="details">
+        <div class="detail-row">
+          <span>お振込先</span>
+          <span>${partner.bank_name} ${partner.bank_branch || ''}</span>
+        </div>
+        <div class="detail-row">
+          <span>口座番号</span>
+          <span>${partner.bank_account}</span>
+        </div>
+      </div>
+
+      <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+      <p>今後とも宜しくお願いいたします。</p>
+    </div>
+    <div class="footer">
+      <p>Your Kanji Name パートナープログラム</p>
+      <p>contact@kanjiname.jp</p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: partner.email,
+        subject: `【Your Kanji Name】ロイヤリティお振込完了のお知らせ（${payoutDetails.year_months.join(', ')}）`,
+        html: html
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Failed to send payout email:', error);
+      return false;
+    }
+
+    console.log('Payout email sent to:', partner.email);
+    return true;
+  } catch (error) {
+    console.error('Error sending payout email:', error);
+    return false;
+  }
+}
+
 module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -65,20 +188,23 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      // Get pending payouts grouped by partner
+      // Get pending payouts grouped by partner with bank info
       const pendingResult = await dbPool.query(`
         SELECT
           p.id as partner_id,
           p.code,
           p.name,
           p.email,
+          p.contact_name,
           p.bank_name,
+          p.bank_branch,
           p.bank_account,
           p.royalty_rate,
           COALESCE(SUM(pms.total_payments), 0) as total_payments,
           COALESCE(SUM(pms.total_revenue), 0) as total_revenue,
           COALESCE(SUM(pms.royalty_amount), 0) as pending_royalty,
-          array_agg(pms.year_month ORDER BY pms.year_month DESC) as pending_months
+          array_agg(pms.year_month ORDER BY pms.year_month DESC) as pending_months,
+          array_agg(pms.id ORDER BY pms.year_month DESC) as pending_stat_ids
         FROM partners p
         JOIN partner_monthly_stats pms ON p.id = pms.partner_id
         WHERE pms.payout_status = 'pending'
@@ -97,6 +223,9 @@ module.exports = async function handler(req, res) {
           pms.royalty_amount,
           pms.payout_status,
           pms.paid_at,
+          pms.exchange_rate_jpy,
+          pms.transfer_fee_jpy,
+          pms.net_payout_jpy,
           p.name as partner_name,
           p.code as partner_code
         FROM partner_monthly_stats pms
@@ -123,13 +252,16 @@ module.exports = async function handler(req, res) {
           code: row.code,
           name: row.name,
           email: row.email,
+          contact_name: row.contact_name,
           bank_name: row.bank_name,
+          bank_branch: row.bank_branch,
           bank_account: row.bank_account,
           royalty_rate: parseFloat(row.royalty_rate),
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
           pending_royalty: parseFloat(row.pending_royalty),
-          pending_months: row.pending_months.filter(m => m !== null)
+          pending_months: row.pending_months.filter(m => m !== null),
+          pending_stat_ids: row.pending_stat_ids.filter(id => id !== null)
         })),
         all_stats: allStatsResult.rows.map(row => ({
           id: row.id,
@@ -141,7 +273,10 @@ module.exports = async function handler(req, res) {
           total_revenue: parseFloat(row.total_revenue),
           royalty_amount: parseFloat(row.royalty_amount),
           payout_status: row.payout_status,
-          paid_at: row.paid_at
+          paid_at: row.paid_at,
+          exchange_rate_jpy: row.exchange_rate_jpy ? parseFloat(row.exchange_rate_jpy) : null,
+          transfer_fee_jpy: row.transfer_fee_jpy ? parseInt(row.transfer_fee_jpy) : null,
+          net_payout_jpy: row.net_payout_jpy ? parseInt(row.net_payout_jpy) : null
         })),
         summary: {
           total_pending: parseFloat(summary.total_pending),
@@ -151,8 +286,14 @@ module.exports = async function handler(req, res) {
       });
 
     } else if (req.method === 'POST') {
-      // Mark payouts as paid
-      const { partner_id, year_months } = req.body;
+      // Mark payouts as paid with exchange rate and fee
+      const {
+        partner_id,
+        year_months,
+        exchange_rate_jpy,
+        transfer_fee_jpy,
+        send_email = true
+      } = req.body;
 
       if (!partner_id) {
         return res.status(400).json({
@@ -166,13 +307,57 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      // Mark as paid
+      if (!exchange_rate_jpy || exchange_rate_jpy <= 0) {
+        return res.status(400).json({
+          error: { code: 'INVALID_REQUEST', message: 'Valid exchange_rate_jpy is required' }
+        });
+      }
+
+      // Get partner info
+      const partnerResult = await dbPool.query(
+        'SELECT id, name, email, bank_name, bank_branch, bank_account FROM partners WHERE id = $1',
+        [partner_id]
+      );
+
+      if (partnerResult.rows.length === 0) {
+        return res.status(404).json({
+          error: { code: 'NOT_FOUND', message: 'Partner not found' }
+        });
+      }
+
+      const partner = partnerResult.rows[0];
+
+      // Get total royalty for the months
+      const royaltyResult = await dbPool.query(`
+        SELECT COALESCE(SUM(royalty_amount), 0) as total_royalty
+        FROM partner_monthly_stats
+        WHERE partner_id = $1 AND year_month = ANY($2) AND payout_status = 'pending'
+      `, [partner_id, year_months]);
+
+      const totalRoyaltyUsd = parseFloat(royaltyResult.rows[0].total_royalty);
+      const grossPayoutJpy = Math.round(totalRoyaltyUsd * exchange_rate_jpy);
+      const fee = parseInt(transfer_fee_jpy) || 0;
+      const netPayoutJpy = grossPayoutJpy - fee;
+
+      if (netPayoutJpy < 0) {
+        return res.status(400).json({
+          error: { code: 'INVALID_FEE', message: 'Transfer fee exceeds payout amount' }
+        });
+      }
+
+      // Mark as paid with payout details
       const result = await dbPool.query(`
         UPDATE partner_monthly_stats
-        SET payout_status = 'paid', paid_at = NOW(), updated_at = NOW()
+        SET
+          payout_status = 'paid',
+          paid_at = NOW(),
+          exchange_rate_jpy = $3,
+          transfer_fee_jpy = $4,
+          net_payout_jpy = $5,
+          updated_at = NOW()
         WHERE partner_id = $1 AND year_month = ANY($2) AND payout_status = 'pending'
         RETURNING id, year_month, royalty_amount
-      `, [partner_id, year_months]);
+      `, [partner_id, year_months, exchange_rate_jpy, fee, netPayoutJpy]);
 
       if (result.rows.length === 0) {
         return res.status(404).json({
@@ -180,17 +365,36 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const totalPaid = result.rows.reduce((sum, row) => sum + parseFloat(row.royalty_amount), 0);
+      // Send email notification if requested
+      let emailSent = false;
+      if (send_email && partner.email) {
+        emailSent = await sendPayoutEmail(partner, {
+          year_months: year_months,
+          royalty_usd: totalRoyaltyUsd,
+          exchange_rate_jpy: exchange_rate_jpy,
+          gross_payout_jpy: grossPayoutJpy,
+          transfer_fee_jpy: fee,
+          net_payout_jpy: netPayoutJpy
+        });
+      }
 
       return res.json({
         success: true,
         message: `Marked ${result.rows.length} month(s) as paid`,
-        paid_months: result.rows.map(row => ({
-          id: row.id,
-          year_month: row.year_month,
-          royalty_amount: parseFloat(row.royalty_amount)
-        })),
-        total_paid: totalPaid
+        payout_details: {
+          partner_id: partner_id,
+          partner_name: partner.name,
+          year_months: year_months,
+          royalty_usd: totalRoyaltyUsd,
+          exchange_rate_jpy: exchange_rate_jpy,
+          gross_payout_jpy: grossPayoutJpy,
+          transfer_fee_jpy: fee,
+          net_payout_jpy: netPayoutJpy,
+          bank_name: partner.bank_name,
+          bank_branch: partner.bank_branch,
+          bank_account: partner.bank_account
+        },
+        email_sent: emailSent
       });
 
     } else {

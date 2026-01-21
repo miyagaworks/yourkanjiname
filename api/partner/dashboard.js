@@ -167,17 +167,26 @@ module.exports = async function handler(req, res) {
 
     const pendingRoyalty = parseFloat(pendingRoyaltyResult.rows[0].pending_royalty) || 0;
 
-    // Get monthly history (last 12 months)
+    // Get monthly history (all months)
     const monthlyHistoryResult = await dbPool.query(
-      `SELECT year_month, total_payments, total_revenue, royalty_amount, payout_status, paid_at
+      `SELECT year_month, total_payments, total_revenue, royalty_amount, payout_status, paid_at,
+              exchange_rate_jpy, transfer_fee_jpy, net_payout_jpy
        FROM partner_monthly_stats
        WHERE partner_id = $1
-       ORDER BY year_month DESC
-       LIMIT 12`,
+       ORDER BY year_month DESC`,
       [partnerId]
     );
 
-    // Get recent payments
+    // Get all payments (full history)
+    const allPaymentsResult = await dbPool.query(
+      `SELECT id, amount, status, kanji_name, customer_email, created_at
+       FROM payments
+       WHERE partner_id = $1
+       ORDER BY created_at DESC`,
+      [partnerId]
+    );
+
+    // Get recent payments (for quick view)
     const recentPaymentsResult = await dbPool.query(
       `SELECT id, amount, status, kanji_name, created_at
        FROM payments
@@ -224,7 +233,18 @@ module.exports = async function handler(req, res) {
         revenue: parseFloat(row.total_revenue),
         royalty: parseFloat(row.royalty_amount),
         payout_status: row.payout_status,
-        paid_at: row.paid_at
+        paid_at: row.paid_at,
+        exchange_rate_jpy: row.exchange_rate_jpy ? parseFloat(row.exchange_rate_jpy) : null,
+        transfer_fee_jpy: row.transfer_fee_jpy ? parseInt(row.transfer_fee_jpy) : null,
+        net_payout_jpy: row.net_payout_jpy ? parseInt(row.net_payout_jpy) : null
+      })),
+      all_payments: allPaymentsResult.rows.map(row => ({
+        id: row.id,
+        amount: parseFloat(row.amount),
+        status: row.status,
+        kanji_name: row.kanji_name,
+        customer_email: row.customer_email,
+        created_at: row.created_at
       })),
       recent_payments: recentPaymentsResult.rows.map(row => ({
         id: row.id,
