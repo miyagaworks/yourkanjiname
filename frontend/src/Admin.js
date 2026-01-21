@@ -42,6 +42,7 @@ function Admin() {
     send_email: true
   });
   const [processingPayout, setProcessingPayout] = useState(false);
+  const [fetchingRate, setFetchingRate] = useState(false);
 
   // Fetch partners
   const fetchPartners = async () => {
@@ -177,6 +178,55 @@ function Admin() {
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
     }
+  };
+
+  // Fetch current exchange rate from ECB
+  const fetchExchangeRate = async () => {
+    setFetchingRate(true);
+    try {
+      const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=JPY');
+      const data = await response.json();
+      if (data.rates && data.rates.JPY) {
+        setPayoutForm(prev => ({
+          ...prev,
+          exchange_rate_jpy: data.rates.JPY.toFixed(2)
+        }));
+        setMessage({ type: 'success', text: `為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+      } else {
+        throw new Error('為替レートを取得できませんでした');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+    setFetchingRate(false);
+  };
+
+  // Fetch historical exchange rate for a specific date
+  const fetchHistoricalRate = async (date) => {
+    setFetchingRate(true);
+    try {
+      const response = await fetch(`https://api.frankfurter.app/${date}?from=USD&to=JPY`);
+      const data = await response.json();
+      if (data.rates && data.rates.JPY) {
+        setPayoutForm(prev => ({
+          ...prev,
+          exchange_rate_jpy: data.rates.JPY.toFixed(2)
+        }));
+        setMessage({ type: 'success', text: `${date}の為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+      } else {
+        throw new Error('為替レートを取得できませんでした');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+    setFetchingRate(false);
+  };
+
+  // Get last day of a month
+  const getLastDayOfMonth = (yearMonth) => {
+    const [year, month] = yearMonth.split('-').map(Number);
+    const lastDay = new Date(year, month, 0).getDate();
+    return `${yearMonth}-${String(lastDay).padStart(2, '0')}`;
   };
 
   // Open payout modal
@@ -1137,14 +1187,37 @@ function Admin() {
                   <div className="payout-form">
                     <div className="form-row">
                       <label>為替レート (USD/JPY) *</label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={payoutForm.exchange_rate_jpy}
-                        onChange={(e) => setPayoutForm({...payoutForm, exchange_rate_jpy: e.target.value})}
-                        placeholder="例: 150.00"
-                        required
-                      />
+                      <div className="exchange-rate-input-group">
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={payoutForm.exchange_rate_jpy}
+                          onChange={(e) => setPayoutForm({...payoutForm, exchange_rate_jpy: e.target.value})}
+                          placeholder="例: 150.00"
+                          required
+                        />
+                        <div className="rate-buttons">
+                          {selectedPayout.pending_months?.map(month => (
+                            <button
+                              key={month}
+                              type="button"
+                              onClick={() => fetchHistoricalRate(getLastDayOfMonth(month))}
+                              disabled={fetchingRate}
+                              className="fetch-rate-btn"
+                            >
+                              {month}月末
+                            </button>
+                          ))}
+                          <button
+                            type="button"
+                            onClick={fetchExchangeRate}
+                            disabled={fetchingRate}
+                            className="fetch-rate-btn current"
+                          >
+                            {fetchingRate ? '取得中...' : '現在'}
+                          </button>
+                        </div>
+                      </div>
                     </div>
                     <div className="form-row">
                       <label>振込手数料 (円)</label>
