@@ -72,12 +72,29 @@ module.exports = async function handler(req, res) {
           p.id, p.code, p.name, p.email, p.contact_name, p.phone,
           p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
           p.created_at, p.updated_at,
-          COALESCE(COUNT(pay.id), 0) as total_payments,
-          COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount ELSE 0 END), 0) as total_revenue,
-          COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount * p.royalty_rate ELSE 0 END), 0) as total_royalty
+          COALESCE(pay_stats.total_payments, 0) as total_payments,
+          COALESCE(pay_stats.total_revenue, 0) as total_revenue,
+          COALESCE(pay_stats.total_royalty, 0) as total_royalty,
+          COALESCE(monthly_stats.unpaid_royalty, 0) as pending_royalty
         FROM partners p
-        LEFT JOIN payments pay ON p.id = pay.partner_id
-        GROUP BY p.id
+        LEFT JOIN (
+          SELECT
+            partner_id,
+            COUNT(*) as total_payments,
+            SUM(amount) as total_revenue,
+            SUM(amount * (SELECT royalty_rate FROM partners WHERE id = payments.partner_id)) as total_royalty
+          FROM payments
+          WHERE status = 'succeeded' AND partner_id IS NOT NULL
+          GROUP BY partner_id
+        ) pay_stats ON p.id = pay_stats.partner_id
+        LEFT JOIN (
+          SELECT
+            partner_id,
+            SUM(royalty_amount) as unpaid_royalty
+          FROM partner_monthly_stats
+          WHERE payout_status = 'pending'
+          GROUP BY partner_id
+        ) monthly_stats ON p.id = monthly_stats.partner_id
         ORDER BY p.created_at DESC
       `);
 
@@ -88,7 +105,8 @@ module.exports = async function handler(req, res) {
           royalty_rate: parseFloat(row.royalty_rate),
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
-          total_royalty: parseFloat(row.total_royalty)
+          total_royalty: parseFloat(row.total_royalty),
+          pending_royalty: parseFloat(row.pending_royalty)
         }))
       });
 
