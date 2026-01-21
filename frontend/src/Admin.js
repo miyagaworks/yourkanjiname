@@ -880,7 +880,7 @@ function Admin() {
                   <h3>パートナー編集: {editingPartner.name}</h3>
                   <form onSubmit={(e) => {
                     e.preventDefault();
-                    handleUpdatePartner(editingPartner.id, {
+                    const updates = {
                       name: editingPartner.name,
                       email: editingPartner.email,
                       contact_name: editingPartner.contact_name,
@@ -891,7 +891,11 @@ function Admin() {
                       bank_account: editingPartner.bank_account,
                       royalty_rate: editingPartner.royalty_rate,
                       status: editingPartner.status
-                    });
+                    };
+                    if (editingPartner.new_password) {
+                      updates.password = editingPartner.new_password;
+                    }
+                    handleUpdatePartner(editingPartner.id, updates);
                   }}>
                     <div className="form-row">
                       <label>店舗名</label>
@@ -970,6 +974,16 @@ function Admin() {
                         <option value="0.15">15%</option>
                         <option value="0.20">20%</option>
                       </select>
+                    </div>
+                    <div className="form-row">
+                      <label>パスワードリセット</label>
+                      <input
+                        type="text"
+                        value={editingPartner.new_password || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, new_password: e.target.value})}
+                        placeholder="新しいパスワードを入力（変更する場合のみ）"
+                      />
+                      <small className="form-hint">空欄の場合は変更されません</small>
                     </div>
                     <div className="form-row">
                       <label>状態</label>

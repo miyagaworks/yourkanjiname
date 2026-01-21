@@ -9,6 +9,13 @@ function PartnerDashboard({ partner, onLogout }) {
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [passwordForm, setPasswordForm] = useState({
+    current_password: '',
+    new_password: '',
+    confirm_password: ''
+  });
+  const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
+  const [changingPassword, setChangingPassword] = useState(false);
 
   // Reset body styles for partner dashboard
   useEffect(() => {
@@ -51,6 +58,49 @@ function PartnerDashboard({ partner, onLogout }) {
     sessionStorage.removeItem('partnerToken');
     sessionStorage.removeItem('partnerInfo');
     onLogout();
+  };
+
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    setPasswordMessage({ type: '', text: '' });
+
+    if (passwordForm.new_password !== passwordForm.confirm_password) {
+      setPasswordMessage({ type: 'error', text: '新しいパスワードが一致しません' });
+      return;
+    }
+
+    if (passwordForm.new_password.length < 6) {
+      setPasswordMessage({ type: 'error', text: 'パスワードは6文字以上で入力してください' });
+      return;
+    }
+
+    setChangingPassword(true);
+    try {
+      const token = sessionStorage.getItem('partnerToken');
+      const response = await fetch(`${API_BASE_URL}/partner/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          current_password: passwordForm.current_password,
+          new_password: passwordForm.new_password
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error.message);
+      }
+
+      setPasswordMessage({ type: 'success', text: 'パスワードを変更しました' });
+      setPasswordForm({ current_password: '', new_password: '', confirm_password: '' });
+    } catch (err) {
+      setPasswordMessage({ type: 'error', text: err.message || 'パスワード変更に失敗しました' });
+    }
+    setChangingPassword(false);
   };
 
   const copyToClipboard = async (text) => {
@@ -158,6 +208,12 @@ function PartnerDashboard({ partner, onLogout }) {
           onClick={() => setActiveTab('qrcode')}
         >
           QRコード
+        </button>
+        <button
+          className={activeTab === 'settings' ? 'active' : ''}
+          onClick={() => setActiveTab('settings')}
+        >
+          設定
         </button>
       </nav>
 
@@ -412,6 +468,60 @@ function PartnerDashboard({ partner, onLogout }) {
                   QRコードをダウンロード (PNG)
                 </a>
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'settings' && (
+          <div className="settings-tab">
+            <div className="settings-card">
+              <h2>パスワード変更</h2>
+              <p>ログインパスワードを変更できます。</p>
+
+              {passwordMessage.text && (
+                <div className={`password-message ${passwordMessage.type}`}>
+                  {passwordMessage.text}
+                </div>
+              )}
+
+              <form onSubmit={handlePasswordChange} className="password-form">
+                <div className="form-group">
+                  <label>現在のパスワード</label>
+                  <input
+                    type="password"
+                    value={passwordForm.current_password}
+                    onChange={(e) => setPasswordForm({...passwordForm, current_password: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>新しいパスワード</label>
+                  <input
+                    type="password"
+                    value={passwordForm.new_password}
+                    onChange={(e) => setPasswordForm({...passwordForm, new_password: e.target.value})}
+                    required
+                    minLength={6}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>新しいパスワード（確認）</label>
+                  <input
+                    type="password"
+                    value={passwordForm.confirm_password}
+                    onChange={(e) => setPasswordForm({...passwordForm, confirm_password: e.target.value})}
+                    required
+                    minLength={6}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={changingPassword}
+                  className="change-password-btn"
+                >
+                  {changingPassword ? '変更中...' : 'パスワードを変更'}
+                </button>
+              </form>
             </div>
           </div>
         )}

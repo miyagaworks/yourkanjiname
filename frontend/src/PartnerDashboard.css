@@ -703,3 +703,125 @@
     font-size: 0.8125rem;
   }
 }
+
+/* Settings Tab */
+.settings-tab {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.settings-card h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.settings-card > p {
+  color: #666;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.password-message {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9375rem;
+}
+
+.password-message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.password-message.error {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.password-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.password-form .form-group label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.password-form .form-group input {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.password-form .form-group input:focus {
+  outline: none;
+  border-color: #c75450;
+}
+
+.change-password-btn {
+  margin-top: 8px;
+  padding: 14px 24px;
+  background: #c75450;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.change-password-btn:hover {
+  background: #b04541;
+}
+
+.change-password-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .settings-tab {
+    max-width: 100%;
+  }
+
+  .settings-card {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  .settings-card h2 {
+    font-size: 1.25rem;
+  }
+
+  .settings-card > p {
+    font-size: 0.875rem;
+  }
+
+  .password-form .form-group input {
+    padding: 10px 14px;
+  }
+
+  .change-password-btn {
+    padding: 12px 20px;
+  }
+}
