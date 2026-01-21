@@ -8,6 +8,7 @@ function PartnerDashboard({ partner, onLogout }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedMonth, setSelectedMonth] = useState('');
 
   // Reset body styles for partner dashboard
   useEffect(() => {
@@ -299,38 +300,77 @@ function PartnerDashboard({ partner, onLogout }) {
 
         {activeTab === 'history' && (
           <div className="history-tab">
-            <h2>全利用履歴</h2>
-            <p className="history-count">全{all_payments?.length || 0}件</p>
-            {(!all_payments || all_payments.length === 0) ? (
-              <p className="no-data">まだ利用履歴がありません。</p>
-            ) : (
-              <table className="full-history-table">
-                <thead>
-                  <tr>
-                    <th>日時</th>
-                    <th>漢字名</th>
-                    <th>金額</th>
-                    <th>ロイヤリティ</th>
-                    <th>状態</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {all_payments.map((payment) => (
-                    <tr key={payment.id}>
-                      <td>{new Date(payment.created_at).toLocaleString('ja-JP')}</td>
-                      <td className="kanji">{payment.kanji_name || '-'}</td>
-                      <td>{formatJPY(payment.amount)}</td>
-                      <td>{formatJPY(payment.amount * dashboardData.partner.royalty_rate)}</td>
-                      <td>
-                        <span className={`status-badge status-${payment.status}`}>
-                          {getStatusLabel(payment.status)}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+            <h2>利用履歴</h2>
+            <div className="month-selector">
+              <label>月を選択:</label>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+              >
+                <option value="">すべて</option>
+                {monthly_history.map((m) => (
+                  <option key={m.year_month} value={m.year_month}>
+                    {m.year_month}（{m.payments}件）
+                  </option>
+                ))}
+              </select>
+            </div>
+            {(() => {
+              const filteredPayments = selectedMonth
+                ? all_payments?.filter(p => p.created_at.slice(0, 7) === selectedMonth)
+                : all_payments;
+              const monthStats = selectedMonth
+                ? monthly_history.find(m => m.year_month === selectedMonth)
+                : null;
+              return (
+                <>
+                  {monthStats && (
+                    <div className="month-stats-summary">
+                      <span>{monthStats.payments}件</span>
+                      <span>売上: {formatJPY(monthStats.revenue)}</span>
+                      <span>ロイヤリティ: {formatJPY(monthStats.royalty)}</span>
+                      <span className={`payout-badge payout-${monthStats.payout_status}`}>
+                        {getPayoutStatusLabel(monthStats.payout_status)}
+                      </span>
+                    </div>
+                  )}
+                  <p className="history-count">
+                    {selectedMonth ? `${selectedMonth}の履歴: ` : '全履歴: '}
+                    {filteredPayments?.length || 0}件
+                  </p>
+                  {(!filteredPayments || filteredPayments.length === 0) ? (
+                    <p className="no-data">この期間の利用履歴がありません。</p>
+                  ) : (
+                    <table className="full-history-table">
+                      <thead>
+                        <tr>
+                          <th>日時</th>
+                          <th>漢字名</th>
+                          <th>金額</th>
+                          <th>ロイヤリティ</th>
+                          <th>状態</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredPayments.map((payment) => (
+                          <tr key={payment.id}>
+                            <td>{new Date(payment.created_at).toLocaleString('ja-JP')}</td>
+                            <td className="kanji">{payment.kanji_name || '-'}</td>
+                            <td>{formatJPY(payment.amount)}</td>
+                            <td>{formatJPY(payment.amount * dashboardData.partner.royalty_rate)}</td>
+                            <td>
+                              <span className={`status-badge status-${payment.status}`}>
+                                {getStatusLabel(payment.status)}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )}
 
