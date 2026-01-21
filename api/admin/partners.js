@@ -69,7 +69,7 @@ module.exports = async function handler(req, res) {
       // List all partners with stats
       const result = await dbPool.query(`
         SELECT
-          p.id, p.code, p.name, p.email, p.contact_name, p.phone,
+          p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
           p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
           p.created_at, p.updated_at,
           COALESCE(pay_stats.total_payments, 0) as total_payments,
