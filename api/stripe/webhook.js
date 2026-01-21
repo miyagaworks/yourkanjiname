@@ -94,28 +94,39 @@ module.exports = async function handler(req, res) {
         const paymentIntent = event.data.object;
         console.log('Payment succeeded:', paymentIntent.id);
 
-        // Update payment record
-        const updateResult = await dbPool.query(`
-          UPDATE payments
-          SET status = 'succeeded'
+        // Get payment record first
+        const paymentResult = await dbPool.query(`
+          SELECT id, partner_id, amount, status
+          FROM payments
           WHERE stripe_payment_intent_id = $1
-          RETURNING partner_id, amount
         `, [paymentIntent.id]);
 
-        // Update partner monthly stats if applicable
-        if (updateResult.rows.length > 0) {
-          const { partner_id, amount } = updateResult.rows[0];
-          if (partner_id) {
-            // Get partner royalty rate
-            const partnerResult = await dbPool.query(
-              'SELECT royalty_rate FROM partners WHERE id = $1',
-              [partner_id]
-            );
-            if (partnerResult.rows.length > 0) {
-              const royaltyRate = partnerResult.rows[0].royalty_rate;
-              await updatePartnerMonthlyStats(dbPool, partner_id, amount, royaltyRate);
+        if (paymentResult.rows.length > 0) {
+          const payment = paymentResult.rows[0];
+          const wasAlreadySucceeded = payment.status === 'succeeded';
+
+          // Update payment status if not already succeeded
+          if (!wasAlreadySucceeded) {
+            await dbPool.query(`
+              UPDATE payments
+              SET status = 'succeeded'
+              WHERE id = $1
+            `, [payment.id]);
+
+            // Update partner monthly stats if applicable
+            if (payment.partner_id) {
+              const partnerResult = await dbPool.query(
+                'SELECT royalty_rate FROM partners WHERE id = $1',
+                [payment.partner_id]
+              );
+              if (partnerResult.rows.length > 0) {
+                const royaltyRate = partnerResult.rows[0].royalty_rate;
+                await updatePartnerMonthlyStats(dbPool, payment.partner_id, payment.amount, royaltyRate);
+              }
             }
           }
+        } else {
+          console.log('Payment record not found for:', paymentIntent.id);
         }
         break;
       }
