@@ -847,7 +847,10 @@ function Admin() {
                     </td>
                     <td className="action-cell">
                       <button
-                        onClick={() => setEditingPartner(p)}
+                        onClick={() => setEditingPartner({
+                          ...p,
+                          royalty_rate: parseFloat(p.royalty_rate).toFixed(2)
+                        })}
                         className="edit-btn"
                       >
                         編集
