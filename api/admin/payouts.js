@@ -57,6 +57,13 @@ async function sendPayoutEmail(partner, payoutDetails) {
     return false;
   }
 
+  // Format year_months to Japanese format (e.g., "2026-01" -> "2026年1月")
+  const formatYearMonth = (ym) => {
+    const [year, month] = ym.split('-');
+    return `${year}年${parseInt(month)}月`;
+  };
+  const formattedMonths = payoutDetails.year_months.map(formatYearMonth).join('、');
+
   const html = `
 <!DOCTYPE html>
 <html>
@@ -91,38 +98,38 @@ async function sendPayoutEmail(partner, payoutDetails) {
 
       <div class="details">
         <div class="detail-row">
-          <span>対象期間</span>
-          <span>${payoutDetails.year_months.join(', ')}</span>
+          <span>対象期間：</span>
+          <span>${formattedMonths}</span>
         </div>
         <div class="detail-row">
-          <span>ロイヤリティ（税込）</span>
+          <span>ロイヤリティ（税込）：</span>
           <span>$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
         </div>
         <div class="detail-row">
-          <span>適用為替レート</span>
+          <span>適用為替レート：</span>
           <span>$1 = ¥${payoutDetails.exchange_rate_jpy.toFixed(2)}</span>
         </div>
         <div class="detail-row">
-          <span>円換算額</span>
+          <span>円換算額：</span>
           <span>¥${payoutDetails.gross_payout_jpy.toLocaleString()}</span>
         </div>
         <div class="detail-row">
-          <span>振込手数料</span>
+          <span>振込手数料：</span>
           <span>-¥${payoutDetails.transfer_fee_jpy.toLocaleString()}</span>
         </div>
         <div class="detail-row">
-          <span><strong>お振込金額</strong></span>
+          <span><strong>お振込金額：</strong></span>
           <span><strong>¥${payoutDetails.net_payout_jpy.toLocaleString()}</strong></span>
         </div>
       </div>
 
       <div class="details">
         <div class="detail-row">
-          <span>お振込先</span>
+          <span>お振込先：</span>
           <span>${partner.bank_name} ${partner.bank_branch || ''}</span>
         </div>
         <div class="detail-row">
-          <span>口座番号</span>
+          <span>口座番号：</span>
           <span>${partner.bank_account}</span>
         </div>
       </div>
@@ -149,7 +156,7 @@ async function sendPayoutEmail(partner, payoutDetails) {
       body: JSON.stringify({
         from: fromEmail,
         to: partner.email,
-        subject: `【Your Kanji Name】ロイヤリティお振込完了のお知らせ（${payoutDetails.year_months.join(', ')}）`,
+        subject: `【Your Kanji Name】ロイヤリティお振込完了のお知らせ（${formattedMonths}）`,
         html: html
       })
     });
