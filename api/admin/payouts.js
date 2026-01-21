@@ -353,8 +353,7 @@ module.exports = async function handler(req, res) {
           paid_at = NOW(),
           exchange_rate_jpy = $3,
           transfer_fee_jpy = $4,
-          net_payout_jpy = $5,
-          updated_at = NOW()
+          net_payout_jpy = $5
         WHERE partner_id = $1 AND year_month = ANY($2) AND payout_status = 'pending'
         RETURNING id, year_month, royalty_amount
       `, [partner_id, year_months, exchange_rate_jpy, fee, netPayoutJpy]);
