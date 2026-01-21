@@ -70,7 +70,14 @@ function Admin() {
       const data = await response.json();
       if (data.payments) {
         setPayments(data.payments);
-        setPaymentStats(data.stats);
+        // Flatten stats for easier access
+        const allTime = data.stats?.all_time || {};
+        setPaymentStats({
+          total_revenue: allTime.total_revenue || 0,
+          partner_revenue: allTime.partner_revenue || 0,
+          direct_revenue: (allTime.total_revenue || 0) - (allTime.partner_revenue || 0),
+          total_payments: allTime.succeeded_count || 0
+        });
       }
     } catch (error) {
       console.error('Failed to fetch payments:', error);
