@@ -8,6 +8,7 @@ import Admin from './Admin';
 import Partner from './Partner';
 import PaymentModal from './components/PaymentModal';
 import Terms from './Terms';
+import TankaPrompt from './TankaPrompt';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -488,9 +489,10 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
-  // Check if admin or partner page
+  // Check if admin, partner, or tanka page
   const isAdminPage = window.location.pathname === '/admin';
   const isPartnerPage = window.location.pathname === '/partner';
+  const isTankaPage = window.location.pathname === '/tanka';
 
   // Track partner code from URL (stores to sessionStorage)
   getPartnerCode();
@@ -686,6 +688,11 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Tanka prompt tool page
+  if (isTankaPage) {
+    return <TankaPrompt />;
+  }
 
   // Partner page
   if (isPartnerPage) {

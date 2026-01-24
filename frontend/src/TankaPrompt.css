@@ -1,0 +1,231 @@
+.tanka-prompt {
+  min-height: 100vh;
+  background: #f5f5f5;
+  font-family: 'Noto Sans JP', sans-serif;
+}
+
+.tanka-header {
+  background: #c75450;
+  color: white;
+  padding: 20px 24px;
+  text-align: center;
+}
+
+.tanka-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.tanka-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Step Section */
+.tanka-step {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.tanka-step h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 2px solid #c75450;
+  padding-bottom: 8px;
+}
+
+.step-description {
+  margin: 0 0 20px 0;
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Input Groups */
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input-group textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.input-group input:focus,
+.input-group textarea:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #c75450;
+}
+
+.input-row {
+  display: flex;
+  gap: 16px;
+}
+
+.input-group.half {
+  flex: 1;
+}
+
+/* Generate Button */
+.generate-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: #c75450;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.generate-btn:hover {
+  background: #b04541;
+}
+
+.generate-btn:active {
+  background: #9a3b38;
+}
+
+/* Output Group */
+.output-group {
+  margin-top: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.output-header label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.copy-btn {
+  padding: 8px 16px;
+  background: #4a9c5d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copy-btn:hover {
+  background: #3d8a4e;
+}
+
+.output-text {
+  margin: 0;
+  padding: 16px;
+  background: #fafafa;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #333;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .tanka-header {
+    padding: 16px 20px;
+  }
+
+  .tanka-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .tanka-content {
+    padding: 16px;
+  }
+
+  .tanka-step {
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  .tanka-step h2 {
+    font-size: 1.125rem;
+  }
+
+  .step-description {
+    font-size: 0.85rem;
+  }
+
+  .input-group input,
+  .input-group textarea,
+  .input-group select {
+    padding: 12px;
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .input-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .generate-btn {
+    padding: 14px 20px;
+  }
+
+  .output-header {
+    padding: 10px 14px;
+  }
+
+  .output-text {
+    padding: 14px;
+    font-size: 0.8125rem;
+    max-height: 300px;
+  }
+
+  .copy-btn {
+    padding: 8px 14px;
+    font-size: 0.8125rem;
+  }
+}
