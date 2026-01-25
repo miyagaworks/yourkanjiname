@@ -566,11 +566,9 @@
 
   .payments-table,
   .history-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
     font-size: 0.8125rem;
     border-radius: 8px;
+    min-width: 100%;
   }
 
   .payments-table th,
@@ -665,12 +663,17 @@
     margin-bottom: 12px;
   }
 
-  .full-history-table {
-    display: block;
+  /* テーブルコンテナにスクロールを設定 */
+  .recent-section,
+  .history-tab {
     overflow-x: auto;
-    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .full-history-table {
     font-size: 0.8125rem;
     border-radius: 8px;
+    min-width: 100%;
   }
 
   .full-history-table th {
