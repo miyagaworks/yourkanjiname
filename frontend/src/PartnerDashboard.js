@@ -261,7 +261,6 @@ function PartnerDashboard({ partner, onLogout }) {
                   <thead>
                     <tr>
                       <th>日付</th>
-                      <th>漢字名</th>
                       <th>金額</th>
                       <th>ロイヤリティ</th>
                       <th>状態</th>
@@ -271,7 +270,6 @@ function PartnerDashboard({ partner, onLogout }) {
                     {recent_payments.map((payment) => (
                       <tr key={payment.id}>
                         <td>{formatDate(payment.created_at)}</td>
-                        <td className="kanji">{payment.kanji_name || '-'}</td>
                         <td>{formatJPY(payment.amount)}</td>
                         <td>{formatJPY(payment.amount * dashboardData.partner.royalty_rate)}</td>
                         <td>
@@ -401,7 +399,6 @@ function PartnerDashboard({ partner, onLogout }) {
                       <thead>
                         <tr>
                           <th>日時</th>
-                          <th>漢字名</th>
                           <th>金額</th>
                           <th>ロイヤリティ</th>
                           <th>状態</th>
@@ -411,7 +408,6 @@ function PartnerDashboard({ partner, onLogout }) {
                         {filteredPayments.map((payment) => (
                           <tr key={payment.id}>
                             <td>{new Date(payment.created_at).toLocaleString('ja-JP')}</td>
-                            <td className="kanji">{payment.kanji_name || '-'}</td>
                             <td>{formatJPY(payment.amount)}</td>
                             <td>{formatJPY(payment.amount * dashboardData.partner.royalty_rate)}</td>
                             <td>
