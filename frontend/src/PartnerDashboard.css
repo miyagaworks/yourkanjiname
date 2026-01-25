@@ -564,13 +564,17 @@
     margin-bottom: 12px;
   }
 
+  .recent-section {
+    overflow: hidden;
+    border-radius: 8px;
+    background: white;
+  }
+
   .payments-table,
   .history-table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
     font-size: 0.8125rem;
-    border-radius: 8px;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .payments-table th,
