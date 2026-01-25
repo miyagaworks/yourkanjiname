@@ -178,10 +178,10 @@
 .history-table th {
   text-align: left;
   padding: 14px 16px;
-  background: #f9f9f9;
+  background: #e8f5e9;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #666;
+  color: #2e7d32;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -477,10 +477,10 @@
 .full-history-table th {
   text-align: left;
   padding: 14px 16px;
-  background: #f9f9f9;
+  background: #e8f5e9;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: #666;
+  color: #2e7d32;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
