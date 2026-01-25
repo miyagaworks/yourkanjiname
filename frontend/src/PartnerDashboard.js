@@ -17,14 +17,22 @@ function PartnerDashboard({ partner, onLogout }) {
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
   const [changingPassword, setChangingPassword] = useState(false);
 
-  // Reset body styles for partner dashboard and scroll to top
+  // Reset body styles for partner dashboard
   useEffect(() => {
-    window.scrollTo(0, 0);
     document.body.style.setProperty('background-image', 'none', 'important');
     document.body.style.setProperty('background-color', '#f5f5f5', 'important');
     document.body.style.setProperty('padding', '0', 'important');
     document.body.style.setProperty('display', 'block', 'important');
   }, []);
+
+  // Scroll to top when data is loaded
+  useEffect(() => {
+    if (dashboardData && !loading) {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      });
+    }
+  }, [dashboardData, loading]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -47,10 +55,6 @@ function PartnerDashboard({ partner, onLogout }) {
       }
 
       setDashboardData(data);
-      // Scroll to top after data loads
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-      }, 0);
     } catch (err) {
       console.error('Dashboard fetch error:', err);
       setError(err.message || 'ダッシュボードの読み込みに失敗しました');
