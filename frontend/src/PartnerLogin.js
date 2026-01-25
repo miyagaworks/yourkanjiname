@@ -35,6 +35,8 @@ function PartnerLogin({ onLogin }) {
         // Store token and partner info
         sessionStorage.setItem('partnerToken', data.token);
         sessionStorage.setItem('partnerInfo', JSON.stringify(data.partner));
+        // Scroll to top before showing dashboard
+        window.scrollTo(0, 0);
         onLogin(data.partner);
       } else {
         setError(data.error?.message || 'ログインに失敗しました');
