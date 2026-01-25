@@ -564,17 +564,11 @@
     margin-bottom: 12px;
   }
 
-  /* テーブルを横スクロール対応に */
-  .recent-section,
-  .history-tab {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .payments-table,
   .history-table {
-    width: max-content;
-    min-width: 100%;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
     font-size: 0.8125rem;
     border-radius: 8px;
   }
