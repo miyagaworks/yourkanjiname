@@ -521,16 +521,29 @@
   }
 
   .partner-nav {
-    padding: 0;
+    padding: 8px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    background: #f5f5f5;
+    border-bottom: none;
   }
 
   .partner-nav button {
-    padding: 12px 4px;
-    font-size: 0.7rem;
+    padding: 10px 6px;
+    font-size: 0.8125rem;
     text-align: center;
     white-space: nowrap;
+    background: white;
+    border-radius: 8px;
+    border-bottom: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .partner-nav button.active {
+    background: #c75450;
+    color: white;
+    box-shadow: 0 2px 4px rgba(199,84,80,0.3);
   }
 
   .partner-content {
