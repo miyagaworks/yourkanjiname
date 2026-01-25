@@ -17,8 +17,9 @@ function PartnerDashboard({ partner, onLogout }) {
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
   const [changingPassword, setChangingPassword] = useState(false);
 
-  // Reset body styles for partner dashboard
+  // Reset body styles for partner dashboard and scroll to top
   useEffect(() => {
+    window.scrollTo(0, 0);
     document.body.style.setProperty('background-image', 'none', 'important');
     document.body.style.setProperty('background-color', '#f5f5f5', 'important');
     document.body.style.setProperty('padding', '0', 'important');
