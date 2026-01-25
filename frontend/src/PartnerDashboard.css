@@ -522,14 +522,15 @@
 
   .partner-nav {
     padding: 0;
-    justify-content: space-around;
+    justify-content: stretch;
   }
 
   .partner-nav button {
-    padding: 12px 8px;
-    font-size: 0.8125rem;
+    padding: 12px 4px;
+    font-size: 0.75rem;
     flex: 1;
     text-align: center;
+    white-space: nowrap;
   }
 
   .partner-content {
@@ -573,14 +574,16 @@
 
   .payments-table th,
   .history-table th {
-    padding: 10px 12px;
-    font-size: 0.7rem;
+    padding: 10px 8px;
+    font-size: 0.65rem;
+    white-space: nowrap;
   }
 
   .payments-table td,
   .history-table td {
-    padding: 10px 12px;
-    font-size: 0.8125rem;
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
   .qrcode-tab {
@@ -677,13 +680,15 @@
   }
 
   .full-history-table th {
-    padding: 10px 12px;
-    font-size: 0.7rem;
+    padding: 10px 8px;
+    font-size: 0.65rem;
+    white-space: nowrap;
   }
 
   .full-history-table td {
-    padding: 10px 12px;
-    font-size: 0.8125rem;
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
 
   .month-selector {
