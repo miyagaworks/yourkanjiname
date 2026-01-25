@@ -257,7 +257,7 @@ function PartnerDashboard({ partner, onLogout }) {
               {recent_payments.length === 0 ? (
                 <p className="no-data">まだ決済がありません。QRコードを共有して収益を獲得しましょう！</p>
               ) : (
-                <table className="payments-table">
+                <table className="full-history-table">
                   <thead>
                     <tr>
                       <th>日付</th>
