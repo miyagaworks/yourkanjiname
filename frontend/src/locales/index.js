@@ -9,6 +9,7 @@ const translations = {
     namePlaceholder: 'e.g., John Smith',
     start: 'Start',
     next: 'Next',
+    back: 'Back',
 
     // Result page
     yourKanjiName: 'Your Kanji Name',
@@ -52,6 +53,7 @@ const translations = {
     namePlaceholder: 'ex. : Jean Dupont',
     start: 'Commencer',
     next: 'Suivant',
+    back: 'Retour',
 
     yourKanjiName: 'Votre nom en kanji',
     matchingScore: 'Score de correspondance',
@@ -91,6 +93,7 @@ const translations = {
     namePlaceholder: 'z.B. Max Mustermann',
     start: 'Starten',
     next: 'Weiter',
+    back: 'Zurück',
 
     yourKanjiName: 'Ihr Kanji-Name',
     matchingScore: '\u00dcbereinstimmungswert',
@@ -130,6 +133,7 @@ const translations = {
     namePlaceholder: 'ej. Juan Garc\u00eda',
     start: 'Comenzar',
     next: 'Siguiente',
+    back: 'Atrás',
 
     yourKanjiName: 'Tu nombre en kanji',
     matchingScore: 'Puntuaci\u00f3n de coincidencia',
@@ -169,6 +173,7 @@ const translations = {
     namePlaceholder: 'es. Mario Rossi',
     start: 'Inizia',
     next: 'Avanti',
+    back: 'Indietro',
 
     yourKanjiName: 'Il tuo nome in kanji',
     matchingScore: 'Punteggio di corrispondenza',
@@ -208,6 +213,7 @@ const translations = {
     namePlaceholder: '\u0E40\u0E0A\u0E48\u0E19 \u0E2A\u0E21\u0E0A\u0E32\u0E22 \u0E43\u0E08\u0E14\u0E35',
     start: '\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E49\u0E19',
     next: '\u0E16\u0E31\u0E14\u0E44\u0E1B',
+    back: 'ย้อนกลับ',
 
     yourKanjiName: '\u0E0A\u0E37\u0E48\u0E2D\u0E04\u0E31\u0E19\u0E08\u0E34\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
     matchingScore: '\u0E04\u0E30\u0E41\u0E19\u0E19\u0E04\u0E27\u0E32\u0E21\u0E40\u0E02\u0E49\u0E32\u0E01\u0E31\u0E19',
@@ -247,6 +253,7 @@ const translations = {
     namePlaceholder: 'v\u00ed d\u1EE5: Nguy\u1EC5n V\u0103n A',
     start: 'B\u1EAFt \u0111\u1EA7u',
     next: 'Ti\u1EBFp theo',
+    back: 'Quay lại',
 
     yourKanjiName: 'T\u00ean Kanji c\u1EE7a b\u1EA1n',
     matchingScore: '\u0110i\u1EC3m ph\u00f9 h\u1EE3p',
@@ -286,6 +293,7 @@ const translations = {
     namePlaceholder: 'contoh: Budi Santoso',
     start: 'Mulai',
     next: 'Selanjutnya',
+    back: 'Kembali',
 
     yourKanjiName: 'Nama Kanji Anda',
     matchingScore: 'Skor Kecocokan',
@@ -325,6 +333,7 @@ const translations = {
     namePlaceholder: '\uC608: \uD64D\uAE38\uB3D9',
     start: '\uC2DC\uC791',
     next: '\uB2E4\uC74C',
+    back: '이전',
 
     yourKanjiName: '\uB2F9\uC2E0\uC758 \uD55C\uC790 \uC774\uB984',
     matchingScore: '\uB9E4\uCE6D \uC810\uC218',
@@ -364,6 +373,7 @@ const translations = {
     namePlaceholder: '\u4F8B: John Smith',
     start: '\u59CB\u3081\u308B',
     next: '\u6B21\u3078',
+    back: '戻る',
 
     yourKanjiName: '\u3042\u306A\u305F\u306E\u6F22\u5B57\u540D',
     matchingScore: '\u30DE\u30C3\u30C1\u30F3\u30B0\u5EA6',

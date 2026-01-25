@@ -116,7 +116,7 @@ const ProgressBar = ({ progress }) => {
 };
 
 // Question Component
-const QuestionCard = ({ question, onAnswer, language }) => {
+const QuestionCard = ({ question, onAnswer, onBack, canGoBack, language }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const { t } = useTranslation();
 
@@ -157,19 +157,41 @@ const QuestionCard = ({ question, onAnswer, language }) => {
               </button>
             ))}
           </div>
-          <button
-            className="submit-button"
-            onClick={handleSubmit}
-            disabled={!selectedOption}
-          >
-            {t('next')}
-          </button>
+          <div className="navigation-buttons">
+            {canGoBack && (
+              <button
+                className="back-button"
+                onClick={onBack}
+                type="button"
+              >
+                {t('back') || 'Back'}
+              </button>
+            )}
+            <button
+              className="submit-button"
+              onClick={handleSubmit}
+              disabled={!selectedOption}
+            >
+              {t('next')}
+            </button>
+          </div>
         </>
       )}
       {!question.options && (
-        <button className="submit-button" onClick={() => onAnswer('continue')}>
-          {t('start')}
-        </button>
+        <div className="navigation-buttons">
+          {canGoBack && (
+            <button
+              className="back-button"
+              onClick={onBack}
+              type="button"
+            >
+              {t('back') || 'Back'}
+            </button>
+          )}
+          <button className="submit-button" onClick={() => onAnswer('continue')}>
+            {t('start')}
+          </button>
+        </div>
       )}
     </div>
   );
@@ -513,6 +535,7 @@ function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [hasPaid, setHasPaid] = useState(false);
   const [paymentIntentId, setPaymentIntentId] = useState(null);
+  const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
   const partnerCode = sessionStorage.getItem('partnerCode');
@@ -624,6 +647,32 @@ function App() {
     }
   };
 
+  // 戻る処理
+  const handleBack = () => {
+    if (answerHistory.length === 0) {
+      // 履歴がない場合は名前入力に戻る
+      setCurrentQuestion(null);
+      setShowNameInput(true);
+      setProgress(null);
+      return;
+    }
+
+    // 最後の履歴を取り出す
+    const newHistory = [...answerHistory];
+    const lastEntry = newHistory.pop();
+    setAnswerHistory(newHistory);
+
+    // 前の質問を表示
+    const stepNum = parseInt(lastEntry.questionId.replace('Q', ''));
+    setCurrentQuestion(formatQuestion(lastEntry.questionId, stepNum));
+    setProgress({
+      current_step: stepNum,
+      total_steps: 16,
+      percentage: Math.round((stepNum / 16) * 100)
+    });
+    window.scrollTo(0, 0);
+  };
+
   // 回答送信
   const handleAnswer = async (optionId) => {
     if (!currentQuestion) return;
@@ -633,6 +682,9 @@ function App() {
 
     // 次の質問を即座に表示（API待ちなし）
     if (nextQuestionId && nextQuestionId !== 'GENERATE_RESULT') {
+      // 現在の質問と回答を履歴に保存
+      setAnswerHistory(prev => [...prev, { questionId: currentQuestionId, optionId }]);
+
       const stepNum = parseInt(nextQuestionId.replace('Q', ''));
       setCurrentQuestion(formatQuestion(nextQuestionId, stepNum));
       setProgress({
@@ -870,6 +922,8 @@ function App() {
           <QuestionCard
             question={currentQuestion}
             onAnswer={handleAnswer}
+            onBack={handleBack}
+            canGoBack={true}
             language={language}
           />
         )}
