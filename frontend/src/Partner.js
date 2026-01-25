@@ -35,6 +35,10 @@ function Partner() {
   const handleLogin = (partner) => {
     setPartnerInfo(partner);
     setIsLoggedIn(true);
+    // Scroll to top after state update
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
   };
 
   const handleLogout = () => {
