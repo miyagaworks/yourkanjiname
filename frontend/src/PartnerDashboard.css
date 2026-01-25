@@ -522,13 +522,13 @@
 
   .partner-nav {
     padding: 0;
-    justify-content: stretch;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .partner-nav button {
     padding: 12px 4px;
-    font-size: 0.75rem;
-    flex: 1;
+    font-size: 0.7rem;
     text-align: center;
     white-space: nowrap;
   }
