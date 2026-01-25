@@ -47,6 +47,10 @@ function PartnerDashboard({ partner, onLogout }) {
       }
 
       setDashboardData(data);
+      // Scroll to top after data loads
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     } catch (err) {
       console.error('Dashboard fetch error:', err);
       setError(err.message || 'ダッシュボードの読み込みに失敗しました');
