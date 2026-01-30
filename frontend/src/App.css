@@ -997,8 +997,8 @@ body::before {
 .landing-samples {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 400px;
+  gap: 16px;
+  max-width: 100%;
   margin: 0 auto 32px;
 }
 
@@ -1006,8 +1006,13 @@ body::before {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.landing-samples img:hover {
+  transform: scale(1.05);
 }
 
 .landing-features {
@@ -1193,7 +1198,7 @@ body::before {
 
   .landing-samples {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 280px;
+    max-width: 100%;
     gap: 12px;
   }
 
