@@ -167,6 +167,46 @@ const translations = {
     loading4: 'Casi listo...'
   },
 
+  // Portuguese
+  pt: {
+    enterName: 'Por favor, diga-nos o seu nome completo',
+    namePlaceholder: 'ex. João Silva',
+    start: 'Começar',
+    next: 'Próximo',
+    back: 'Voltar',
+
+    yourKanjiName: 'Seu nome em kanji',
+    matchingScore: 'Pontuação de correspondência',
+    total: 'Total',
+    gender: 'Gênero',
+    motivation: 'Motivação',
+
+    calligrapherTitle: 'Um calígrafo escreverá seu nome com pincel',
+    calligrapherDesc: 'Um calígrafo profissional escreverá seu nome em kanji com bela caligrafia a pincel e enviará para você por e-mail.',
+    calligrapherDescPaid: 'Insira seu endereço de e-mail para receber sua obra de caligrafia manuscrita.',
+    emailWarning: '※Se o endereço de e-mail estiver incorreto, não poderemos entregar sua obra. Por favor, insira com cuidado.',
+    emailPlaceholder: 'Endereço de e-mail',
+    request: 'Solicitar',
+    sendCalligraphy: 'Solicitar',
+    sending: 'Enviando...',
+    thankYou: 'Obrigado! Por favor, aguarde o e-mail do nosso calígrafo.',
+    requestError: 'Falha ao enviar. Por favor, tente novamente.',
+
+    landingTitle: 'Obtenha seu nome Kanji único',
+    landingDesc: 'Descubra seu nome japonês personalizado em kanji, escrito à mão por um calígrafo profissional.',
+    feature1: 'Responda perguntas que exploram seu eu interior',
+    feature2: 'Seu nome kanji único é gerado',
+    feature3: 'Caligrafia profissional entregue por e-mail',
+    priceLabel: 'Taxa de serviço',
+    termsLink: 'Termos de serviço',
+    startFree: 'Começar grátis',
+
+    loading1: 'Analisando sua personalidade...',
+    loading2: 'Selecionando os kanji perfeitos...',
+    loading3: 'Criando sua história...',
+    loading4: 'Quase pronto...'
+  },
+
   // Italian
   it: {
     enterName: 'Per favore, dicci il tuo nome completo',

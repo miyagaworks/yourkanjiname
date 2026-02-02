@@ -165,6 +165,7 @@ ${step3Language}
     'Français',
     'Deutsch',
     'Español',
+    'Português',
     'Italiano',
     'ไทย',
     'Tiếng Việt',

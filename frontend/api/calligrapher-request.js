@@ -69,6 +69,15 @@ const EMAIL_CONFIG = {
     calligraphyInfo: 'Un calígrafo profesional escribirá su nombre con cuidado y dedicación, y se lo enviaremos por correo electrónico. Por favor, espere a que se complete su obra.',
     closing: 'El equipo de Your Kanji Name'
   },
+  pt: {
+    subject: 'Sua solicitação de caligrafia foi recebida',
+    greeting: 'Prezado(a)',
+    thankYou: 'Obrigado pela sua solicitação.',
+    intro: 'Recebemos sua solicitação de uma obra caligráfica do seu nome em kanji "{{kanjiName}}".',
+    yourName: 'Seu nome em kanji',
+    calligraphyInfo: 'Um calígrafo profissional escreverá seu nome com cuidado e dedicação, e enviaremos para você por e-mail. Por favor, aguarde a conclusão da sua obra.',
+    closing: 'Equipe Your Kanji Name'
+  },
   it: {
     subject: 'La tua richiesta di calligrafia è stata ricevuta',
     greeting: 'Gentile',
