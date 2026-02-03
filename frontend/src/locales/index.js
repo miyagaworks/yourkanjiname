@@ -6,7 +6,7 @@ const translations = {
   en: {
     // Name input
     enterName: 'What\'s your name?',
-    namePlaceholder: 'e.g., John (first name is fine!)',
+    namePlaceholder: 'e.g., John Smith (first name only is also OK)',
     start: 'Start',
     next: 'Next',
     back: 'Back',
@@ -50,7 +50,7 @@ const translations = {
   // French
   fr: {
     enterName: 'Comment vous appelez-vous ?',
-    namePlaceholder: 'ex. : Jean (prénom suffit !)',
+    namePlaceholder: 'ex. : Jean Dupont (prénom seul aussi OK)',
     start: 'Commencer',
     next: 'Suivant',
     back: 'Retour',
@@ -90,7 +90,7 @@ const translations = {
   // German
   de: {
     enterName: 'Wie heißen Sie?',
-    namePlaceholder: 'z.B. Max (Vorname genügt!)',
+    namePlaceholder: 'z.B. Max Müller (nur Vorname auch OK)',
     start: 'Starten',
     next: 'Weiter',
     back: 'Zurück',
@@ -130,7 +130,7 @@ const translations = {
   // Spanish
   es: {
     enterName: '¿Cómo te llamas?',
-    namePlaceholder: 'ej. Juan (¡solo el nombre está bien!)',
+    namePlaceholder: 'ej. Juan García (solo nombre también OK)',
     start: 'Comenzar',
     next: 'Siguiente',
     back: 'Atrás',
@@ -170,7 +170,7 @@ const translations = {
   // Portuguese
   pt: {
     enterName: 'Qual é o seu nome?',
-    namePlaceholder: 'ex. João (só o primeiro nome está bem!)',
+    namePlaceholder: 'ex. João Silva (só primeiro nome também OK)',
     start: 'Começar',
     next: 'Próximo',
     back: 'Voltar',
@@ -210,7 +210,7 @@ const translations = {
   // Italian
   it: {
     enterName: 'Come ti chiami?',
-    namePlaceholder: 'es. Mario (basta il nome!)',
+    namePlaceholder: 'es. Mario Rossi (solo nome anche OK)',
     start: 'Inizia',
     next: 'Avanti',
     back: 'Indietro',
@@ -250,7 +250,7 @@ const translations = {
   // Thai
   th: {
     enterName: 'คุณชื่ออะไร?',
-    namePlaceholder: 'เช่น สมชาย (ชื่อเล่นก็ได้!)',
+    namePlaceholder: 'เช่น สมชาย ใจดี (ชื่อเดียวก็ OK)',
     start: '\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E49\u0E19',
     next: '\u0E16\u0E31\u0E14\u0E44\u0E1B',
     back: 'ย้อนกลับ',
@@ -290,7 +290,7 @@ const translations = {
   // Vietnamese
   vi: {
     enterName: 'Bạn tên gì?',
-    namePlaceholder: 'vd: An (chỉ tên cũng được!)',
+    namePlaceholder: 'vd: Nguyễn Văn An (chỉ tên cũng OK)',
     start: 'B\u1EAFt \u0111\u1EA7u',
     next: 'Ti\u1EBFp theo',
     back: 'Quay lại',
@@ -330,7 +330,7 @@ const translations = {
   // Indonesian
   id: {
     enterName: 'Siapa namamu?',
-    namePlaceholder: 'contoh: Budi (nama depan saja boleh!)',
+    namePlaceholder: 'contoh: Budi Santoso (nama depan saja juga OK)',
     start: 'Mulai',
     next: 'Selanjutnya',
     back: 'Kembali',
@@ -370,7 +370,7 @@ const translations = {
   // Korean
   ko: {
     enterName: '이름이 뭐예요?',
-    namePlaceholder: '예: 길동 (이름만 써도 OK!)',
+    namePlaceholder: '예: 홍길동 (이름만도 OK)',
     start: '\uC2DC\uC791',
     next: '\uB2E4\uC74C',
     back: '이전',
@@ -410,7 +410,7 @@ const translations = {
   // Japanese
   ja: {
     enterName: 'お名前を教えてください',
-    namePlaceholder: '例: John（ファーストネームだけでもOK!）',
+    namePlaceholder: '例: John Smith（ファーストネームだけでもOK）',
     start: '\u59CB\u3081\u308B',
     next: '\u6B21\u3078',
     back: '戻る',
