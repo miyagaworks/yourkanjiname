@@ -177,20 +177,20 @@ module.exports = async function handler(req, res) {
       [partnerId]
     );
 
-    // Get all payments (full history)
+    // Get all payments (full history) - exclude pending payments
     const allPaymentsResult = await dbPool.query(
       `SELECT id, amount, status, kanji_name, customer_email, created_at
        FROM payments
-       WHERE partner_id = $1
+       WHERE partner_id = $1 AND status != 'pending'
        ORDER BY created_at DESC`,
       [partnerId]
     );
 
-    // Get recent payments (for quick view)
+    // Get recent payments (for quick view) - exclude pending payments
     const recentPaymentsResult = await dbPool.query(
       `SELECT id, amount, status, kanji_name, created_at
        FROM payments
-       WHERE partner_id = $1
+       WHERE partner_id = $1 AND status != 'pending'
        ORDER BY created_at DESC
        LIMIT 10`,
       [partnerId]

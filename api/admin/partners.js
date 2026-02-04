@@ -95,6 +95,7 @@ module.exports = async function handler(req, res) {
           WHERE payout_status = 'pending'
           GROUP BY partner_id
         ) monthly_stats ON p.id = monthly_stats.partner_id
+        WHERE p.status != 'deleted'
         ORDER BY p.created_at DESC
       `);
 

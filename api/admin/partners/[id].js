@@ -221,7 +221,7 @@ module.exports = async function handler(req, res) {
       }
 
       if (status !== undefined) {
-        if (!['active', 'inactive', 'suspended'].includes(status)) {
+        if (!['active', 'inactive', 'suspended', 'deleted'].includes(status)) {
           return res.status(400).json({
             error: { code: 'INVALID_STATUS', message: 'Invalid status value' }
           });
@@ -266,9 +266,9 @@ module.exports = async function handler(req, res) {
       });
 
     } else if (req.method === 'DELETE') {
-      // Delete partner
+      // Soft delete partner (set status to 'deleted')
       const result = await dbPool.query(
-        'DELETE FROM partners WHERE id = $1 RETURNING id',
+        `UPDATE partners SET status = 'deleted', updated_at = NOW() WHERE id = $1 RETURNING id`,
         [partnerId]
       );
 

@@ -80,24 +80,8 @@ module.exports = async function handler(req, res) {
       receipt_email: customer_email || undefined,
     });
 
-    // Record pending payment in database
-    await dbPool.query(
-      `INSERT INTO payments (
-        session_id, stripe_payment_intent_id, amount, currency, status,
-        partner_code, partner_id, customer_email, kanji_name
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-      [
-        session_id || null,
-        paymentIntent.id,
-        priceUsd,
-        'usd',
-        'pending',
-        partner_code || null,
-        partnerId,
-        customer_email || null,
-        kanji_name || null
-      ]
-    );
+    // Note: Payment record will be created when payment succeeds (via webhook or confirmation)
+    // We no longer create pending records to avoid orphaned entries
 
     return res.json({
       clientSecret: paymentIntent.client_secret,

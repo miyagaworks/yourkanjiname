@@ -94,39 +94,62 @@ module.exports = async function handler(req, res) {
         const paymentIntent = event.data.object;
         console.log('Payment succeeded:', paymentIntent.id);
 
-        // Get payment record first
-        const paymentResult = await dbPool.query(`
+        // Check if payment record already exists
+        const existingResult = await dbPool.query(`
           SELECT id, partner_id, amount, status
           FROM payments
           WHERE stripe_payment_intent_id = $1
         `, [paymentIntent.id]);
 
-        if (paymentResult.rows.length > 0) {
-          const payment = paymentResult.rows[0];
-          const wasAlreadySucceeded = payment.status === 'succeeded';
+        let partnerId = null;
+        let amount = paymentIntent.amount / 100; // Convert cents to dollars
 
-          // Update payment status if not already succeeded
-          if (!wasAlreadySucceeded) {
+        if (existingResult.rows.length > 0) {
+          // Update existing record
+          const payment = existingResult.rows[0];
+          partnerId = payment.partner_id;
+          amount = payment.amount;
+
+          if (payment.status !== 'succeeded') {
             await dbPool.query(`
               UPDATE payments
               SET status = 'succeeded'
               WHERE id = $1
             `, [payment.id]);
-
-            // Update partner monthly stats if applicable
-            if (payment.partner_id) {
-              const partnerResult = await dbPool.query(
-                'SELECT royalty_rate FROM partners WHERE id = $1',
-                [payment.partner_id]
-              );
-              if (partnerResult.rows.length > 0) {
-                const royaltyRate = partnerResult.rows[0].royalty_rate;
-                await updatePartnerMonthlyStats(dbPool, payment.partner_id, payment.amount, royaltyRate);
-              }
-            }
           }
         } else {
-          console.log('Payment record not found for:', paymentIntent.id);
+          // Create new payment record from PaymentIntent metadata
+          const metadata = paymentIntent.metadata || {};
+          partnerId = metadata.partner_id ? parseInt(metadata.partner_id, 10) : null;
+
+          await dbPool.query(`
+            INSERT INTO payments (
+              session_id, stripe_payment_intent_id, amount, currency, status,
+              partner_code, partner_id, customer_email, kanji_name
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          `, [
+            metadata.session_id || null,
+            paymentIntent.id,
+            amount,
+            paymentIntent.currency || 'usd',
+            'succeeded',
+            metadata.partner_code || null,
+            partnerId,
+            paymentIntent.receipt_email || null,
+            metadata.kanji_name || null
+          ]);
+        }
+
+        // Update partner monthly stats if applicable
+        if (partnerId) {
+          const partnerResult = await dbPool.query(
+            'SELECT royalty_rate FROM partners WHERE id = $1',
+            [partnerId]
+          );
+          if (partnerResult.rows.length > 0) {
+            const royaltyRate = partnerResult.rows[0].royalty_rate;
+            await updatePartnerMonthlyStats(dbPool, partnerId, amount, royaltyRate);
+          }
         }
         break;
       }
