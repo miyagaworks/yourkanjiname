@@ -1163,47 +1163,43 @@
 @media (max-width: 768px) {
   /* Header improvements */
   .admin-header {
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px 15px;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 15px;
   }
 
   .admin-header h1 {
-    font-size: 16px;
-    order: 1;
+    font-size: 18px;
+    flex: 1;
+  }
+
+  .logout-btn {
+    padding: 10px 18px;
+    font-size: 14px;
   }
 
   .admin-tabs {
-    order: 3;
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
+    gap: 8px;
     background: rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    padding: 6px;
+    padding: 8px;
+    margin-top: 4px;
   }
 
   .admin-tabs button {
-    padding: 14px 8px;
-    font-size: 13px;
+    padding: 16px 10px;
+    font-size: 15px;
     border-radius: 6px;
     border-bottom: none;
-    min-height: 44px;
+    min-height: 50px;
     font-weight: 500;
   }
 
   .admin-tabs button.active {
     background: rgba(255, 255, 255, 0.25);
-  }
-
-  .logout-btn {
-    order: 2;
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    padding: 5px 10px;
-    font-size: 12px;
   }
 
   /* Sections */
