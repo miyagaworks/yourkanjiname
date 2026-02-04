@@ -183,6 +183,9 @@ function PartnerDashboard({ partner, onLogout }) {
 
   const { stats, monthly_history, recent_payments, all_payments, qr_code_url, exchange_rate } = dashboardData;
 
+  // Handle both old array format and new paginated format
+  const allPaymentsData = Array.isArray(all_payments) ? all_payments : (all_payments?.data || []);
+
   return (
     <div className="partner-dashboard">
       <header className="partner-header">
@@ -380,8 +383,8 @@ function PartnerDashboard({ partner, onLogout }) {
             </div>
             {(() => {
               const filteredPayments = selectedMonth
-                ? all_payments?.filter(p => p.created_at.slice(0, 7) === selectedMonth)
-                : all_payments;
+                ? allPaymentsData.filter(p => p.created_at.slice(0, 7) === selectedMonth)
+                : allPaymentsData;
               const monthStats = selectedMonth
                 ? monthly_history.find(m => m.year_month === selectedMonth)
                 : null;
