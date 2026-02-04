@@ -7,6 +7,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight } = require('../_utils/security');
 
 // Initialize database pool
 let pool;
@@ -23,16 +24,24 @@ function getPool() {
   return pool;
 }
 
-module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+/**
+ * Generate partner token
+ * Format: {partnerId}.{tokenValue}.{hmacHashPrefix}
+ */
+function generatePartnerToken(partnerId) {
+  const tokenValue = crypto.randomBytes(32).toString('hex');
+  const tokenHash = crypto.createHmac('sha256', tokenValue)
+    .update(partnerId.toString())
+    .digest('hex');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  return `${partnerId}.${tokenValue}.${tokenHash.substring(0, 16)}`;
+}
+
+module.exports = async function handler(req, res) {
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
+
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
@@ -81,15 +90,12 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Generate session token
-    const token = crypto.randomBytes(32).toString('hex');
-    const tokenHash = crypto.createHash('sha256')
-      .update(token + partner.id.toString())
-      .digest('hex');
+    // Generate session token using HMAC
+    const token = generatePartnerToken(partner.id);
 
     return res.json({
       success: true,
-      token: `${partner.id}.${token}.${tokenHash.substring(0, 16)}`,
+      token: token,
       partner: {
         id: partner.id,
         code: partner.code,
@@ -98,7 +104,7 @@ module.exports = async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Partner login error:', error);
+    console.error('Partner login error:', error.message);
     return res.status(500).json({
       error: { code: 'INTERNAL_ERROR', message: 'Internal server error' }
     });
