@@ -74,31 +74,8 @@ module.exports = async function handler(req, res) {
 
     const demoCode = result.rows[0];
 
-    // Check if active
-    if (!demoCode.is_active) {
-      return res.status(200).json({
-        valid: false,
-        error: { message: 'このコードは無効化されています' }
-      });
-    }
-
-    // Check expiration
-    if (new Date(demoCode.expires_at) < new Date()) {
-      return res.status(200).json({
-        valid: false,
-        error: { message: 'このコードは有効期限切れです' }
-      });
-    }
-
-    // Check usage count
-    if (demoCode.used_count >= demoCode.max_uses) {
-      return res.status(200).json({
-        valid: false,
-        error: { message: 'このコードは使用上限に達しました' }
-      });
-    }
-
-    // Code is valid - use atomic update to prevent race condition
+    // Use atomic update to check all conditions and increment in one operation
+    // This prevents race conditions (TOCTOU vulnerability)
     const updateResult = await dbPool.query(`
       UPDATE demo_codes
       SET used_count = used_count + 1
@@ -106,14 +83,28 @@ module.exports = async function handler(req, res) {
         AND used_count < max_uses
         AND is_active = true
         AND expires_at > NOW()
-      RETURNING id
+      RETURNING id, used_count, max_uses
     `, [demoCode.id]);
 
-    // If no rows updated, code was used by another request simultaneously
+    // If no rows updated, check why and return appropriate error
     if (updateResult.rows.length === 0) {
+      // Re-fetch to determine specific error
+      if (!demoCode.is_active) {
+        return res.status(200).json({
+          valid: false,
+          error: { message: 'このコードは無効化されています' }
+        });
+      }
+      if (new Date(demoCode.expires_at) < new Date()) {
+        return res.status(200).json({
+          valid: false,
+          error: { message: 'このコードは有効期限切れです' }
+        });
+      }
+      // Must be usage limit
       return res.status(200).json({
         valid: false,
-        error: { message: 'このコードは使用できません' }
+        error: { message: 'このコードは使用上限に達しました' }
       });
     }
 

@@ -94,60 +94,43 @@ module.exports = async function handler(req, res) {
         const paymentIntent = event.data.object;
         console.log('Payment succeeded:', paymentIntent.id);
 
-        // Check if payment record already exists
-        const existingResult = await dbPool.query(`
-          SELECT id, partner_id, amount, status
-          FROM payments
-          WHERE stripe_payment_intent_id = $1
-        `, [paymentIntent.id]);
+        const metadata = paymentIntent.metadata || {};
+        const amount = paymentIntent.amount / 100; // Convert cents to dollars
+        const partnerId = metadata.partner_id ? parseInt(metadata.partner_id, 10) : null;
 
-        let partnerId = null;
-        let amount = paymentIntent.amount / 100; // Convert cents to dollars
+        // Use INSERT ... ON CONFLICT for idempotency (prevents duplicate records)
+        const upsertResult = await dbPool.query(`
+          INSERT INTO payments (
+            session_id, stripe_payment_intent_id, amount, currency, status,
+            partner_code, partner_id, customer_email, kanji_name
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+          ON CONFLICT (stripe_payment_intent_id)
+          DO UPDATE SET
+            status = 'succeeded',
+            updated_at = NOW()
+          WHERE payments.status != 'succeeded'
+          RETURNING id, (xmax = 0) as inserted
+        `, [
+          metadata.session_id || null,
+          paymentIntent.id,
+          amount,
+          paymentIntent.currency || 'usd',
+          'succeeded',
+          metadata.partner_code || null,
+          partnerId,
+          paymentIntent.receipt_email || null,
+          metadata.kanji_name || null
+        ]);
 
-        if (existingResult.rows.length > 0) {
-          // Update existing record
-          const payment = existingResult.rows[0];
-          partnerId = payment.partner_id;
-          amount = payment.amount;
-
-          if (payment.status !== 'succeeded') {
-            await dbPool.query(`
-              UPDATE payments
-              SET status = 'succeeded'
-              WHERE id = $1
-            `, [payment.id]);
-          }
-        } else {
-          // Create new payment record from PaymentIntent metadata
-          const metadata = paymentIntent.metadata || {};
-          partnerId = metadata.partner_id ? parseInt(metadata.partner_id, 10) : null;
-
-          await dbPool.query(`
-            INSERT INTO payments (
-              session_id, stripe_payment_intent_id, amount, currency, status,
-              partner_code, partner_id, customer_email, kanji_name
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-          `, [
-            metadata.session_id || null,
-            paymentIntent.id,
-            amount,
-            paymentIntent.currency || 'usd',
-            'succeeded',
-            metadata.partner_code || null,
-            partnerId,
-            paymentIntent.receipt_email || null,
-            metadata.kanji_name || null
-          ]);
-        }
-
-        // Update partner monthly stats if applicable
-        if (partnerId) {
+        // Only update partner stats if this is a new insert (not a duplicate webhook)
+        const wasInserted = upsertResult.rows[0]?.inserted;
+        if (wasInserted && partnerId) {
           const partnerResult = await dbPool.query(
             'SELECT royalty_rate FROM partners WHERE id = $1',
             [partnerId]
           );
           if (partnerResult.rows.length > 0) {
-            const royaltyRate = partnerResult.rows[0].royalty_rate;
+            const royaltyRate = parseFloat(partnerResult.rows[0].royalty_rate) || 0.10;
             await updatePartnerMonthlyStats(dbPool, partnerId, amount, royaltyRate);
           }
         }
@@ -170,32 +153,27 @@ module.exports = async function handler(req, res) {
         const charge = event.data.object;
         console.log('Charge refunded:', charge.payment_intent);
 
-        // Get the payment record first
-        const paymentResult = await dbPool.query(`
-          SELECT partner_id, amount FROM payments
+        // Always update payment status to refunded first
+        const updateResult = await dbPool.query(`
+          UPDATE payments
+          SET status = 'refunded', updated_at = NOW()
           WHERE stripe_payment_intent_id = $1 AND status = 'succeeded'
+          RETURNING partner_id, amount
         `, [charge.payment_intent]);
 
-        if (paymentResult.rows.length > 0) {
-          const { partner_id, amount } = paymentResult.rows[0];
+        // Reverse partner monthly stats if applicable
+        if (updateResult.rows.length > 0) {
+          const { partner_id, amount } = updateResult.rows[0];
 
-          // Update payment status
-          await dbPool.query(`
-            UPDATE payments
-            SET status = 'refunded'
-            WHERE stripe_payment_intent_id = $1
-          `, [charge.payment_intent]);
-
-          // Reverse partner monthly stats if applicable
           if (partner_id) {
             const partnerResult = await dbPool.query(
               'SELECT royalty_rate FROM partners WHERE id = $1',
               [partner_id]
             );
             if (partnerResult.rows.length > 0) {
-              const royaltyRate = partnerResult.rows[0].royalty_rate;
+              const royaltyRate = parseFloat(partnerResult.rows[0].royalty_rate) || 0.10;
               const yearMonth = new Date().toISOString().slice(0, 7);
-              const royaltyAmount = parseFloat(amount) * parseFloat(royaltyRate);
+              const royaltyAmount = parseFloat(amount) * royaltyRate;
 
               await dbPool.query(`
                 UPDATE partner_monthly_stats
