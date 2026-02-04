@@ -413,14 +413,17 @@
 /* Responsive - Mobile */
 @media (max-width: 768px) {
   .admin-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    overflow-y: scroll;
+    min-height: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  html, body {
     overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
   }
 
   .admin-header {
@@ -1174,22 +1177,24 @@
     order: 3;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    padding: 4px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 6px;
   }
 
   .admin-tabs button {
-    padding: 8px 4px;
-    font-size: 11px;
-    border-radius: 4px;
+    padding: 14px 8px;
+    font-size: 13px;
+    border-radius: 6px;
     border-bottom: none;
+    min-height: 44px;
+    font-weight: 500;
   }
 
   .admin-tabs button.active {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
   }
 
   .logout-btn {
@@ -1508,10 +1513,6 @@
 
 /* Extra small screens */
 @media (max-width: 400px) {
-  .admin-tabs {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .payment-stats,
   .payout-summary {
     grid-template-columns: 1fr;
