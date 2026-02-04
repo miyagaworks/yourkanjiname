@@ -4,7 +4,7 @@
  * Vercel Serverless Function
  */
 
-const { setCorsHeaders, handlePreflight, generateAdminToken } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight, generateAdminToken } = require('../lib/security');
 
 module.exports = async function handler(req, res) {
   // CORS headers with origin whitelist

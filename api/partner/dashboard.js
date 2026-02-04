@@ -7,7 +7,7 @@
  */
 
 const { Pool } = require('pg');
-const { setCorsHeaders, handlePreflight, verifyPartnerToken } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight, verifyPartnerToken } = require('../lib/security');
 
 // Cache for exchange rate (5 minutes)
 let exchangeRateCache = { rate: null, timestamp: 0 };

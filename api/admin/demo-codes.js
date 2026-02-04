@@ -7,7 +7,7 @@
  */
 
 const { Pool } = require('pg');
-const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../lib/security');
 
 let pool;
 function getPool() {

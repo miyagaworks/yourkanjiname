@@ -6,7 +6,7 @@
  */
 
 const { Pool } = require('pg');
-const { setCorsHeaders, handlePreflight, isValidEmail } = require('./_utils/security');
+const { setCorsHeaders, handlePreflight, isValidEmail } = require('./lib/security');
 
 // Initialize database pool
 let pool;

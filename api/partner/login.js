@@ -7,7 +7,7 @@
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
-const { setCorsHeaders, handlePreflight } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight } = require('../lib/security');
 
 // Initialize database pool
 let pool;

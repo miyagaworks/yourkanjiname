@@ -8,7 +8,7 @@
 
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
-const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../lib/security');
 
 let pool;
 function getPool() {

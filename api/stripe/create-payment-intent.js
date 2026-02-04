@@ -8,7 +8,7 @@
 
 const Stripe = require('stripe');
 const { Pool } = require('pg');
-const { setCorsHeaders, handlePreflight, isValidUUID, isValidEmail } = require('../_utils/security');
+const { setCorsHeaders, handlePreflight, isValidUUID, isValidEmail } = require('../lib/security');
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
