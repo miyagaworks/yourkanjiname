@@ -1116,14 +1116,56 @@
 
 /* ===== Mobile Responsive for New Tabs ===== */
 @media (max-width: 768px) {
+  /* Header improvements */
+  .admin-header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 15px;
+  }
+
+  .admin-header h1 {
+    font-size: 16px;
+    order: 1;
+  }
+
   .admin-tabs {
-    flex-wrap: wrap;
-    justify-content: center;
+    order: 3;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 4px;
   }
 
   .admin-tabs button {
-    padding: 8px 12px;
+    padding: 8px 4px;
+    font-size: 11px;
+    border-radius: 4px;
+    border-bottom: none;
+  }
+
+  .admin-tabs button.active {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .logout-btn {
+    order: 2;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    padding: 5px 10px;
     font-size: 12px;
+  }
+
+  /* Sections */
+  .partners-section,
+  .payments-section,
+  .payouts-section {
+    padding: 15px;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .section-header {
@@ -1132,28 +1174,303 @@
     text-align: center;
   }
 
-  .payment-stats,
-  .payout-summary {
-    grid-template-columns: 1fr;
+  .section-header h2 {
+    font-size: 16px;
   }
 
-  .partners-table,
-  .payments-table,
+  .add-btn {
+    width: 100%;
+  }
+
+  /* Stats cards */
+  .payment-stats,
+  .payout-summary {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+
+  /* Partners table - card layout */
+  .partners-table {
+    display: block;
+  }
+
+  .partners-table thead {
+    display: none;
+  }
+
+  .partners-table tbody {
+    display: block;
+  }
+
+  .partners-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .partners-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+
+  .partners-table td:last-child {
+    border-bottom: none;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+  }
+
+  .partners-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-right: 10px;
+  }
+
+  .partners-table .action-cell {
+    justify-content: flex-end;
+  }
+
+  .partners-table .action-cell::before {
+    display: none;
+  }
+
+  /* Payments table - card layout */
+  .payments-table {
+    display: block;
+  }
+
+  .payments-table thead {
+    display: none;
+  }
+
+  .payments-table tbody {
+    display: block;
+  }
+
+  .payments-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .payments-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+
+  .payments-table td:last-child {
+    border-bottom: none;
+  }
+
+  .payments-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+  }
+
+  /* Payouts table - card layout */
   .payouts-table {
     display: block;
-    overflow-x: auto;
+  }
+
+  .payouts-table thead {
+    display: none;
+  }
+
+  .payouts-table tbody {
+    display: block;
+  }
+
+  .payouts-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .payouts-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+
+  .payouts-table td:last-child {
+    border-bottom: none;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+    justify-content: center;
+  }
+
+  .payouts-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+  }
+
+  .payouts-table td:last-child::before {
+    display: none;
+  }
+
+  .paid-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .payouts-section h3 {
+    font-size: 14px;
+    margin-top: 30px !important;
+  }
+
+  /* Partner form modal */
+  .partner-form-overlay {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 20px;
   }
 
   .partner-form {
     padding: 20px;
-    width: 95%;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100vh - 40px);
+  }
+
+  .partner-form h3 {
+    font-size: 16px;
+  }
+
+  .form-row label {
+    font-size: 13px;
+  }
+
+  .form-row input,
+  .form-row select {
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 12px;
   }
 
   .form-actions {
     flex-direction: column;
   }
 
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+    padding: 14px;
+  }
+
+  /* Payout modal improvements */
   .payout-modal {
-    max-height: 95vh;
+    max-height: calc(100vh - 40px);
+  }
+
+  .payout-partner-info,
+  .payout-bank-info,
+  .payout-details,
+  .payout-calculation {
+    padding: 12px;
+  }
+
+  .payout-partner-info h4,
+  .payout-bank-info h4,
+  .payout-details h4,
+  .payout-calculation h4 {
+    font-size: 14px;
+  }
+
+  .payout-detail-row {
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+
+  .payout-detail-row.total {
+    font-size: 16px;
+  }
+
+  .exchange-rate-input-group input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  .rate-buttons {
+    justify-content: flex-start;
+  }
+
+  .fetch-rate-btn {
+    flex: 1;
+    min-width: calc(50% - 4px);
+    text-align: center;
+  }
+
+  .no-data {
+    padding: 30px 15px;
+    font-size: 14px;
+  }
+
+  /* Edit/Delete buttons in tables */
+  .edit-btn,
+  .delete-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 400px) {
+  .admin-tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .payment-stats,
+  .payout-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-value {
+    font-size: 18px;
+  }
+
+  .rate-buttons {
+    flex-direction: column;
+  }
+
+  .fetch-rate-btn {
+    width: 100%;
   }
 }

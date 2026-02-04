@@ -841,13 +841,13 @@ function Admin() {
               <tbody>
                 {partners.map(p => (
                   <tr key={p.id}>
-                    <td><code>{p.code}</code></td>
-                    <td>{p.name}</td>
-                    <td>{p.email}</td>
-                    <td>{(p.royalty_rate * 100).toFixed(0)}%</td>
-                    <td>${p.total_revenue?.toFixed(2) || '0.00'}</td>
-                    <td className="pending-amount">${p.pending_royalty?.toFixed(2) || '0.00'}</td>
-                    <td>
+                    <td data-label="コード"><code>{p.code}</code></td>
+                    <td data-label="店舗名">{p.name}</td>
+                    <td data-label="メール">{p.email}</td>
+                    <td data-label="率">{(p.royalty_rate * 100).toFixed(0)}%</td>
+                    <td data-label="総売上">${p.total_revenue?.toFixed(2) || '0.00'}</td>
+                    <td data-label="未払い" className="pending-amount">${p.pending_royalty?.toFixed(2) || '0.00'}</td>
+                    <td data-label="状態">
                       <span className={`status-badge status-${p.status}`}>
                         {p.status === 'active' ? '有効' : '無効'}
                       </span>
@@ -1047,11 +1047,11 @@ function Admin() {
               <tbody>
                 {payments.map(p => (
                   <tr key={p.id}>
-                    <td>{new Date(p.created_at).toLocaleString('ja-JP')}</td>
-                    <td className="kanji-cell">{p.kanji_name || '-'}</td>
-                    <td>${p.amount?.toFixed(2)}</td>
-                    <td>{p.partner_name || <span className="muted">直接</span>}</td>
-                    <td>
+                    <td data-label="日時">{new Date(p.created_at).toLocaleString('ja-JP')}</td>
+                    <td data-label="漢字名" className="kanji-cell">{p.kanji_name || '-'}</td>
+                    <td data-label="金額">${p.amount?.toFixed(2)}</td>
+                    <td data-label="パートナー">{p.partner_name || <span className="muted">直接</span>}</td>
+                    <td data-label="状態">
                       <span className={`status-badge status-${p.status}`}>
                         {p.status}
                       </span>
@@ -1101,16 +1101,16 @@ function Admin() {
               <tbody>
                 {pendingPayouts.map(p => (
                   <tr key={p.partner_id}>
-                    <td>
+                    <td data-label="パートナー">
                       <strong>{p.name}</strong>
                       <br />
                       <small className="muted">{p.code}</small>
                     </td>
-                    <td>{p.pending_months?.join(', ') || '-'}</td>
-                    <td>{p.total_payments}</td>
-                    <td>${p.total_revenue?.toFixed(2)}</td>
-                    <td className="royalty-amount">${p.pending_royalty?.toFixed(2)}</td>
-                    <td className="bank-info">
+                    <td data-label="対象月">{p.pending_months?.join(', ') || '-'}</td>
+                    <td data-label="決済数">{p.total_payments}</td>
+                    <td data-label="売上">${p.total_revenue?.toFixed(2)}</td>
+                    <td data-label="ロイヤリティ" className="royalty-amount">${p.pending_royalty?.toFixed(2)}</td>
+                    <td data-label="振込先" className="bank-info">
                       {p.bank_name ? (
                         <span>
                           {p.bank_name}
@@ -1156,13 +1156,13 @@ function Admin() {
               <tbody>
                 {allPayoutStats.filter(s => s.payout_status === 'paid').map(s => (
                   <tr key={s.id}>
-                    <td>{s.partner_name}</td>
-                    <td>{s.year_month}</td>
-                    <td>${s.royalty_amount?.toFixed(2)}</td>
-                    <td>¥{s.exchange_rate_jpy?.toFixed(2) || '-'}</td>
-                    <td>¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
-                    <td className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
-                    <td>{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
+                    <td data-label="パートナー">{s.partner_name}</td>
+                    <td data-label="対象月">{s.year_month}</td>
+                    <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
+                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${s.exchange_rate_jpy.toFixed(2)}` : '-'}</td>
+                    <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
+                    <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
+                    <td data-label="支払日">{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
                   </tr>
                 ))}
               </tbody>
