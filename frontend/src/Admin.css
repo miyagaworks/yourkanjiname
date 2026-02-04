@@ -10,6 +10,8 @@
   bottom: 0;
   z-index: 9999;
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   writing-mode: horizontal-tb !important;
   direction: ltr !important;
   text-orientation: mixed !important;
@@ -416,8 +418,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
   .admin-header {
