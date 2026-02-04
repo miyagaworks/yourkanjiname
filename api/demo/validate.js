@@ -98,12 +98,24 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Code is valid - increment usage and log
-    await dbPool.query(`
+    // Code is valid - use atomic update to prevent race condition
+    const updateResult = await dbPool.query(`
       UPDATE demo_codes
       SET used_count = used_count + 1
       WHERE id = $1
+        AND used_count < max_uses
+        AND is_active = true
+        AND expires_at > NOW()
+      RETURNING id
     `, [demoCode.id]);
+
+    // If no rows updated, code was used by another request simultaneously
+    if (updateResult.rows.length === 0) {
+      return res.status(200).json({
+        valid: false,
+        error: { message: 'このコードは使用できません' }
+      });
+    }
 
     await dbPool.query(`
       INSERT INTO demo_code_usage (demo_code_id, session_id, ip_address)

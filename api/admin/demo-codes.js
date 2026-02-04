@@ -102,7 +102,12 @@ module.exports = async function handler(req, res) {
 
     if (req.method === 'POST') {
       // Create new demo code
-      const { description, max_uses = 1, expires_hours = 24 } = req.body;
+      let { description, max_uses = 1, expires_hours = 24 } = req.body;
+
+      // Validate and sanitize inputs
+      max_uses = Math.min(Math.max(parseInt(max_uses) || 1, 1), 100); // 1-100
+      expires_hours = Math.min(Math.max(parseInt(expires_hours) || 24, 1), 720); // 1-720 hours (30 days max)
+      description = description ? String(description).substring(0, 255) : null;
 
       const code = generateDemoCode();
       const expiresAt = new Date(Date.now() + expires_hours * 60 * 60 * 1000);
@@ -123,13 +128,13 @@ module.exports = async function handler(req, res) {
       // Deactivate demo code
       const { id } = req.query;
 
-      if (!id) {
-        return res.status(400).json({ error: { message: 'ID is required' } });
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).json({ error: { message: 'Valid ID is required' } });
       }
 
       await dbPool.query(`
         UPDATE demo_codes SET is_active = false WHERE id = $1
-      `, [id]);
+      `, [parseInt(id)]);
 
       return res.status(200).json({ success: true });
     }
