@@ -39,8 +39,8 @@ export class GenerationService {
     // Get all answers
     const answers = await this.sessionService.getAnswers(sessionId);
 
-    // Validate completion
-    if (answers.length < 14) {
+    // Validate completion (Q1-Q16 = 16 questions require answers)
+    if (answers.length < 16) {
       const error: any = new Error('Not all questions have been answered');
       error.code = 'INSUFFICIENT_ANSWERS';
       throw error;

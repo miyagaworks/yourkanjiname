@@ -112,11 +112,10 @@ export class GenderTraitCalculator {
       if (trait_score <= -3) return 'soft_feminine';
       return 'neutral';
     } else if (declared_gender === 'nonbinary') {
-      if (trait_score >= 10) return 'soft_masculine';
-      if (trait_score >= 3) return 'soft_masculine';
-      if (trait_score >= -3) return 'neutral';
-      if (trait_score >= -10) return 'soft_feminine';
-      return 'strong_feminine';
+      // Nonbinary: より中立的な結果を返す（強い性別カテゴリは使用しない）
+      if (trait_score >= 5) return 'soft_masculine';
+      if (trait_score <= -5) return 'soft_feminine';
+      return 'neutral';
     } else {
       // prefer_not_to_say
       return 'neutral';

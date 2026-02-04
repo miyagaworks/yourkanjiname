@@ -6,9 +6,9 @@
  * View or update partner profile
  */
 
-const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight, verifyPartnerToken } = require('../lib/security');
 
 // Initialize database pool
 let pool;
@@ -25,48 +25,14 @@ function getPool() {
   return pool;
 }
 
-/**
- * Verify partner token
- */
-function verifyToken(authHeader) {
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  const token = authHeader.substring(7);
-  const parts = token.split('.');
-
-  if (parts.length !== 3) {
-    return null;
-  }
-
-  const [partnerId, tokenValue, tokenHashPart] = parts;
-
-  // Verify token hash
-  const expectedHash = crypto.createHash('sha256')
-    .update(tokenValue + partnerId)
-    .digest('hex');
-
-  if (!expectedHash.startsWith(tokenHashPart)) {
-    return null;
-  }
-
-  return parseInt(partnerId, 10);
-}
-
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   // Verify authentication
-  const partnerId = verifyToken(req.headers.authorization);
+  const partnerId = verifyPartnerToken(req.headers.authorization);
   if (!partnerId) {
     return res.status(401).json({
       error: { code: 'UNAUTHORIZED', message: 'Invalid or expired token' }

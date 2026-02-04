@@ -51,7 +51,7 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         SELECT
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
-          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
+          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.price_usd, p.status,
           p.created_at, p.updated_at,
           COALESCE(COUNT(pay.id), 0) as total_payments,
           COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount ELSE 0 END), 0) as total_revenue
@@ -83,6 +83,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...partner,
           royalty_rate: parseFloat(partner.royalty_rate),
+          price_usd: (parseFloat(partner.price_usd) || 5.00).toFixed(2),
           total_payments: parseInt(partner.total_payments),
           total_revenue: parseFloat(partner.total_revenue),
           total_royalty: parseFloat(partner.total_revenue) * parseFloat(partner.royalty_rate)
@@ -234,7 +235,8 @@ module.exports = async function handler(req, res) {
         success: true,
         partner: {
           ...result.rows[0],
-          royalty_rate: parseFloat(result.rows[0].royalty_rate)
+          royalty_rate: parseFloat(result.rows[0].royalty_rate),
+          price_usd: (parseFloat(result.rows[0].price_usd) || 5.00).toFixed(2)
         }
       });
 

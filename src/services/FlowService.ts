@@ -143,9 +143,8 @@ export class FlowService {
    * Validate if all required questions are answered
    */
   validateComplete(answers: Answer[]): boolean {
-    // 新questions.json: Q0 + Q1 + Q2-Q16 = 18回答
-    // Q0は任意、最低でもQ1とQ2-Q16の17回答が必要
-    return answers.length >= 17;
+    // Q0はintroduction（回答不要）、Q1-Q16が回答必要 = 16回答
+    return answers.length >= 16;
   }
 
   /**

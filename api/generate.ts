@@ -6,23 +6,17 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { GenerationService } from '../src/services/GenerationService';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { setCorsHeaders, handlePreflight } = require('./lib/security');
+
 const generationService = new GenerationService();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
   // Handle preflight
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+  if (handlePreflight(req, res)) return;
 
   try {
     const { session_id, action } = req.query;
