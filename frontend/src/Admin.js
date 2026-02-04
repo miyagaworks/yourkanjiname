@@ -23,7 +23,7 @@ function Admin() {
   const [showPartnerForm, setShowPartnerForm] = useState(false);
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
-    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
+    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '5.00'
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -214,7 +214,7 @@ function Admin() {
         setShowPartnerForm(false);
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
-          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10'
+          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '5.00'
         });
         fetchPartners();
       } else {
@@ -907,6 +907,19 @@ function Admin() {
                         <option value="0.20">20%</option>
                       </select>
                     </div>
+                    <div className="form-row">
+                      <label>サービス価格 (USD)</label>
+                      <select
+                        value={partnerForm.price_usd}
+                        onChange={(e) => setPartnerForm({...partnerForm, price_usd: e.target.value})}
+                      >
+                        <option value="5.00">$5.00</option>
+                        <option value="6.00">$6.00</option>
+                        <option value="7.00">$7.00</option>
+                        <option value="8.00">$8.00</option>
+                        <option value="10.00">$10.00</option>
+                      </select>
+                    </div>
                     <div className="form-actions">
                       <button type="submit" className="submit-btn">作成</button>
                       <button type="button" onClick={() => setShowPartnerForm(false)} className="cancel-btn">
@@ -986,6 +999,7 @@ function Admin() {
                       bank_branch: editingPartner.bank_branch,
                       bank_account: editingPartner.bank_account,
                       royalty_rate: editingPartner.royalty_rate,
+                      price_usd: editingPartner.price_usd || '5.00',
                       status: editingPartner.status
                     };
                     if (editingPartner.new_password) {
@@ -1069,6 +1083,19 @@ function Admin() {
                         <option value="0.10">10%</option>
                         <option value="0.15">15%</option>
                         <option value="0.20">20%</option>
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>サービス価格 (USD)</label>
+                      <select
+                        value={editingPartner.price_usd || '5.00'}
+                        onChange={(e) => setEditingPartner({...editingPartner, price_usd: e.target.value})}
+                      >
+                        <option value="5.00">$5.00</option>
+                        <option value="6.00">$6.00</option>
+                        <option value="7.00">$7.00</option>
+                        <option value="8.00">$8.00</option>
+                        <option value="10.00">$10.00</option>
                       </select>
                     </div>
                     <div className="form-row">

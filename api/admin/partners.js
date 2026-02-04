@@ -70,7 +70,7 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         SELECT
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
-          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.status,
+          p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.price_usd, p.status,
           p.created_at, p.updated_at,
           COALESCE(pay_stats.total_payments, 0) as total_payments,
           COALESCE(pay_stats.total_revenue, 0) as total_revenue,
@@ -103,6 +103,7 @@ module.exports = async function handler(req, res) {
         partners: result.rows.map(row => ({
           ...row,
           royalty_rate: parseFloat(row.royalty_rate),
+          price_usd: parseFloat(row.price_usd) || 5.00,
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
           total_royalty: parseFloat(row.total_royalty),
@@ -123,7 +124,8 @@ module.exports = async function handler(req, res) {
         bank_name,
         bank_branch,
         bank_account,
-        royalty_rate
+        royalty_rate,
+        price_usd
       } = req.body;
 
       // Validate required fields
@@ -167,10 +169,10 @@ module.exports = async function handler(req, res) {
       const result = await dbPool.query(`
         INSERT INTO partners (
           code, name, email, password_hash, contact_name, phone, address,
-          bank_name, bank_branch, bank_account, royalty_rate, status
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 'active')
+          bank_name, bank_branch, bank_account, royalty_rate, price_usd, status
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'active')
         RETURNING id, code, name, email, contact_name, phone, address,
-                  bank_name, bank_branch, bank_account, royalty_rate, status, created_at
+                  bank_name, bank_branch, bank_account, royalty_rate, price_usd, status, created_at
       `, [
         code,
         name,
@@ -182,7 +184,8 @@ module.exports = async function handler(req, res) {
         bank_name || null,
         bank_branch || null,
         bank_account || null,
-        royalty_rate || 0.10
+        royalty_rate || 0.10,
+        price_usd || 5.00
       ]);
 
       return res.status(201).json({

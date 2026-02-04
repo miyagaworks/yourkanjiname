@@ -49,21 +49,23 @@ module.exports = async function handler(req, res) {
     const dbPool = getPool();
     let partnerId = null;
     let partnerRoyaltyRate = 0.10;
+    let priceUsd = 5.00; // Default price
 
     // Look up partner if code provided
     if (partner_code) {
       const partnerResult = await dbPool.query(
-        'SELECT id, royalty_rate FROM partners WHERE code = $1 AND status = $2',
+        'SELECT id, royalty_rate, price_usd FROM partners WHERE code = $1 AND status = $2',
         [partner_code, 'active']
       );
       if (partnerResult.rows.length > 0) {
         partnerId = partnerResult.rows[0].id;
         partnerRoyaltyRate = parseFloat(partnerResult.rows[0].royalty_rate);
+        priceUsd = parseFloat(partnerResult.rows[0].price_usd) || 5.00;
       }
     }
 
-    // Amount is $5.00 = 500 cents
-    const amount = 500;
+    // Amount in cents
+    const amount = Math.round(priceUsd * 100);
 
     // Create PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
@@ -87,7 +89,7 @@ module.exports = async function handler(req, res) {
       [
         session_id || null,
         paymentIntent.id,
-        5.00,
+        priceUsd,
         'usd',
         'pending',
         partner_code || null,
@@ -99,7 +101,9 @@ module.exports = async function handler(req, res) {
 
     return res.json({
       clientSecret: paymentIntent.client_secret,
-      paymentIntentId: paymentIntent.id
+      paymentIntentId: paymentIntent.id,
+      amount: amount,
+      priceUsd: priceUsd
     });
 
   } catch (error) {

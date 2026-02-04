@@ -134,6 +134,7 @@ module.exports = async function handler(req, res) {
         bank_branch,
         bank_account,
         royalty_rate,
+        price_usd,
         status
       } = req.body;
 
@@ -213,6 +214,12 @@ module.exports = async function handler(req, res) {
         values.push(royalty_rate);
       }
 
+      if (price_usd !== undefined) {
+        paramCount++;
+        updates.push(`price_usd = $${paramCount}`);
+        values.push(price_usd);
+      }
+
       if (status !== undefined) {
         if (!['active', 'inactive', 'suspended'].includes(status)) {
           return res.status(400).json({
@@ -239,7 +246,7 @@ module.exports = async function handler(req, res) {
         SET ${updates.join(', ')}, updated_at = NOW()
         WHERE id = $${paramCount}
         RETURNING id, code, name, email, contact_name, phone, address,
-                  bank_name, bank_branch, bank_account, royalty_rate, status, created_at, updated_at
+                  bank_name, bank_branch, bank_account, royalty_rate, price_usd, status, created_at, updated_at
       `;
 
       const result = await dbPool.query(updateQuery, values);
