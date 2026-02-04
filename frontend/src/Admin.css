@@ -1526,3 +1526,147 @@
     width: 100%;
   }
 }
+
+/* ===== Demo Codes Section ===== */
+.demo-section {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 100%;
+}
+
+.section-description {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 4px solid #4a90a4;
+}
+
+.demo-codes-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.demo-codes-table th,
+.demo-codes-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.demo-codes-table th {
+  background: #f9f9f9;
+  font-weight: bold;
+  color: #666;
+  font-size: 13px;
+}
+
+.demo-code-display {
+  background: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.inactive-row {
+  opacity: 0.6;
+}
+
+.status-expired {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.status-used_up {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Mobile responsive for demo section */
+@media (max-width: 768px) {
+  /* Update tabs to 3 columns for 5 tabs */
+  .admin-tabs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .demo-section {
+    padding: 15px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .section-description {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  /* Demo codes table - card layout */
+  .demo-codes-table {
+    display: block;
+  }
+
+  .demo-codes-table thead {
+    display: none;
+  }
+
+  .demo-codes-table tbody {
+    display: block;
+  }
+
+  .demo-codes-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 12px;
+  }
+
+  .demo-codes-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+
+  .demo-codes-table td:first-child {
+    border-bottom: none;
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .demo-codes-table td:last-child {
+    border-bottom: none;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #eee;
+    justify-content: flex-end;
+  }
+
+  .demo-codes-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #666;
+    font-size: 12px;
+  }
+
+  .demo-codes-table td:first-child::before,
+  .demo-codes-table td:last-child::before {
+    display: none;
+  }
+
+  .demo-code-display {
+    font-size: 16px;
+    padding: 8px 14px;
+  }
+}

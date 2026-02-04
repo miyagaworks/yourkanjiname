@@ -82,6 +82,69 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
   );
 };
 
+// Demo code input component
+const DemoCodeInput = ({ onValidCode, onCancel, sessionId }) => {
+  const [code, setCode] = useState('');
+  const [validating, setValidating] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleValidate = async () => {
+    if (!code.trim()) {
+      setError('コードを入力してください');
+      return;
+    }
+
+    setValidating(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/demo/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          code: code.trim(),
+          session_id: sessionId
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.valid) {
+        onValidCode(data);
+      } else {
+        setError(data.error?.message || '無効なコードです');
+      }
+    } catch (err) {
+      setError('検証中にエラーが発生しました');
+    } finally {
+      setValidating(false);
+    }
+  };
+
+  return (
+    <div className="demo-code-section">
+      <div className="demo-code-input-group">
+        <input
+          type="text"
+          value={code}
+          onChange={(e) => setCode(e.target.value.toUpperCase())}
+          placeholder="DEMO-XXXX-XXXX"
+          className="demo-code-input"
+          disabled={validating}
+        />
+        <button
+          onClick={handleValidate}
+          disabled={validating || !code.trim()}
+          className="demo-code-btn"
+        >
+          {validating ? '確認中...' : '適用'}
+        </button>
+      </div>
+      {error && <p className="demo-code-error">{error}</p>}
+    </div>
+  );
+};
+
 // Main PaymentModal component
 const PaymentModal = ({
   onSuccess,
@@ -89,12 +152,23 @@ const PaymentModal = ({
   partnerCode,
   email,
   kanjiName,
+  sessionId,
   isLandingPage = false
 }) => {
   const [clientSecret, setClientSecret] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showDemoCode, setShowDemoCode] = useState(false);
+  const [demoApplied, setDemoApplied] = useState(false);
   const amount = 500; // $5.00 in cents
+
+  const handleDemoCodeValid = (data) => {
+    setDemoApplied(true);
+    // Wait a moment to show success message, then proceed
+    setTimeout(() => {
+      onSuccess('DEMO_CODE_' + data.demo_code.code);
+    }, 1500);
+  };
 
   useEffect(() => {
     // If Stripe is not configured, skip
@@ -154,14 +228,21 @@ const PaymentModal = ({
   if (isLandingPage) {
     return (
       <div className="payment-inline">
-        {loading && (
+        {demoApplied && (
+          <div className="demo-applied-message">
+            <span className="demo-check">✓</span>
+            <p>デモコードが適用されました！</p>
+          </div>
+        )}
+
+        {!demoApplied && loading && (
           <div className="payment-loading">
             <div className="spinner"></div>
             <p>Preparing payment...</p>
           </div>
         )}
 
-        {error && (
+        {!demoApplied && error && (
           <div className="payment-error-container">
             <p>{error}</p>
             <button onClick={() => window.location.reload()} className="payment-retry-btn">
@@ -170,15 +251,33 @@ const PaymentModal = ({
           </div>
         )}
 
-        {clientSecret && !loading && !error && (
-          <Elements stripe={stripePromise} options={stripeOptions}>
-            <PaymentForm
-              onSuccess={onSuccess}
-              onCancel={onCancel}
-              amount={amount}
-              isLandingPage={true}
-            />
-          </Elements>
+        {!demoApplied && clientSecret && !loading && !error && (
+          <>
+            <Elements stripe={stripePromise} options={stripeOptions}>
+              <PaymentForm
+                onSuccess={onSuccess}
+                onCancel={onCancel}
+                amount={amount}
+                isLandingPage={true}
+              />
+            </Elements>
+            <div className="demo-code-toggle">
+              <button
+                type="button"
+                onClick={() => setShowDemoCode(!showDemoCode)}
+                className="demo-code-toggle-btn"
+              >
+                {showDemoCode ? '閉じる' : 'プロモコードをお持ちの方'}
+              </button>
+              {showDemoCode && (
+                <DemoCodeInput
+                  onValidCode={handleDemoCodeValid}
+                  onCancel={() => setShowDemoCode(false)}
+                  sessionId={sessionId}
+                />
+              )}
+            </div>
+          </>
         )}
       </div>
     );
@@ -194,14 +293,21 @@ const PaymentModal = ({
         </div>
 
         <div className="payment-modal-content">
-          {loading && (
+          {demoApplied && (
+            <div className="demo-applied-message">
+              <span className="demo-check">✓</span>
+              <p>デモコードが適用されました！</p>
+            </div>
+          )}
+
+          {!demoApplied && loading && (
             <div className="payment-loading">
               <div className="spinner"></div>
               <p>Preparing payment...</p>
             </div>
           )}
 
-          {error && (
+          {!demoApplied && error && (
             <div className="payment-error-container">
               <p>{error}</p>
               <button onClick={onCancel} className="payment-cancel-btn">
@@ -210,15 +316,33 @@ const PaymentModal = ({
             </div>
           )}
 
-          {clientSecret && !loading && !error && (
-            <Elements stripe={stripePromise} options={stripeOptions}>
-              <PaymentForm
-                onSuccess={onSuccess}
-                onCancel={onCancel}
-                amount={amount}
-                isLandingPage={false}
-              />
-            </Elements>
+          {!demoApplied && clientSecret && !loading && !error && (
+            <>
+              <Elements stripe={stripePromise} options={stripeOptions}>
+                <PaymentForm
+                  onSuccess={onSuccess}
+                  onCancel={onCancel}
+                  amount={amount}
+                  isLandingPage={false}
+                />
+              </Elements>
+              <div className="demo-code-toggle">
+                <button
+                  type="button"
+                  onClick={() => setShowDemoCode(!showDemoCode)}
+                  className="demo-code-toggle-btn"
+                >
+                  {showDemoCode ? '閉じる' : 'プロモコードをお持ちの方'}
+                </button>
+                {showDemoCode && (
+                  <DemoCodeInput
+                    onValidCode={handleDemoCodeValid}
+                    onCancel={() => setShowDemoCode(false)}
+                    sessionId={sessionId}
+                  />
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>

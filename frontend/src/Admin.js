@@ -44,6 +44,89 @@ function Admin() {
   const [processingPayout, setProcessingPayout] = useState(false);
   const [fetchingRate, setFetchingRate] = useState(false);
 
+  // Demo codes state
+  const [demoCodes, setDemoCodes] = useState([]);
+  const [showDemoCodeForm, setShowDemoCodeForm] = useState(false);
+  const [demoCodeForm, setDemoCodeForm] = useState({
+    description: '',
+    max_uses: 1,
+    expires_hours: 24
+  });
+
+  // Fetch demo codes
+  const fetchDemoCodes = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/demo-codes`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.demo_codes) {
+        setDemoCodes(data.demo_codes);
+      }
+    } catch (error) {
+      console.error('Failed to fetch demo codes:', error);
+    }
+  };
+
+  // Create demo code
+  const handleCreateDemoCode = async (e) => {
+    e.preventDefault();
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/demo-codes`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(demoCodeForm)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: `デモコード ${data.demo_code.code} を作成しました` });
+        setShowDemoCodeForm(false);
+        setDemoCodeForm({ description: '', max_uses: 1, expires_hours: 24 });
+        fetchDemoCodes();
+      } else {
+        throw new Error(data.error?.message || 'デモコード作成に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Delete demo code
+  const handleDeleteDemoCode = async (id) => {
+    if (!window.confirm('このデモコードを無効化しますか？')) return;
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/demo-codes?id=${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: 'デモコードを無効化しました' });
+        fetchDemoCodes();
+      } else {
+        throw new Error(data.error?.message || '無効化に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Copy demo code to clipboard
+  const copyDemoCode = async (code) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setMessage({ type: 'success', text: `${code} をコピーしました` });
+    } catch (err) {
+      setMessage({ type: 'error', text: 'コピーに失敗しました' });
+    }
+  };
+
   // Fetch partners
   const fetchPartners = async () => {
     try {
@@ -109,6 +192,7 @@ function Admin() {
     else if (tab === 'payments') fetchPayments();
     else if (tab === 'payouts') fetchPayouts();
     else if (tab === 'calligraphy') fetchRequests();
+    else if (tab === 'demo') fetchDemoCodes();
   };
 
   // Create partner
@@ -565,6 +649,12 @@ function Admin() {
             onClick={() => handleTabChange('payouts')}
           >
             支払い
+          </button>
+          <button
+            className={activeTab === 'demo' ? 'active' : ''}
+            onClick={() => handleTabChange('demo')}
+          >
+            デモ
           </button>
         </nav>
         <button onClick={handleLogout} className="logout-btn">ログアウト</button>
@@ -1317,6 +1407,136 @@ function Admin() {
                       キャンセル
                     </button>
                   </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Demo Codes Tab */}
+        {activeTab === 'demo' && (
+          <div className="demo-section">
+            <div className="section-header">
+              <h2>デモコード管理</h2>
+              <button onClick={() => setShowDemoCodeForm(true)} className="add-btn">
+                + 新規発行
+              </button>
+            </div>
+
+            <p className="section-description">
+              パートナーへのプレゼンテーション時に使用できるデモコードを発行します。
+              コードを入力すると無料でサービスを体験できます。
+            </p>
+
+            <table className="demo-codes-table">
+              <thead>
+                <tr>
+                  <th>コード</th>
+                  <th>メモ</th>
+                  <th>使用回数</th>
+                  <th>有効期限</th>
+                  <th>状態</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {demoCodes.map(dc => (
+                  <tr key={dc.id} className={dc.status !== 'active' ? 'inactive-row' : ''}>
+                    <td data-label="コード">
+                      <code className="demo-code-display">{dc.code}</code>
+                    </td>
+                    <td data-label="メモ">{dc.description || '-'}</td>
+                    <td data-label="使用回数">{dc.used_count} / {dc.max_uses}</td>
+                    <td data-label="有効期限">
+                      {new Date(dc.expires_at).toLocaleString('ja-JP', {
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </td>
+                    <td data-label="状態">
+                      <span className={`status-badge status-${dc.status}`}>
+                        {dc.status === 'active' ? '有効' :
+                         dc.status === 'expired' ? '期限切れ' :
+                         dc.status === 'used_up' ? '使用済' : '無効'}
+                      </span>
+                    </td>
+                    <td data-label="操作" className="action-cell">
+                      <button
+                        onClick={() => copyDemoCode(dc.code)}
+                        className="edit-btn"
+                      >
+                        コピー
+                      </button>
+                      {dc.status === 'active' && (
+                        <button
+                          onClick={() => handleDeleteDemoCode(dc.id)}
+                          className="delete-btn"
+                        >
+                          無効化
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {demoCodes.length === 0 && (
+              <p className="no-data">デモコードはまだありません</p>
+            )}
+
+            {/* Create Demo Code Form */}
+            {showDemoCodeForm && (
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowDemoCodeForm(false); }}>
+                <div className="partner-form">
+                  <div className="modal-header">
+                    <h3>新規デモコード発行</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setShowDemoCodeForm(false)}>&times;</button>
+                  </div>
+                  <form onSubmit={handleCreateDemoCode}>
+                    <div className="form-row">
+                      <label>メモ（任意）</label>
+                      <input
+                        type="text"
+                        value={demoCodeForm.description}
+                        onChange={(e) => setDemoCodeForm({...demoCodeForm, description: e.target.value})}
+                        placeholder="例: 〇〇社プレゼン用"
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>使用可能回数</label>
+                      <select
+                        value={demoCodeForm.max_uses}
+                        onChange={(e) => setDemoCodeForm({...demoCodeForm, max_uses: parseInt(e.target.value)})}
+                      >
+                        <option value="1">1回</option>
+                        <option value="3">3回</option>
+                        <option value="5">5回</option>
+                        <option value="10">10回</option>
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>有効期限</label>
+                      <select
+                        value={demoCodeForm.expires_hours}
+                        onChange={(e) => setDemoCodeForm({...demoCodeForm, expires_hours: parseInt(e.target.value)})}
+                      >
+                        <option value="1">1時間</option>
+                        <option value="3">3時間</option>
+                        <option value="24">24時間</option>
+                        <option value="72">3日間</option>
+                        <option value="168">1週間</option>
+                      </select>
+                    </div>
+                    <div className="form-actions">
+                      <button type="submit" className="submit-btn">発行</button>
+                      <button type="button" onClick={() => setShowDemoCodeForm(false)} className="cancel-btn">
+                        キャンセル
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             )}

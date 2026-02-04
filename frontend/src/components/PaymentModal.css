@@ -203,6 +203,130 @@
   text-align: center;
 }
 
+/* Demo Code Section */
+.demo-code-toggle {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.demo-code-toggle-btn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 8px;
+}
+
+.demo-code-toggle-btn:hover {
+  color: #c75450;
+}
+
+.demo-code-section {
+  margin-top: 16px;
+}
+
+.demo-code-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.demo-code-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.demo-code-input:focus {
+  outline: none;
+  border-color: #c75450;
+}
+
+.demo-code-input::placeholder {
+  color: #bbb;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.demo-code-btn {
+  padding: 12px 20px;
+  background: #4a90a4;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.demo-code-btn:hover:not(:disabled) {
+  background: #3a7a94;
+}
+
+.demo-code-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.demo-code-error {
+  color: #c00;
+  font-size: 0.875rem;
+  margin-top: 8px;
+  text-align: left;
+}
+
+.demo-applied-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  gap: 16px;
+}
+
+.demo-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: #28a745;
+  color: white;
+  font-size: 32px;
+  border-radius: 50%;
+  animation: popIn 0.3s ease-out;
+}
+
+.demo-applied-message p {
+  color: #28a745;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 480px) {
   .payment-modal-overlay {
@@ -231,5 +355,13 @@
   .payment-cancel-btn,
   .payment-submit-btn {
     flex: none;
+  }
+
+  .demo-code-input-group {
+    flex-direction: column;
+  }
+
+  .demo-code-btn {
+    width: 100%;
   }
 }
