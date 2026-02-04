@@ -213,7 +213,7 @@ const PaymentModal = ({
     };
 
     createPaymentIntent();
-  }, [partnerCode, email, kanjiName]);
+  }, [partnerCode, email, kanjiName, onPriceLoaded]);
 
   // If Stripe is not configured, don't render anything
   if (!stripePromise) {

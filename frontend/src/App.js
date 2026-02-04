@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 import questionsData from './questions.json';
 import { useLanguage } from './contexts/LanguageContext';
@@ -618,6 +618,11 @@ function App() {
     setShowNameInput(true);
   };
 
+  // 価格読み込み完了
+  const handlePriceLoaded = useCallback((price) => {
+    setServicePrice(price);
+  }, []);
+
   // 決済スキップ（テスト用）
   const skipPayment = process.env.REACT_APP_SKIP_PAYMENT === 'true';
   const handleSkipPayment = () => {
@@ -834,7 +839,7 @@ function App() {
                   onSuccess={handlePaymentSuccess}
                   onCancel={() => {}}
                   isLandingPage={true}
-                  onPriceLoaded={(price) => setServicePrice(price)}
+                  onPriceLoaded={handlePriceLoaded}
                 />
               </>
             )}
