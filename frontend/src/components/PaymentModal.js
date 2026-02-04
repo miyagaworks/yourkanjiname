@@ -153,7 +153,8 @@ const PaymentModal = ({
   email,
   kanjiName,
   sessionId,
-  isLandingPage = false
+  isLandingPage = false,
+  onPriceLoaded
 }) => {
   const [clientSecret, setClientSecret] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -199,6 +200,9 @@ const PaymentModal = ({
         setClientSecret(data.clientSecret);
         if (data.amount) {
           setAmount(data.amount);
+          if (onPriceLoaded) {
+            onPriceLoaded(data.amount);
+          }
         }
         setLoading(false);
       } catch (err) {

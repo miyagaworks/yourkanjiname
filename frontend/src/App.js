@@ -535,6 +535,7 @@ function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [hasPaid, setHasPaid] = useState(false);
   const [paymentIntentId, setPaymentIntentId] = useState(null);
+  const [servicePrice, setServicePrice] = useState(500); // Default $5.00 in cents
   const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
@@ -823,7 +824,7 @@ function App() {
               <>
                 <div className="landing-price">
                   <span className="price-label">{t('priceLabel') || 'Service Fee'}</span>
-                  <span className="price-amount">$5.00 USD</span>
+                  <span className="price-amount">${(servicePrice / 100).toFixed(2)} USD</span>
                 </div>
 
                 <PaymentModal
@@ -833,6 +834,7 @@ function App() {
                   onSuccess={handlePaymentSuccess}
                   onCancel={() => {}}
                   isLandingPage={true}
+                  onPriceLoaded={(price) => setServicePrice(price)}
                 />
               </>
             )}
