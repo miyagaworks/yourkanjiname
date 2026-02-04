@@ -8,6 +8,7 @@
 
 const Stripe = require('stripe');
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight, isValidUUID, isValidEmail } = require('../_utils/security');
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -28,15 +29,10 @@ function getPool() {
 }
 
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
@@ -45,7 +41,10 @@ module.exports = async function handler(req, res) {
   try {
     const { session_id, partner_code, customer_email, kanji_name } = req.body;
 
-    // session_id is optional - payment can happen before session creation
+    // Validate inputs
+    const validatedSessionId = session_id && isValidUUID(session_id) ? session_id : null;
+    const validatedEmail = customer_email && isValidEmail(customer_email) ? customer_email : null;
+
     const dbPool = getPool();
     let partnerId = null;
     let partnerRoyaltyRate = 0.10;
@@ -67,17 +66,20 @@ module.exports = async function handler(req, res) {
     // Amount in cents
     const amount = Math.round(priceUsd * 100);
 
+    // Warn if partner code was provided but not found (for debugging)
+    const partnerNotFound = partner_code && !partnerId;
+
     // Create PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'usd',
       metadata: {
-        session_id: session_id || '',
+        session_id: validatedSessionId || '',
         partner_code: partner_code || '',
         partner_id: partnerId ? partnerId.toString() : '',
         kanji_name: kanji_name || ''
       },
-      receipt_email: customer_email || undefined,
+      receipt_email: validatedEmail || undefined,
     });
 
     // Note: Payment record will be created when payment succeeds (via webhook or confirmation)
@@ -87,7 +89,9 @@ module.exports = async function handler(req, res) {
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
       amount: amount,
-      priceUsd: priceUsd
+      priceUsd: priceUsd,
+      partnerApplied: !!partnerId,
+      partnerNotFound: partnerNotFound
     });
 
   } catch (error) {

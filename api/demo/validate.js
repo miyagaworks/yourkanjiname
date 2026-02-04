@@ -7,6 +7,7 @@
  */
 
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight, isValidUUID } = require('../_utils/security');
 
 let pool;
 function getPool() {
@@ -23,15 +24,10 @@ function getPool() {
 }
 
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
@@ -48,6 +44,9 @@ module.exports = async function handler(req, res) {
         error: { message: 'コードを入力してください' }
       });
     }
+
+    // Validate session_id format if provided
+    const validatedSessionId = session_id && isValidUUID(session_id) ? session_id : null;
 
     // Normalize code (uppercase, trim)
     const normalizedCode = code.toUpperCase().trim();
@@ -111,7 +110,7 @@ module.exports = async function handler(req, res) {
     await dbPool.query(`
       INSERT INTO demo_code_usage (demo_code_id, session_id, ip_address)
       VALUES ($1, $2, $3)
-    `, [demoCode.id, session_id || null, ip]);
+    `, [demoCode.id, validatedSessionId, ip]);
 
     return res.status(200).json({
       valid: true,

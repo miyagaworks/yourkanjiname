@@ -6,8 +6,8 @@
  * Returns dashboard data for the logged-in partner
  */
 
-const crypto = require('crypto');
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight, verifyPartnerToken } = require('../_utils/security');
 
 // Cache for exchange rate (5 minutes)
 let exchangeRateCache = { rate: null, timestamp: 0 };
@@ -55,52 +55,18 @@ function getPool() {
   return pool;
 }
 
-/**
- * Verify partner token
- */
-function verifyToken(authHeader) {
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
-  }
-
-  const token = authHeader.substring(7);
-  const parts = token.split('.');
-
-  if (parts.length !== 3) {
-    return null;
-  }
-
-  const [partnerId, tokenValue, tokenHashPart] = parts;
-
-  // Verify token hash
-  const expectedHash = crypto.createHash('sha256')
-    .update(tokenValue + partnerId)
-    .digest('hex');
-
-  if (!expectedHash.startsWith(tokenHashPart)) {
-    return null;
-  }
-
-  return parseInt(partnerId, 10);
-}
-
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
   }
 
   // Verify authentication
-  const partnerId = verifyToken(req.headers.authorization);
+  const partnerId = verifyPartnerToken(req.headers.authorization);
   if (!partnerId) {
     return res.status(401).json({
       error: { code: 'UNAUTHORIZED', message: 'Invalid or expired token' }
@@ -177,13 +143,26 @@ module.exports = async function handler(req, res) {
       [partnerId]
     );
 
-    // Get all payments (full history) - exclude pending payments
+    // Get payments with pagination - exclude pending payments
+    const page = parseInt(req.query.page) || 1;
+    const limit = Math.min(parseInt(req.query.limit) || 50, 100); // Max 100 per page
+    const offset = (page - 1) * limit;
+
+    // Get total count for pagination
+    const countResult = await dbPool.query(
+      `SELECT COUNT(*) as total FROM payments WHERE partner_id = $1 AND status != 'pending'`,
+      [partnerId]
+    );
+    const totalPayments = parseInt(countResult.rows[0].total);
+
+    // Get paginated payments
     const allPaymentsResult = await dbPool.query(
       `SELECT id, amount, status, kanji_name, customer_email, created_at
        FROM payments
        WHERE partner_id = $1 AND status != 'pending'
-       ORDER BY created_at DESC`,
-      [partnerId]
+       ORDER BY created_at DESC
+       LIMIT $2 OFFSET $3`,
+      [partnerId, limit, offset]
     );
 
     // Get recent payments (for quick view) - exclude pending payments
@@ -238,14 +217,22 @@ module.exports = async function handler(req, res) {
         transfer_fee_jpy: row.transfer_fee_jpy ? parseInt(row.transfer_fee_jpy) : null,
         net_payout_jpy: row.net_payout_jpy ? parseInt(row.net_payout_jpy) : null
       })),
-      all_payments: allPaymentsResult.rows.map(row => ({
-        id: row.id,
-        amount: parseFloat(row.amount),
-        status: row.status,
-        kanji_name: row.kanji_name,
-        customer_email: row.customer_email,
-        created_at: row.created_at
-      })),
+      all_payments: {
+        data: allPaymentsResult.rows.map(row => ({
+          id: row.id,
+          amount: parseFloat(row.amount),
+          status: row.status,
+          kanji_name: row.kanji_name,
+          customer_email: row.customer_email,
+          created_at: row.created_at
+        })),
+        pagination: {
+          page,
+          limit,
+          total: totalPayments,
+          total_pages: Math.ceil(totalPayments / limit)
+        }
+      },
       recent_payments: recentPaymentsResult.rows.map(row => ({
         id: row.id,
         amount: parseFloat(row.amount),

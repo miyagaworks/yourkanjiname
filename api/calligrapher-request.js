@@ -6,6 +6,7 @@
  */
 
 const { Pool } = require('pg');
+const { setCorsHeaders, handlePreflight, isValidEmail } = require('./_utils/security');
 
 // Initialize database pool
 let pool;
@@ -327,20 +328,10 @@ async function sendEmail(to, subject, html) {
 }
 
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,POST');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  // Handle preflight
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
+  if (handlePreflight(req, res)) return;
 
   // Only allow POST
   if (req.method !== 'POST') {
@@ -365,9 +356,8 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Validate email format using shared utility
+    if (!isValidEmail(email)) {
       return res.status(400).json({
         error: {
           code: 'INVALID_EMAIL',

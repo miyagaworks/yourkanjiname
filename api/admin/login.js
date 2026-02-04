@@ -4,18 +4,13 @@
  * Vercel Serverless Function
  */
 
-const crypto = require('crypto');
+const { setCorsHeaders, handlePreflight, generateAdminToken } = require('../_utils/security');
 
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  // CORS headers with origin whitelist
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
@@ -31,18 +26,12 @@ module.exports = async function handler(req, res) {
     }
 
     if (password === adminPassword) {
-      // Generate a simple session token
-      const token = crypto.randomBytes(32).toString('hex');
-
-      // In production, you'd want to store this in a database or Redis
-      // For simplicity, we'll use a hash that can be verified
-      const tokenHash = crypto.createHash('sha256')
-        .update(token + adminPassword)
-        .digest('hex');
+      // Generate secure HMAC-based token
+      const token = generateAdminToken();
 
       return res.json({
         success: true,
-        token: token + '.' + tokenHash.substring(0, 16)
+        token: token
       });
     }
 
@@ -51,7 +40,7 @@ module.exports = async function handler(req, res) {
       error: { message: 'Invalid password' }
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error.message);
     return res.status(500).json({
       error: { message: 'Internal server error' }
     });
