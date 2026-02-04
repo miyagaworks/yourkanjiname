@@ -5,7 +5,7 @@
  */
 
 const { Pool } = require('pg');
-const crypto = require('crypto');
+const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../lib/security');
 
 let pool;
 function getPool() {
@@ -19,28 +19,6 @@ function getPool() {
     });
   }
   return pool;
-}
-
-function verifyToken(req) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return false;
-  }
-
-  const token = authHeader.substring(7);
-  const [tokenValue, tokenHash] = token.split('.');
-
-  if (!tokenValue || !tokenHash) {
-    return false;
-  }
-
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  const expectedHash = crypto.createHash('sha256')
-    .update(tokenValue + adminPassword)
-    .digest('hex')
-    .substring(0, 16);
-
-  return tokenHash === expectedHash;
 }
 
 // Email templates per language
@@ -258,22 +236,16 @@ async function sendEmail(to, subject, html) {
 }
 
 module.exports = async function handler(req, res) {
-  // CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  setCorsHeaders(req, res);
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (handlePreflight(req, res)) return;
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
   }
 
   // Verify authentication
-  if (!verifyToken(req)) {
+  if (!verifyAdminToken(req.headers.authorization)) {
     return res.status(401).json({ error: { message: 'Unauthorized' } });
   }
 
