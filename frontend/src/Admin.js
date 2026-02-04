@@ -712,9 +712,12 @@ function Admin() {
             </div>
 
             {showPartnerForm && (
-              <div className="partner-form-overlay">
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowPartnerForm(false); }}>
                 <div className="partner-form">
-                  <h3>新規パートナー作成</h3>
+                  <div className="modal-header">
+                    <h3>新規パートナー作成</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setShowPartnerForm(false)}>&times;</button>
+                  </div>
                   <form onSubmit={handleCreatePartner}>
                     <div className="form-row">
                       <label>コード (URL用)</label>
@@ -875,9 +878,12 @@ function Admin() {
             </table>
 
             {editingPartner && (
-              <div className="partner-form-overlay">
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setEditingPartner(null); }}>
                 <div className="partner-form">
-                  <h3>パートナー編集: {editingPartner.name}</h3>
+                  <div className="modal-header">
+                    <h3>パートナー編集: {editingPartner.name}</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setEditingPartner(null)}>&times;</button>
+                  </div>
                   <form onSubmit={(e) => {
                     e.preventDefault();
                     const updates = {
@@ -1174,9 +1180,12 @@ function Admin() {
 
             {/* Payout Modal */}
             {selectedPayout && (
-              <div className="partner-form-overlay">
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget && !processingPayout) setSelectedPayout(null); }}>
                 <div className="partner-form payout-modal">
-                  <h3>支払い処理</h3>
+                  <div className="modal-header">
+                    <h3>支払い処理</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setSelectedPayout(null)} disabled={processingPayout}>&times;</button>
+                  </div>
 
                   <div className="payout-partner-info">
                     <h4>{selectedPayout.name}</h4>

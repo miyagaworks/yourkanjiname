@@ -702,6 +702,10 @@
   align-items: center;
   justify-content: center;
   z-index: 10000;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .partner-form {
@@ -709,16 +713,51 @@
   border-radius: 8px;
   padding: 30px;
   max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+  width: 100%;
+  margin: auto;
+  position: relative;
 }
 
 .partner-form h3 {
-  margin: 0 0 20px 0;
+  margin: 0;
   color: #333;
-  border-bottom: 2px solid #c75450;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
   padding-bottom: 10px;
+  border-bottom: 2px solid #c75450;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.modal-close-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.modal-close-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .form-row {
@@ -1360,20 +1399,33 @@
 
   /* Partner form modal */
   .partner-form-overlay {
-    padding: 10px;
+    padding: 15px;
     align-items: flex-start;
-    padding-top: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .partner-form {
     padding: 20px;
     width: 100%;
     max-width: 100%;
-    max-height: calc(100vh - 40px);
+    margin-bottom: 20px;
   }
 
   .partner-form h3 {
     font-size: 16px;
+  }
+
+  .modal-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+  }
+
+  .modal-close-btn {
+    font-size: 32px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
   }
 
   .form-row label {
@@ -1398,7 +1450,7 @@
 
   /* Payout modal improvements */
   .payout-modal {
-    max-height: calc(100vh - 40px);
+    margin-bottom: 20px;
   }
 
   .payout-partner-info,
