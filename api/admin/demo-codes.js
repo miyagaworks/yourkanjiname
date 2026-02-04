@@ -97,17 +97,50 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    if (req.method === 'PUT') {
+      // Update demo code (deactivate/reactivate)
+      const { id } = req.query;
+      const { is_active } = req.body;
+
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).json({ error: { message: 'Valid ID is required' } });
+      }
+
+      if (typeof is_active !== 'boolean') {
+        return res.status(400).json({ error: { message: 'is_active (boolean) is required' } });
+      }
+
+      const result = await dbPool.query(`
+        UPDATE demo_codes SET is_active = $1 WHERE id = $2
+        RETURNING id, code, is_active
+      `, [is_active, parseInt(id)]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: { message: 'Demo code not found' } });
+      }
+
+      return res.status(200).json({ success: true, demo_code: result.rows[0] });
+    }
+
     if (req.method === 'DELETE') {
-      // Deactivate demo code
+      // Permanently delete demo code
       const { id } = req.query;
 
       if (!id || isNaN(parseInt(id))) {
         return res.status(400).json({ error: { message: 'Valid ID is required' } });
       }
 
-      await dbPool.query(`
-        UPDATE demo_codes SET is_active = false WHERE id = $1
+      // First delete usage records
+      await dbPool.query(`DELETE FROM demo_code_usage WHERE demo_code_id = $1`, [parseInt(id)]);
+
+      // Then delete the demo code
+      const result = await dbPool.query(`
+        DELETE FROM demo_codes WHERE id = $1 RETURNING id
       `, [parseInt(id)]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: { message: 'Demo code not found' } });
+      }
 
       return res.status(200).json({ success: true });
     }

@@ -96,9 +96,34 @@ function Admin() {
     }
   };
 
-  // Delete demo code
-  const handleDeleteDemoCode = async (id) => {
+  // Deactivate demo code
+  const handleDeactivateDemoCode = async (id) => {
     if (!window.confirm('このデモコードを無効化しますか？')) return;
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/demo-codes?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ is_active: false })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: 'デモコードを無効化しました' });
+        fetchDemoCodes();
+      } else {
+        throw new Error(data.error?.message || '無効化に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Permanently delete demo code
+  const handleDeleteDemoCode = async (id) => {
+    if (!window.confirm('このデモコードを完全に削除しますか？この操作は取り消せません。')) return;
     try {
       const token = sessionStorage.getItem('adminSession');
       const response = await fetch(`${API_BASE_URL}/admin/demo-codes?id=${id}`, {
@@ -107,10 +132,10 @@ function Admin() {
       });
       const data = await response.json();
       if (data.success) {
-        setMessage({ type: 'success', text: 'デモコードを無効化しました' });
+        setMessage({ type: 'success', text: 'デモコードを削除しました' });
         fetchDemoCodes();
       } else {
-        throw new Error(data.error?.message || '無効化に失敗しました');
+        throw new Error(data.error?.message || '削除に失敗しました');
       }
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -1498,12 +1523,19 @@ function Admin() {
                       </button>
                       {dc.status === 'active' && (
                         <button
-                          onClick={() => handleDeleteDemoCode(dc.id)}
+                          onClick={() => handleDeactivateDemoCode(dc.id)}
                           className="delete-btn"
                         >
                           無効化
                         </button>
                       )}
+                      <button
+                        onClick={() => handleDeleteDemoCode(dc.id)}
+                        className="delete-btn"
+                        style={{ backgroundColor: '#666' }}
+                      >
+                        削除
+                      </button>
                     </td>
                   </tr>
                 ))}
