@@ -376,11 +376,23 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
 const ResultCard = ({ result, language, userName, paymentIntentId }) => {
   const { t } = useTranslation();
   const calligrapherRef = useRef(null);
+  const [hintVisible, setHintVisible] = useState(true);
 
   useEffect(() => {
     if (result && result.explanation) {
       window.scrollTo(0, 0);
     }
+  }, [result]);
+
+  useEffect(() => {
+    const el = calligrapherRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setHintVisible(!entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [result]);
 
   if (!result || !result.explanation) {
@@ -479,14 +491,6 @@ const ResultCard = ({ result, language, userName, paymentIntentId }) => {
         </div>
       </div>
 
-      <div
-        className="scroll-hint"
-        onClick={() => calligrapherRef.current?.scrollIntoView({ behavior: 'smooth' })}
-      >
-        <span className="scroll-hint-arrow">&#x25BC;</span>
-        <span className="scroll-hint-text">{t('scrollHintCalligraphy')}</span>
-      </div>
-
       <div ref={calligrapherRef}>
         <CalligrapherSection
           language={language}
@@ -505,6 +509,14 @@ const ResultCard = ({ result, language, userName, paymentIntentId }) => {
           <ScoreBar label={t('gender')} score={result.matching_scores.gender_match} />
           <ScoreBar label={t('motivation')} score={result.matching_scores.motivation_match} />
         </div>
+      </div>
+
+      <div
+        className={`scroll-hint ${hintVisible ? '' : 'hidden'}`}
+        onClick={() => calligrapherRef.current?.scrollIntoView({ behavior: 'smooth' })}
+      >
+        <span className="scroll-hint-arrow">&#x25BC;</span>
+        <span className="scroll-hint-text">{t('scrollHintCalligraphy')}</span>
       </div>
 
     </div>
