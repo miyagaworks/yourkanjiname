@@ -529,6 +529,45 @@ body::before {
 }
 
 /* ===================================
+   Scroll Hint
+   =================================== */
+
+.scroll-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 30px 0 10px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-hint:hover {
+  opacity: 0.7;
+}
+
+.scroll-hint-arrow {
+  font-size: 28px;
+  color: #8B4513;
+  animation: bounceDown 1.5s ease-in-out infinite;
+}
+
+.scroll-hint-text {
+  font-size: 14px;
+  color: #8B4513;
+  font-weight: 500;
+}
+
+@keyframes bounceDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+/* ===================================
    Calligrapher Section
    =================================== */
 

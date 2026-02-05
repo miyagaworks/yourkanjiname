@@ -337,13 +337,6 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
       <p className="calligrapher-description">{t('calligrapherDescPaid') || 'Enter your email address to receive your calligraphy artwork.'}</p>
       <p className="calligrapher-warning">{t('emailWarning')}</p>
 
-      <div className="calligrapher-samples">
-        <img src="/images/calligraphy/01.png" alt="Sample 1" />
-        <img src="/images/calligraphy/02.png" alt="Sample 2" />
-        <img src="/images/calligraphy/03.png" alt="Sample 3" />
-        <img src="/images/calligraphy/04.png" alt="Sample 4" />
-      </div>
-
       <form className="calligrapher-form" onSubmit={handleSubmit}>
         <input
           type="email"
@@ -368,6 +361,13 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
         </button>
       </form>
       {error && <p className="calligrapher-error">{error}</p>}
+
+      <div className="calligrapher-samples">
+        <img src="/images/calligraphy/05.png" alt="Sample 1" />
+        <img src="/images/calligraphy/06.png" alt="Sample 2" />
+        <img src="/images/calligraphy/07.png" alt="Sample 3" />
+        <img src="/images/calligraphy/08.png" alt="Sample 4" />
+      </div>
     </div>
   );
 };
@@ -375,6 +375,13 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
 // Result Component
 const ResultCard = ({ result, language, userName, paymentIntentId }) => {
   const { t } = useTranslation();
+  const calligrapherRef = useRef(null);
+
+  useEffect(() => {
+    if (result && result.explanation) {
+      window.scrollTo(0, 0);
+    }
+  }, [result]);
 
   if (!result || !result.explanation) {
     return null;
@@ -472,14 +479,24 @@ const ResultCard = ({ result, language, userName, paymentIntentId }) => {
         </div>
       </div>
 
-      <CalligrapherSection
-        language={language}
-        kanjiName={result.kanji_name}
-        userName={userName}
-        explanationJa={result.explanation?.ja || result.explanation}
-        explanationUser={result.explanation?.[language] || result.explanation?.en}
-        paymentIntentId={paymentIntentId}
-      />
+      <div
+        className="scroll-hint"
+        onClick={() => calligrapherRef.current?.scrollIntoView({ behavior: 'smooth' })}
+      >
+        <span className="scroll-hint-arrow">&#x25BC;</span>
+        <span className="scroll-hint-text">{t('scrollHintCalligraphy')}</span>
+      </div>
+
+      <div ref={calligrapherRef}>
+        <CalligrapherSection
+          language={language}
+          kanjiName={result.kanji_name}
+          userName={userName}
+          explanationJa={result.explanation?.ja || result.explanation}
+          explanationUser={result.explanation?.[language] || result.explanation?.en}
+          paymentIntentId={paymentIntentId}
+        />
+      </div>
 
       <div className="matching-scores">
         <h3>{t('matchingScore')}</h3>

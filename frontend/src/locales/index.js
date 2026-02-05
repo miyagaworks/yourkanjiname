@@ -41,6 +41,8 @@ const translations = {
     startFree: 'Start Free',
 
     // Loading messages
+    scrollHintCalligraphy: 'Enter your email to receive a calligraphy artwork',
+
     loading1: 'Analyzing your personality...',
     loading2: 'Selecting the perfect kanji...',
     loading3: 'Creating your story...',
@@ -80,6 +82,8 @@ const translations = {
     priceLabel: 'Frais de service',
     termsLink: 'Conditions d\'utilisation',
     startFree: 'Commencer gratuitement',
+
+    scrollHintCalligraphy: 'Entrez votre e-mail pour recevoir une calligraphie',
 
     loading1: 'Analyse de votre personnalit\u00e9...',
     loading2: 'S\u00e9lection des kanji parfaits...',
@@ -121,6 +125,8 @@ const translations = {
     termsLink: 'Nutzungsbedingungen',
     startFree: 'Kostenlos starten',
 
+    scrollHintCalligraphy: 'E-Mail eingeben, um ein Kalligraphie-Kunstwerk zu erhalten',
+
     loading1: 'Analyse Ihrer Pers\u00f6nlichkeit...',
     loading2: 'Auswahl der perfekten Kanji...',
     loading3: 'Erstellung Ihrer Geschichte...',
@@ -160,6 +166,8 @@ const translations = {
     priceLabel: 'Tarifa del servicio',
     termsLink: 'Términos de servicio',
     startFree: 'Comenzar gratis',
+
+    scrollHintCalligraphy: 'Ingresa tu correo para recibir una caligrafía',
 
     loading1: 'Analizando tu personalidad...',
     loading2: 'Seleccionando los kanji perfectos...',
@@ -201,6 +209,8 @@ const translations = {
     termsLink: 'Termos de serviço',
     startFree: 'Começar grátis',
 
+    scrollHintCalligraphy: 'Insira seu e-mail para receber uma obra de caligrafia',
+
     loading1: 'Analisando sua personalidade...',
     loading2: 'Selecionando os kanji perfeitos...',
     loading3: 'Criando sua história...',
@@ -240,6 +250,8 @@ const translations = {
     priceLabel: 'Tariffa del servizio',
     termsLink: 'Termini di servizio',
     startFree: 'Inizia gratis',
+
+    scrollHintCalligraphy: 'Inserisci la tua e-mail per ricevere un\'opera di calligrafia',
 
     loading1: 'Analisi della tua personalit\u00e0...',
     loading2: 'Selezione dei kanji perfetti...',
@@ -281,6 +293,8 @@ const translations = {
     termsLink: 'ข้อกำหนดการใช้บริการ',
     startFree: 'เริ่มต้นฟรี',
 
+    scrollHintCalligraphy: 'กรอกอีเมลเพื่อรับผลงานเขียนพู่กัน',
+
     loading1: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E27\u0E34\u0E40\u0E04\u0E23\u0E32\u0E30\u0E2B\u0E4C\u0E1A\u0E38\u0E04\u0E25\u0E34\u0E01\u0E20\u0E32\u0E1E\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
     loading2: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E04\u0E31\u0E19\u0E08\u0E34\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21...',
     loading3: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E23\u0E32\u0E27\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
@@ -320,6 +334,8 @@ const translations = {
     priceLabel: 'Phí dịch vụ',
     termsLink: 'Điều khoản dịch vụ',
     startFree: 'Bắt đầu miễn phí',
+
+    scrollHintCalligraphy: 'Nhập email để nhận tác phẩm thư pháp',
 
     loading1: '\u0110ang ph\u00e2n t\u00edch t\u00ednh c\u00e1ch c\u1EE7a b\u1EA1n...',
     loading2: '\u0110ang ch\u1ECDn kanji ho\u00e0n h\u1EA3o...',
@@ -361,6 +377,8 @@ const translations = {
     termsLink: 'Syarat Layanan',
     startFree: 'Mulai Gratis',
 
+    scrollHintCalligraphy: 'Masukkan email untuk menerima karya kaligrafi',
+
     loading1: 'Menganalisis kepribadian Anda...',
     loading2: 'Memilih kanji yang sempurna...',
     loading3: 'Membuat cerita Anda...',
@@ -401,6 +419,8 @@ const translations = {
     termsLink: '서비스 약관',
     startFree: '무료로 시작',
 
+    scrollHintCalligraphy: '이메일을 입력하여 서예 작품을 받으세요',
+
     loading1: '\uB2F9\uC2E0\uC758 \uC131\uACA9\uC744 \uBD84\uC11D \uC911...',
     loading2: '\uC644\uBCBD\uD55C \uD55C\uC790\uB97C \uC120\uD0DD \uC911...',
     loading3: '\uB2F9\uC2E0\uC758 \uC774\uC57C\uAE30\uB97C \uC791\uC131 \uC911...',
@@ -440,6 +460,8 @@ const translations = {
     priceLabel: 'サービス料金',
     termsLink: '利用規約',
     startFree: '無料で始める',
+
+    scrollHintCalligraphy: 'メールアドレスを入力して書道作品を受け取る',
 
     loading1: '\u6027\u683C\u3092\u5206\u6790\u4E2D...',
     loading2: '\u6700\u9069\u306A\u6F22\u5B57\u3092\u9078\u5B9A\u4E2D...',
