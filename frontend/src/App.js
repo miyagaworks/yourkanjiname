@@ -717,10 +717,14 @@ function App() {
       });
       window.scrollTo(0, 0);
 
-      // 回答送信はバックグラウンドで実行（Promiseを追跡）
+      // 回答送信はバックグラウンドで実行（Promiseを追跡、失敗時はリトライ用に情報を保持）
       if (sessionIdRef.current && currentQuestionId !== 'Q0') {
         const promise = ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
-          .catch(err => console.error('Background submit failed:', err));
+          .then(() => ({ ok: true }))
+          .catch(err => {
+            console.error('Background submit failed:', err);
+            return { ok: false, questionId: currentQuestionId, optionId };
+          });
         pendingSubmitsRef.current.push(promise);
       }
       return;
@@ -745,12 +749,26 @@ function App() {
 
     try {
       // 最後の回答をpendingに追加
-      const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language);
+      const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language)
+        .then(() => ({ ok: true }))
+        .catch(err => {
+          console.error('Last submit failed:', err);
+          return { ok: false, questionId: currentQuestionId, optionId };
+        });
       pendingSubmitsRef.current.push(lastSubmit);
 
       // すべてのバックグラウンド送信が完了するのを待つ
-      await Promise.all(pendingSubmitsRef.current);
+      const results = await Promise.all(pendingSubmitsRef.current);
       pendingSubmitsRef.current = [];
+
+      // 失敗した回答をリトライ
+      const failed = results.filter(r => r && !r.ok);
+      if (failed.length > 0) {
+        console.warn(`Retrying ${failed.length} failed answer submission(s)...`);
+        await Promise.all(
+          failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
+        );
+      }
 
       // 漢字名生成
       const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
