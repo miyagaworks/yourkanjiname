@@ -1110,21 +1110,22 @@ body::before {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding: 16px;
-  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
-  border-radius: 12px;
-  color: white;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 0;
+  background: none;
+  color: #333;
 }
 
 .price-label {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  color: #666;
 }
 
 .price-amount {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #c75450;
 }
 
 .start-free-btn {
@@ -1274,10 +1275,10 @@ body::before {
   }
 
   .landing-price {
-    padding: 12px;
+    padding: 0;
   }
 
   .price-amount {
-    font-size: 1.5rem;
+    font-size: 1.125rem;
   }
 }
