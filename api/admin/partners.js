@@ -77,7 +77,7 @@ module.exports = async function handler(req, res) {
         partners: result.rows.map(row => ({
           ...row,
           royalty_rate: parseFloat(row.royalty_rate),
-          price_usd: (parseFloat(row.price_usd) || 5.00).toFixed(2),
+          price_usd: (parseFloat(row.price_usd) || 6.00).toFixed(2),
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
           total_royalty: parseFloat(row.total_royalty),
@@ -159,7 +159,7 @@ module.exports = async function handler(req, res) {
         bank_branch || null,
         bank_account || null,
         royalty_rate || 0.10,
-        price_usd || 5.00
+        price_usd || 6.00
       ]);
 
       return res.status(201).json({
@@ -167,7 +167,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...result.rows[0],
           royalty_rate: parseFloat(result.rows[0].royalty_rate),
-          price_usd: (parseFloat(result.rows[0].price_usd) || 5.00).toFixed(2)
+          price_usd: (parseFloat(result.rows[0].price_usd) || 6.00).toFixed(2)
         }
       });
 

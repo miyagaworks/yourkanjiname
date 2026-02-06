@@ -161,7 +161,7 @@ const PaymentModal = ({
   const [error, setError] = useState(null);
   const [showDemoCode, setShowDemoCode] = useState(false);
   const [demoApplied, setDemoApplied] = useState(false);
-  const [amount, setAmount] = useState(500); // Default $5.00 in cents
+  const [amount, setAmount] = useState(600); // Default $6.00 in cents
 
   const handleDemoCodeValid = (data) => {
     setDemoApplied(true);

@@ -23,7 +23,7 @@ function Admin() {
   const [showPartnerForm, setShowPartnerForm] = useState(false);
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
-    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '5.00'
+    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00'
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -239,7 +239,7 @@ function Admin() {
         setShowPartnerForm(false);
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
-          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '5.00'
+          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00'
         });
         fetchPartners();
       } else {
@@ -938,11 +938,11 @@ function Admin() {
                         value={partnerForm.price_usd}
                         onChange={(e) => setPartnerForm({...partnerForm, price_usd: e.target.value})}
                       >
-                        <option value="5.00">$5.00</option>
                         <option value="6.00">$6.00</option>
                         <option value="7.00">$7.00</option>
                         <option value="8.00">$8.00</option>
                         <option value="10.00">$10.00</option>
+                        <option value="12.00">$12.00</option>
                       </select>
                     </div>
                     <div className="form-actions">
@@ -1024,7 +1024,7 @@ function Admin() {
                       bank_branch: editingPartner.bank_branch,
                       bank_account: editingPartner.bank_account,
                       royalty_rate: editingPartner.royalty_rate,
-                      price_usd: editingPartner.price_usd || '5.00',
+                      price_usd: editingPartner.price_usd || '6.00',
                       status: editingPartner.status
                     };
                     if (editingPartner.new_password) {
@@ -1113,14 +1113,14 @@ function Admin() {
                     <div className="form-row">
                       <label>サービス価格 (USD)</label>
                       <select
-                        value={editingPartner.price_usd || '5.00'}
+                        value={editingPartner.price_usd || '6.00'}
                         onChange={(e) => setEditingPartner({...editingPartner, price_usd: e.target.value})}
                       >
-                        <option value="5.00">$5.00</option>
                         <option value="6.00">$6.00</option>
                         <option value="7.00">$7.00</option>
                         <option value="8.00">$8.00</option>
                         <option value="10.00">$10.00</option>
+                        <option value="12.00">$12.00</option>
                       </select>
                     </div>
                     <div className="form-row">

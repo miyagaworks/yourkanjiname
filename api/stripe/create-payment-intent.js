@@ -48,7 +48,7 @@ module.exports = async function handler(req, res) {
     const dbPool = getPool();
     let partnerId = null;
     let partnerRoyaltyRate = 0.10;
-    let priceUsd = 5.00; // Default price
+    let priceUsd = 6.00; // Default price
 
     // Look up partner if code provided
     if (partner_code) {
@@ -59,7 +59,7 @@ module.exports = async function handler(req, res) {
       if (partnerResult.rows.length > 0) {
         partnerId = partnerResult.rows[0].id;
         partnerRoyaltyRate = parseFloat(partnerResult.rows[0].royalty_rate);
-        priceUsd = parseFloat(partnerResult.rows[0].price_usd) || 5.00;
+        priceUsd = parseFloat(partnerResult.rows[0].price_usd) || 6.00;
       }
     }
 
