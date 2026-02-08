@@ -877,6 +877,10 @@
   color: white;
 }
 
+.stat-card.highlight .stat-sublabel {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .payments-table {
   width: 100%;
   border-collapse: collapse;
@@ -1785,10 +1789,21 @@
 
   /* Partners section within salesperson dashboard */
   .admin-content > .partners-section {
-    margin: 10px 0 0 0 !important;
+    margin: 0 !important;
     padding: 15px 10px;
     border-radius: 0;
     box-shadow: none;
+    background: #f5f5f5;
+  }
+
+  .admin-content > .partners-section + .partners-section {
+    margin-top: 0 !important;
+    padding-top: 10px;
+  }
+
+  /* Hide empty cells on mobile */
+  .hide-on-mobile {
+    display: none !important;
   }
 
   .admin-content > .partners-section h2 {

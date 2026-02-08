@@ -256,7 +256,7 @@ function Ambassador() {
                           {ms.payout_status === 'paid' ? '支払い済' : '未払い'}
                         </span>
                       </td>
-                      <td data-label="支払日">
+                      <td data-label="支払日" className={ms.paid_at ? '' : 'hide-on-mobile'}>
                         {ms.paid_at ? new Date(ms.paid_at).toLocaleDateString('ja-JP') : '-'}
                       </td>
                     </tr>
