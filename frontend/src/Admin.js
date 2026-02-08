@@ -261,12 +261,12 @@ function Admin() {
       });
       const data = await response.json();
       if (data.success) {
-        setMessage({ type: 'success', text: '営業マンを作成しました' });
+        setMessage({ type: 'success', text: 'アンバサダーを作成しました' });
         setShowSalespersonForm(false);
         setSalespersonForm({ code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10' });
         fetchSalespersons();
       } else {
-        throw new Error(data.error?.message || '営業マン作成に失敗しました');
+        throw new Error(data.error?.message || 'アンバサダー作成に失敗しました');
       }
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -287,7 +287,7 @@ function Admin() {
       });
       const data = await response.json();
       if (data.success) {
-        setMessage({ type: 'success', text: '営業マンを更新しました' });
+        setMessage({ type: 'success', text: 'アンバサダーを更新しました' });
         setEditingSalesperson(null);
         fetchSalespersons();
       } else {
@@ -309,7 +309,7 @@ function Admin() {
       });
       const data = await response.json();
       if (data.success) {
-        setMessage({ type: 'success', text: '営業マンを削除しました' });
+        setMessage({ type: 'success', text: 'アンバサダーを削除しました' });
         fetchSalespersons();
       } else {
         throw new Error(data.error?.message || '削除に失敗しました');
@@ -878,7 +878,7 @@ function Admin() {
             className={activeTab === 'salespersons' ? 'active' : ''}
             onClick={() => handleTabChange('salespersons')}
           >
-            営業マン
+            アンバサダー
           </button>
           <button
             className={activeTab === 'sp-payouts' ? 'active' : ''}
@@ -1151,7 +1151,7 @@ function Admin() {
                       </select>
                     </div>
                     <div className="form-row">
-                      <label>紹介営業マン</label>
+                      <label>紹介アンバサダー</label>
                       <select
                         value={partnerForm.salesperson_id}
                         onChange={(e) => setPartnerForm({...partnerForm, salesperson_id: e.target.value})}
@@ -1389,7 +1389,7 @@ function Admin() {
                       </select>
                     </div>
                     <div className="form-row">
-                      <label>紹介営業マン</label>
+                      <label>紹介アンバサダー</label>
                       <select
                         value={editingPartner.salesperson_id || ''}
                         onChange={(e) => setEditingPartner({...editingPartner, salesperson_id: e.target.value || null})}
@@ -1887,9 +1887,9 @@ function Admin() {
         {activeTab === 'salespersons' && (
           <div className="salespersons-section">
             <div className="section-header">
-              <h2>営業マン一覧 ({salespersons.length}件)</h2>
+              <h2>アンバサダー一覧 ({salespersons.length}件)</h2>
               <button onClick={() => setShowSalespersonForm(true)} className="add-btn">
-                + 新規営業マン
+                + 新規アンバサダー
               </button>
             </div>
 
@@ -1897,7 +1897,7 @@ function Admin() {
               <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowSalespersonForm(false); }}>
                 <div className="partner-form">
                   <div className="modal-header">
-                    <h3>新規営業マン作成</h3>
+                    <h3>新規アンバサダー作成</h3>
                     <button type="button" className="modal-close-btn" onClick={() => setShowSalespersonForm(false)}>&times;</button>
                   </div>
                   <form onSubmit={handleCreateSalesperson}>
@@ -2020,14 +2020,14 @@ function Admin() {
             </table>
 
             {salespersons.length === 0 && (
-              <p className="no-data">営業マンはまだ登録されていません</p>
+              <p className="no-data">アンバサダーはまだ登録されていません</p>
             )}
 
             {editingSalesperson && (
               <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setEditingSalesperson(null); }}>
                 <div className="partner-form">
                   <div className="modal-header">
-                    <h3>営業マン編集: {editingSalesperson.name}</h3>
+                    <h3>アンバサダー編集: {editingSalesperson.name}</h3>
                     <button type="button" className="modal-close-btn" onClick={() => setEditingSalesperson(null)}>&times;</button>
                   </div>
                   <form onSubmit={(e) => {
@@ -2118,7 +2118,7 @@ function Admin() {
         {/* Salesperson Payouts Tab */}
         {activeTab === 'sp-payouts' && (
           <div className="payouts-section">
-            <h2>営業マン支払い管理</h2>
+            <h2>アンバサダー支払い管理</h2>
 
             {salespersonPayoutSummary && (
               <div className="payout-summary">
@@ -2131,17 +2131,17 @@ function Admin() {
                   <div className="stat-value">${salespersonPayoutSummary.total_paid?.toFixed(2) || '0.00'}</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-label">対象営業マン数</div>
+                  <div className="stat-label">対象アンバサダー数</div>
                   <div className="stat-value">{salespersonPayoutSummary.salespersons_pending || 0}</div>
                 </div>
               </div>
             )}
 
-            <h3>未払い営業マン</h3>
+            <h3>未払いアンバサダー</h3>
             <table className="payouts-table">
               <thead>
                 <tr>
-                  <th>営業マン</th>
+                  <th>アンバサダー</th>
                   <th>対象月</th>
                   <th>決済数</th>
                   <th>売上</th>
@@ -2152,7 +2152,7 @@ function Admin() {
               <tbody>
                 {salespersonPayouts.map(sp => (
                   <tr key={sp.salesperson_id}>
-                    <td data-label="営業マン">
+                    <td data-label="アンバサダー">
                       <strong>{sp.name}</strong>
                       <br />
                       <small className="muted">{sp.code}</small>
@@ -2183,7 +2183,7 @@ function Admin() {
             <table className="payouts-table">
               <thead>
                 <tr>
-                  <th>営業マン</th>
+                  <th>アンバサダー</th>
                   <th>対象月</th>
                   <th>ロイヤリティ</th>
                   <th>為替レート</th>
@@ -2195,7 +2195,7 @@ function Admin() {
               <tbody>
                 {salespersonPayoutStats.filter(s => s.payout_status === 'paid').map(s => (
                   <tr key={s.id}>
-                    <td data-label="営業マン">{s.name}</td>
+                    <td data-label="アンバサダー">{s.name}</td>
                     <td data-label="対象月">{s.year_month}</td>
                     <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
                     <td data-label="為替">{s.exchange_rate_jpy ? `¥${s.exchange_rate_jpy.toFixed(2)}` : '-'}</td>
@@ -2216,7 +2216,7 @@ function Admin() {
               <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget && !processingSalespersonPayout) setSelectedSalespersonPayout(null); }}>
                 <div className="partner-form payout-modal">
                   <div className="modal-header">
-                    <h3>営業マン支払い処理</h3>
+                    <h3>アンバサダー支払い処理</h3>
                     <button type="button" className="modal-close-btn" onClick={() => setSelectedSalespersonPayout(null)} disabled={processingSalespersonPayout}>&times;</button>
                   </div>
 

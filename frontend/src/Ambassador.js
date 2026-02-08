@@ -3,7 +3,7 @@ import './Admin.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
-function Salesperson() {
+function Ambassador() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +19,7 @@ function Salesperson() {
 
   // Check session on mount
   useEffect(() => {
-    const token = sessionStorage.getItem('salespersonSession');
+    const token = sessionStorage.getItem('ambassadorSession');
     if (token) {
       setIsLoggedIn(true);
       fetchDashboard(token);
@@ -32,7 +32,7 @@ function Salesperson() {
     setLoginError('');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/salesperson/login`, {
+      const response = await fetch(`${API_BASE_URL}/ambassador/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -41,7 +41,7 @@ function Salesperson() {
       const data = await response.json();
 
       if (data.success) {
-        sessionStorage.setItem('salespersonSession', data.token);
+        sessionStorage.setItem('ambassadorSession', data.token);
         setIsLoggedIn(true);
         fetchDashboard(data.token);
       } else {
@@ -55,7 +55,7 @@ function Salesperson() {
   const fetchDashboard = async (token) => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/salesperson/dashboard`, {
+      const response = await fetch(`${API_BASE_URL}/ambassador/dashboard`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await response.json();
@@ -71,7 +71,7 @@ function Salesperson() {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem('salespersonSession');
+    sessionStorage.removeItem('ambassadorSession');
     setIsLoggedIn(false);
     setDashboard(null);
   };
@@ -90,7 +90,7 @@ function Salesperson() {
     return (
       <div className="admin-container">
         <div className="admin-login">
-          <h1>営業マンダッシュボード</h1>
+          <h1>アンバサダーログイン</h1>
           <form onSubmit={handleLogin}>
             <input
               type="email"
@@ -117,11 +117,11 @@ function Salesperson() {
   return (
     <div className="admin-container">
       <header className="admin-header">
-        <h1>営業マンダッシュボード</h1>
+        <h1>ダッシュボード</h1>
         <div className="header-right">
-          {dashboard?.salesperson && (
-            <span className="welcome-text">
-              {dashboard.salesperson.name} さん
+          {dashboard?.ambassador && (
+            <span className="ambassador-name">
+              アンバサダー {dashboard.ambassador.name}
             </span>
           )}
           <button onClick={handleLogout} className="logout-btn">ログアウト</button>
@@ -150,7 +150,7 @@ function Salesperson() {
               </div>
               <div className="stat-card">
                 <div className="stat-label">ロイヤリティ率</div>
-                <div className="stat-value">{(dashboard.salesperson?.royalty_rate * 100).toFixed(0)}%</div>
+                <div className="stat-value">{(dashboard.ambassador?.royalty_rate * 100).toFixed(0)}%</div>
               </div>
             </div>
 
@@ -274,4 +274,4 @@ function Salesperson() {
   );
 }
 
-export default Salesperson;
+export default Ambassador;

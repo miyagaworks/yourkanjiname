@@ -1,6 +1,6 @@
 /**
- * Salesperson Login API
- * POST /api/salesperson/login
+ * Ambassador Login API
+ * POST /api/ambassador/login
  * Vercel Serverless Function
  */
 

@@ -1,9 +1,9 @@
 /**
- * Salesperson Dashboard API
- * GET /api/salesperson/dashboard
+ * Ambassador Dashboard API
+ * GET /api/ambassador/dashboard
  * Vercel Serverless Function
  *
- * Returns salesperson's partners, stats, and royalty information
+ * Returns ambassador's partners, stats, and royalty information
  */
 
 const crypto = require('crypto');
@@ -199,7 +199,7 @@ module.exports = async function handler(req, res) {
 
     return res.json({
       success: true,
-      salesperson: {
+      ambassador: {
         id: salesperson.id,
         code: salesperson.code,
         name: salesperson.name,
