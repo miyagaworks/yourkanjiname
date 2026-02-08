@@ -489,7 +489,7 @@ function Admin() {
     }
   };
 
-  // Fetch current exchange rate from ECB
+  // Fetch current exchange rate from ECB (for partner payouts)
   const fetchExchangeRate = async () => {
     setFetchingRate(true);
     try {
@@ -497,6 +497,27 @@ function Admin() {
       const data = await response.json();
       if (data.rates && data.rates.JPY) {
         setPayoutForm(prev => ({
+          ...prev,
+          exchange_rate_jpy: data.rates.JPY.toFixed(2)
+        }));
+        setMessage({ type: 'success', text: `為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+      } else {
+        throw new Error('為替レートを取得できませんでした');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+    setFetchingRate(false);
+  };
+
+  // Fetch current exchange rate from ECB (for ambassador payouts)
+  const fetchSalespersonExchangeRate = async () => {
+    setFetchingRate(true);
+    try {
+      const response = await fetch('https://api.frankfurter.app/latest?from=USD&to=JPY');
+      const data = await response.json();
+      if (data.rates && data.rates.JPY) {
+        setSalespersonPayoutForm(prev => ({
           ...prev,
           exchange_rate_jpy: data.rates.JPY.toFixed(2)
         }));
@@ -2305,7 +2326,7 @@ function Admin() {
                         <div className="rate-buttons">
                           <button
                             type="button"
-                            onClick={fetchExchangeRate}
+                            onClick={fetchSalespersonExchangeRate}
                             disabled={fetchingRate}
                             className="fetch-rate-btn current"
                           >
