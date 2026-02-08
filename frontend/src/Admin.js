@@ -50,15 +50,15 @@ function Admin() {
   const [showDemoCodeForm, setShowDemoCodeForm] = useState(false);
   const [demoCodeForm, setDemoCodeForm] = useState({
     description: '',
-    max_uses: 1,
-    expires_hours: 24
+    max_uses: 10,
+    expires_hours: 720
   });
 
   // Salesperson management state
   const [salespersons, setSalespersons] = useState([]);
   const [showSalespersonForm, setShowSalespersonForm] = useState(false);
   const [salespersonForm, setSalespersonForm] = useState({
-    code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10'
+    code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10', contract_months: '12'
   });
   const [editingSalesperson, setEditingSalesperson] = useState(null);
 
@@ -106,7 +106,7 @@ function Admin() {
       if (data.success) {
         setMessage({ type: 'success', text: `デモコード ${data.demo_code.code} を作成しました` });
         setShowDemoCodeForm(false);
-        setDemoCodeForm({ description: '', max_uses: 1, expires_hours: 24 });
+        setDemoCodeForm({ description: '', max_uses: 10, expires_hours: 720 });
         fetchDemoCodes();
       } else {
         throw new Error(data.error?.message || 'デモコード作成に失敗しました');
@@ -263,7 +263,7 @@ function Admin() {
       if (data.success) {
         setMessage({ type: 'success', text: 'アンバサダーを作成しました' });
         setShowSalespersonForm(false);
-        setSalespersonForm({ code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10' });
+        setSalespersonForm({ code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10', contract_months: '12' });
         fetchSalespersons();
       } else {
         throw new Error(data.error?.message || 'アンバサダー作成に失敗しました');
@@ -1154,7 +1154,15 @@ function Admin() {
                       <label>紹介アンバサダー</label>
                       <select
                         value={partnerForm.salesperson_id}
-                        onChange={(e) => setPartnerForm({...partnerForm, salesperson_id: e.target.value})}
+                        onChange={(e) => {
+                          const selectedId = e.target.value;
+                          const selectedSp = salespersons.find(s => s.id === selectedId);
+                          setPartnerForm({
+                            ...partnerForm,
+                            salesperson_id: selectedId,
+                            salesperson_contract_months: selectedSp?.contract_months?.toString() || '12'
+                          });
+                        }}
                       >
                         <option value="">なし（直接契約）</option>
                         {salespersons.filter(s => s.status === 'active').map(s => (
@@ -1183,6 +1191,7 @@ function Admin() {
                             <option value="12">12ヶ月</option>
                             <option value="18">18ヶ月</option>
                             <option value="24">24ヶ月</option>
+                            <option value="9999">無制限</option>
                           </select>
                         </div>
                       </>
@@ -1392,7 +1401,15 @@ function Admin() {
                       <label>紹介アンバサダー</label>
                       <select
                         value={editingPartner.salesperson_id || ''}
-                        onChange={(e) => setEditingPartner({...editingPartner, salesperson_id: e.target.value || null})}
+                        onChange={(e) => {
+                          const selectedId = e.target.value || null;
+                          const selectedSp = salespersons.find(s => s.id === selectedId);
+                          setEditingPartner({
+                            ...editingPartner,
+                            salesperson_id: selectedId,
+                            salesperson_contract_months: selectedSp?.contract_months?.toString() || editingPartner.salesperson_contract_months || '12'
+                          });
+                        }}
                       >
                         <option value="">なし（直接契約）</option>
                         {salespersons.filter(s => s.status === 'active').map(s => (
@@ -1420,6 +1437,7 @@ function Admin() {
                             <option value="12">12ヶ月</option>
                             <option value="18">18ヶ月</option>
                             <option value="24">24ヶ月</option>
+                            <option value="9999">無制限</option>
                           </select>
                         </div>
                       </>
@@ -1851,10 +1869,11 @@ function Admin() {
                         value={demoCodeForm.max_uses}
                         onChange={(e) => setDemoCodeForm({...demoCodeForm, max_uses: parseInt(e.target.value)})}
                       >
-                        <option value="1">1回</option>
-                        <option value="3">3回</option>
                         <option value="5">5回</option>
                         <option value="10">10回</option>
+                        <option value="20">20回</option>
+                        <option value="50">50回</option>
+                        <option value="100">100回</option>
                       </select>
                     </div>
                     <div className="form-row">
@@ -1863,11 +1882,11 @@ function Admin() {
                         value={demoCodeForm.expires_hours}
                         onChange={(e) => setDemoCodeForm({...demoCodeForm, expires_hours: parseInt(e.target.value)})}
                       >
-                        <option value="1">1時間</option>
-                        <option value="3">3時間</option>
-                        <option value="24">24時間</option>
-                        <option value="72">3日間</option>
                         <option value="168">1週間</option>
+                        <option value="336">2週間</option>
+                        <option value="720">1ヶ月</option>
+                        <option value="2160">3ヶ月</option>
+                        <option value="4320">6ヶ月</option>
                       </select>
                     </div>
                     <div className="form-actions">
@@ -1959,6 +1978,19 @@ function Admin() {
                         <option value="0.20">20%</option>
                       </select>
                     </div>
+                    <div className="form-row">
+                      <label>契約期間</label>
+                      <select
+                        value={salespersonForm.contract_months}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, contract_months: e.target.value})}
+                      >
+                        <option value="6">6ヶ月</option>
+                        <option value="12">12ヶ月</option>
+                        <option value="18">18ヶ月</option>
+                        <option value="24">24ヶ月</option>
+                        <option value="9999">無制限</option>
+                      </select>
+                    </div>
                     <div className="form-actions">
                       <button type="submit" className="submit-btn">作成</button>
                       <button type="button" onClick={() => setShowSalespersonForm(false)} className="cancel-btn">
@@ -1977,6 +2009,7 @@ function Admin() {
                   <th>氏名</th>
                   <th>メール</th>
                   <th>ロイヤリティ率</th>
+                  <th>契約期間</th>
                   <th>紹介パートナー数</th>
                   <th>総売上</th>
                   <th>状態</th>
@@ -1990,6 +2023,7 @@ function Admin() {
                     <td data-label="氏名">{sp.name}</td>
                     <td data-label="メール">{sp.email}</td>
                     <td data-label="率">{(sp.royalty_rate * 100).toFixed(0)}%</td>
+                    <td data-label="契約期間">{sp.contract_months >= 9999 ? '無制限' : `${sp.contract_months}ヶ月`}</td>
                     <td data-label="パートナー数">{sp.partner_count || 0}</td>
                     <td data-label="総売上">${sp.total_revenue?.toFixed(2) || '0.00'}</td>
                     <td data-label="状態">
@@ -2037,6 +2071,7 @@ function Admin() {
                       email: editingSalesperson.email,
                       phone: editingSalesperson.phone,
                       royalty_rate: editingSalesperson.royalty_rate,
+                      contract_months: editingSalesperson.contract_months,
                       status: editingSalesperson.status
                     };
                     if (editingSalesperson.new_password) {
@@ -2081,6 +2116,20 @@ function Admin() {
                         <option value="0.15">15%</option>
                         <option value="0.20">20%</option>
                       </select>
+                    </div>
+                    <div className="form-row">
+                      <label>デフォルト契約期間</label>
+                      <select
+                        value={editingSalesperson.contract_months}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, contract_months: e.target.value})}
+                      >
+                        <option value="6">6ヶ月</option>
+                        <option value="12">12ヶ月</option>
+                        <option value="18">18ヶ月</option>
+                        <option value="24">24ヶ月</option>
+                        <option value="9999">無制限</option>
+                      </select>
+                      <small className="form-hint">パートナー登録時の初期値</small>
                     </div>
                     <div className="form-row">
                       <label>パスワードリセット</label>

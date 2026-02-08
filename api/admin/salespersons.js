@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
       // List all salespersons with stats
       const result = await dbPool.query(`
         SELECT
-          s.id, s.code, s.name, s.email, s.phone, s.royalty_rate, s.status,
+          s.id, s.code, s.name, s.email, s.phone, s.royalty_rate, s.contract_months, s.status,
           s.created_at, s.updated_at,
           COALESCE(partner_count.count, 0) as partner_count,
           COALESCE(stats.total_payments, 0) as total_payments,
@@ -73,6 +73,7 @@ module.exports = async function handler(req, res) {
         salespersons: result.rows.map(row => ({
           ...row,
           royalty_rate: parseFloat(row.royalty_rate),
+          contract_months: parseInt(row.contract_months) || 12,
           partner_count: parseInt(row.partner_count),
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
@@ -83,7 +84,7 @@ module.exports = async function handler(req, res) {
 
     } else if (req.method === 'POST') {
       // Create new salesperson
-      const { code, name, email, password, phone, royalty_rate } = req.body;
+      const { code, name, email, password, phone, royalty_rate, contract_months } = req.body;
 
       if (!code || !name || !email || !password) {
         return res.status(400).json({
@@ -107,23 +108,25 @@ module.exports = async function handler(req, res) {
 
       // Insert salesperson
       const result = await dbPool.query(`
-        INSERT INTO salespersons (code, name, email, password_hash, phone, royalty_rate)
-        VALUES ($1, $2, $3, $4, $5, $6)
-        RETURNING id, code, name, email, phone, royalty_rate, status, created_at
+        INSERT INTO salespersons (code, name, email, password_hash, phone, royalty_rate, contract_months)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING id, code, name, email, phone, royalty_rate, contract_months, status, created_at
       `, [
         code,
         name,
         email,
         passwordHash,
         phone || null,
-        royalty_rate || 0.10
+        royalty_rate || 0.10,
+        contract_months || 12
       ]);
 
       return res.status(201).json({
         success: true,
         salesperson: {
           ...result.rows[0],
-          royalty_rate: parseFloat(result.rows[0].royalty_rate)
+          royalty_rate: parseFloat(result.rows[0].royalty_rate),
+          contract_months: parseInt(result.rows[0].contract_months)
         }
       });
 

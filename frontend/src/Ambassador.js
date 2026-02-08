@@ -206,7 +206,9 @@ function Ambassador() {
                         </td>
                         <td data-label="残り期間">
                           {p.is_active ? (
-                            <span className="active-contract">{p.remaining_months}ヶ月</span>
+                            <span className="active-contract">
+                              {p.remaining_months > 1200 ? '無制限' : `${p.remaining_months}ヶ月`}
+                            </span>
                           ) : (
                             <span className="expired-contract">終了</span>
                           )}

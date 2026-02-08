@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
       // Get salesperson detail with stats and partners
       const salespersonResult = await dbPool.query(`
         SELECT
-          s.id, s.code, s.name, s.email, s.phone, s.royalty_rate, s.status,
+          s.id, s.code, s.name, s.email, s.phone, s.royalty_rate, s.contract_months, s.status,
           s.created_at, s.updated_at,
           COALESCE(stats.total_payments, 0) as total_payments,
           COALESCE(stats.total_revenue, 0) as total_revenue,
@@ -103,6 +103,7 @@ module.exports = async function handler(req, res) {
         salesperson: {
           ...salesperson,
           royalty_rate: parseFloat(salesperson.royalty_rate),
+          contract_months: parseInt(salesperson.contract_months) || 12,
           total_payments: parseInt(salesperson.total_payments),
           total_revenue: parseFloat(salesperson.total_revenue),
           total_royalty: parseFloat(salesperson.total_royalty)
@@ -121,7 +122,7 @@ module.exports = async function handler(req, res) {
 
     } else if (req.method === 'PUT') {
       // Update salesperson
-      const { name, email, password, phone, royalty_rate, status } = req.body;
+      const { name, email, password, phone, royalty_rate, contract_months, status } = req.body;
 
       // Build update query dynamically
       const updates = [];
@@ -149,6 +150,10 @@ module.exports = async function handler(req, res) {
         updates.push(`royalty_rate = $${paramIndex++}`);
         values.push(royalty_rate);
       }
+      if (contract_months !== undefined) {
+        updates.push(`contract_months = $${paramIndex++}`);
+        values.push(contract_months);
+      }
       if (status !== undefined) {
         updates.push(`status = $${paramIndex++}`);
         values.push(status);
@@ -165,7 +170,7 @@ module.exports = async function handler(req, res) {
         UPDATE salespersons
         SET ${updates.join(', ')}
         WHERE id = $${paramIndex}
-        RETURNING id, code, name, email, phone, royalty_rate, status, updated_at
+        RETURNING id, code, name, email, phone, royalty_rate, contract_months, status, updated_at
       `, values);
 
       if (result.rows.length === 0) {
@@ -176,7 +181,8 @@ module.exports = async function handler(req, res) {
         success: true,
         salesperson: {
           ...result.rows[0],
-          royalty_rate: parseFloat(result.rows[0].royalty_rate)
+          royalty_rate: parseFloat(result.rows[0].royalty_rate),
+          contract_months: parseInt(result.rows[0].contract_months)
         }
       });
 
