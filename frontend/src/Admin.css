@@ -1707,14 +1707,230 @@
   padding: 20px;
 }
 
+/* Salesperson Dashboard Mobile Styles */
 @media (max-width: 768px) {
+  /* Header */
   .header-right {
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
-    align-items: flex-end;
+    align-items: center;
   }
 
   .welcome-text {
+    font-size: 11px;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Stats cards for salesperson dashboard */
+  .admin-content > .payment-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .admin-content > .payment-stats .stat-card {
+    padding: 10px;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .admin-content > .payment-stats .stat-card .stat-label {
+    font-size: 10px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  .admin-content > .payment-stats .stat-card .stat-value {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .admin-content > .payment-stats .stat-card .stat-sublabel {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .admin-content > .payment-stats .stat-card.highlight {
+    grid-column: span 2;
+    text-align: center;
+  }
+
+  .admin-content > .payment-stats .stat-card.highlight .stat-value {
+    font-size: 28px;
+  }
+
+  /* Partners section within salesperson dashboard */
+  .admin-content > .partners-section {
+    margin: 10px 0 0 0 !important;
+    padding: 15px 10px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .admin-content > .partners-section h2 {
+    font-size: 16px;
+    margin: 0 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c75450;
+    color: #333;
+  }
+
+  /* Partners table card layout for salesperson dashboard */
+  .admin-content > .partners-section .partners-table,
+  .admin-content > .partners-section .payouts-table {
+    display: block;
+  }
+
+  .admin-content > .partners-section .partners-table thead,
+  .admin-content > .partners-section .payouts-table thead {
+    display: none;
+  }
+
+  .admin-content > .partners-section .partners-table tbody,
+  .admin-content > .partners-section .payouts-table tbody {
+    display: block;
+  }
+
+  .admin-content > .partners-section .partners-table tr,
+  .admin-content > .partners-section .payouts-table tr {
+    display: block;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+
+  .admin-content > .partners-section .partners-table td,
+  .admin-content > .partners-section .payouts-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 6px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .admin-content > .partners-section .partners-table td:last-child,
+  .admin-content > .partners-section .payouts-table td:last-child {
+    border-bottom: none;
+  }
+
+  .admin-content > .partners-section .partners-table td::before,
+  .admin-content > .partners-section .payouts-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-right: 10px;
+    min-width: 70px;
+  }
+
+  /* Contract info styling */
+  .admin-content > .partners-section .partners-table td[data-label="契約期間"] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-content > .partners-section .partners-table td[data-label="契約期間"]::before {
+    margin-bottom: 4px;
+  }
+
+  /* Royalty amount highlight */
+  .admin-content > .partners-section .payouts-table .royalty-amount {
+    font-weight: bold;
+    color: #27ae60;
+  }
+
+  /* Status badges in tables */
+  .admin-content > .partners-section .status-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  /* No data message */
+  .admin-content > .partners-section .no-data {
+    text-align: center;
+    color: #999;
+    padding: 30px 15px;
+    font-size: 14px;
+  }
+
+  /* Active/expired contract badges */
+  .active-contract {
+    background: #e8f5e9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .expired-contract {
+    background: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  /* Inactive row styling */
+  .inactive-row {
+    opacity: 0.7;
+    background-color: #fafafa !important;
+  }
+
+  /* Code styling in tables */
+  .admin-content > .partners-section code {
+    font-size: 11px;
+    background: #f0f0f0;
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 400px) {
+  .admin-header h1 {
+    font-size: 14px;
+  }
+
+  .welcome-text {
+    display: none;
+  }
+
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .admin-content > .payment-stats .stat-card .stat-label {
+    font-size: 9px;
+  }
+
+  .admin-content > .payment-stats .stat-card .stat-value {
+    font-size: 16px;
+  }
+
+  .admin-content > .payment-stats .stat-card.highlight .stat-value {
+    font-size: 24px;
+  }
+
+  .admin-content > .partners-section .partners-table td::before,
+  .admin-content > .partners-section .payouts-table td::before {
+    font-size: 10px;
+    min-width: 60px;
+  }
+
+  .admin-content > .partners-section .partners-table td,
+  .admin-content > .partners-section .payouts-table td {
     font-size: 12px;
   }
 }

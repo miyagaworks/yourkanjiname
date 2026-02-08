@@ -154,17 +154,17 @@ function Salesperson() {
               </div>
             </div>
 
-            <div className="payment-stats" style={{ marginTop: '20px' }}>
+            <div className="payment-stats">
               <div className="stat-card">
-                <div className="stat-label">紹介パートナー数</div>
+                <div className="stat-label">紹介パートナー</div>
                 <div className="stat-value">{dashboard.summary?.partner_count || 0}</div>
               </div>
               <div className="stat-card">
-                <div className="stat-label">アクティブパートナー</div>
+                <div className="stat-label">アクティブ</div>
                 <div className="stat-value">{dashboard.summary?.active_partner_count || 0}</div>
               </div>
               <div className="stat-card">
-                <div className="stat-label">累計決済数</div>
+                <div className="stat-label">累計決済</div>
                 <div className="stat-value">{dashboard.summary?.total_payments || 0}</div>
               </div>
               <div className="stat-card">
@@ -174,7 +174,7 @@ function Salesperson() {
             </div>
 
             {/* Partners List */}
-            <div className="partners-section" style={{ marginTop: '40px' }}>
+            <div className="partners-section">
               <h2>紹介パートナー一覧</h2>
               <table className="partners-table">
                 <thead>
@@ -229,7 +229,7 @@ function Salesperson() {
             </div>
 
             {/* Monthly Stats */}
-            <div className="partners-section" style={{ marginTop: '40px' }}>
+            <div className="partners-section">
               <h2>月別実績</h2>
               <table className="payouts-table">
                 <thead>
