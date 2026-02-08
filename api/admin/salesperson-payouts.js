@@ -155,7 +155,7 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      // Get pending payouts by salesperson
+      // Get pending payouts by salesperson (exclude current month)
       const pendingResult = await dbPool.query(`
         SELECT
           s.id as salesperson_id,
@@ -166,7 +166,9 @@ module.exports = async function handler(req, res) {
           sms.royalty_amount
         FROM salesperson_monthly_stats sms
         JOIN salespersons s ON sms.salesperson_id = s.id
-        WHERE sms.payout_status = 'pending' AND s.status != 'deleted'
+        WHERE sms.payout_status = 'pending'
+          AND s.status != 'deleted'
+          AND sms.year_month < TO_CHAR(NOW(), 'YYYY-MM')
         ORDER BY s.name, sms.year_month
       `);
 
@@ -192,12 +194,12 @@ module.exports = async function handler(req, res) {
         LIMIT 100
       `);
 
-      // Get summary
+      // Get summary (exclude current month from pending)
       const summaryResult = await dbPool.query(`
         SELECT
-          COALESCE(SUM(CASE WHEN payout_status = 'pending' THEN royalty_amount ELSE 0 END), 0) as total_pending,
+          COALESCE(SUM(CASE WHEN payout_status = 'pending' AND year_month < TO_CHAR(NOW(), 'YYYY-MM') THEN royalty_amount ELSE 0 END), 0) as total_pending,
           COALESCE(SUM(CASE WHEN payout_status = 'paid' THEN royalty_amount ELSE 0 END), 0) as total_paid,
-          COUNT(DISTINCT CASE WHEN payout_status = 'pending' THEN salesperson_id END) as salespersons_pending
+          COUNT(DISTINCT CASE WHEN payout_status = 'pending' AND year_month < TO_CHAR(NOW(), 'YYYY-MM') THEN salesperson_id END) as salespersons_pending
         FROM salesperson_monthly_stats sms
         JOIN salespersons s ON sms.salesperson_id = s.id
         WHERE s.status != 'deleted'
