@@ -325,6 +325,13 @@ module.exports = async function handler(req, res) {
         });
       }
 
+      // Minimum payout threshold: ¥3,000
+      if (netPayoutJpy < 3000) {
+        return res.status(400).json({
+          error: { code: 'BELOW_MINIMUM', message: '振込金額が¥3,000未満のため、次月以降に繰り越されます' }
+        });
+      }
+
       // Mark as paid with payout details
       const result = await dbPool.query(`
         UPDATE partner_monthly_stats

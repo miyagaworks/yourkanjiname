@@ -1156,6 +1156,21 @@
   color: #dc3545;
 }
 
+.payout-calculation .warning {
+  color: #856404;
+}
+
+.minimum-payout-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-top: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 .payouts-section h3 {
   margin: 0 0 15px 0;
   color: #666;

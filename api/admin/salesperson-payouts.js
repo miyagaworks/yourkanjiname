@@ -245,7 +245,7 @@ module.exports = async function handler(req, res) {
 
     } else if (req.method === 'POST') {
       // Process payout
-      const { salesperson_id, year_months, exchange_rate_jpy, transfer_fee_jpy } = req.body;
+      const { salesperson_id, year_months, exchange_rate_jpy, transfer_fee_jpy, send_email = true } = req.body;
 
       if (!salesperson_id || !year_months || !Array.isArray(year_months) || year_months.length === 0) {
         return res.status(400).json({
@@ -291,6 +291,13 @@ module.exports = async function handler(req, res) {
       const fee = parseInt(transfer_fee_jpy) || 0;
       const netJpy = grossJpy - fee;
 
+      // Minimum payout threshold: ¥3,000
+      if (netJpy < 3000) {
+        return res.status(400).json({
+          error: { message: '振込金額が¥3,000未満のため、次月以降に繰り越されます' }
+        });
+      }
+
       // Update monthly stats to paid
       await dbPool.query(`
         UPDATE salesperson_monthly_stats
@@ -304,15 +311,18 @@ module.exports = async function handler(req, res) {
         WHERE salesperson_id = $1 AND year_month = ANY($2) AND payout_status = 'pending'
       `, [salesperson_id, year_months, exchange_rate_jpy, fee, netJpy]);
 
-      // Send email notification
-      await sendAmbassadorPayoutEmail(ambassador, {
-        year_months,
-        royalty_usd: totalRoyaltyUsd,
-        exchange_rate_jpy: parseFloat(exchange_rate_jpy),
-        gross_payout_jpy: grossJpy,
-        transfer_fee_jpy: fee,
-        net_payout_jpy: netJpy
-      });
+      // Send email notification if requested
+      let emailSent = false;
+      if (send_email && ambassador.email) {
+        emailSent = await sendAmbassadorPayoutEmail(ambassador, {
+          year_months,
+          royalty_usd: totalRoyaltyUsd,
+          exchange_rate_jpy: parseFloat(exchange_rate_jpy),
+          gross_payout_jpy: grossJpy,
+          transfer_fee_jpy: fee,
+          net_payout_jpy: netJpy
+        });
+      }
 
       return res.json({
         success: true,
@@ -324,7 +334,8 @@ module.exports = async function handler(req, res) {
           gross_jpy: grossJpy,
           transfer_fee_jpy: fee,
           net_payout_jpy: netJpy
-        }
+        },
+        email_sent: emailSent
       });
 
     } else {

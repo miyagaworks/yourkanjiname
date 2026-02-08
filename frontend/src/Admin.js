@@ -69,7 +69,8 @@ function Admin() {
   const [selectedSalespersonPayout, setSelectedSalespersonPayout] = useState(null);
   const [salespersonPayoutForm, setSalespersonPayoutForm] = useState({
     exchange_rate_jpy: '',
-    transfer_fee_jpy: '0'
+    transfer_fee_jpy: '0',
+    send_email: true
   });
   const [processingSalespersonPayout, setProcessingSalespersonPayout] = useState(false);
 
@@ -342,21 +343,54 @@ function Admin() {
     setSelectedSalespersonPayout(payout);
     setSalespersonPayoutForm({
       exchange_rate_jpy: '',
-      transfer_fee_jpy: '0'
+      transfer_fee_jpy: '0',
+      send_email: true
     });
-    // Auto-fetch month-end rate
-    fetchMonthEndRate(payout.months, setSalespersonPayoutForm);
   };
 
-  // Calculate salesperson payout amounts
+  // Fetch historical exchange rate for salesperson (same as partner)
+  const fetchSalespersonHistoricalRate = async (date) => {
+    setFetchingRate(true);
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      // Extract year_month from date (YYYY-MM-DD -> YYYY-MM)
+      const yearMonth = date.substring(0, 7);
+
+      // Try database first
+      const dbResponse = await fetch(`${API_BASE_URL}/admin/exchange-rates?year_month=${yearMonth}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const dbData = await dbResponse.json();
+
+      if (dbData.success && dbData.rate) {
+        setSalespersonPayoutForm(prev => ({ ...prev, exchange_rate_jpy: dbData.rate.usd_jpy.toString() }));
+        setMessage({ type: 'success', text: `${yearMonth}の保存済みレートを適用: ¥${dbData.rate.usd_jpy.toFixed(2)}` });
+      } else {
+        // Fallback to API
+        const response = await fetch(`https://api.frankfurter.app/${date}?from=USD&to=JPY`);
+        const data = await response.json();
+        if (data.rates && data.rates.JPY) {
+          setSalespersonPayoutForm(prev => ({ ...prev, exchange_rate_jpy: data.rates.JPY.toString() }));
+          setMessage({ type: 'success', text: `${date}のレートを取得: ¥${data.rates.JPY.toFixed(2)}` });
+        }
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: 'レート取得に失敗しました' });
+    }
+    setFetchingRate(false);
+  };
+
+  // Calculate salesperson payout amounts (same as partner)
   const calculateSalespersonPayoutAmounts = () => {
     if (!selectedSalespersonPayout || !salespersonPayoutForm.exchange_rate_jpy) return null;
+
+    const rate = parseFloat(salespersonPayoutForm.exchange_rate_jpy);
     const royaltyUsd = selectedSalespersonPayout.total_royalty;
-    const exchangeRate = parseFloat(salespersonPayoutForm.exchange_rate_jpy);
+    const grossJpy = Math.round(royaltyUsd * rate);
     const fee = parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0;
-    const grossJpy = Math.round(royaltyUsd * exchangeRate);
     const netJpy = grossJpy - fee;
-    return { royaltyUsd, exchangeRate, fee, grossJpy, netJpy };
+
+    return { royaltyUsd, grossJpy, fee, netJpy };
   };
 
   // Process salesperson payout
@@ -382,7 +416,8 @@ function Admin() {
           salesperson_id: selectedSalespersonPayout.salesperson_id,
           year_months: selectedSalespersonPayout.months.map(m => m.year_month),
           exchange_rate_jpy: parseFloat(salespersonPayoutForm.exchange_rate_jpy),
-          transfer_fee_jpy: parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0
+          transfer_fee_jpy: parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0,
+          send_email: salespersonPayoutForm.send_email
         })
       });
       const data = await response.json();
@@ -939,28 +974,22 @@ function Admin() {
             書道申込
           </button>
           <button
-            className={activeTab === 'partners' ? 'active' : ''}
-            onClick={() => handleTabChange('partners')}
-          >
-            パートナー
-          </button>
-          <button
             className={activeTab === 'payments' ? 'active' : ''}
             onClick={() => handleTabChange('payments')}
           >
             決済
           </button>
           <button
+            className={activeTab === 'partners' ? 'active' : ''}
+            onClick={() => handleTabChange('partners')}
+          >
+            パートナー
+          </button>
+          <button
             className={activeTab === 'payouts' ? 'active' : ''}
             onClick={() => handleTabChange('payouts')}
           >
-            支払い
-          </button>
-          <button
-            className={activeTab === 'demo' ? 'active' : ''}
-            onClick={() => handleTabChange('demo')}
-          >
-            デモ
+            パートナー支払い
           </button>
           <button
             className={activeTab === 'salespersons' ? 'active' : ''}
@@ -972,7 +1001,13 @@ function Admin() {
             className={activeTab === 'sp-payouts' ? 'active' : ''}
             onClick={() => handleTabChange('sp-payouts')}
           >
-            営業支払い
+            アンバサダー支払い
+          </button>
+          <button
+            className={activeTab === 'demo' ? 'active' : ''}
+            onClick={() => handleTabChange('demo')}
+          >
+            デモ
           </button>
         </nav>
         <button onClick={handleLogout} className="logout-btn">ログアウト</button>
@@ -1808,6 +1843,7 @@ function Admin() {
                       {(() => {
                         const amounts = calculatePayoutAmounts();
                         if (!amounts) return null;
+                        const isBelowMinimum = amounts.netJpy < 3000;
                         return (
                           <>
                             <div className="payout-detail-row">
@@ -1820,10 +1856,15 @@ function Admin() {
                             </div>
                             <div className="payout-detail-row total">
                               <span>お振込金額:</span>
-                              <span className={amounts.netJpy < 0 ? 'error' : 'highlight-amount'}>
+                              <span className={amounts.netJpy < 0 ? 'error' : isBelowMinimum ? 'warning' : 'highlight-amount'}>
                                 ¥{amounts.netJpy.toLocaleString()}
                               </span>
                             </div>
+                            {isBelowMinimum && amounts.netJpy >= 0 && (
+                              <div className="minimum-payout-warning">
+                                ※ 振込金額が¥3,000未満のため、次月以降に繰り越されます
+                              </div>
+                            )}
                           </>
                         );
                       })()}
@@ -1833,7 +1874,7 @@ function Admin() {
                   <div className="form-actions">
                     <button
                       onClick={handleProcessPayout}
-                      disabled={!payoutForm.exchange_rate_jpy || processingPayout}
+                      disabled={!payoutForm.exchange_rate_jpy || processingPayout || (calculatePayoutAmounts()?.netJpy < 3000)}
                       className="submit-btn"
                     >
                       {processingPayout ? '処理中...' : '支払い完了として記録'}
@@ -2391,13 +2432,24 @@ function Admin() {
                           required
                         />
                         <div className="rate-buttons">
+                          {selectedSalespersonPayout.months?.map(m => (
+                            <button
+                              key={m.year_month}
+                              type="button"
+                              onClick={() => fetchSalespersonHistoricalRate(getLastDayOfMonth(m.year_month))}
+                              disabled={fetchingRate}
+                              className="fetch-rate-btn"
+                            >
+                              {m.year_month}月末
+                            </button>
+                          ))}
                           <button
                             type="button"
                             onClick={fetchSalespersonExchangeRate}
                             disabled={fetchingRate}
                             className="fetch-rate-btn current"
                           >
-                            {fetchingRate ? '取得中...' : '現在レート取得'}
+                            {fetchingRate ? '取得中...' : '現在'}
                           </button>
                         </div>
                       </div>
@@ -2411,6 +2463,16 @@ function Admin() {
                         placeholder="0"
                       />
                     </div>
+                    <div className="form-row checkbox-row">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={salespersonPayoutForm.send_email}
+                          onChange={(e) => setSalespersonPayoutForm({...salespersonPayoutForm, send_email: e.target.checked})}
+                        />
+                        アンバサダーにメール通知を送信
+                      </label>
+                    </div>
                   </div>
 
                   {salespersonPayoutForm.exchange_rate_jpy && (
@@ -2419,6 +2481,7 @@ function Admin() {
                       {(() => {
                         const amounts = calculateSalespersonPayoutAmounts();
                         if (!amounts) return null;
+                        const isBelowMinimum = amounts.netJpy < 3000;
                         return (
                           <>
                             <div className="payout-detail-row">
@@ -2431,10 +2494,15 @@ function Admin() {
                             </div>
                             <div className="payout-detail-row total">
                               <span>お振込金額:</span>
-                              <span className={amounts.netJpy < 0 ? 'error' : 'highlight-amount'}>
+                              <span className={amounts.netJpy < 0 ? 'error' : isBelowMinimum ? 'warning' : 'highlight-amount'}>
                                 ¥{amounts.netJpy.toLocaleString()}
                               </span>
                             </div>
+                            {isBelowMinimum && amounts.netJpy >= 0 && (
+                              <div className="minimum-payout-warning">
+                                ※ 振込金額が¥3,000未満のため、次月以降に繰り越されます
+                              </div>
+                            )}
                           </>
                         );
                       })()}
@@ -2444,7 +2512,7 @@ function Admin() {
                   <div className="form-actions">
                     <button
                       onClick={handleProcessSalespersonPayout}
-                      disabled={!salespersonPayoutForm.exchange_rate_jpy || processingSalespersonPayout}
+                      disabled={!salespersonPayoutForm.exchange_rate_jpy || processingSalespersonPayout || (calculateSalespersonPayoutAmounts()?.netJpy < 3000)}
                       className="submit-btn"
                     >
                       {processingSalespersonPayout ? '処理中...' : '支払い完了として記録'}
