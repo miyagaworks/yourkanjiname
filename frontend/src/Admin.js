@@ -344,6 +344,8 @@ function Admin() {
       exchange_rate_jpy: '',
       transfer_fee_jpy: '0'
     });
+    // Auto-fetch month-end rate
+    fetchMonthEndRate(payout.months, setSalespersonPayoutForm);
   };
 
   // Calculate salesperson payout amounts
@@ -559,6 +561,36 @@ function Admin() {
     return `${yearMonth}-${String(lastDay).padStart(2, '0')}`;
   };
 
+  // Fetch month-end exchange rate automatically
+  const fetchMonthEndRate = async (months, setFormFn) => {
+    if (!months || months.length === 0) return;
+
+    // Get the most recent month from the selection
+    const sortedMonths = [...months].sort((a, b) => {
+      const monthA = a.year_month || a;
+      const monthB = b.year_month || b;
+      return monthB.localeCompare(monthA);
+    });
+    const latestMonth = sortedMonths[0].year_month || sortedMonths[0];
+    const lastDay = getLastDayOfMonth(latestMonth);
+
+    setFetchingRate(true);
+    try {
+      const response = await fetch(`https://api.frankfurter.app/${lastDay}?from=USD&to=JPY`);
+      const data = await response.json();
+      if (data.rates && data.rates.JPY) {
+        setFormFn(prev => ({
+          ...prev,
+          exchange_rate_jpy: data.rates.JPY.toFixed(2)
+        }));
+        setMessage({ type: 'success', text: `${lastDay}（月末）の為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+      }
+    } catch (error) {
+      console.error('Failed to fetch month-end rate:', error);
+    }
+    setFetchingRate(false);
+  };
+
   // Open payout modal
   const openPayoutModal = (payout) => {
     setSelectedPayout(payout);
@@ -567,6 +599,8 @@ function Admin() {
       transfer_fee_jpy: '0',
       send_email: true
     });
+    // Auto-fetch month-end rate
+    fetchMonthEndRate(payout.months, setPayoutForm);
   };
 
   // Calculate payout amounts
