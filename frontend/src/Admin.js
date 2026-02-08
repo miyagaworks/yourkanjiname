@@ -1156,7 +1156,7 @@ function Admin() {
                         value={partnerForm.salesperson_id}
                         onChange={(e) => {
                           const selectedId = e.target.value;
-                          const selectedSp = salespersons.find(s => s.id === selectedId);
+                          const selectedSp = salespersons.find(s => String(s.id) === selectedId);
                           setPartnerForm({
                             ...partnerForm,
                             salesperson_id: selectedId,
@@ -1403,7 +1403,7 @@ function Admin() {
                         value={editingPartner.salesperson_id || ''}
                         onChange={(e) => {
                           const selectedId = e.target.value || null;
-                          const selectedSp = salespersons.find(s => s.id === selectedId);
+                          const selectedSp = selectedId ? salespersons.find(s => String(s.id) === selectedId) : null;
                           setEditingPartner({
                             ...editingPartner,
                             salesperson_id: selectedId,
