@@ -167,7 +167,7 @@ module.exports = async function handler(req, res) {
 
   try {
     if (req.method === 'GET') {
-      // Get pending payouts grouped by partner with bank info
+      // Get pending payouts grouped by partner with bank info (exclude current month)
       const pendingResult = await dbPool.query(`
         SELECT
           p.id as partner_id,
@@ -187,6 +187,7 @@ module.exports = async function handler(req, res) {
         FROM partners p
         JOIN partner_monthly_stats pms ON p.id = pms.partner_id
         WHERE pms.payout_status = 'pending'
+          AND pms.year_month < TO_CHAR(NOW(), 'YYYY-MM')
         GROUP BY p.id
         ORDER BY pending_royalty DESC
       `);
@@ -213,12 +214,12 @@ module.exports = async function handler(req, res) {
         LIMIT 200
       `);
 
-      // Get payout summary
+      // Get payout summary (exclude current month from pending)
       const summaryResult = await dbPool.query(`
         SELECT
-          COALESCE(SUM(CASE WHEN payout_status = 'pending' THEN royalty_amount ELSE 0 END), 0) as total_pending,
+          COALESCE(SUM(CASE WHEN payout_status = 'pending' AND year_month < TO_CHAR(NOW(), 'YYYY-MM') THEN royalty_amount ELSE 0 END), 0) as total_pending,
           COALESCE(SUM(CASE WHEN payout_status = 'paid' THEN royalty_amount ELSE 0 END), 0) as total_paid,
-          COUNT(DISTINCT CASE WHEN payout_status = 'pending' THEN partner_id END) as partners_pending
+          COUNT(DISTINCT CASE WHEN payout_status = 'pending' AND year_month < TO_CHAR(NOW(), 'YYYY-MM') THEN partner_id END) as partners_pending
         FROM partner_monthly_stats
       `);
 
