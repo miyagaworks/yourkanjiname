@@ -1606,7 +1606,7 @@ function Admin() {
                     <td data-label="パートナー">{s.partner_name}</td>
                     <td data-label="対象月">{s.year_month}</td>
                     <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
-                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${s.exchange_rate_jpy.toFixed(2)}` : '-'}</td>
+                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${parseFloat(s.exchange_rate_jpy).toFixed(2)}` : '-'}</td>
                     <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
                     <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
                     <td data-label="支払日">{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
@@ -2247,7 +2247,7 @@ function Admin() {
                     <td data-label="アンバサダー">{s.name}</td>
                     <td data-label="対象月">{s.year_month}</td>
                     <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
-                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${s.exchange_rate_jpy.toFixed(2)}` : '-'}</td>
+                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${parseFloat(s.exchange_rate_jpy).toFixed(2)}` : '-'}</td>
                     <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
                     <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
                     <td data-label="支払日">{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
