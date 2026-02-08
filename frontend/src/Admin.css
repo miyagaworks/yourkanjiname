@@ -86,7 +86,7 @@
 
 .admin-header h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .logout-btn {
@@ -431,7 +431,7 @@
   }
 
   .admin-header h1 {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .logout-btn {
@@ -1940,7 +1940,7 @@
 /* Extra small screens */
 @media (max-width: 400px) {
   .admin-header h1 {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .welcome-text {
