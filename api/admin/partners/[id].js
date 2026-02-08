@@ -52,13 +52,16 @@ module.exports = async function handler(req, res) {
         SELECT
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
           p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.price_usd, p.status,
+          p.salesperson_id, p.salesperson_contract_start, p.salesperson_contract_months,
+          s.name as salesperson_name,
           p.created_at, p.updated_at,
           COALESCE(COUNT(pay.id), 0) as total_payments,
           COALESCE(SUM(CASE WHEN pay.status = 'succeeded' THEN pay.amount ELSE 0 END), 0) as total_revenue
         FROM partners p
+        LEFT JOIN salespersons s ON p.salesperson_id = s.id
         LEFT JOIN payments pay ON p.id = pay.partner_id
         WHERE p.id = $1
-        GROUP BY p.id
+        GROUP BY p.id, s.name
       `, [partnerId]);
 
       if (result.rows.length === 0) {
@@ -109,7 +112,10 @@ module.exports = async function handler(req, res) {
         bank_account,
         royalty_rate,
         price_usd,
-        status
+        status,
+        salesperson_id,
+        salesperson_contract_start,
+        salesperson_contract_months
       } = req.body;
 
       // Build update query dynamically
@@ -205,6 +211,24 @@ module.exports = async function handler(req, res) {
         values.push(status);
       }
 
+      if (salesperson_id !== undefined) {
+        paramCount++;
+        updates.push(`salesperson_id = $${paramCount}`);
+        values.push(salesperson_id || null);
+      }
+
+      if (salesperson_contract_start !== undefined) {
+        paramCount++;
+        updates.push(`salesperson_contract_start = $${paramCount}`);
+        values.push(salesperson_contract_start || null);
+      }
+
+      if (salesperson_contract_months !== undefined) {
+        paramCount++;
+        updates.push(`salesperson_contract_months = $${paramCount}`);
+        values.push(salesperson_contract_months || null);
+      }
+
       if (updates.length === 0) {
         return res.status(400).json({
           error: { code: 'INVALID_REQUEST', message: 'No fields to update' }
@@ -220,7 +244,9 @@ module.exports = async function handler(req, res) {
         SET ${updates.join(', ')}, updated_at = NOW()
         WHERE id = $${paramCount}
         RETURNING id, code, name, email, contact_name, phone, address,
-                  bank_name, bank_branch, bank_account, royalty_rate, price_usd, status, created_at, updated_at
+                  bank_name, bank_branch, bank_account, royalty_rate, price_usd, status,
+                  salesperson_id, salesperson_contract_start, salesperson_contract_months,
+                  created_at, updated_at
       `;
 
       const result = await dbPool.query(updateQuery, values);

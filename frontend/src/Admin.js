@@ -23,7 +23,8 @@ function Admin() {
   const [showPartnerForm, setShowPartnerForm] = useState(false);
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
-    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00'
+    phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00',
+    salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12'
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -52,6 +53,25 @@ function Admin() {
     max_uses: 1,
     expires_hours: 24
   });
+
+  // Salesperson management state
+  const [salespersons, setSalespersons] = useState([]);
+  const [showSalespersonForm, setShowSalespersonForm] = useState(false);
+  const [salespersonForm, setSalespersonForm] = useState({
+    code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10'
+  });
+  const [editingSalesperson, setEditingSalesperson] = useState(null);
+
+  // Salesperson payouts state
+  const [salespersonPayouts, setSalespersonPayouts] = useState([]);
+  const [salespersonPayoutStats, setSalespersonPayoutStats] = useState([]);
+  const [salespersonPayoutSummary, setSalespersonPayoutSummary] = useState(null);
+  const [selectedSalespersonPayout, setSelectedSalespersonPayout] = useState(null);
+  const [salespersonPayoutForm, setSalespersonPayoutForm] = useState({
+    exchange_rate_jpy: '',
+    transfer_fee_jpy: '0'
+  });
+  const [processingSalespersonPayout, setProcessingSalespersonPayout] = useState(false);
 
   // Fetch demo codes
   const fetchDemoCodes = async () => {
@@ -210,14 +230,186 @@ function Admin() {
     }
   };
 
+  // Fetch salespersons
+  const fetchSalespersons = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salespersons`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.salespersons) {
+        setSalespersons(data.salespersons);
+      }
+    } catch (error) {
+      console.error('Failed to fetch salespersons:', error);
+    }
+  };
+
+  // Create salesperson
+  const handleCreateSalesperson = async (e) => {
+    e.preventDefault();
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salespersons`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(salespersonForm)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: '営業マンを作成しました' });
+        setShowSalespersonForm(false);
+        setSalespersonForm({ code: '', name: '', email: '', password: '', phone: '', royalty_rate: '0.10' });
+        fetchSalespersons();
+      } else {
+        throw new Error(data.error?.message || '営業マン作成に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Update salesperson
+  const handleUpdateSalesperson = async (salespersonId, updates) => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salespersons/${salespersonId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(updates)
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: '営業マンを更新しました' });
+        setEditingSalesperson(null);
+        fetchSalespersons();
+      } else {
+        throw new Error(data.error?.message || '更新に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Delete salesperson
+  const handleDeleteSalesperson = async (salespersonId, salespersonName) => {
+    if (!window.confirm(`「${salespersonName}」を削除しますか？`)) return;
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salespersons/${salespersonId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: '営業マンを削除しました' });
+        fetchSalespersons();
+      } else {
+        throw new Error(data.error?.message || '削除に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+  };
+
+  // Fetch salesperson payouts
+  const fetchSalespersonPayouts = async () => {
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salesperson-payouts`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      if (data.success) {
+        setSalespersonPayouts(data.pending_payouts || []);
+        setSalespersonPayoutStats(data.all_stats || []);
+        setSalespersonPayoutSummary(data.summary);
+      }
+    } catch (error) {
+      console.error('Failed to fetch salesperson payouts:', error);
+    }
+  };
+
+  // Open salesperson payout modal
+  const openSalespersonPayoutModal = (payout) => {
+    setSelectedSalespersonPayout(payout);
+    setSalespersonPayoutForm({
+      exchange_rate_jpy: '',
+      transfer_fee_jpy: '0'
+    });
+  };
+
+  // Calculate salesperson payout amounts
+  const calculateSalespersonPayoutAmounts = () => {
+    if (!selectedSalespersonPayout || !salespersonPayoutForm.exchange_rate_jpy) return null;
+    const royaltyUsd = selectedSalespersonPayout.total_royalty;
+    const exchangeRate = parseFloat(salespersonPayoutForm.exchange_rate_jpy);
+    const fee = parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0;
+    const grossJpy = Math.round(royaltyUsd * exchangeRate);
+    const netJpy = grossJpy - fee;
+    return { royaltyUsd, exchangeRate, fee, grossJpy, netJpy };
+  };
+
+  // Process salesperson payout
+  const handleProcessSalespersonPayout = async () => {
+    if (!selectedSalespersonPayout) return;
+
+    const amounts = calculateSalespersonPayoutAmounts();
+    if (!amounts || amounts.netJpy < 0) {
+      setMessage({ type: 'error', text: '為替レートを正しく入力してください' });
+      return;
+    }
+
+    setProcessingSalespersonPayout(true);
+    try {
+      const token = sessionStorage.getItem('adminSession');
+      const response = await fetch(`${API_BASE_URL}/admin/salesperson-payouts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          salesperson_id: selectedSalespersonPayout.salesperson_id,
+          year_months: selectedSalespersonPayout.months.map(m => m.year_month),
+          exchange_rate_jpy: parseFloat(salespersonPayoutForm.exchange_rate_jpy),
+          transfer_fee_jpy: parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0
+        })
+      });
+      const data = await response.json();
+      if (data.success) {
+        setMessage({ type: 'success', text: '支払い完了としてマークしました' });
+        setSelectedSalespersonPayout(null);
+        fetchSalespersonPayouts();
+      } else {
+        throw new Error(data.error?.message || '処理に失敗しました');
+      }
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    }
+    setProcessingSalespersonPayout(false);
+  };
+
   // Handle tab change
   const handleTabChange = (tab) => {
     setActiveTab(tab);
-    if (tab === 'partners') fetchPartners();
+    if (tab === 'partners') {
+      fetchPartners();
+      fetchSalespersons(); // Need salespersons for partner form
+    }
     else if (tab === 'payments') fetchPayments();
     else if (tab === 'payouts') fetchPayouts();
     else if (tab === 'calligraphy') fetchRequests();
     else if (tab === 'demo') fetchDemoCodes();
+    else if (tab === 'salespersons') fetchSalespersons();
+    else if (tab === 'sp-payouts') fetchSalespersonPayouts();
   };
 
   // Create partner
@@ -239,7 +431,8 @@ function Admin() {
         setShowPartnerForm(false);
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
-          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00'
+          phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '6.00',
+          salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12'
         });
         fetchPartners();
       } else {
@@ -681,6 +874,18 @@ function Admin() {
           >
             デモ
           </button>
+          <button
+            className={activeTab === 'salespersons' ? 'active' : ''}
+            onClick={() => handleTabChange('salespersons')}
+          >
+            営業マン
+          </button>
+          <button
+            className={activeTab === 'sp-payouts' ? 'active' : ''}
+            onClick={() => handleTabChange('sp-payouts')}
+          >
+            営業支払い
+          </button>
         </nav>
         <button onClick={handleLogout} className="logout-btn">ログアウト</button>
       </header>
@@ -945,6 +1150,43 @@ function Admin() {
                         <option value="12.00">$12.00</option>
                       </select>
                     </div>
+                    <div className="form-row">
+                      <label>紹介営業マン</label>
+                      <select
+                        value={partnerForm.salesperson_id}
+                        onChange={(e) => setPartnerForm({...partnerForm, salesperson_id: e.target.value})}
+                      >
+                        <option value="">なし（直接契約）</option>
+                        {salespersons.filter(s => s.status === 'active').map(s => (
+                          <option key={s.id} value={s.id}>{s.name} ({s.code})</option>
+                        ))}
+                      </select>
+                    </div>
+                    {partnerForm.salesperson_id && (
+                      <>
+                        <div className="form-row">
+                          <label>営業契約開始日</label>
+                          <input
+                            type="date"
+                            value={partnerForm.salesperson_contract_start}
+                            onChange={(e) => setPartnerForm({...partnerForm, salesperson_contract_start: e.target.value})}
+                            required
+                          />
+                        </div>
+                        <div className="form-row">
+                          <label>営業契約期間（月）</label>
+                          <select
+                            value={partnerForm.salesperson_contract_months}
+                            onChange={(e) => setPartnerForm({...partnerForm, salesperson_contract_months: e.target.value})}
+                          >
+                            <option value="6">6ヶ月</option>
+                            <option value="12">12ヶ月</option>
+                            <option value="18">18ヶ月</option>
+                            <option value="24">24ヶ月</option>
+                          </select>
+                        </div>
+                      </>
+                    )}
                     <div className="form-actions">
                       <button type="submit" className="submit-btn">作成</button>
                       <button type="button" onClick={() => setShowPartnerForm(false)} className="cancel-btn">
@@ -1025,7 +1267,10 @@ function Admin() {
                       bank_account: editingPartner.bank_account,
                       royalty_rate: editingPartner.royalty_rate,
                       price_usd: editingPartner.price_usd || '6.00',
-                      status: editingPartner.status
+                      status: editingPartner.status,
+                      salesperson_id: editingPartner.salesperson_id || null,
+                      salesperson_contract_start: editingPartner.salesperson_contract_start || null,
+                      salesperson_contract_months: editingPartner.salesperson_contract_months || null
                     };
                     if (editingPartner.new_password) {
                       updates.password = editingPartner.new_password;
@@ -1143,6 +1388,42 @@ function Admin() {
                         <option value="inactive">無効</option>
                       </select>
                     </div>
+                    <div className="form-row">
+                      <label>紹介営業マン</label>
+                      <select
+                        value={editingPartner.salesperson_id || ''}
+                        onChange={(e) => setEditingPartner({...editingPartner, salesperson_id: e.target.value || null})}
+                      >
+                        <option value="">なし（直接契約）</option>
+                        {salespersons.filter(s => s.status === 'active').map(s => (
+                          <option key={s.id} value={s.id}>{s.name} ({s.code})</option>
+                        ))}
+                      </select>
+                    </div>
+                    {editingPartner.salesperson_id && (
+                      <>
+                        <div className="form-row">
+                          <label>営業契約開始日</label>
+                          <input
+                            type="date"
+                            value={editingPartner.salesperson_contract_start?.split('T')[0] || ''}
+                            onChange={(e) => setEditingPartner({...editingPartner, salesperson_contract_start: e.target.value})}
+                          />
+                        </div>
+                        <div className="form-row">
+                          <label>営業契約期間（月）</label>
+                          <select
+                            value={editingPartner.salesperson_contract_months || '12'}
+                            onChange={(e) => setEditingPartner({...editingPartner, salesperson_contract_months: e.target.value})}
+                          >
+                            <option value="6">6ヶ月</option>
+                            <option value="12">12ヶ月</option>
+                            <option value="18">18ヶ月</option>
+                            <option value="24">24ヶ月</option>
+                          </select>
+                        </div>
+                      </>
+                    )}
                     <div className="form-actions">
                       <button type="submit" className="submit-btn">更新</button>
                       <button type="button" onClick={() => setEditingPartner(null)} className="cancel-btn">
@@ -1596,6 +1877,449 @@ function Admin() {
                       </button>
                     </div>
                   </form>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Salespersons Tab */}
+        {activeTab === 'salespersons' && (
+          <div className="salespersons-section">
+            <div className="section-header">
+              <h2>営業マン一覧 ({salespersons.length}件)</h2>
+              <button onClick={() => setShowSalespersonForm(true)} className="add-btn">
+                + 新規営業マン
+              </button>
+            </div>
+
+            {showSalespersonForm && (
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setShowSalespersonForm(false); }}>
+                <div className="partner-form">
+                  <div className="modal-header">
+                    <h3>新規営業マン作成</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setShowSalespersonForm(false)}>&times;</button>
+                  </div>
+                  <form onSubmit={handleCreateSalesperson}>
+                    <div className="form-row">
+                      <label>コード (ID)</label>
+                      <input
+                        type="text"
+                        value={salespersonForm.code}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, code: e.target.value})}
+                        placeholder="例: tanaka"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>氏名</label>
+                      <input
+                        type="text"
+                        value={salespersonForm.name}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, name: e.target.value})}
+                        placeholder="例: 田中太郎"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>メールアドレス</label>
+                      <input
+                        type="email"
+                        value={salespersonForm.email}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, email: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>パスワード</label>
+                      <input
+                        type="password"
+                        value={salespersonForm.password}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, password: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>電話番号</label>
+                      <input
+                        type="tel"
+                        value={salespersonForm.phone}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>ロイヤリティ率</label>
+                      <select
+                        value={salespersonForm.royalty_rate}
+                        onChange={(e) => setSalespersonForm({...salespersonForm, royalty_rate: e.target.value})}
+                      >
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
+                        <option value="0.20">20%</option>
+                      </select>
+                    </div>
+                    <div className="form-actions">
+                      <button type="submit" className="submit-btn">作成</button>
+                      <button type="button" onClick={() => setShowSalespersonForm(false)} className="cancel-btn">
+                        キャンセル
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+
+            <table className="partners-table">
+              <thead>
+                <tr>
+                  <th>コード</th>
+                  <th>氏名</th>
+                  <th>メール</th>
+                  <th>ロイヤリティ率</th>
+                  <th>紹介パートナー数</th>
+                  <th>総売上</th>
+                  <th>状態</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salespersons.map(sp => (
+                  <tr key={sp.id}>
+                    <td data-label="コード"><code>{sp.code}</code></td>
+                    <td data-label="氏名">{sp.name}</td>
+                    <td data-label="メール">{sp.email}</td>
+                    <td data-label="率">{(sp.royalty_rate * 100).toFixed(0)}%</td>
+                    <td data-label="パートナー数">{sp.partner_count || 0}</td>
+                    <td data-label="総売上">${sp.total_revenue?.toFixed(2) || '0.00'}</td>
+                    <td data-label="状態">
+                      <span className={`status-badge status-${sp.status}`}>
+                        {sp.status === 'active' ? '有効' : '無効'}
+                      </span>
+                    </td>
+                    <td className="action-cell">
+                      <button
+                        onClick={() => setEditingSalesperson({
+                          ...sp,
+                          royalty_rate: parseFloat(sp.royalty_rate).toFixed(2)
+                        })}
+                        className="edit-btn"
+                      >
+                        編集
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSalesperson(sp.id, sp.name)}
+                        className="delete-btn"
+                      >
+                        削除
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {salespersons.length === 0 && (
+              <p className="no-data">営業マンはまだ登録されていません</p>
+            )}
+
+            {editingSalesperson && (
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget) setEditingSalesperson(null); }}>
+                <div className="partner-form">
+                  <div className="modal-header">
+                    <h3>営業マン編集: {editingSalesperson.name}</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setEditingSalesperson(null)}>&times;</button>
+                  </div>
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    const updates = {
+                      name: editingSalesperson.name,
+                      email: editingSalesperson.email,
+                      phone: editingSalesperson.phone,
+                      royalty_rate: editingSalesperson.royalty_rate,
+                      status: editingSalesperson.status
+                    };
+                    if (editingSalesperson.new_password) {
+                      updates.password = editingSalesperson.new_password;
+                    }
+                    handleUpdateSalesperson(editingSalesperson.id, updates);
+                  }}>
+                    <div className="form-row">
+                      <label>氏名</label>
+                      <input
+                        type="text"
+                        value={editingSalesperson.name}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, name: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>メールアドレス</label>
+                      <input
+                        type="email"
+                        value={editingSalesperson.email}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, email: e.target.value})}
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>電話番号</label>
+                      <input
+                        type="tel"
+                        value={editingSalesperson.phone || ''}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, phone: e.target.value})}
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>ロイヤリティ率</label>
+                      <select
+                        value={editingSalesperson.royalty_rate}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, royalty_rate: e.target.value})}
+                      >
+                        <option value="0.05">5%</option>
+                        <option value="0.10">10%</option>
+                        <option value="0.15">15%</option>
+                        <option value="0.20">20%</option>
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>パスワードリセット</label>
+                      <input
+                        type="text"
+                        value={editingSalesperson.new_password || ''}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, new_password: e.target.value})}
+                        placeholder="新しいパスワードを入力（変更する場合のみ）"
+                      />
+                      <small className="form-hint">空欄の場合は変更されません</small>
+                    </div>
+                    <div className="form-row">
+                      <label>状態</label>
+                      <select
+                        value={editingSalesperson.status}
+                        onChange={(e) => setEditingSalesperson({...editingSalesperson, status: e.target.value})}
+                      >
+                        <option value="active">有効</option>
+                        <option value="inactive">無効</option>
+                      </select>
+                    </div>
+                    <div className="form-actions">
+                      <button type="submit" className="submit-btn">更新</button>
+                      <button type="button" onClick={() => setEditingSalesperson(null)} className="cancel-btn">
+                        キャンセル
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Salesperson Payouts Tab */}
+        {activeTab === 'sp-payouts' && (
+          <div className="payouts-section">
+            <h2>営業マン支払い管理</h2>
+
+            {salespersonPayoutSummary && (
+              <div className="payout-summary">
+                <div className="stat-card highlight">
+                  <div className="stat-label">未払い総額</div>
+                  <div className="stat-value">${salespersonPayoutSummary.total_pending?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">支払い済み総額</div>
+                  <div className="stat-value">${salespersonPayoutSummary.total_paid?.toFixed(2) || '0.00'}</div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-label">対象営業マン数</div>
+                  <div className="stat-value">{salespersonPayoutSummary.salespersons_pending || 0}</div>
+                </div>
+              </div>
+            )}
+
+            <h3>未払い営業マン</h3>
+            <table className="payouts-table">
+              <thead>
+                <tr>
+                  <th>営業マン</th>
+                  <th>対象月</th>
+                  <th>決済数</th>
+                  <th>売上</th>
+                  <th>ロイヤリティ</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salespersonPayouts.map(sp => (
+                  <tr key={sp.salesperson_id}>
+                    <td data-label="営業マン">
+                      <strong>{sp.name}</strong>
+                      <br />
+                      <small className="muted">{sp.code}</small>
+                    </td>
+                    <td data-label="対象月">{sp.months?.map(m => m.year_month).join(', ') || '-'}</td>
+                    <td data-label="決済数">{sp.months?.reduce((sum, m) => sum + m.total_payments, 0) || 0}</td>
+                    <td data-label="売上">${sp.months?.reduce((sum, m) => sum + m.total_revenue, 0).toFixed(2) || '0.00'}</td>
+                    <td data-label="ロイヤリティ" className="royalty-amount">${sp.total_royalty?.toFixed(2)}</td>
+                    <td>
+                      <button
+                        onClick={() => openSalespersonPayoutModal(sp)}
+                        className="paid-btn"
+                      >
+                        支払い処理
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {salespersonPayouts.length === 0 && (
+              <p className="no-data">未払いの支払いはありません</p>
+            )}
+
+            {/* Salesperson Payout History */}
+            <h3 style={{ marginTop: '40px' }}>支払い履歴</h3>
+            <table className="payouts-table">
+              <thead>
+                <tr>
+                  <th>営業マン</th>
+                  <th>対象月</th>
+                  <th>ロイヤリティ</th>
+                  <th>為替レート</th>
+                  <th>振込手数料</th>
+                  <th>振込金額</th>
+                  <th>支払日</th>
+                </tr>
+              </thead>
+              <tbody>
+                {salespersonPayoutStats.filter(s => s.payout_status === 'paid').map(s => (
+                  <tr key={s.id}>
+                    <td data-label="営業マン">{s.name}</td>
+                    <td data-label="対象月">{s.year_month}</td>
+                    <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
+                    <td data-label="為替">{s.exchange_rate_jpy ? `¥${s.exchange_rate_jpy.toFixed(2)}` : '-'}</td>
+                    <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
+                    <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
+                    <td data-label="支払日">{s.paid_at ? new Date(s.paid_at).toLocaleDateString('ja-JP') : '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {salespersonPayoutStats.filter(s => s.payout_status === 'paid').length === 0 && (
+              <p className="no-data">支払い履歴はありません</p>
+            )}
+
+            {/* Salesperson Payout Modal */}
+            {selectedSalespersonPayout && (
+              <div className="partner-form-overlay" onClick={(e) => { if (e.target === e.currentTarget && !processingSalespersonPayout) setSelectedSalespersonPayout(null); }}>
+                <div className="partner-form payout-modal">
+                  <div className="modal-header">
+                    <h3>営業マン支払い処理</h3>
+                    <button type="button" className="modal-close-btn" onClick={() => setSelectedSalespersonPayout(null)} disabled={processingSalespersonPayout}>&times;</button>
+                  </div>
+
+                  <div className="payout-partner-info">
+                    <h4>{selectedSalespersonPayout.name}</h4>
+                    <p className="muted">{selectedSalespersonPayout.email}</p>
+                  </div>
+
+                  <div className="payout-details">
+                    <h4>支払い内容</h4>
+                    <div className="payout-detail-row">
+                      <span>対象月:</span>
+                      <span>{selectedSalespersonPayout.months?.map(m => m.year_month).join(', ')}</span>
+                    </div>
+                    <div className="payout-detail-row">
+                      <span>決済数:</span>
+                      <span>{selectedSalespersonPayout.months?.reduce((sum, m) => sum + m.total_payments, 0)}件</span>
+                    </div>
+                    <div className="payout-detail-row">
+                      <span>ロイヤリティ (USD):</span>
+                      <span className="highlight-amount">${selectedSalespersonPayout.total_royalty?.toFixed(2)}</span>
+                    </div>
+                  </div>
+
+                  <div className="payout-form">
+                    <div className="form-row">
+                      <label>為替レート (USD/JPY) *</label>
+                      <div className="exchange-rate-input-group">
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={salespersonPayoutForm.exchange_rate_jpy}
+                          onChange={(e) => setSalespersonPayoutForm({...salespersonPayoutForm, exchange_rate_jpy: e.target.value})}
+                          placeholder="例: 150.00"
+                          required
+                        />
+                        <div className="rate-buttons">
+                          <button
+                            type="button"
+                            onClick={fetchExchangeRate}
+                            disabled={fetchingRate}
+                            className="fetch-rate-btn current"
+                          >
+                            {fetchingRate ? '取得中...' : '現在レート取得'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <label>振込手数料 (円)</label>
+                      <input
+                        type="number"
+                        value={salespersonPayoutForm.transfer_fee_jpy}
+                        onChange={(e) => setSalespersonPayoutForm({...salespersonPayoutForm, transfer_fee_jpy: e.target.value})}
+                        placeholder="0"
+                      />
+                    </div>
+                  </div>
+
+                  {salespersonPayoutForm.exchange_rate_jpy && (
+                    <div className="payout-calculation">
+                      <h4>振込金額計算</h4>
+                      {(() => {
+                        const amounts = calculateSalespersonPayoutAmounts();
+                        if (!amounts) return null;
+                        return (
+                          <>
+                            <div className="payout-detail-row">
+                              <span>円換算額:</span>
+                              <span>¥{amounts.grossJpy.toLocaleString()}</span>
+                            </div>
+                            <div className="payout-detail-row">
+                              <span>振込手数料:</span>
+                              <span>-¥{amounts.fee.toLocaleString()}</span>
+                            </div>
+                            <div className="payout-detail-row total">
+                              <span>お振込金額:</span>
+                              <span className={amounts.netJpy < 0 ? 'error' : 'highlight-amount'}>
+                                ¥{amounts.netJpy.toLocaleString()}
+                              </span>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </div>
+                  )}
+
+                  <div className="form-actions">
+                    <button
+                      onClick={handleProcessSalespersonPayout}
+                      disabled={!salespersonPayoutForm.exchange_rate_jpy || processingSalespersonPayout}
+                      className="submit-btn"
+                    >
+                      {processingSalespersonPayout ? '処理中...' : '支払い完了として記録'}
+                    </button>
+                    <button
+                      onClick={() => setSelectedSalespersonPayout(null)}
+                      className="cancel-btn"
+                      disabled={processingSalespersonPayout}
+                    >
+                      キャンセル
+                    </button>
+                  </div>
                 </div>
               </div>
             )}

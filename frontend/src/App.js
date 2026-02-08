@@ -6,6 +6,7 @@ import { useTranslation } from './hooks/useTranslation';
 import LanguageSelector from './components/LanguageSelector';
 import Admin from './Admin';
 import Partner from './Partner';
+import Salesperson from './Salesperson';
 import PaymentModal from './components/PaymentModal';
 import Terms from './Terms';
 import TankaPrompt from './TankaPrompt';
@@ -540,9 +541,10 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
-  // Check if admin, partner, or tanka page
+  // Check if admin, partner, salesperson, or tanka page
   const isAdminPage = window.location.pathname === '/admin';
   const isPartnerPage = window.location.pathname === '/partner';
+  const isSalespersonPage = window.location.pathname === '/salesperson';
   const isTankaPage = window.location.pathname === '/tanka';
 
   // Track partner code from URL (stores to sessionStorage)
@@ -802,6 +804,11 @@ function App() {
   // Partner page
   if (isPartnerPage) {
     return <Partner />;
+  }
+
+  // Salesperson page
+  if (isSalespersonPage) {
+    return <Salesperson />;
   }
 
   // Admin page

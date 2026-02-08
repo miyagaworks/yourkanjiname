@@ -63,6 +63,38 @@ async function updatePartnerMonthlyStats(dbPool, partnerId, amount, royaltyRate)
   `, [partnerId, yearMonth, amount, royaltyAmount]);
 }
 
+/**
+ * Check if salesperson contract is still active
+ */
+function isSalespersonContractActive(contractStart, contractMonths) {
+  if (!contractStart || !contractMonths) return false;
+
+  const startDate = new Date(contractStart);
+  const endDate = new Date(startDate);
+  endDate.setMonth(endDate.getMonth() + parseInt(contractMonths, 10));
+
+  return new Date() < endDate;
+}
+
+/**
+ * Update monthly stats for salesperson
+ */
+async function updateSalespersonMonthlyStats(dbPool, salespersonId, amount, royaltyRate) {
+  const yearMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+  const royaltyAmount = parseFloat(amount) * parseFloat(royaltyRate);
+
+  await dbPool.query(`
+    INSERT INTO salesperson_monthly_stats (salesperson_id, year_month, total_payments, total_revenue, royalty_amount)
+    VALUES ($1, $2, 1, $3, $4)
+    ON CONFLICT (salesperson_id, year_month)
+    DO UPDATE SET
+      total_payments = salesperson_monthly_stats.total_payments + 1,
+      total_revenue = salesperson_monthly_stats.total_revenue + $3,
+      royalty_amount = salesperson_monthly_stats.royalty_amount + $4,
+      updated_at = NOW()
+  `, [salespersonId, yearMonth, amount, royaltyAmount]);
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: { message: 'Method not allowed' } });
@@ -125,13 +157,31 @@ module.exports = async function handler(req, res) {
         // Only update partner stats if this is a new insert (not a duplicate webhook)
         const wasInserted = upsertResult.rows[0]?.inserted;
         if (wasInserted && partnerId) {
-          const partnerResult = await dbPool.query(
-            'SELECT royalty_rate FROM partners WHERE id = $1',
-            [partnerId]
-          );
+          const partnerResult = await dbPool.query(`
+            SELECT
+              p.royalty_rate,
+              p.salesperson_id,
+              p.salesperson_contract_start,
+              p.salesperson_contract_months,
+              s.royalty_rate as salesperson_royalty_rate
+            FROM partners p
+            LEFT JOIN salespersons s ON p.salesperson_id = s.id AND s.status = 'active'
+            WHERE p.id = $1
+          `, [partnerId]);
+
           if (partnerResult.rows.length > 0) {
-            const royaltyRate = parseFloat(partnerResult.rows[0].royalty_rate) || 0.10;
-            await updatePartnerMonthlyStats(dbPool, partnerId, amount, royaltyRate);
+            const partner = partnerResult.rows[0];
+            const partnerRoyaltyRate = parseFloat(partner.royalty_rate) || 0.10;
+            await updatePartnerMonthlyStats(dbPool, partnerId, amount, partnerRoyaltyRate);
+
+            // Update salesperson stats if contract is active
+            if (partner.salesperson_id && isSalespersonContractActive(
+              partner.salesperson_contract_start,
+              partner.salesperson_contract_months
+            )) {
+              const salespersonRoyaltyRate = parseFloat(partner.salesperson_royalty_rate) || 0.10;
+              await updateSalespersonMonthlyStats(dbPool, partner.salesperson_id, amount, salespersonRoyaltyRate);
+            }
           }
         }
         break;
@@ -161,20 +211,30 @@ module.exports = async function handler(req, res) {
           RETURNING partner_id, amount
         `, [charge.payment_intent]);
 
-        // Reverse partner monthly stats if applicable
+        // Reverse partner and salesperson monthly stats if applicable
         if (updateResult.rows.length > 0) {
           const { partner_id, amount } = updateResult.rows[0];
+          const yearMonth = new Date().toISOString().slice(0, 7);
 
           if (partner_id) {
-            const partnerResult = await dbPool.query(
-              'SELECT royalty_rate FROM partners WHERE id = $1',
-              [partner_id]
-            );
-            if (partnerResult.rows.length > 0) {
-              const royaltyRate = parseFloat(partnerResult.rows[0].royalty_rate) || 0.10;
-              const yearMonth = new Date().toISOString().slice(0, 7);
-              const royaltyAmount = parseFloat(amount) * royaltyRate;
+            const partnerResult = await dbPool.query(`
+              SELECT
+                p.royalty_rate,
+                p.salesperson_id,
+                p.salesperson_contract_start,
+                p.salesperson_contract_months,
+                s.royalty_rate as salesperson_royalty_rate
+              FROM partners p
+              LEFT JOIN salespersons s ON p.salesperson_id = s.id
+              WHERE p.id = $1
+            `, [partner_id]);
 
+            if (partnerResult.rows.length > 0) {
+              const partner = partnerResult.rows[0];
+              const partnerRoyaltyRate = parseFloat(partner.royalty_rate) || 0.10;
+              const partnerRoyaltyAmount = parseFloat(amount) * partnerRoyaltyRate;
+
+              // Reverse partner stats
               await dbPool.query(`
                 UPDATE partner_monthly_stats
                 SET
@@ -183,7 +243,26 @@ module.exports = async function handler(req, res) {
                   royalty_amount = GREATEST(0, royalty_amount - $4),
                   updated_at = NOW()
                 WHERE partner_id = $1 AND year_month = $2
-              `, [partner_id, yearMonth, amount, royaltyAmount]);
+              `, [partner_id, yearMonth, amount, partnerRoyaltyAmount]);
+
+              // Reverse salesperson stats if applicable
+              if (partner.salesperson_id && isSalespersonContractActive(
+                partner.salesperson_contract_start,
+                partner.salesperson_contract_months
+              )) {
+                const salespersonRoyaltyRate = parseFloat(partner.salesperson_royalty_rate) || 0.10;
+                const salespersonRoyaltyAmount = parseFloat(amount) * salespersonRoyaltyRate;
+
+                await dbPool.query(`
+                  UPDATE salesperson_monthly_stats
+                  SET
+                    total_payments = GREATEST(0, total_payments - 1),
+                    total_revenue = GREATEST(0, total_revenue - $3),
+                    royalty_amount = GREATEST(0, royalty_amount - $4),
+                    updated_at = NOW()
+                  WHERE salesperson_id = $1 AND year_month = $2
+                `, [partner.salesperson_id, yearMonth, amount, salespersonRoyaltyAmount]);
+              }
             }
           }
         }
