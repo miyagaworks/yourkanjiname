@@ -568,20 +568,33 @@ function Admin() {
     setFetchingRate(false);
   };
 
-  // Fetch historical exchange rate for a specific date
+  // Fetch historical exchange rate for a specific date (check database first)
   const fetchHistoricalRate = async (date) => {
     setFetchingRate(true);
     try {
-      const response = await fetch(`https://api.frankfurter.app/${date}?from=USD&to=JPY`);
-      const data = await response.json();
-      if (data.rates && data.rates.JPY) {
-        setPayoutForm(prev => ({
-          ...prev,
-          exchange_rate_jpy: data.rates.JPY.toFixed(2)
-        }));
-        setMessage({ type: 'success', text: `${date}の為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+      const token = sessionStorage.getItem('adminSession');
+      // Extract year_month from date (YYYY-MM-DD -> YYYY-MM)
+      const yearMonth = date.substring(0, 7);
+
+      // Try database first
+      const dbResponse = await fetch(`${API_BASE_URL}/admin/exchange-rates?year_month=${yearMonth}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const dbData = await dbResponse.json();
+
+      if (dbData.success && dbData.rate) {
+        setPayoutForm(prev => ({ ...prev, exchange_rate_jpy: dbData.rate.usd_jpy.toString() }));
+        setMessage({ type: 'success', text: `${yearMonth}の保存済みレートを適用: ¥${dbData.rate.usd_jpy.toFixed(2)}` });
       } else {
-        throw new Error('為替レートを取得できませんでした');
+        // Fallback to API
+        const response = await fetch(`https://api.frankfurter.app/${date}?from=USD&to=JPY`);
+        const data = await response.json();
+        if (data.rates && data.rates.JPY) {
+          setPayoutForm(prev => ({ ...prev, exchange_rate_jpy: data.rates.JPY.toFixed(2) }));
+          setMessage({ type: 'success', text: `${date}のレートを取得: ¥${data.rates.JPY.toFixed(2)}（API）` });
+        } else {
+          throw new Error('為替レートを取得できませんでした');
+        }
       }
     } catch (error) {
       setMessage({ type: 'error', text: error.message });
@@ -668,7 +681,7 @@ function Admin() {
       send_email: true
     });
     // Auto-fetch month-end rate
-    fetchMonthEndRate(payout.months, setPayoutForm);
+    fetchMonthEndRate(payout.pending_months, setPayoutForm);
   };
 
   // Calculate payout amounts
