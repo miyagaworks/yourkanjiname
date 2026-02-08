@@ -9,6 +9,125 @@
 const { Pool } = require('pg');
 const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../lib/security');
 
+/**
+ * Send payout notification email to ambassador
+ */
+async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@yourkanjiname.com>';
+
+  if (!resendApiKey) {
+    console.log('RESEND_API_KEY not set, skipping email');
+    return false;
+  }
+
+  // Format year_months to Japanese format
+  const formatYearMonth = (ym) => {
+    const [year, month] = ym.split('-');
+    return `${year}年${parseInt(month)}月`;
+  };
+  const formattedMonths = payoutDetails.year_months.map(formatYearMonth).join('、');
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: #c75450; color: white; padding: 20px; text-align: center; }
+    .content { padding: 30px 20px; }
+    .amount-box { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; text-align: center; }
+    .amount { font-size: 32px; color: #c75450; font-weight: bold; }
+    .details { margin: 20px 0; }
+    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>ロイヤリティのお振込完了のお知らせ</h2>
+    </div>
+    <div class="content">
+      <p>${ambassador.name} 様</p>
+      <p>いつもYour Kanji Nameアンバサダープログラムにご参加いただき、誠にありがとうございます。</p>
+      <p>下記の通り、ロイヤリティのお振込が完了いたしましたのでご報告いたします。</p>
+
+      <div class="amount-box">
+        <div>お振込金額</div>
+        <div class="amount">¥${payoutDetails.net_payout_jpy.toLocaleString()}</div>
+      </div>
+
+      <div class="details">
+        <div class="detail-row">
+          <span>対象期間：</span>
+          <span>${formattedMonths}</span>
+        </div>
+        <div class="detail-row">
+          <span>ロイヤリティ（税込）：</span>
+          <span>$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
+        </div>
+        <div class="detail-row">
+          <span>適用為替レート：</span>
+          <span>$1 = ¥${payoutDetails.exchange_rate_jpy.toFixed(2)}</span>
+        </div>
+        <div class="detail-row">
+          <span>円換算額：</span>
+          <span>¥${payoutDetails.gross_payout_jpy.toLocaleString()}</span>
+        </div>
+        <div class="detail-row">
+          <span>振込手数料：</span>
+          <span>-¥${payoutDetails.transfer_fee_jpy.toLocaleString()}</span>
+        </div>
+        <div class="detail-row">
+          <span><strong>お振込金額：</strong></span>
+          <span><strong>¥${payoutDetails.net_payout_jpy.toLocaleString()}</strong></span>
+        </div>
+      </div>
+
+      <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
+      <p>今後とも宜しくお願いいたします。</p>
+    </div>
+    <div class="footer">
+      <p>Your Kanji Name アンバサダープログラム</p>
+      <p>contact@kanjiname.jp</p>
+    </div>
+  </div>
+</body>
+</html>
+  `.trim();
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: ambassador.email,
+        subject: `【Your Kanji Name】ロイヤリティお振込完了のお知らせ（${formattedMonths}）`,
+        html: html
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error('Failed to send ambassador payout email:', error);
+      return false;
+    }
+
+    console.log('Ambassador payout email sent successfully to:', ambassador.email);
+    return true;
+  } catch (error) {
+    console.error('Error sending ambassador payout email:', error);
+    return false;
+  }
+}
+
 let pool;
 function getPool() {
   if (!pool) {
@@ -138,6 +257,19 @@ module.exports = async function handler(req, res) {
         });
       }
 
+      // Get ambassador info
+      const ambassadorResult = await dbPool.query(`
+        SELECT id, name, email FROM salespersons WHERE id = $1
+      `, [salesperson_id]);
+
+      if (ambassadorResult.rows.length === 0) {
+        return res.status(404).json({
+          error: { message: 'Ambassador not found' }
+        });
+      }
+
+      const ambassador = ambassadorResult.rows[0];
+
       // Get total royalty for selected months
       const totalResult = await dbPool.query(`
         SELECT COALESCE(SUM(royalty_amount), 0) as total
@@ -169,6 +301,16 @@ module.exports = async function handler(req, res) {
           updated_at = NOW()
         WHERE salesperson_id = $1 AND year_month = ANY($2) AND payout_status = 'pending'
       `, [salesperson_id, year_months, exchange_rate_jpy, fee, netJpy]);
+
+      // Send email notification
+      await sendAmbassadorPayoutEmail(ambassador, {
+        year_months,
+        royalty_usd: totalRoyaltyUsd,
+        exchange_rate_jpy: parseFloat(exchange_rate_jpy),
+        gross_payout_jpy: grossJpy,
+        transfer_fee_jpy: fee,
+        net_payout_jpy: netJpy
+      });
 
       return res.json({
         success: true,
