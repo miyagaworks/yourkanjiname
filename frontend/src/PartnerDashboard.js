@@ -190,10 +190,12 @@ function PartnerDashboard({ partner, onLogout }) {
     <div className="partner-dashboard">
       <header className="partner-header">
         <div className="header-info">
-          <h1>パートナーダッシュボード</h1>
-          <p>{partner.name} 様</p>
+          <h1>ダッシュボード</h1>
         </div>
-        <button onClick={handleLogout} className="logout-btn">ログアウト</button>
+        <div className="header-right">
+          <span className="partner-name">パートナー {partner.name} 様</span>
+          <button onClick={handleLogout} className="logout-btn">ログアウト</button>
+        </div>
       </header>
 
       <nav className="partner-nav">

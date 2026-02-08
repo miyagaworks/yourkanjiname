@@ -173,6 +173,12 @@ function Ambassador() {
               </div>
             </div>
 
+            {dashboard.exchange_rate && (
+              <div className="exchange-rate-info">
+                為替レート: $1 = ¥{dashboard.exchange_rate.usd_jpy.toFixed(2)}（{dashboard.exchange_rate.source}）
+              </div>
+            )}
+
             {/* Partners List */}
             <div className="partners-section">
               <h2>紹介パートナー一覧</h2>
