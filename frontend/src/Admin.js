@@ -561,7 +561,7 @@ function Admin() {
     return `${yearMonth}-${String(lastDay).padStart(2, '0')}`;
   };
 
-  // Fetch month-end exchange rate automatically
+  // Fetch month-end exchange rate automatically (from database first, then API fallback)
   const fetchMonthEndRate = async (months, setFormFn) => {
     if (!months || months.length === 0) return;
 
@@ -572,10 +572,29 @@ function Admin() {
       return monthB.localeCompare(monthA);
     });
     const latestMonth = sortedMonths[0].year_month || sortedMonths[0];
-    const lastDay = getLastDayOfMonth(latestMonth);
 
     setFetchingRate(true);
     try {
+      // First, try to get stored rate from database
+      const token = sessionStorage.getItem('adminSession');
+      const dbResponse = await fetch(`${API_BASE_URL}/admin/exchange-rates?year_month=${latestMonth}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const dbData = await dbResponse.json();
+
+      if (dbData.success && dbData.rate) {
+        // Use stored rate
+        setFormFn(prev => ({
+          ...prev,
+          exchange_rate_jpy: dbData.rate.usd_jpy.toFixed(2)
+        }));
+        setMessage({ type: 'success', text: `${dbData.rate.rate_date}（月末保存済み）の為替レート: $1 = ¥${dbData.rate.usd_jpy.toFixed(2)}` });
+        setFetchingRate(false);
+        return;
+      }
+
+      // Fallback: fetch from API
+      const lastDay = getLastDayOfMonth(latestMonth);
       const response = await fetch(`https://api.frankfurter.app/${lastDay}?from=USD&to=JPY`);
       const data = await response.json();
       if (data.rates && data.rates.JPY) {
@@ -583,7 +602,7 @@ function Admin() {
           ...prev,
           exchange_rate_jpy: data.rates.JPY.toFixed(2)
         }));
-        setMessage({ type: 'success', text: `${lastDay}（月末）の為替レート取得: $1 = ¥${data.rates.JPY.toFixed(2)}（ECB）` });
+        setMessage({ type: 'info', text: `${lastDay}（API取得）の為替レート: $1 = ¥${data.rates.JPY.toFixed(2)}（※月末レート未保存）` });
       }
     } catch (error) {
       console.error('Failed to fetch month-end rate:', error);
