@@ -561,40 +561,54 @@ function Admin() {
     return `${yearMonth}-${String(lastDay).padStart(2, '0')}`;
   };
 
-  // Fetch month-end exchange rate automatically (from database first, then API fallback)
+  // Fetch month-end exchange rate automatically (from database, checking each month)
   const fetchMonthEndRate = async (months, setFormFn) => {
     if (!months || months.length === 0) return;
 
-    // Get the most recent month from the selection
-    const sortedMonths = [...months].sort((a, b) => {
-      const monthA = a.year_month || a;
-      const monthB = b.year_month || b;
-      return monthB.localeCompare(monthA);
-    });
-    const latestMonth = sortedMonths[0].year_month || sortedMonths[0];
+    // Get current month to exclude
+    const currentMonth = new Date().toISOString().slice(0, 7);
+
+    // Sort months descending (newest first), exclude current month
+    const sortedMonths = [...months]
+      .map(m => m.year_month || m)
+      .filter(m => m !== currentMonth)
+      .sort((a, b) => b.localeCompare(a));
+
+    if (sortedMonths.length === 0) {
+      setMessage({ type: 'warning', text: '過去の対象月がありません' });
+      return;
+    }
 
     setFetchingRate(true);
-    try {
-      // First, try to get stored rate from database
-      const token = sessionStorage.getItem('adminSession');
-      const dbResponse = await fetch(`${API_BASE_URL}/admin/exchange-rates?year_month=${latestMonth}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      const dbData = await dbResponse.json();
+    const token = sessionStorage.getItem('adminSession');
 
-      if (dbData.success && dbData.rate) {
-        // Use stored rate
-        setFormFn(prev => ({
-          ...prev,
-          exchange_rate_jpy: dbData.rate.usd_jpy.toFixed(2)
-        }));
-        setMessage({ type: 'success', text: `${dbData.rate.rate_date}（月末保存済み）の為替レート: $1 = ¥${dbData.rate.usd_jpy.toFixed(2)}` });
-        setFetchingRate(false);
-        return;
+    // Try each month from newest to oldest to find a stored rate
+    for (const month of sortedMonths) {
+      try {
+        const dbResponse = await fetch(`${API_BASE_URL}/admin/exchange-rates?year_month=${month}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const dbData = await dbResponse.json();
+
+        if (dbData.success && dbData.rate) {
+          // Found stored rate
+          setFormFn(prev => ({
+            ...prev,
+            exchange_rate_jpy: dbData.rate.usd_jpy.toFixed(2)
+          }));
+          setMessage({ type: 'success', text: `${dbData.rate.rate_date}（月末保存済み）の為替レート: $1 = ¥${dbData.rate.usd_jpy.toFixed(2)}` });
+          setFetchingRate(false);
+          return;
+        }
+      } catch (error) {
+        console.error(`Failed to fetch rate for ${month}:`, error);
       }
+    }
 
-      // Fallback: fetch from API
-      const lastDay = getLastDayOfMonth(latestMonth);
+    // No stored rate found - fetch from API for the most recent past month
+    const latestPastMonth = sortedMonths[0];
+    try {
+      const lastDay = getLastDayOfMonth(latestPastMonth);
       const response = await fetch(`https://api.frankfurter.app/${lastDay}?from=USD&to=JPY`);
       const data = await response.json();
       if (data.rates && data.rates.JPY) {
@@ -605,7 +619,7 @@ function Admin() {
         setMessage({ type: 'info', text: `${lastDay}（API取得）の為替レート: $1 = ¥${data.rates.JPY.toFixed(2)}（※月末レート未保存）` });
       }
     } catch (error) {
-      console.error('Failed to fetch month-end rate:', error);
+      console.error('Failed to fetch rate from API:', error);
     }
     setFetchingRate(false);
   };
