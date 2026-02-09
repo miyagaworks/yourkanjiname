@@ -1,0 +1,504 @@
+/* Store Landing Page Styles */
+
+.store-landing {
+  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #333;
+  line-height: 1.8;
+  background: #faf8f5;
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 8%;
+  background: linear-gradient(135deg, #c75450 0%, #a33f3c 100%);
+  color: white;
+  min-height: 500px;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 550px;
+}
+
+.hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.95;
+  margin-bottom: 32px;
+  line-height: 1.8;
+}
+
+.cta-button {
+  display: inline-block;
+  background: white;
+  color: #c75450;
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-calligraphy {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Benefits Section */
+.benefits {
+  padding: 80px 8%;
+  background: white;
+}
+
+.benefits h2,
+.how-it-works h2,
+.gallery h2,
+.calculator h2,
+.faq h2,
+.contact h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.benefit-card {
+  text-align: center;
+  padding: 40px 30px;
+  background: #faf8f5;
+  border-radius: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.benefit-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  color: #c75450;
+  line-height: 1.5;
+}
+
+.benefit-card p {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* How It Works Section */
+.how-it-works {
+  padding: 80px 8%;
+  background: #faf8f5;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #c75450;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-content h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.step-content p {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+}
+
+.step-arrow {
+  font-size: 1.5rem;
+  color: #c75450;
+}
+
+/* Gallery Section */
+.gallery {
+  padding: 80px 8%;
+  background: white;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Calculator Section */
+.calculator {
+  padding: 80px 8%;
+  background: #faf8f5;
+}
+
+.calculator-content {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.calc-example {
+  font-size: 1.1rem;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+
+.calc-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.calc-divider {
+  border-top: 2px dashed #ddd;
+  margin: 16px 0;
+}
+
+.calc-total {
+  font-size: 1.2rem;
+}
+
+.calc-value.highlight {
+  color: #c75450;
+  font-size: 1.4rem;
+}
+
+.calc-note {
+  text-align: center;
+  color: #888;
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* FAQ Section */
+.faq {
+  padding: 80px 8%;
+  background: white;
+}
+
+.faq-list {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  padding: 24px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.faq-item h3 {
+  font-size: 1.1rem;
+  color: #c75450;
+  margin-bottom: 12px;
+}
+
+.faq-item p {
+  color: #666;
+  margin: 0;
+}
+
+.faq-item strong {
+  color: #333;
+}
+
+/* Contact Section */
+.contact {
+  padding: 80px 8%;
+  background: linear-gradient(135deg, #c75450 0%, #a33f3c 100%);
+  color: white;
+}
+
+.contact h2 {
+  color: white;
+}
+
+.contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #c75450;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: #c75450;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #a33f3c;
+  transform: translateY(-2px);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #c75450;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.success-message {
+  text-align: center;
+  background: white;
+  padding: 60px 40px;
+  border-radius: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #4CAF50;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin: 0 auto 24px;
+}
+
+.success-message h3 {
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.success-message p {
+  color: #666;
+}
+
+/* Footer */
+.footer {
+  padding: 40px 8%;
+  background: #333;
+  color: white;
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.footer-links a {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+.copyright {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .steps {
+    flex-direction: column;
+  }
+
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 5%;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-image {
+    margin-top: 40px;
+  }
+
+  .hero-calligraphy {
+    max-width: 280px;
+  }
+
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .step {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .contact-form,
+  .calculator-content {
+    padding: 30px 20px;
+  }
+}

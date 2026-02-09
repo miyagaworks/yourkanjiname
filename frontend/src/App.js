@@ -10,6 +10,7 @@ import Ambassador from './Ambassador';
 import PaymentModal from './components/PaymentModal';
 import Terms from './Terms';
 import TankaPrompt from './TankaPrompt';
+import StoreLanding from './StoreLanding';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -541,6 +542,11 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
+  // Check if store landing page (kanjiname.jp without app. subdomain)
+  const isStoreLandingPage = window.location.hostname === 'kanjiname.jp' ||
+    window.location.hostname === 'www.kanjiname.jp' ||
+    window.location.pathname === '/store';
+
   // Check if admin, partner, ambassador, or tanka page
   const isAdminPage = window.location.pathname === '/admin';
   const isPartnerPage = window.location.pathname === '/partner';
@@ -795,6 +801,11 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Store landing page (kanjiname.jp without app. subdomain)
+  if (isStoreLandingPage) {
+    return <StoreLanding />;
+  }
 
   // Tanka prompt tool page
   if (isTankaPage) {
