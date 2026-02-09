@@ -5,23 +5,8 @@
  * Saves calligraphy requests and sends confirmation emails
  */
 
-const { Pool } = require('pg');
+const { getPool } = require('./lib/db');
 const { setCorsHeaders, handlePreflight, isValidEmail } = require('./lib/security');
-
-// Initialize database pool
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 // Language code to name mapping (for admin email)
 const LANGUAGE_NAMES = {

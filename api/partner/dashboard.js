@@ -6,7 +6,7 @@
  * Returns dashboard data for the logged-in partner
  */
 
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight, verifyPartnerToken } = require('../lib/security');
 
 // Cache for exchange rate (5 minutes)
@@ -38,21 +38,6 @@ async function getExchangeRate() {
 
   // Fallback rate if API fails
   return exchangeRateCache.rate || 150;
-}
-
-// Initialize database pool
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
 }
 
 module.exports = async function handler(req, res) {

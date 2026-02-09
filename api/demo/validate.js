@@ -6,22 +6,8 @@
  * Validates and consumes a demo code for free service access
  */
 
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight, isValidUUID } = require('../lib/security');
-
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 module.exports = async function handler(req, res) {
   // CORS headers with origin whitelist

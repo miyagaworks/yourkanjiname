@@ -5,21 +5,7 @@
  * Vercel Cron: configured in vercel.json
  */
 
-const { Pool } = require('pg');
-
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
+const { getPool } = require('../lib/db');
 
 /**
  * Check if today is the last day of the month

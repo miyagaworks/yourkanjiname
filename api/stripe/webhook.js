@@ -7,25 +7,10 @@
  */
 
 const Stripe = require('stripe');
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// Initialize database pool
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 // Disable body parsing for webhook to get raw body
 module.exports.config = {

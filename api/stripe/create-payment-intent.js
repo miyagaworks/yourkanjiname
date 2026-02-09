@@ -7,26 +7,11 @@
  */
 
 const Stripe = require('stripe');
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight, isValidUUID, isValidEmail } = require('../lib/security');
 
 // Initialize Stripe
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-
-// Initialize database pool
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 module.exports = async function handler(req, res) {
   // CORS headers with origin whitelist

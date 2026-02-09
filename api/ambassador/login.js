@@ -6,22 +6,8 @@
 
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight } = require('../lib/security');
-
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 /**
  * Generate salesperson token

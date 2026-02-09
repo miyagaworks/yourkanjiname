@@ -7,7 +7,7 @@
  */
 
 const crypto = require('crypto');
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight } = require('../lib/security');
 
 // Cache exchange rate for 1 hour
@@ -39,20 +39,6 @@ async function getExchangeRate() {
 
   // Fallback rate if API fails
   return exchangeRateCache.rate || 150;
-}
-
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
 }
 
 /**

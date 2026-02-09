@@ -6,22 +6,8 @@
  * Get overall sales and partner statistics
  */
 
-const { Pool } = require('pg');
+const { getPool } = require('../lib/db');
 const { setCorsHeaders, handlePreflight, verifyAdminToken } = require('../lib/security');
-
-let pool;
-function getPool() {
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-      max: 5,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
-    });
-  }
-  return pool;
-}
 
 module.exports = async function handler(req, res) {
   setCorsHeaders(req, res);
