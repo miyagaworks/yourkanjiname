@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import './StoreLanding.css';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
-
 // 書道サンプル画像
 const calligraphyImages = [
   '/images/calligraphy/01.png',
