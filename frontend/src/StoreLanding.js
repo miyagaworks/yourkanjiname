@@ -68,7 +68,7 @@ function StoreLanding() {
       {/* Hero Section */}
       <header className="hero">
         <div className="hero-content">
-          <h1>ポスターを貼るだけで、<br />毎月収益。</h1>
+          <h1>ポスターを貼るだけで<br />毎月収益。</h1>
           <p className="hero-subtitle">
             外国人観光客に大人気の「漢字名」サービスで、<br />
             お店の新しい収入源を作りませんか？
@@ -110,11 +110,12 @@ function StoreLanding() {
       <section className="how-it-works">
         <h2>サービスの仕組み</h2>
         <div className="steps">
-          <div className="step">
+          <div className="step step-highlight">
             <div className="step-number">1</div>
             <div className="step-content">
               <h3>ポスターを設置</h3>
-              <p>お送りするポスターを店内に貼るだけ</p>
+              <p>専用ポスターを店内に貼るだけ</p>
+              <span className="step-badge">ここだけお願いします</span>
             </div>
           </div>
           <div className="step-arrow">→</div>
@@ -238,7 +239,7 @@ function StoreLanding() {
                 value={formData.storeName}
                 onChange={handleChange}
                 required
-                placeholder="例：浅草土産物店"
+                placeholder="例：お好み焼き〇〇"
               />
             </div>
             <div className="form-group">
@@ -273,7 +274,7 @@ function StoreLanding() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="例：03-1234-5678"
+                placeholder="例：090-1234-5678"
               />
             </div>
             {error && <p className="error-message">{error}</p>}
@@ -287,13 +288,13 @@ function StoreLanding() {
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
-          <div className="footer-logo">Your Kanji Name</div>
+          <img src="/images/logo_color.png" alt="Your Kanji Name" className="footer-logo-img" />
           <div className="footer-links">
             <a href="https://app.kanjiname.jp" target="_blank" rel="noopener noreferrer">サービスを試す</a>
             <a href="/terms">利用規約</a>
             <a href="/privacy">プライバシーポリシー</a>
           </div>
-          <p className="copyright">© 2024 Your Kanji Name. All rights reserved.</p>
+          <p className="copyright">© {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
         </div>
       </footer>
     </div>

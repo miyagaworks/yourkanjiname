@@ -25,14 +25,14 @@
 }
 
 .hero h1 {
-  font-size: 2.8rem;
+  font-size: 3.1rem;
   font-weight: 700;
   line-height: 1.3;
   margin-bottom: 24px;
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   opacity: 0.95;
   margin-bottom: 32px;
   line-height: 1.8;
@@ -189,6 +189,33 @@
 .step-arrow {
   font-size: 1.5rem;
   color: #c75450;
+}
+
+.step-highlight {
+  border: 3px solid #c75450;
+  position: relative;
+}
+
+.step-badge {
+  display: inline-block;
+  background: #c75450;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  position: relative;
+}
+
+.step-badge::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  border-width: 0 8px 8px 8px;
+  border-style: solid;
+  border-color: transparent transparent #c75450 transparent;
 }
 
 /* Gallery Section */
@@ -422,9 +449,9 @@
   text-align: center;
 }
 
-.footer-logo {
-  font-size: 1.5rem;
-  font-weight: 700;
+.footer-logo-img {
+  height: 60px;
+  width: auto;
   margin-bottom: 20px;
 }
 
@@ -481,7 +508,7 @@
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .hero-image {
