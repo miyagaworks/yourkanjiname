@@ -99,9 +99,9 @@ function StoreLanding() {
             <p>1件あたり約90円のロイヤリティ。<br />月10人で900円、100人で9,000円の不労所得に。</p>
           </div>
           <div className="benefit-card">
-            <div className="benefit-icon">🌏</div>
-            <h3>外国人観光客が<br />自然と集まる</h3>
-            <p>SNS映えする日本土産として口コミで拡散。<br />お店の認知度アップにも貢献します。</p>
+            <div className="benefit-icon">😊</div>
+            <h3>お客様が<br />めっちゃ喜ぶ</h3>
+            <p>日本文化に興味のある外国人観光客に大好評。<br />「最高のお土産ができた！」と笑顔で帰っていきます。</p>
           </div>
         </div>
       </section>
