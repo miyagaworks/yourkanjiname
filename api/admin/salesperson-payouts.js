@@ -286,8 +286,8 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      // Calculate payout amounts
-      const grossJpy = Math.round(totalRoyaltyUsd * exchange_rate_jpy);
+      // Calculate payout amounts (1円未満切り捨て)
+      const grossJpy = Math.floor(totalRoyaltyUsd * exchange_rate_jpy);
       const fee = parseInt(transfer_fee_jpy) || 0;
       const netJpy = grossJpy - fee;
 

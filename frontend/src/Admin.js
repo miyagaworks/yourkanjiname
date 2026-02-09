@@ -386,7 +386,7 @@ function Admin() {
 
     const rate = parseFloat(salespersonPayoutForm.exchange_rate_jpy);
     const royaltyUsd = selectedSalespersonPayout.total_royalty;
-    const grossJpy = Math.round(royaltyUsd * rate);
+    const grossJpy = Math.floor(royaltyUsd * rate); // 1円未満切り捨て
     const fee = parseInt(salespersonPayoutForm.transfer_fee_jpy) || 0;
     const netJpy = grossJpy - fee;
 
@@ -690,7 +690,7 @@ function Admin() {
     const royaltyUsd = selectedPayout.pending_royalty;
     const exchangeRate = parseFloat(payoutForm.exchange_rate_jpy);
     const fee = parseInt(payoutForm.transfer_fee_jpy) || 0;
-    const grossJpy = Math.round(royaltyUsd * exchangeRate);
+    const grossJpy = Math.floor(royaltyUsd * exchangeRate); // 1円未満切り捨て
     const netJpy = grossJpy - fee;
     return { royaltyUsd, exchangeRate, fee, grossJpy, netJpy };
   };

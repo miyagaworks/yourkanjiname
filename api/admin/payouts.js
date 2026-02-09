@@ -315,7 +315,7 @@ module.exports = async function handler(req, res) {
       `, [partner_id, year_months]);
 
       const totalRoyaltyUsd = parseFloat(royaltyResult.rows[0].total_royalty);
-      const grossPayoutJpy = Math.round(totalRoyaltyUsd * exchange_rate_jpy);
+      const grossPayoutJpy = Math.floor(totalRoyaltyUsd * exchange_rate_jpy); // 1円未満切り捨て
       const fee = parseInt(transfer_fee_jpy) || 0;
       const netPayoutJpy = grossPayoutJpy - fee;
 
