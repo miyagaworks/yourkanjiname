@@ -13,16 +13,13 @@ let pool;
  */
 function getPool() {
   if (!pool) {
-    let connectionString = process.env.DATABASE_URL;
-
-    // Add uselibpqcompat=true to suppress SSL warning (pg 8.18+)
-    if (connectionString && !connectionString.includes('uselibpqcompat=')) {
-      const separator = connectionString.includes('?') ? '&' : '?';
-      connectionString = `${connectionString}${separator}uselibpqcompat=true`;
-    }
+    // Remove sslmode from DATABASE_URL and set SSL via options
+    let connectionString = process.env.DATABASE_URL || '';
+    connectionString = connectionString.replace(/[?&]sslmode=[^&]*/g, '');
 
     pool = new Pool({
       connectionString,
+      ssl: { rejectUnauthorized: false },
       max: 5,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 10000,
