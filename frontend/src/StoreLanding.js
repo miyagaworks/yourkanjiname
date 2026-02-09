@@ -91,7 +91,7 @@ function StoreLanding() {
           <div className="benefit-card poster-card">
             <img src="/images/calligraphy/poster.png" alt="店頭ポスター" className="poster-image" />
             <h3>やることは<br />ポスターを貼るだけ</h3>
-            <p>接客不要、説明不要。<br />お客様はQRコードをスキャンするだけで完結します。</p>
+            <p>接客不要、説明不要。<br />10か国語に自動対応するので、外国語が話せなくても大丈夫です。</p>
           </div>
           <div className="benefit-card">
             <div className="benefit-icon">💰</div>
