@@ -96,7 +96,7 @@ function StoreLanding() {
           <div className="benefit-card">
             <div className="benefit-icon">💰</div>
             <h3>売上の10%が<br />毎月届く</h3>
-            <p>1件あたり約60円のロイヤリティ。<br />月10人で600円、100人で6,000円の不労所得に。</p>
+            <p>1件あたり約90円のロイヤリティ。<br />月10人で900円、100人で9,000円の不労所得に。</p>
           </div>
           <div className="benefit-card">
             <div className="benefit-icon">🌏</div>
@@ -171,23 +171,27 @@ function StoreLanding() {
           <div className="calc-example">
             <div className="calc-row">
               <span>1日の外国人客数</span>
-              <span className="calc-value">20人</span>
+              <span className="calc-value">30人</span>
             </div>
             <div className="calc-row">
-              <span>利用率（目安5%）</span>
-              <span className="calc-value">1人/日</span>
+              <span>利用率（10人に1人）</span>
+              <span className="calc-value">3人/日</span>
+            </div>
+            <div className="calc-row">
+              <span>月間営業日数</span>
+              <span className="calc-value">25日</span>
             </div>
             <div className="calc-row">
               <span>1件あたりのロイヤリティ</span>
-              <span className="calc-value">約60円</span>
+              <span className="calc-value">約90円</span>
             </div>
             <div className="calc-divider"></div>
             <div className="calc-row calc-total">
               <span>月間予想収益</span>
-              <span className="calc-value highlight">約1,800円/月</span>
+              <span className="calc-value highlight">約6,750円/月</span>
             </div>
           </div>
-          <p className="calc-note">※ 外国人客が多い店舗では月5,000円〜10,000円の実績も</p>
+          <p className="calc-note">※ 外国人客が多い店舗では月10,000円以上も可能</p>
         </div>
       </section>
 
