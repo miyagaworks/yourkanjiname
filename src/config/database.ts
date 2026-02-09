@@ -14,8 +14,22 @@ export class DatabaseConfig {
     if (!this.pool) {
       // Use DATABASE_URL if available (production), otherwise use individual env vars (development)
       if (process.env.DATABASE_URL) {
+        // Remove sslmode from DATABASE_URL to prevent SSL warning
+        let connectionString = process.env.DATABASE_URL;
+        try {
+          const url = new URL(connectionString);
+          url.searchParams.delete('sslmode');
+          connectionString = url.toString();
+        } catch (e) {
+          // If URL parsing fails, use regex fallback
+          connectionString = connectionString
+            .replace(/\?sslmode=[^&]*&?/, '?')
+            .replace(/&sslmode=[^&]*/, '')
+            .replace(/\?$/, '');
+        }
+
         this.pool = new Pool({
-          connectionString: process.env.DATABASE_URL,
+          connectionString,
           ssl: {
             rejectUnauthorized: false
           },
