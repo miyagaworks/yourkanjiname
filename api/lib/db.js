@@ -13,9 +13,21 @@ let pool;
  */
 function getPool() {
   if (!pool) {
-    // Remove sslmode from DATABASE_URL and set SSL via options
+    // Remove sslmode from DATABASE_URL to prevent SSL warning
     let connectionString = process.env.DATABASE_URL || '';
-    connectionString = connectionString.replace(/[?&]sslmode=[^&]*/g, '');
+
+    // Use URL API to properly remove sslmode parameter
+    try {
+      const url = new URL(connectionString);
+      url.searchParams.delete('sslmode');
+      connectionString = url.toString();
+    } catch (e) {
+      // If URL parsing fails, use regex fallback
+      connectionString = connectionString
+        .replace(/\?sslmode=[^&]*&?/, '?')
+        .replace(/&sslmode=[^&]*/, '')
+        .replace(/\?$/, '');
+    }
 
     pool = new Pool({
       connectionString,
