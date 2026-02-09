@@ -13,13 +13,12 @@ let pool;
  */
 function getPool() {
   if (!pool) {
-    // Parse connection string to add SSL mode parameters
     let connectionString = process.env.DATABASE_URL;
 
-    // Add uselibpqcompat=true&sslmode=require to suppress SSL warning
-    if (connectionString && !connectionString.includes('sslmode=')) {
+    // Add uselibpqcompat=true to suppress SSL warning (pg 8.18+)
+    if (connectionString && !connectionString.includes('uselibpqcompat=')) {
       const separator = connectionString.includes('?') ? '&' : '?';
-      connectionString = `${connectionString}${separator}uselibpqcompat=true&sslmode=require`;
+      connectionString = `${connectionString}${separator}uselibpqcompat=true`;
     }
 
     pool = new Pool({
