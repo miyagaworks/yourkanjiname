@@ -88,8 +88,8 @@ function StoreLanding() {
       <section className="benefits">
         <h2>選ばれる3つの理由</h2>
         <div className="benefits-grid">
-          <div className="benefit-card">
-            <div className="benefit-icon">🖼️</div>
+          <div className="benefit-card poster-card">
+            <img src="/images/calligraphy/poster.png" alt="店頭ポスター" className="poster-image" />
             <h3>やることは<br />ポスターを貼るだけ</h3>
             <p>接客不要、説明不要。<br />お客様はQRコードをスキャンするだけで完結します。</p>
           </div>

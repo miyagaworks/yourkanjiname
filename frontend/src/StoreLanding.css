@@ -114,6 +114,14 @@
   margin-bottom: 20px;
 }
 
+.poster-card .poster-image {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
 .benefit-card h3 {
   font-size: 1.3rem;
   margin-bottom: 16px;
