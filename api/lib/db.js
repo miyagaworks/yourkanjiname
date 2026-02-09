@@ -13,13 +13,13 @@ let pool;
  */
 function getPool() {
   if (!pool) {
-    // Parse connection string to add SSL mode
+    // Parse connection string to add SSL mode parameters
     let connectionString = process.env.DATABASE_URL;
 
-    // Add sslmode=no-verify to suppress SSL warning while maintaining encryption
+    // Add uselibpqcompat=true&sslmode=require to suppress SSL warning
     if (connectionString && !connectionString.includes('sslmode=')) {
       const separator = connectionString.includes('?') ? '&' : '?';
-      connectionString = `${connectionString}${separator}sslmode=no-verify`;
+      connectionString = `${connectionString}${separator}uselibpqcompat=true&sslmode=require`;
     }
 
     pool = new Pool({
