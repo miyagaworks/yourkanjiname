@@ -101,7 +101,7 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Your Kanji Name <noreply@yourkanjiname.com>',
+        from: 'Your Kanji Name <noreply@kanjiname.jp>',
         to: notifyEmail,
         subject: `【パートナー申込】${storeName}`,
         html: adminEmailHtml
@@ -161,7 +161,7 @@ module.exports = async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Your Kanji Name <noreply@yourkanjiname.com>',
+        from: 'Your Kanji Name <noreply@kanjiname.jp>',
         to: email,
         subject: '【Your Kanji Name】パートナーお申し込み確認',
         html: confirmEmailHtml
