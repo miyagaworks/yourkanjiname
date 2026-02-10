@@ -4,7 +4,7 @@
   font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
   color: #333;
   line-height: 1.8;
-  background: #faf8f5;
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -288,7 +288,7 @@
 /* How It Works Section */
 .how-it-works {
   padding: 80px 8%;
-  background: rgba(250, 248, 245, 0.85);
+  background: rgba(240, 232, 222, 0.7);
 }
 
 .steps {
@@ -474,7 +474,7 @@
 /* Calculator Section */
 .calculator {
   padding: 80px 8%;
-  background: rgba(250, 248, 245, 0.85);
+  background: rgba(240, 232, 222, 0.7);
 }
 
 .calculator-content {
