@@ -28,73 +28,113 @@ async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
   };
   const formattedMonths = payoutDetails.year_months.map(formatYearMonth).join('、');
 
+  const now = new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' });
+
   const html = `
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <style>
-    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: #c75450; color: white; padding: 20px; text-align: center; }
-    .content { padding: 30px 20px; }
-    .amount-box { background: #f5f5f5; padding: 20px; margin: 20px 0; border-radius: 8px; text-align: center; }
-    .amount { font-size: 32px; color: #c75450; font-weight: bold; }
-    .details { margin: 20px 0; }
-    .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-    .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h2>ロイヤリティのお振込完了のお知らせ</h2>
-    </div>
-    <div class="content">
-      <p>${ambassador.name} 様</p>
-      <p>いつもYour Kanji Nameアンバサダープログラムにご参加いただき、誠にありがとうございます。</p>
-      <p>下記の通り、ロイヤリティのお振込が完了いたしましたのでご報告いたします。</p>
-
-      <div class="amount-box">
-        <div>お振込金額</div>
-        <div class="amount">¥${payoutDetails.net_payout_jpy.toLocaleString()}</div>
-      </div>
-
-      <div class="details">
-        <div class="detail-row">
-          <span>対象期間：</span>
-          <span>${formattedMonths}</span>
-        </div>
-        <div class="detail-row">
-          <span>ロイヤリティ（税込）：</span>
-          <span>$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
-        </div>
-        <div class="detail-row">
-          <span>適用為替レート：</span>
-          <span>$1 = ¥${payoutDetails.exchange_rate_jpy.toFixed(2)}</span>
-        </div>
-        <div class="detail-row">
-          <span>円換算額：</span>
-          <span>¥${payoutDetails.gross_payout_jpy.toLocaleString()}</span>
-        </div>
-        <div class="detail-row">
-          <span>振込手数料：</span>
-          <span>-¥${payoutDetails.transfer_fee_jpy.toLocaleString()}</span>
-        </div>
-        <div class="detail-row">
-          <span><strong>お振込金額：</strong></span>
-          <span><strong>¥${payoutDetails.net_payout_jpy.toLocaleString()}</strong></span>
-        </div>
-      </div>
-
-      <p>ご不明な点がございましたら、お気軽にお問い合わせください。</p>
-      <p>今後とも宜しくお願いいたします。</p>
-    </div>
-    <div class="footer">
-      <p>Your Kanji Name アンバサダープログラム</p>
-      <p>contact@kanjiname.jp</p>
-    </div>
-  </div>
+<body style="margin:0;padding:0;background-color:#f4f2ef;font-family:'Helvetica Neue',Arial,'Noto Sans JP',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f2ef;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <!-- Header -->
+          <tr>
+            <td style="background:linear-gradient(135deg,#c75450,#a33f3c);padding:32px 40px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.05em;">ロイヤリティのお振込完了のお知らせ</h1>
+              <p style="margin:8px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">${now}</p>
+            </td>
+          </tr>
+          <!-- Greeting -->
+          <tr>
+            <td style="padding:36px 40px 20px;">
+              <p style="margin:0 0 20px;font-size:16px;color:#333;line-height:1.8;">${ambassador.name} 様</p>
+              <p style="margin:0 0 24px;font-size:14px;color:#555;line-height:1.9;">
+                いつもYour Kanji Nameアンバサダープログラムにご参加いただき、誠にありがとうございます。<br>
+                下記の通り、ロイヤリティのお振込が完了いたしましたのでご報告いたします。
+              </p>
+            </td>
+          </tr>
+          <!-- Amount Box -->
+          <tr>
+            <td style="padding:0 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background:#faf8f5;border-radius:16px;margin-bottom:28px;">
+                <tr>
+                  <td style="padding:28px 40px;text-align:center;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">お振込金額</span>
+                    <span style="font-size:44px;color:#c75450;font-weight:700;">¥${payoutDetails.net_payout_jpy.toLocaleString()}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Details -->
+          <tr>
+            <td style="padding:0 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">対象期間</span>
+                    <span style="font-size:16px;color:#333;">${formattedMonths}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">ロイヤリティ（税込）</span>
+                    <span style="font-size:16px;color:#333;">$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">適用為替レート</span>
+                    <span style="font-size:16px;color:#333;">$1 = ¥${payoutDetails.exchange_rate_jpy.toFixed(2)}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">円換算額</span>
+                    <span style="font-size:16px;color:#333;">¥${payoutDetails.gross_payout_jpy.toLocaleString()}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">振込手数料</span>
+                    <span style="font-size:16px;color:#333;">-¥${payoutDetails.transfer_fee_jpy.toLocaleString()}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">お振込金額</span>
+                    <span style="font-size:16px;color:#333;font-weight:700;">¥${payoutDetails.net_payout_jpy.toLocaleString()}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Closing -->
+          <tr>
+            <td style="padding:24px 40px 36px;">
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">
+                ご不明な点がございましたら、お気軽にお問い合わせください。<br>
+                今後とも宜しくお願いいたします。
+              </p>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 40px;border-top:1px solid #f0ece8;text-align:center;">
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">Your Kanji Name アンバサダープログラム</p>
+              <a href="mailto:contact@kanjiname.jp" style="font-size:12px;color:#c75450;text-decoration:none;">contact@kanjiname.jp</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `.trim();
