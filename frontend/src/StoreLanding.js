@@ -47,7 +47,7 @@ function StoreLanding() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/partner-inquiry`, {
+      const response = await fetch(`${API_BASE_URL}/partner-inquiry`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -304,7 +304,7 @@ function StoreLanding() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="例：090-1234-5678"
+                placeholder="09012345678"
               />
             </div>
             {error && <p className="error-message">{error}</p>}
