@@ -767,10 +767,12 @@
 }
 
 /* Footer */
-.footer {
+.store-landing .footer {
+  position: static;
   padding: 40px 8%;
   background: #333;
   color: white;
+  font-size: inherit;
 }
 
 .footer-content {

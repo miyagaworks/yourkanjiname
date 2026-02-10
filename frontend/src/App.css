@@ -103,6 +103,7 @@ body::before {
   width: 100%;
   position: relative;
   margin-top: 60px;
+  padding-bottom: 60px;
 }
 
 .language-toggle {
@@ -186,6 +187,9 @@ body::before {
   color: #1a202c;
   margin-bottom: 30px;
   line-height: 1.5;
+}
+
+:lang(ja) .question-text {
   text-align: justify;
 }
 
@@ -248,6 +252,9 @@ body::before {
 .option-text {
   flex: 1;
   line-height: 1.5;
+}
+
+:lang(ja) .option-text {
   text-align: justify;
 }
 
@@ -511,9 +518,12 @@ body::before {
   padding: 20px;
   background: #faf8f5;
   border-radius: 16px;
-  text-align: justify;
   white-space: pre-wrap;
   border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+:lang(ja) .explanation {
+  text-align: justify;
 }
 
 /* ===================================
@@ -940,9 +950,9 @@ body::before {
   width: 100%;
   text-align: center;
   padding: 12px 20px;
-  color: #999;
+  color: #aaa;
   font-size: 13px;
-  background: rgba(250, 248, 245, 0.9);
+  background: #333;
 }
 
 .footer p {
@@ -1062,6 +1072,7 @@ body::before {
   background: rgba(255, 255, 255, 0.90);
   border-radius: 24px;
   padding: 40px;
+  padding-bottom: 80px;
   max-width: 600px;
   margin: 0 auto;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
@@ -1140,6 +1151,7 @@ body::before {
   font-weight: 600;
   font-size: 0.875rem;
   flex-shrink: 0;
+  padding-bottom: 2px;
 }
 
 .feature span:last-child {

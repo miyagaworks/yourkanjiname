@@ -59,11 +59,12 @@ export const LanguageProvider = ({ children }) => {
     }
   };
 
-  // Update URL when language changes (without page reload)
+  // Update URL and html lang attribute when language changes
   useEffect(() => {
     const url = new URL(window.location.href);
     url.searchParams.set('lang', language);
     window.history.replaceState({}, '', url.toString());
+    document.documentElement.lang = language;
   }, [language]);
 
   const value = {
