@@ -12,6 +12,7 @@ import Terms from './Terms';
 import Privacy from './Privacy';
 import TankaPrompt from './TankaPrompt';
 import StoreLanding from './StoreLanding';
+import { LuSend } from 'react-icons/lu';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -360,7 +361,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
           className="calligrapher-submit"
           disabled={!email.trim() || submitting}
         >
-          {submitting ? t('sending') : t('sendCalligraphy') || 'Send Calligraphy'}
+          {submitting ? t('sending') : t('sendCalligraphy') || 'Send Calligraphy'} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle' }} />
         </button>
       </form>
       {error && <p className="calligrapher-error">{error}</p>}
@@ -583,10 +584,9 @@ function App() {
 
   // 背景画像を設定
   useEffect(() => {
-    document.body.style.setProperty('background-image', 'url(/images/washi-texture.webp)', 'important');
-    document.body.style.setProperty('background-size', 'cover', 'important');
-    document.body.style.setProperty('background-position', 'center', 'important');
-    document.body.style.setProperty('background-attachment', 'fixed', 'important');
+    const style = document.createElement('style');
+    style.textContent = `body::before { background-image: url(/images/pattern/wave.svg); background-size: 80px 80px; background-repeat: repeat; }`;
+    document.head.appendChild(style);
   }, []);
 
   // プレビューモード: 結果ページを直接表示

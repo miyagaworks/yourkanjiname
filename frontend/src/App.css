@@ -19,7 +19,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F5F5DC; /* 生成り色 */
+  background-color: #faf8f5;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -35,6 +35,7 @@ body::before {
   width: 100%;
   height: 100%;
   z-index: -1;
+  opacity: 0.3;
 }
 
 /* ===================================
@@ -135,14 +136,14 @@ body::before {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(199, 84, 80, 0.12);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #6c5d94;
+  background: linear-gradient(90deg, #c75450 0%, #b04541 100%);
   transition: width 0.5s ease;
   border-radius: 10px;
 }
@@ -161,10 +162,10 @@ body::before {
 
 .question-card {
   background: rgba(255, 255, 255, 0.90);
-  border-radius: 8px;
+  border-radius: 20px;
   padding: 40px;
-  box-shadow: 0 10px 30px rgba(47, 47, 47, 0.1);
-  border: 1px solid rgba(44, 95, 45, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   animation: fadeIn 0.5s ease;
 }
 
@@ -185,6 +186,7 @@ body::before {
   color: #1a202c;
   margin-bottom: 30px;
   line-height: 1.5;
+  text-align: justify;
 }
 
 /* ===================================
@@ -203,8 +205,8 @@ body::before {
   align-items: center;
   padding: 20px;
   background: white;
-  border: 2px solid rgba(44, 95, 45, 0.2);
-  border-radius: 6px;
+  border: 2px solid #e8e4e0;
+  border-radius: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: left;
@@ -213,15 +215,16 @@ body::before {
 }
 
 .option-button:hover {
-  background: rgba(44, 95, 45, 0.05);
-  border-color: #2C5F2D;
+  background: rgba(199, 84, 80, 0.04);
+  border-color: #c75450;
   transform: translateX(5px);
 }
 
 .option-button.selected {
-  background: #2C5F2D; /* 常磐色 */
-  border-color: #2C5F2D;
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
+  border-color: transparent;
   color: white;
+  box-shadow: 0 4px 16px rgba(199, 84, 80, 0.3);
 }
 
 .option-label {
@@ -245,6 +248,7 @@ body::before {
 .option-text {
   flex: 1;
   line-height: 1.5;
+  text-align: justify;
 }
 
 /* Gender Options */
@@ -265,7 +269,7 @@ body::before {
   margin-bottom: 10px;
   display: block;
   font-weight: 300;
-  color: #2C5F2D;
+  color: #c75450;
 }
 
 .gender-option .option-text {
@@ -281,17 +285,18 @@ body::before {
   width: 100%;
   padding: 16px;
   font-size: 18px;
-  border: 2px solid rgba(44, 95, 45, 0.2);
-  border-radius: 6px;
+  border: 2px solid #e8e4e0;
+  border-radius: 12px;
   margin-bottom: 20px;
   transition: all 0.3s ease;
   color: #1a202c;
+  background: #faf8f5;
 }
 
 .name-input:focus {
   outline: none;
-  border-color: #2C5F2D;
-  box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+  border-color: #c75450;
+  box-shadow: 0 0 0 3px rgba(199, 84, 80, 0.1);
 }
 
 /* ===================================
@@ -301,20 +306,20 @@ body::before {
 .submit-button {
   width: 100%;
   padding: 16px;
-  background: #2C5F2D; /* 常磐色 */
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 50px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(199, 84, 80, 0.3);
 }
 
 .submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(44, 95, 45, 0.3);
-  background: #234d24;
+  box-shadow: 0 6px 20px rgba(199, 84, 80, 0.4);
 }
 
 .submit-button:disabled {
@@ -338,10 +343,10 @@ body::before {
 
 .back-button {
   padding: 16px 24px;
-  background: #f5f5f5;
+  background: white;
   color: #666;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid #e8e4e0;
+  border-radius: 50px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
@@ -444,19 +449,20 @@ body::before {
 
 .result-card {
   background: rgba(255, 255, 255, 0.90);
-  border-radius: 8px;
+  border-radius: 24px;
   padding: 50px;
-  box-shadow: 0 10px 30px rgba(47, 47, 47, 0.1);
-  border: 1px solid rgba(44, 95, 45, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   animation: fadeIn 0.5s ease;
   text-align: center;
 }
 
 .result-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a202c;
-  margin-bottom: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
 }
 
 .kanji-display {
@@ -466,14 +472,34 @@ body::before {
 .kanji-name {
   font-size: 120px;
   font-weight: 700;
-  color: #2C5F2D; /* 常磐色 */
+  color: #333;
   line-height: 1.2;
   margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.kanji-display::before,
+.kanji-display::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #c75450, transparent);
+  margin: 0 auto;
+}
+
+.kanji-display::before {
+  margin-bottom: 10px;
+}
+
+.kanji-display::after {
+  margin-top: 10px;
 }
 
 .pronunciation {
   font-size: 24px;
-  color: #8B4513; /* 柿渋色 */
+  color: #c75450;
   margin-bottom: 10px;
 }
 
@@ -483,11 +509,11 @@ body::before {
   color: #1a202c;
   margin: 30px 0;
   padding: 20px;
-  background: rgba(245, 245, 220, 0.3);
-  border-radius: 6px;
+  background: #faf8f5;
+  border-radius: 16px;
   text-align: justify;
   white-space: pre-wrap;
-  border: 1px solid rgba(44, 95, 45, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 /* ===================================
@@ -503,15 +529,21 @@ body::before {
 
 .kanji-detail {
   padding: 25px;
-  background: rgba(245, 245, 220, 0.3);
-  border-radius: 6px;
+  background: #faf8f5;
+  border-radius: 20px;
   text-align: center;
-  border: 1px solid rgba(44, 95, 45, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.kanji-detail:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
 .kanji-detail h3 {
   font-size: 64px;
-  color: #2C5F2D; /* 常磐色 */
+  color: #333;
   margin-bottom: 15px;
 }
 
@@ -560,13 +592,13 @@ body::before {
 
 .scroll-hint-arrow {
   font-size: 24px;
-  color: #8B4513;
+  color: #c75450;
   animation: bounceDown 1.5s ease-in-out infinite;
 }
 
 .scroll-hint-text {
   font-size: 13px;
-  color: #8B4513;
+  color: #c75450;
   font-weight: 500;
 }
 
@@ -586,9 +618,9 @@ body::before {
 .calligrapher-section {
   margin: 50px 0 40px;
   padding: 30px;
-  background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(212, 175, 55, 0.1) 100%);
-  border-radius: 12px;
-  border: 1px solid rgba(139, 69, 19, 0.15);
+  background: linear-gradient(135deg, rgba(199, 84, 80, 0.04) 0%, rgba(199, 84, 80, 0.08) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(199, 84, 80, 0.12);
   text-align: center;
 }
 
@@ -649,8 +681,8 @@ body::before {
   width: 100%;
   padding: 14px 16px;
   font-size: 16px;
-  border: 2px solid rgba(139, 69, 19, 0.2);
-  border-radius: 8px;
+  border: 2px solid #e8e4e0;
+  border-radius: 12px;
   background: white;
   transition: all 0.3s ease;
   color: #1a202c;
@@ -658,8 +690,8 @@ body::before {
 
 .calligrapher-email:focus {
   outline: none;
-  border-color: #8B4513;
-  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
+  border-color: #c75450;
+  box-shadow: 0 0 0 3px rgba(199, 84, 80, 0.1);
 }
 
 .calligrapher-email::placeholder {
@@ -669,19 +701,20 @@ body::before {
 .calligrapher-submit {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #8B4513 0%, #a0522d 100%);
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(199, 84, 80, 0.3);
 }
 
 .calligrapher-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(139, 69, 19, 0.3);
+  box-shadow: 0 6px 20px rgba(199, 84, 80, 0.4);
 }
 
 .calligrapher-submit:disabled {
@@ -759,7 +792,7 @@ body::before {
 
 .score-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #c75450 0%, #b04541 100%);
   transition: width 1s ease;
   border-radius: 12px;
 }
@@ -768,7 +801,7 @@ body::before {
   width: 50px;
   font-size: 16px;
   font-weight: 700;
-  color: #667eea;
+  color: #c75450;
   text-align: left;
 }
 
@@ -779,21 +812,21 @@ body::before {
 .share-button {
   width: 100%;
   padding: 16px;
-  background: #DC143C; /* 紅色 */
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 50px;
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 30px;
+  box-shadow: 0 4px 12px rgba(199, 84, 80, 0.3);
 }
 
 .share-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(220, 20, 60, 0.3);
-  background: #b81030;
+  box-shadow: 0 6px 20px rgba(199, 84, 80, 0.4);
 }
 
 /* ===================================
@@ -833,8 +866,8 @@ body::before {
 .spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid rgba(212, 175, 55, 0.3);
-  border-top: 4px solid #d4af37;
+  border: 4px solid rgba(199, 84, 80, 0.2);
+  border-top: 4px solid #c75450;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -885,7 +918,7 @@ body::before {
 }
 
 .progress-dot.active {
-  background: #d4af37;
+  background: #c75450;
   transform: scale(1.2);
 }
 
@@ -901,13 +934,15 @@ body::before {
    =================================== */
 
 .footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
   text-align: center;
-  padding: 30px 20px;
-  margin-top: 0;
-  color: #1a202c;
-  font-size: 14px;
-  opacity: 0.7;
+  padding: 12px 20px;
+  color: #999;
+  font-size: 13px;
+  background: rgba(250, 248, 245, 0.9);
 }
 
 .footer p {
@@ -921,7 +956,7 @@ body::before {
 @media (max-width: 768px) {
   body {
     padding: 0;
-    background-color: white;
+    background-color: #faf8f5;
   }
 
   #root {
@@ -1011,6 +1046,12 @@ body::before {
     max-width: 280px;
     gap: 10px;
   }
+
+  .footer {
+    position: static;
+    padding: 10px 20px;
+    font-size: 10px;
+  }
 }
 
 /* ===================================
@@ -1019,11 +1060,11 @@ body::before {
 
 .landing-card {
   background: rgba(255, 255, 255, 0.90);
-  border-radius: 16px;
+  border-radius: 24px;
   padding: 40px;
   max-width: 600px;
   margin: 0 auto;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   text-align: center;
 }
 
@@ -1058,8 +1099,8 @@ body::before {
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
@@ -1069,8 +1110,8 @@ body::before {
 
 .landing-features {
   text-align: left;
-  background: #f9f9f9;
-  border-radius: 12px;
+  background: #faf8f5;
+  border-radius: 16px;
   padding: 20px 24px;
   margin-bottom: 24px;
 }
@@ -1114,8 +1155,8 @@ body::before {
   margin-bottom: 20px;
   padding: 16px 24px;
   background: #faf5f5;
-  border: 2px solid #c75450;
-  border-radius: 8px;
+  border: 2px solid rgba(199, 84, 80, 0.3);
+  border-radius: 16px;
 }
 
 .price-label {
@@ -1140,7 +1181,7 @@ body::before {
   font-size: 1.25rem;
   font-weight: 600;
   border: none;
-  border-radius: 12px;
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 12px rgba(199, 84, 80, 0.3);
@@ -1209,15 +1250,15 @@ body::before {
   width: 100%;
   padding: 16px 32px;
   font-size: 1.125rem;
-  border-radius: 8px;
+  border-radius: 50px;
 }
 
 .payment-retry-btn {
   padding: 12px 24px;
-  background: #c75450;
+  background: linear-gradient(135deg, #c75450 0%, #b04541 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
   font-size: 1rem;
 }
