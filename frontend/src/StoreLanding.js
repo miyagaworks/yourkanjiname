@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import { FiZoomIn } from 'react-icons/fi';
+import { IoIosArrowDown } from 'react-icons/io';
+import { FaQuestionCircle } from 'react-icons/fa';
+import { MdQuestionAnswer } from 'react-icons/md';
+import { LuSend } from 'react-icons/lu';
 import './StoreLanding.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || '';
@@ -26,6 +31,7 @@ function StoreLanding() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [activeImage, setActiveImage] = useState(0);
+  const [showPosterModal, setShowPosterModal] = useState(false);
 
   // 画像自動切り替え
   React.useEffect(() => {
@@ -73,7 +79,7 @@ function StoreLanding() {
       {/* Hero Section */}
       <header className="hero">
         <div className="hero-content">
-          <h1>ポスターを貼るだけで<br />毎月収益。</h1>
+          <h1>ポスターを貼るだけで<br />新しい収入源。</h1>
           <p className="hero-subtitle">
             外国人観光客に大人気の「漢字名」サービスで、<br />
             お店の新しい収入源を作りませんか？
@@ -92,19 +98,28 @@ function StoreLanding() {
       {/* Benefits Section */}
       <section className="benefits">
         <h2>選ばれる3つの理由</h2>
+        <p className="section-subtitle">初期費用ゼロ、接客不要、手間なし。</p>
         <div className="benefits-grid">
           <div className="benefit-card poster-card">
-            <img src="/images/calligraphy/poster.png" alt="店頭ポスター" className="poster-image" />
+            <span className="benefit-number">1</span>
+            <div className="poster-container">
+              <img src="/images/partner/poster.png" alt="店頭ポスター" className="poster-image" />
+              <button className="poster-zoom-btn" onClick={() => setShowPosterModal(true)}>
+                <FiZoomIn />
+              </button>
+            </div>
             <h3>やることは<br />ポスターを貼るだけ</h3>
             <p>接客不要、説明不要。<br />10か国語に自動対応するので、外国語が話せなくても大丈夫です。</p>
           </div>
           <div className="benefit-card">
-            <div className="benefit-icon">💰</div>
-            <h3>売上の10%が<br />毎月届く</h3>
+            <span className="benefit-number">2</span>
+            <img src="/images/partner/wakuwaku.png" alt="" className="benefit-icon-img" />
+            <h3>売上の10%を<br />毎月受け取れる</h3>
             <p>1件あたり約90円のロイヤリティ。<br />月10人で900円、100人で9,000円の不労所得に。</p>
           </div>
           <div className="benefit-card">
-            <div className="benefit-icon">😊</div>
+            <span className="benefit-number">3</span>
+            <img src="/images/partner/cool.png" alt="" className="benefit-icon-img" />
             <h3>お客様が<br />めっちゃ喜ぶ</h3>
             <p>日本文化に興味のある外国人観光客に大好評。<br />「最高のお土産ができた！」と笑顔で帰っていきます。</p>
           </div>
@@ -123,7 +138,7 @@ function StoreLanding() {
               <span className="step-badge">ここだけお願いします</span>
             </div>
           </div>
-          <div className="step-arrow">→</div>
+          <div className="step-arrow"><IoIosArrowDown /></div>
           <div className="step">
             <div className="step-number">2</div>
             <div className="step-content">
@@ -131,7 +146,7 @@ function StoreLanding() {
               <p>観光客がスマホでアクセス</p>
             </div>
           </div>
-          <div className="step-arrow">→</div>
+          <div className="step-arrow"><IoIosArrowDown /></div>
           <div className="step">
             <div className="step-number">3</div>
             <div className="step-content">
@@ -139,7 +154,7 @@ function StoreLanding() {
               <p>性格診断から最適な漢字名を提案</p>
             </div>
           </div>
-          <div className="step-arrow">→</div>
+          <div className="step-arrow"><IoIosArrowDown /></div>
           <div className="step">
             <div className="step-number">4</div>
             <div className="step-content">
@@ -147,7 +162,7 @@ function StoreLanding() {
               <p>プロの書道家が美しく仕上げます</p>
             </div>
           </div>
-          <div className="step-arrow">→</div>
+          <div className="step-arrow"><IoIosArrowDown /></div>
           <div className="step">
             <div className="step-number">5</div>
             <div className="step-content">
@@ -160,13 +175,23 @@ function StoreLanding() {
 
       {/* Gallery Section */}
       <section className="gallery">
-        <h2>世界中の観光客に愛されています</h2>
+        <h2>日本の心を、あなたのお店から世界へ</h2>
         <div className="gallery-grid">
           {calligraphyImages.map((img, index) => (
             <div key={index} className="gallery-item">
               <img src={img} alt={`お客様の書道作品 ${index + 1}`} />
             </div>
           ))}
+        </div>
+        <div className="gallery-message">
+          <p className="gallery-message-lead">名前に、意味を。</p>
+          <p className="gallery-message-body">
+            外国人の名前はアルファベットの羅列であり、その文字自体に意味を持ちません。<br />
+            しかし漢字名は、一文字一文字に深い意味が宿ります。<br />
+            まるで名前をつけてくれたお父さん、お母さんの温かい想いが<br className="pc-only" />
+            込められているように——。<br />
+            そんな日本の心を、あなたのお店から届けてみませんか。
+          </p>
         </div>
       </section>
 
@@ -187,7 +212,7 @@ function StoreLanding() {
               <span>月間営業日数</span>
               <span className="calc-value">25日</span>
             </div>
-            <div className="calc-row">
+            <div className="calc-row calc-last">
               <span>1件あたりのロイヤリティ</span>
               <span className="calc-value">約90円</span>
             </div>
@@ -206,20 +231,20 @@ function StoreLanding() {
         <h2>よくある質問</h2>
         <div className="faq-list">
           <div className="faq-item">
-            <h3>Q. 費用はかかりますか？</h3>
-            <p>A. <strong>完全無料</strong>です。初期費用も月額費用もありません。</p>
+            <h3><FaQuestionCircle className="faq-icon faq-q" /><span>費用はかかりますか？</span></h3>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>完全無料</strong>です。初期費用も月額費用もありません。</span></p>
           </div>
           <div className="faq-item">
-            <h3>Q. 接客は必要ですか？</h3>
-            <p>A. <strong>不要</strong>です。お客様がQRコードをスキャンして、すべてスマホで完結します。</p>
+            <h3><FaQuestionCircle className="faq-icon faq-q" /><span>接客は必要ですか？</span></h3>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>不要</strong>です。お客様がQRコードをスキャンして、すべてスマホで完結します。</span></p>
           </div>
           <div className="faq-item">
-            <h3>Q. いつ振り込まれますか？</h3>
-            <p>A. <strong>毎月10日</strong>に前月分のロイヤリティをお振込みします。</p>
+            <h3><FaQuestionCircle className="faq-icon faq-q" /><span>いつ振り込まれますか？</span></h3>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>毎月10日</strong>に前月分のロイヤリティをお振込みします。</span></p>
           </div>
           <div className="faq-item">
-            <h3>Q. 最低利用件数はありますか？</h3>
-            <p>A. <strong>ありません</strong>。1件からロイヤリティが発生します。</p>
+            <h3><FaQuestionCircle className="faq-icon faq-q" /><span>最低利用件数はありますか？</span></h3>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>ありません</strong>。1件からロイヤリティが発生します。</span></p>
           </div>
         </div>
       </section>
@@ -283,19 +308,29 @@ function StoreLanding() {
               />
             </div>
             {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="submit-button" disabled={submitting}>
-              {submitting ? '送信中...' : '無料で申し込む'}
+            <button type="submit" className="store-submit-button" disabled={submitting}>
+              {submitting ? '送信中...' : <><span>無料で申し込む</span><LuSend className="send-icon" /></>}
             </button>
           </form>
         )}
       </section>
 
+      {/* Poster Modal */}
+      {showPosterModal && (
+        <div className="poster-modal-overlay" onClick={() => setShowPosterModal(false)}>
+          <div className="poster-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="poster-modal-close" onClick={() => setShowPosterModal(false)}>×</button>
+            <img src="/images/partner/poster.png" alt="店頭ポスター" className="poster-modal-image" />
+          </div>
+        </div>
+      )}
+
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
-          <img src="/images/logo_color.png" alt="Your Kanji Name" className="footer-logo-img" />
+          <img src="/images/logo_white.png" alt="Your Kanji Name" className="footer-logo-img" />
           <div className="footer-links">
-            <a href="https://app.kanjiname.jp" target="_blank" rel="noopener noreferrer">サービスを試す</a>
+            <a href="https://app.kanjiname.jp" target="_blank" rel="noopener noreferrer">サービスページへ</a>
             <a href="/terms">利用規約</a>
             <a href="/privacy">プライバシーポリシー</a>
           </div>

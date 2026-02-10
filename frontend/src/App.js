@@ -9,6 +9,7 @@ import Partner from './Partner';
 import Ambassador from './Ambassador';
 import PaymentModal from './components/PaymentModal';
 import Terms from './Terms';
+import Privacy from './Privacy';
 import TankaPrompt from './TankaPrompt';
 import StoreLanding from './StoreLanding';
 
@@ -552,6 +553,8 @@ function App() {
   const isPartnerPage = window.location.pathname === '/partner';
   const isAmbassadorPage = window.location.pathname === '/ambassador';
   const isTankaPage = window.location.pathname === '/tanka';
+  const isTermsPage = window.location.pathname === '/terms';
+  const isPrivacyPage = window.location.pathname === '/privacy';
 
   // Track partner code from URL (stores to sessionStorage)
   getPartnerCode();
@@ -801,6 +804,16 @@ function App() {
       setLoading(false);
     }
   };
+
+  // Terms page
+  if (isTermsPage) {
+    return <Terms language="ja" onBack={() => window.history.back()} />;
+  }
+
+  // Privacy policy page
+  if (isPrivacyPage) {
+    return <Privacy language="ja" onBack={() => window.history.back()} />;
+  }
 
   // Store landing page (kanjiname.jp without app. subdomain)
   if (isStoreLandingPage) {
