@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './StoreLanding.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL || '';
+
 // 書道サンプル画像
 const calligraphyImages = [
   '/images/calligraphy/01.png',
@@ -39,18 +41,21 @@ function StoreLanding() {
     setError(null);
 
     try {
-      // TODO: パートナー申請APIを呼び出す
-      // const response = await fetch(`${API_BASE_URL}/partner-inquiry`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      const response = await fetch(`${API_BASE_URL}/api/partner-inquiry`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-      // 仮の成功処理
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || '送信に失敗しました');
+      }
+
       setSubmitted(true);
     } catch (err) {
-      setError('送信に失敗しました。もう一度お試しください。');
+      setError(err.message || '送信に失敗しました。もう一度お試しください。');
     } finally {
       setSubmitting(false);
     }
