@@ -121,7 +121,7 @@ function StoreLanding() {
             <span className="benefit-number">3</span>
             <img src="/images/partner/cool.png" alt="" className="benefit-icon-img" />
             <h3>お客様が<br />めっちゃ喜ぶ</h3>
-            <p>日本文化に興味のある外国人観光客に大好評。<br />「最高のお土産ができた！」と笑顔で帰っていきます。</p>
+            <p>外国人観光客に大好評。<br />「最高のお土産ができた！」と笑顔で帰っていきます。</p>
           </div>
         </div>
       </section>

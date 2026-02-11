@@ -145,34 +145,38 @@
   padding: 44px 28px 36px;
   background: white;
   border-radius: 20px;
-  border: 1px solid #eee;
+  border: 1px solid #c75450;
   transition: transform 0.3s, box-shadow 0.3s;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .benefit-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-  border-color: transparent;
+  border-color: #c75450;
 }
 
 .benefit-number {
   position: absolute;
-  top: -14px;
+  top: -24px;
   left: 50%;
   transform: translateX(-50%);
-  width: 28px;
-  height: 28px;
-  background: #c75450;
-  color: white;
+  width: 48px;
+  height: 48px;
+  background: white;
+  color: #c75450;
+  border: 2px solid #c75450;
   border-radius: 50%;
-  font-size: 0.8rem;
+  font-size: 1.3rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
-  padding-bottom: 1px;
+  padding-bottom: 2px;
 }
 
 .benefit-icon {
@@ -199,7 +203,7 @@
 }
 
 .poster-card .poster-image {
-  width: 120px;
+  width: 150px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -208,25 +212,26 @@
 
 .poster-zoom-btn {
   position: absolute;
-  right: -40px;
+  right: -60px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  font-size: 1.2rem;
-  background: #c75450;
+  width: 40px;
+  height: 40px;
+  font-size: 1.4rem;
+  background: #3a7bc8;
   color: white;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(58, 123, 200, 0.3);
 }
 
 .poster-zoom-btn:hover {
-  background: #a33f3c;
+  background: #2e62a0;
 }
 
 /* Poster Modal */
@@ -277,6 +282,7 @@
   color: #333;
   line-height: 1.5;
   font-weight: 700;
+  margin-top: auto;
 }
 
 .benefit-card p {
@@ -861,6 +867,7 @@
 
   .benefits-grid {
     grid-template-columns: 1fr;
+    gap: 48px;
   }
 
   .gallery-grid {
