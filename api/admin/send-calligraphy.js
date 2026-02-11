@@ -136,10 +136,13 @@ function buildEmailHtml(request, config, imageUrl, poemText) {
 
   // Convert poem text to HTML (preserve line breaks)
   const poemHtml = poemText
-    ? `<div class="poem-section">
-        <h3 style="color: #c75450; border-bottom: 1px solid #e0e0e0; padding-bottom: 10px;">${config.poemTitle}</h3>
-        <div style="white-space: pre-wrap; font-family: 'Noto Sans JP', monospace; line-height: 2; background: #f9f9f9; padding: 20px; border-radius: 8px;">${poemText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
-      </div>`
+    ? `
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#c75450;letter-spacing:0.05em;">${config.poemTitle}</p>
+              <div style="font-size:14px;color:#555;line-height:2;background:#faf8f5;padding:20px 24px;border-radius:12px;border-left:3px solid #c75450;white-space:pre-wrap;">${poemText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+            </td>
+          </tr>`
     : '';
 
   return `
@@ -148,44 +151,53 @@ function buildEmailHtml(request, config, imageUrl, poemText) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif; line-height: 1.8; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { text-align: center; padding: 30px 0; border-bottom: 2px solid #c75450; }
-    .content { padding: 30px 0; }
-    .artwork-section { text-align: center; padding: 30px 0; background: #f9f9f9; margin: 20px 0; border-radius: 8px; }
-    .artwork-label { color: #888; margin-bottom: 15px; font-size: 14px; }
-    .artwork-image { max-width: 100%; border: 1px solid #ddd; border-radius: 4px; }
-    .poem-section { margin: 30px 0; }
-    .note { font-size: 12px; color: #888; margin-top: 20px; padding: 15px; background: #fff9e6; border-radius: 4px; }
-    .footer { text-align: center; padding: 20px 0; color: #888; font-size: 12px; border-top: 1px solid #eee; }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="300" style="max-width: 100%; height: auto;">
-    </div>
-    <div class="content">
-      ${greeting ? `<p>${greeting}</p>` : ''}
-      <p>${intro}</p>
-      <p>${config.message}</p>
-
-      <div class="artwork-section">
-        <p class="artwork-label">${config.yourArtwork}</p>
-        <img src="${imageUrl}" alt="${request.kanji_name}" class="artwork-image">
-      </div>
-
-      ${poemHtml}
-
-      <div class="note">${config.note}</div>
-    </div>
-    <div class="footer">
-      <p>${config.closing}</p>
-      <p>${config.contact}: <a href="mailto:contact@kanjiname.jp" style="color: #c75450;">contact@kanjiname.jp</a></p>
-      <p>&copy; ${new Date().getFullYear()} Your Kanji Name</p>
-    </div>
-  </div>
+<body style="margin:0;padding:0;background-color:#f4f2ef;font-family:'Helvetica Neue',Arial,'Noto Sans JP',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f2ef;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <tr>
+            <td style="padding:32px 40px;text-align:center;border-bottom:1px solid #f0ece8;">
+              <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="260" style="max-width:100%;height:auto;">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:32px 40px 16px;">
+              ${greeting ? `<p style="margin:0 0 12px;font-size:16px;color:#333;">${greeting}</p>` : ''}
+              <p style="margin:0 0 8px;font-size:14px;color:#555;line-height:1.9;">${intro}</p>
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">${config.message}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 40px;" align="center">
+              <table cellpadding="0" cellspacing="0" style="background:#faf8f5;border-radius:16px;padding:24px;width:100%;">
+                <tr>
+                  <td align="center">
+                    <p style="margin:0 0 16px;font-size:12px;color:#999;letter-spacing:0.1em;text-transform:uppercase;">${config.yourArtwork}</p>
+                    <img src="${imageUrl}" alt="${request.kanji_name}" style="max-width:100%;border-radius:8px;">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          ${poemHtml}
+          <tr>
+            <td style="padding:16px 40px 24px;">
+              <div style="font-size:12px;color:#888;background:#fff9e6;padding:16px 20px;border-radius:8px;line-height:1.8;">${config.note}</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 40px;border-top:1px solid #f0ece8;text-align:center;">
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">${config.closing}</p>
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">${config.contact}: <a href="mailto:contact@kanjiname.jp" style="color:#c75450;text-decoration:none;">contact@kanjiname.jp</a></p>
+              <p style="margin:0;font-size:11px;color:#ccc;">&copy; ${new Date().getFullYear()} Your Kanji Name</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `.trim();
@@ -193,7 +205,7 @@ function buildEmailHtml(request, config, imageUrl, poemText) {
 
 async function sendEmail(to, subject, html) {
   const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@yourkanjiname.com>';
+  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@kanjiname.jp>';
 
   if (!resendApiKey) {
     throw new Error('RESEND_API_KEY not configured');

@@ -515,7 +515,7 @@
 .calc-value {
   font-weight: 600;
   color: #333;
-  font-size: 1.05rem;
+  font-size: 1.0rem;
 }
 
 .calc-divider {
@@ -524,7 +524,7 @@
 }
 
 .calc-total {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   border-bottom: none;
   padding-top: 16px;
 }
@@ -536,7 +536,7 @@
 
 .calc-value.highlight {
   color: #c75450;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 700;
 }
 

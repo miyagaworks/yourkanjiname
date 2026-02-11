@@ -168,48 +168,60 @@ function buildUserEmailHtml(request, config) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif; line-height: 1.8; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { text-align: center; padding: 30px 0; border-bottom: 2px solid #c75450; }
-    .kanji-name { font-size: 48px; color: #c75450; margin: 20px 0; }
-    .content { padding: 30px 0; }
-    .explanation-box { background: #f9f5f5; padding: 20px; border-left: 3px solid #c75450; margin: 20px 0; }
-    .explanation-title { font-weight: bold; color: #c75450; margin-bottom: 10px; }
-    .explanation-text { line-height: 1.8; }
-    .footer { text-align: center; padding: 20px 0; color: #888; font-size: 12px; border-top: 1px solid #eee; }
-  </style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="300" style="max-width: 100%; height: auto;">
-    </div>
-    <div class="content">
-      ${greeting ? `<p>${greeting}</p>` : ''}
-      <p>${config.thankYou}</p>
-      <p>${intro}</p>
-
-      <div style="text-align: center; padding: 30px 0;">
-        <p style="color: #888; margin-bottom: 10px;">${config.yourName}</p>
-        <div class="kanji-name">${request.kanji_name}</div>
-      </div>
-
-      ${explanationHtml ? `
-      <div class="explanation-box">
-        <div class="explanation-title">${config.aboutYourName}</div>
-        <div class="explanation-text">${explanationHtml}</div>
-      </div>
-      ` : ''}
-
-      <p>${config.calligraphyInfo}</p>
-    </div>
-    <div class="footer">
-      <p>${config.closing}</p>
-      <p>${config.contact}: <a href="mailto:contact@kanjiname.jp" style="color: #c75450;">contact@kanjiname.jp</a></p>
-      <p>&copy; ${new Date().getFullYear()} Your Kanji Name</p>
-    </div>
-  </div>
+<body style="margin:0;padding:0;background-color:#f4f2ef;font-family:'Helvetica Neue',Arial,'Noto Sans JP',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f2ef;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <tr>
+            <td style="padding:32px 40px;text-align:center;border-bottom:1px solid #f0ece8;">
+              <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="260" style="max-width:100%;height:auto;">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:32px 40px 16px;">
+              ${greeting ? `<p style="margin:0 0 12px;font-size:16px;color:#333;">${greeting}</p>` : ''}
+              <p style="margin:0 0 8px;font-size:14px;color:#555;line-height:1.9;">${config.thankYou}</p>
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">${intro}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 40px;" align="center">
+              <table cellpadding="0" cellspacing="0" style="background:#faf8f5;border-radius:16px;padding:28px 40px;width:100%;">
+                <tr>
+                  <td align="center">
+                    <p style="margin:0 0 8px;font-size:12px;color:#999;letter-spacing:0.1em;text-transform:uppercase;">${config.yourName}</p>
+                    <p style="margin:0;font-size:52px;color:#c75450;font-weight:700;letter-spacing:0.1em;">${request.kanji_name}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          ${explanationHtml ? `
+          <tr>
+            <td style="padding:16px 40px 24px;">
+              <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#c75450;letter-spacing:0.05em;">${config.aboutYourName}</p>
+              <div style="font-size:14px;color:#555;line-height:2;border-left:3px solid #c75450;padding-left:16px;">${explanationHtml}</div>
+            </td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding:8px 40px 32px;">
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">${config.calligraphyInfo}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px 40px;border-top:1px solid #f0ece8;text-align:center;">
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">${config.closing}</p>
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">${config.contact}: <a href="mailto:contact@kanjiname.jp" style="color:#c75450;text-decoration:none;">contact@kanjiname.jp</a></p>
+              <p style="margin:0;font-size:11px;color:#ccc;">&copy; ${new Date().getFullYear()} Your Kanji Name</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `.trim();
@@ -224,48 +236,66 @@ function buildAdminEmailHtml(request) {
 <html>
 <head>
   <meta charset="utf-8">
-  <style>
-    body { font-family: 'Noto Sans JP', sans-serif; line-height: 1.8; color: #333; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .header { background: #c75450; color: white; padding: 15px 20px; }
-    .content { padding: 20px; background: #f9f9f9; }
-    .field { margin-bottom: 15px; }
-    .label { font-weight: bold; color: #666; }
-    .value { margin-top: 5px; }
-    .kanji { font-size: 36px; color: #c75450; }
-    .explanation { background: white; padding: 15px; border-left: 3px solid #c75450; margin-top: 10px; white-space: pre-wrap; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h2>新しい書道申込がありました</h2>
-    </div>
-    <div class="content">
-      <div class="field">
-        <div class="label">申込者名</div>
-        <div class="value">${request.user_name || '(未入力)'}</div>
-      </div>
-      <div class="field">
-        <div class="label">メールアドレス</div>
-        <div class="value"><a href="mailto:${request.email}">${request.email}</a></div>
-      </div>
-      <div class="field">
-        <div class="label">選択言語</div>
-        <div class="value">${LANGUAGE_NAMES[request.language] || LANGUAGE_NAMES.en}</div>
-      </div>
-      <div class="field">
-        <div class="label">漢字名</div>
-        <div class="value kanji">${request.kanji_name}</div>
-      </div>
-      ${request.explanation_ja ? `
-      <div class="field">
-        <div class="label">説明文（日本語）</div>
-        <div class="explanation">${request.explanation_ja}</div>
-      </div>
-      ` : ''}
-    </div>
-  </div>
+<body style="margin:0;padding:0;background-color:#f4f2ef;font-family:'Helvetica Neue',Arial,'Noto Sans JP',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f2ef;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+          <tr>
+            <td style="background:linear-gradient(135deg,#c75450,#a33f3c);padding:32px 40px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.05em;">新しい書道申込</h1>
+              <p style="margin:8px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">${new Date().toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo' })}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:32px 40px 8px;" align="center">
+              <p style="margin:0 0 8px;font-size:12px;color:#999;letter-spacing:0.1em;">漢字名</p>
+              <p style="margin:0;font-size:44px;color:#c75450;font-weight:700;letter-spacing:0.1em;">${request.kanji_name}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:20px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">申込者名</span>
+                    <span style="font-size:16px;color:#333;font-weight:600;">${request.user_name || '(未入力)'}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">メールアドレス</span>
+                    <a href="mailto:${request.email}" style="font-size:16px;color:#c75450;text-decoration:none;">${request.email}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:14px 0;">
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">選択言語</span>
+                    <span style="font-size:16px;color:#333;">${LANGUAGE_NAMES[request.language] || LANGUAGE_NAMES.en}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          ${request.explanation_ja ? `
+          <tr>
+            <td style="padding:0 40px 24px;">
+              <p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#c75450;letter-spacing:0.05em;">説明文（日本語）</p>
+              <div style="font-size:13px;color:#555;line-height:1.9;border-left:3px solid #c75450;padding-left:16px;white-space:pre-wrap;">${request.explanation_ja}</div>
+            </td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding:0 40px 32px;" align="center">
+              <a href="mailto:${request.email}" style="display:inline-block;background:#c75450;color:#ffffff;padding:12px 32px;border-radius:50px;font-size:14px;font-weight:600;text-decoration:none;">返信する</a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `.trim();
@@ -276,7 +306,7 @@ function buildAdminEmailHtml(request) {
  */
 async function sendEmail(to, subject, html) {
   const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@yourkanjiname.com>';
+  const fromEmail = process.env.FROM_EMAIL || 'Your Kanji Name <noreply@kanjiname.jp>';
 
   if (!resendApiKey) {
     console.log('RESEND_API_KEY not set, skipping email to:', to);
