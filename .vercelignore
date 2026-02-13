@@ -4,7 +4,8 @@ node_modules
 *.log
 .DS_Store
 /tests
-/scripts
+/scripts/*
+!/scripts/generate-app-index.js
 /doc
 docker-compose.yml
 Dockerfile
