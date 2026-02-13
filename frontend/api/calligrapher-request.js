@@ -30,7 +30,7 @@ const EMAIL_CONFIG = {
     thankYou: 'お申し込みいただきありがとうございます。',
     intro: 'あなたの漢字名「{{kanjiName}}」の書道作品のお申し込みを受け付けました。',
     yourName: 'あなたの漢字名',
-    calligraphyInfo: 'プロの書道家が心を込めて筆で書き上げ、メールでお届けいたします。作品の完成までしばらくお待ちください。',
+    calligraphyInfo: 'プロの書道家が心を込めて筆で書き上げ、1週間以内にメールでお届けいたします。',
     closing: 'Your Kanji Name チーム'
   },
   en: {
@@ -39,7 +39,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Thank you for your request.',
     intro: 'We have received your request for a calligraphy artwork of your kanji name "{{kanjiName}}".',
     yourName: 'Your Kanji Name',
-    calligraphyInfo: 'A professional calligrapher will write your name with care and dedication, and we will send it to you via email. Please wait for your artwork to be completed.',
+    calligraphyInfo: 'A professional calligrapher will write your name with care and dedication. Your artwork will be delivered to your email within one week.',
     closing: 'Your Kanji Name Team'
   },
   fr: {
@@ -48,7 +48,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Merci pour votre demande.',
     intro: 'Nous avons reçu votre demande pour une œuvre calligraphique de votre nom kanji « {{kanjiName}} ».',
     yourName: 'Votre nom en kanji',
-    calligraphyInfo: 'Un calligraphe professionnel écrira votre nom avec soin et dévouement, et nous vous l\'enverrons par e-mail. Veuillez patienter pendant la réalisation de votre œuvre.',
+    calligraphyInfo: 'Un calligraphe professionnel \u00e9crira votre nom avec soin et d\u00e9vouement. Votre \u0153uvre vous sera envoy\u00e9e par e-mail sous une semaine.',
     closing: 'L\'équipe Your Kanji Name'
   },
   de: {
@@ -57,7 +57,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Vielen Dank für Ihre Anfrage.',
     intro: 'Wir haben Ihre Anfrage für ein Kalligraphie-Kunstwerk Ihres Kanji-Namens „{{kanjiName}}" erhalten.',
     yourName: 'Ihr Kanji-Name',
-    calligraphyInfo: 'Ein professioneller Kalligraph wird Ihren Namen mit Sorgfalt und Hingabe schreiben, und wir werden ihn Ihnen per E-Mail zusenden. Bitte warten Sie auf die Fertigstellung Ihres Kunstwerks.',
+    calligraphyInfo: 'Ein professioneller Kalligraph wird Ihren Namen mit Sorgfalt und Hingabe schreiben. Ihr Kunstwerk wird Ihnen innerhalb einer Woche per E-Mail zugesandt.',
     closing: 'Das Your Kanji Name Team'
   },
   es: {
@@ -66,7 +66,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Gracias por su solicitud.',
     intro: 'Hemos recibido su solicitud de una obra caligráfica de su nombre kanji "{{kanjiName}}".',
     yourName: 'Su nombre en kanji',
-    calligraphyInfo: 'Un calígrafo profesional escribirá su nombre con cuidado y dedicación, y se lo enviaremos por correo electrónico. Por favor, espere a que se complete su obra.',
+    calligraphyInfo: 'Un cal\u00edgrafo profesional escribir\u00e1 su nombre con cuidado y dedicaci\u00f3n. Su obra ser\u00e1 enviada a su correo electr\u00f3nico en un plazo de una semana.',
     closing: 'El equipo de Your Kanji Name'
   },
   pt: {
@@ -75,7 +75,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Obrigado pela sua solicitação.',
     intro: 'Recebemos sua solicitação de uma obra caligráfica do seu nome em kanji "{{kanjiName}}".',
     yourName: 'Seu nome em kanji',
-    calligraphyInfo: 'Um calígrafo profissional escreverá seu nome com cuidado e dedicação, e enviaremos para você por e-mail. Por favor, aguarde a conclusão da sua obra.',
+    calligraphyInfo: 'Um cal\u00edgrafo profissional escrever\u00e1 seu nome com cuidado e dedica\u00e7\u00e3o. Sua obra ser\u00e1 enviada para o seu e-mail dentro de uma semana.',
     closing: 'Equipe Your Kanji Name'
   },
   it: {
@@ -84,7 +84,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Grazie per la tua richiesta.',
     intro: 'Abbiamo ricevuto la tua richiesta per un\'opera calligrafica del tuo nome kanji "{{kanjiName}}".',
     yourName: 'Il tuo nome in kanji',
-    calligraphyInfo: 'Un calligrafo professionista scriverà il tuo nome con cura e dedizione, e te lo invieremo via e-mail. Per favore, attendi il completamento della tua opera.',
+    calligraphyInfo: 'Un calligrafo professionista scriver\u00e0 il tuo nome con cura e dedizione. La tua opera ti sar\u00e0 inviata via e-mail entro una settimana.',
     closing: 'Il team di Your Kanji Name'
   },
   th: {
@@ -93,7 +93,7 @@ const EMAIL_CONFIG = {
     thankYou: 'ขอบคุณสำหรับคำขอของคุณ',
     intro: 'เราได้รับคำขอสำหรับงานเขียนพู่กันชื่อคันจิของคุณ "{{kanjiName}}" แล้ว',
     yourName: 'ชื่อคันจิของคุณ',
-    calligraphyInfo: 'นักเขียนพู่กันมืออาชีพจะเขียนชื่อของคุณด้วยความใส่ใจและทุ่มเท และเราจะส่งให้คุณทางอีเมล กรุณารอการเสร็จสมบูรณ์ของผลงาน',
+    calligraphyInfo: '\u0E19\u0E31\u0E01\u0E40\u0E02\u0E35\u0E22\u0E19\u0E1E\u0E39\u0E48\u0E01\u0E31\u0E19\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E\u0E08\u0E30\u0E40\u0E02\u0E35\u0E22\u0E19\u0E0A\u0E37\u0E48\u0E2D\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13\u0E14\u0E49\u0E27\u0E22\u0E04\u0E27\u0E32\u0E21\u0E43\u0E2A\u0E48\u0E43\u0E08\u0E41\u0E25\u0E30\u0E17\u0E38\u0E48\u0E21\u0E40\u0E17 \u0E1C\u0E25\u0E07\u0E32\u0E19\u0E08\u0E30\u0E16\u0E39\u0E01\u0E2A\u0E48\u0E07\u0E17\u0E32\u0E07\u0E2D\u0E35\u0E40\u0E21\u0E25\u0E20\u0E32\u0E22\u0E43\u0E19\u0E2B\u0E19\u0E36\u0E48\u0E07\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C',
     closing: 'ทีม Your Kanji Name'
   },
   vi: {
@@ -102,7 +102,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Cảm ơn bạn đã gửi yêu cầu.',
     intro: 'Chúng tôi đã nhận được yêu cầu tác phẩm thư pháp tên kanji "{{kanjiName}}" của bạn.',
     yourName: 'Tên Kanji của bạn',
-    calligraphyInfo: 'Một nhà thư pháp chuyên nghiệp sẽ viết tên bạn với sự tận tâm và chúng tôi sẽ gửi cho bạn qua email. Xin vui lòng chờ đợi tác phẩm của bạn hoàn thành.',
+    calligraphyInfo: 'M\u1ED9t nh\u00e0 th\u01B0 ph\u00e1p chuy\u00ean nghi\u1EC7p s\u1EBD vi\u1EBFt t\u00ean b\u1EA1n v\u1EDBi s\u1EF1 t\u1EADn t\u00e2m. T\u00e1c ph\u1EA9m s\u1EBD \u0111\u01B0\u1EE3c g\u1EEDi \u0111\u1EBFn email c\u1EE7a b\u1EA1n trong v\u00f2ng m\u1ED9t tu\u1EA7n.',
     closing: 'Đội ngũ Your Kanji Name'
   },
   id: {
@@ -111,7 +111,7 @@ const EMAIL_CONFIG = {
     thankYou: 'Terima kasih atas permintaan Anda.',
     intro: 'Kami telah menerima permintaan Anda untuk karya kaligrafi nama kanji Anda "{{kanjiName}}".',
     yourName: 'Nama Kanji Anda',
-    calligraphyInfo: 'Seorang kaligrafer profesional akan menulis nama Anda dengan penuh perhatian dan dedikasi, dan kami akan mengirimkannya kepada Anda melalui email. Mohon tunggu hingga karya Anda selesai.',
+    calligraphyInfo: 'Seorang kaligrafer profesional akan menulis nama Anda dengan penuh perhatian dan dedikasi. Karya Anda akan dikirim ke email Anda dalam satu minggu.',
     closing: 'Tim Your Kanji Name'
   },
   ko: {
@@ -120,7 +120,7 @@ const EMAIL_CONFIG = {
     thankYou: '요청해 주셔서 감사합니다.',
     intro: '귀하의 한자 이름 "{{kanjiName}}" 서예 작품 요청이 접수되었습니다.',
     yourName: '당신의 한자 이름',
-    calligraphyInfo: '전문 서예가가 정성을 다해 당신의 이름을 써서 이메일로 보내드립니다. 작품이 완성될 때까지 기다려 주세요.',
+    calligraphyInfo: '\uc804\ubb38 \uc11c\uc608\uac00\uac00 \uc815\uc131\uc744 \ub2e4\ud574 \ub2f9\uc2e0\uc758 \uc774\ub984\uc744 \uc4f0\uaca0\uc2b5\ub2c8\ub2e4. \uc791\ud488\uc740 1\uc8fc\uc77c \uc774\ub0b4\uc5d0 \uc774\uba54\uc77c\ub85c \ubcf4\ub0b4\ub4dc\ub9bd\ub2c8\ub2e4.',
     closing: 'Your Kanji Name 팀'
   }
 };
