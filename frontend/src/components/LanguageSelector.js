@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, SUPPORTED_LANGUAGES, LANGUAGE_CONFIG } from '../contexts/LanguageContext';
+import { useTranslation } from '../hooks/useTranslation';
 import './LanguageSelector.css';
 
 const LanguageSelector = () => {
   const { language, setLanguage } = useLanguage();
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -46,7 +48,7 @@ const LanguageSelector = () => {
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className="language-label">Language</span>
+        <span className="language-label">{t('languageLabel')}</span>
         <span className="language-flag">{currentConfig.flag}</span>
         <span className="language-name">{currentConfig.nativeName}</span>
         <span className={`language-arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>

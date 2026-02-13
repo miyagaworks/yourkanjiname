@@ -4,6 +4,9 @@
 const translations = {
   // English (default)
   en: {
+    // Language selector
+    languageLabel: 'Language',
+
     // Name input
     enterName: 'What\'s your name?',
     namePlaceholder: 'e.g., John Smith (first name only is also OK)',
@@ -51,6 +54,7 @@ const translations = {
 
   // French
   fr: {
+    languageLabel: 'Langue',
     enterName: 'Comment vous appelez-vous ?',
     namePlaceholder: 'ex. : Jean Dupont (prénom seul aussi OK)',
     start: 'Commencer',
@@ -93,6 +97,7 @@ const translations = {
 
   // German
   de: {
+    languageLabel: 'Sprache',
     enterName: 'Wie heißen Sie?',
     namePlaceholder: 'z.B. Max Müller (nur Vorname auch OK)',
     start: 'Starten',
@@ -135,6 +140,7 @@ const translations = {
 
   // Spanish
   es: {
+    languageLabel: 'Idioma',
     enterName: '¿Cómo te llamas?',
     namePlaceholder: 'ej. Juan García (solo nombre también OK)',
     start: 'Comenzar',
@@ -177,6 +183,7 @@ const translations = {
 
   // Portuguese
   pt: {
+    languageLabel: 'Idioma',
     enterName: 'Qual é o seu nome?',
     namePlaceholder: 'ex. João Silva (só primeiro nome também OK)',
     start: 'Começar',
@@ -219,6 +226,7 @@ const translations = {
 
   // Italian
   it: {
+    languageLabel: 'Lingua',
     enterName: 'Come ti chiami?',
     namePlaceholder: 'es. Mario Rossi (solo nome anche OK)',
     start: 'Inizia',
@@ -261,6 +269,7 @@ const translations = {
 
   // Thai
   th: {
+    languageLabel: '\u0E20\u0E32\u0E29\u0E32',
     enterName: 'คุณชื่ออะไร?',
     namePlaceholder: 'เช่น สมชาย ใจดี (ชื่อเดียวก็ OK)',
     start: '\u0E40\u0E23\u0E34\u0E48\u0E21\u0E15\u0E49\u0E19',
@@ -303,6 +312,7 @@ const translations = {
 
   // Vietnamese
   vi: {
+    languageLabel: 'Ng\u00f4n ng\u1eef',
     enterName: 'Bạn tên gì?',
     namePlaceholder: 'vd: Nguyễn Văn An (chỉ tên cũng OK)',
     start: 'B\u1EAFt \u0111\u1EA7u',
@@ -345,6 +355,7 @@ const translations = {
 
   // Indonesian
   id: {
+    languageLabel: 'Bahasa',
     enterName: 'Siapa namamu?',
     namePlaceholder: 'contoh: Budi Santoso (nama depan saja juga OK)',
     start: 'Mulai',
@@ -387,6 +398,7 @@ const translations = {
 
   // Korean
   ko: {
+    languageLabel: '\uc5b8\uc5b4',
     enterName: '이름이 뭐예요?',
     namePlaceholder: '예: 홍길동 (이름만도 OK)',
     start: '\uC2DC\uC791',
@@ -429,6 +441,7 @@ const translations = {
 
   // Japanese
   ja: {
+    languageLabel: '\u8a00\u8a9e',
     enterName: 'お名前を教えてください',
     namePlaceholder: '例: John Smith（ファーストネームだけでもOK）',
     start: '\u59CB\u3081\u308B',

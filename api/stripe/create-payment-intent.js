@@ -58,6 +58,7 @@ module.exports = async function handler(req, res) {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: 'usd',
+      automatic_payment_methods: { enabled: true },
       metadata: {
         session_id: validatedSessionId || '',
         partner_code: partner_code || '',
