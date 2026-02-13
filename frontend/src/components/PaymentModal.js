@@ -22,7 +22,6 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -55,21 +54,19 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
 
   return (
     <form onSubmit={handleSubmit} className={`payment-form ${isLandingPage ? 'landing-mode' : ''}`}>
-      <div onClick={() => setHasInteracted(true)}>
-        <PaymentElement
-          className="payment-element"
-          options={{
-            paymentMethodOrder: ['apple_pay', 'google_pay', 'link', 'card'],
-          }}
-          onChange={(event) => setIsComplete(event.complete)}
-        />
-      </div>
+      <PaymentElement
+        className="payment-element"
+        options={{
+          paymentMethodOrder: ['apple_pay', 'google_pay', 'link', 'card'],
+        }}
+        onChange={(event) => setIsComplete(event.complete)}
+      />
 
       {errorMessage && (
         <div className="payment-error">{errorMessage}</div>
       )}
 
-      {hasInteracted && isComplete && (
+      {isComplete && (
         <div className={`payment-actions ${isLandingPage ? 'landing-actions' : ''}`}>
           {!isLandingPage && (
             <button
