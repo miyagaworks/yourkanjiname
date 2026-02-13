@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && cd frontend && npm install && REACT_APP_API_URL=/api npm run build && cp -r build/* ../public/ && cd .. && node scripts/generate-app-index.js",
+  "buildCommand": "npm run build && cd frontend && npm install && REACT_APP_API_URL=/api npm run build && cp -r build/* ../public/ && cp -r build/.well-known ../public/ 2>/dev/null || true && cd .. && node scripts/generate-app-index.js",
   "redirects": [
     {
       "source": "/:path*",
@@ -17,6 +17,10 @@
     {
       "source": "/api/:path*",
       "destination": "/api/:path*"
+    },
+    {
+      "source": "/.well-known/:path*",
+      "destination": "/.well-known/:path*"
     },
     {
       "source": "/((?!api/|\\.well-known/).*)",
