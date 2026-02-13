@@ -42,13 +42,13 @@ const LanguageSelector = () => {
 
   return (
     <div className="language-selector" ref={dropdownRef}>
+      <span className="language-label">{t('languageLabel')}</span>
       <button
         className="language-selector-button"
         onClick={() => setIsOpen(!isOpen)}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className="language-label">{t('languageLabel')}</span>
         <span className="language-flag">{currentConfig.flag}</span>
         <span className="language-name">{currentConfig.nativeName}</span>
         <span className={`language-arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>

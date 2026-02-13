@@ -27,11 +27,14 @@
 }
 
 .language-label {
-  font-size: 11px;
+  display: block;
+  text-align: center;
+  font-size: 10px;
   color: #888;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
+  margin-bottom: 2px;
 }
 
 .language-flag {
@@ -107,7 +110,6 @@
     font-size: 13px;
   }
 
-  .language-label,
   .language-name {
     display: none;
   }
