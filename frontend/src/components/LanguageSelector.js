@@ -46,6 +46,7 @@ const LanguageSelector = () => {
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
+        <span className="language-label">Language</span>
         <span className="language-flag">{currentConfig.flag}</span>
         <span className="language-name">{currentConfig.nativeName}</span>
         <span className={`language-arrow ${isOpen ? 'open' : ''}`}>&#9660;</span>
