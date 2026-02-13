@@ -21,6 +21,7 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [isReady, setIsReady] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -53,31 +54,39 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
 
   return (
     <form onSubmit={handleSubmit} className={`payment-form ${isLandingPage ? 'landing-mode' : ''}`}>
-      <PaymentElement className="payment-element" />
+      <PaymentElement
+        className="payment-element"
+        options={{
+          paymentMethodOrder: ['apple_pay', 'google_pay', 'link', 'card'],
+        }}
+        onChange={(event) => setIsReady(event.complete)}
+      />
 
       {errorMessage && (
         <div className="payment-error">{errorMessage}</div>
       )}
 
-      <div className={`payment-actions ${isLandingPage ? 'landing-actions' : ''}`}>
-        {!isLandingPage && (
+      {isReady && (
+        <div className={`payment-actions ${isLandingPage ? 'landing-actions' : ''}`}>
+          {!isLandingPage && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="payment-cancel-btn"
+              disabled={isProcessing}
+            >
+              Cancel
+            </button>
+          )}
           <button
-            type="button"
-            onClick={onCancel}
-            className="payment-cancel-btn"
-            disabled={isProcessing}
+            type="submit"
+            className={`payment-submit-btn ${isLandingPage ? 'landing-submit' : ''}`}
+            disabled={!stripe || isProcessing}
           >
-            Cancel
+            {isProcessing ? 'Processing...' : `Pay $${(amount / 100).toFixed(2)} & Start`}
           </button>
-        )}
-        <button
-          type="submit"
-          className={`payment-submit-btn ${isLandingPage ? 'landing-submit' : ''}`}
-          disabled={!stripe || isProcessing}
-        >
-          {isProcessing ? 'Processing...' : `Pay $${(amount / 100).toFixed(2)} & Start`}
-        </button>
-      </div>
+        </div>
+      )}
     </form>
   );
 };
