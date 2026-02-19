@@ -45,10 +45,9 @@ const Terms = ({ onBack, language = 'en' }) => {
         },
         {
           title: '5. Intellectual Property',
-          content: `• The kanji name created for you is yours to use personally
-• You may share your calligraphy image on social media with credit to Your Kanji Name
-• Commercial use of the calligraphy requires separate permission
-• The service methodology and content remain the property of Your Kanji Name`
+          content: `• There are no intellectual property restrictions on the kanji name or calligraphy created for you
+• The calligraphy image we deliver is yours to use freely for any purpose, including personal and commercial use
+• No credit or attribution is required`
         },
         {
           title: '6. Privacy',
@@ -110,10 +109,9 @@ contact@kanjiname.jp`
         },
         {
           title: '5. 知的財産権',
-          content: `• 作成された漢字名は個人的にご使用いただけます
-• 書道画像はYour Kanji Nameのクレジット表記付きでSNSに共有可能です
-• 商用利用には別途許可が必要です
-• サービスの方法論およびコンテンツはYour Kanji Nameに帰属します`
+          content: `• 作成された漢字名および筆文字に関する知的財産権の制限は特にありません
+• お送りした筆文字はご自由にお使いください（個人利用・商用利用を問いません）
+• クレジット表記等も不要です`
         },
         {
           title: '6. プライバシー',
