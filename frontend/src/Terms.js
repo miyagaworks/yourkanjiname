@@ -23,7 +23,7 @@ const Terms = ({ onBack, language = 'en' }) => {
         },
         {
           title: '2. Pricing and Payment',
-          content: `• The service fee is $6.00 USD (United States Dollars)
+          content: `• Service fees are as displayed at the time of purchase
 • Payment is processed securely through Stripe
 • Payment is required before starting the name generation process
 • All prices are final and include the complete service package`
@@ -87,7 +87,7 @@ contact@kanjiname.jp`
         },
         {
           title: '2. 料金とお支払い',
-          content: `• サービス料金は6.00米ドル（USD）です
+          content: `• サービス料金はお申し込み時に表示される金額となります
 • 決済はStripeを通じて安全に処理されます
 • お名前生成を開始する前にお支払いが必要です
 • 表示価格にはサービス一式が含まれています`
