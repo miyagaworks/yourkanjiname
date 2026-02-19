@@ -34,7 +34,7 @@ const Terms = ({ onBack, language = 'en' }) => {
 
 • A unique kanji name created specifically for you
 • Explanation of the meaning in your selected language
-• Within a few days, a handwritten calligraphy image sent to your email address
+• Within one week, a handwritten calligraphy image sent to your email address
 • The calligraphy is created by a professional Japanese calligrapher`
         },
         {
@@ -98,7 +98,7 @@ contact@kanjiname.jp`
 
 • お客様専用に作成されたオリジナル漢字名
 • 選択された言語での意味の説明
-• 数日以内に、手書きの書道画像をメールでお届け
+• 1週間以内に、手書きの書道画像をメールでお届け
 • 書道は日本のプロ書道家が制作します`
         },
         {
