@@ -51,6 +51,11 @@ const translations = {
     // Loading messages
     scrollHintCalligraphy: 'Enter your email to receive a calligraphy artwork',
 
+    // Email prompt (before generation)
+    emailPromptMessage: 'Your name is about to be generated. If you\'d like to receive the results and calligraphy image by email, please enter your email address. Leave blank if not needed.',
+    emailPromptSkip: 'Skip',
+    emailPromptSubmit: 'Submit',
+
     loading1: 'Analyzing your personality...',
     loading2: 'Selecting the perfect kanji...',
     loading3: 'Creating your story...',
@@ -96,6 +101,10 @@ const translations = {
     startFree: 'Commencer gratuitement',
 
     scrollHintCalligraphy: 'Entrez votre e-mail pour recevoir une calligraphie',
+
+    emailPromptMessage: 'Votre nom va être généré. Si vous souhaitez recevoir les résultats et l\'image de calligraphie par e-mail, veuillez entrer votre adresse e-mail. Laissez vide si ce n\'est pas nécessaire.',
+    emailPromptSkip: 'Passer',
+    emailPromptSubmit: 'Envoyer',
 
     loading1: 'Analyse de votre personnalit\u00e9...',
     loading2: 'S\u00e9lection des kanji parfaits...',
@@ -143,6 +152,10 @@ const translations = {
 
     scrollHintCalligraphy: 'E-Mail eingeben, um ein Kalligraphie-Kunstwerk zu erhalten',
 
+    emailPromptMessage: 'Ihr Name wird gleich generiert. Wenn Sie die Ergebnisse und das Kalligraphie-Bild per E-Mail erhalten möchten, geben Sie bitte Ihre E-Mail-Adresse ein. Leer lassen, wenn nicht benötigt.',
+    emailPromptSkip: 'Überspringen',
+    emailPromptSubmit: 'Absenden',
+
     loading1: 'Analyse Ihrer Pers\u00f6nlichkeit...',
     loading2: 'Auswahl der perfekten Kanji...',
     loading3: 'Erstellung Ihrer Geschichte...',
@@ -188,6 +201,10 @@ const translations = {
     startFree: 'Comenzar gratis',
 
     scrollHintCalligraphy: 'Ingresa tu correo para recibir una caligrafía',
+
+    emailPromptMessage: 'Tu nombre está a punto de ser generado. Si deseas recibir los resultados y la imagen de caligrafía por correo electrónico, ingresa tu dirección de correo. Déjalo en blanco si no es necesario.',
+    emailPromptSkip: 'Omitir',
+    emailPromptSubmit: 'Enviar',
 
     loading1: 'Analizando tu personalidad...',
     loading2: 'Seleccionando los kanji perfectos...',
@@ -235,6 +252,10 @@ const translations = {
 
     scrollHintCalligraphy: 'Insira seu e-mail para receber uma obra de caligrafia',
 
+    emailPromptMessage: 'Seu nome está prestes a ser gerado. Se deseja receber os resultados e a imagem de caligrafia por e-mail, insira seu endereço de e-mail. Deixe em branco se não for necessário.',
+    emailPromptSkip: 'Pular',
+    emailPromptSubmit: 'Enviar',
+
     loading1: 'Analisando sua personalidade...',
     loading2: 'Selecionando os kanji perfeitos...',
     loading3: 'Criando sua história...',
@@ -280,6 +301,10 @@ const translations = {
     startFree: 'Inizia gratis',
 
     scrollHintCalligraphy: 'Inserisci la tua e-mail per ricevere un\'opera di calligrafia',
+
+    emailPromptMessage: 'Il tuo nome sta per essere generato. Se desideri ricevere i risultati e l\'immagine della calligrafia via e-mail, inserisci il tuo indirizzo e-mail. Lascia vuoto se non necessario.',
+    emailPromptSkip: 'Salta',
+    emailPromptSubmit: 'Invia',
 
     loading1: 'Analisi della tua personalit\u00e0...',
     loading2: 'Selezione dei kanji perfetti...',
@@ -327,6 +352,10 @@ const translations = {
 
     scrollHintCalligraphy: 'กรอกอีเมลเพื่อรับผลงานเขียนพู่กัน',
 
+    emailPromptMessage: 'ชื่อของคุณกำลังจะถูกสร้างขึ้น หากคุณต้องการรับผลลัพธ์และภาพเขียนพู่กันทางอีเมล กรุณากรอกอีเมลของคุณ ไม่ต้องกรอกก็ได้หากไม่ต้องการ',
+    emailPromptSkip: 'ข้าม',
+    emailPromptSubmit: 'ส่ง',
+
     loading1: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E27\u0E34\u0E40\u0E04\u0E23\u0E32\u0E30\u0E2B\u0E4C\u0E1A\u0E38\u0E04\u0E25\u0E34\u0E01\u0E20\u0E32\u0E1E\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
     loading2: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E04\u0E31\u0E19\u0E08\u0E34\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21...',
     loading3: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E23\u0E32\u0E27\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
@@ -372,6 +401,10 @@ const translations = {
     startFree: 'Bắt đầu miễn phí',
 
     scrollHintCalligraphy: 'Nhập email để nhận tác phẩm thư pháp',
+
+    emailPromptMessage: 'Tên của bạn sắp được tạo. Nếu bạn muốn nhận kết quả và hình ảnh thư pháp qua email, vui lòng nhập địa chỉ email. Để trống nếu không cần.',
+    emailPromptSkip: 'Bỏ qua',
+    emailPromptSubmit: 'Gửi',
 
     loading1: '\u0110ang ph\u00e2n t\u00edch t\u00ednh c\u00e1ch c\u1EE7a b\u1EA1n...',
     loading2: '\u0110ang ch\u1ECDn kanji ho\u00e0n h\u1EA3o...',
@@ -419,6 +452,10 @@ const translations = {
 
     scrollHintCalligraphy: 'Masukkan email untuk menerima karya kaligrafi',
 
+    emailPromptMessage: 'Nama Anda akan segera dibuat. Jika Anda ingin menerima hasil dan gambar kaligrafi melalui email, silakan masukkan alamat email Anda. Kosongkan jika tidak diperlukan.',
+    emailPromptSkip: 'Lewati',
+    emailPromptSubmit: 'Kirim',
+
     loading1: 'Menganalisis kepribadian Anda...',
     loading2: 'Memilih kanji yang sempurna...',
     loading3: 'Membuat cerita Anda...',
@@ -465,6 +502,10 @@ const translations = {
 
     scrollHintCalligraphy: '이메일을 입력하여 서예 작품을 받으세요',
 
+    emailPromptMessage: '이름이 곧 생성됩니다. 결과와 서예 이미지를 이메일로 받고 싶으시면 이메일 주소를 입력해 주세요. 필요 없으시면 빈칸으로 두세요.',
+    emailPromptSkip: '건너뛰기',
+    emailPromptSubmit: '제출',
+
     loading1: '\uB2F9\uC2E0\uC758 \uC131\uACA9\uC744 \uBD84\uC11D \uC911...',
     loading2: '\uC644\uBCBD\uD55C \uD55C\uC790\uB97C \uC120\uD0DD \uC911...',
     loading3: '\uB2F9\uC2E0\uC758 \uC774\uC57C\uAE30\uB97C \uC791\uC131 \uC911...',
@@ -510,6 +551,10 @@ const translations = {
     startFree: '無料で始める',
 
     scrollHintCalligraphy: 'メールアドレスを入力して書道作品を受け取る',
+
+    emailPromptMessage: '今からあなたの漢字名が生成されます。結果と毛筆の画像をメールで受け取りたい場合は、メールアドレスを入力してください。不要な場合は空欄のままでOKです。',
+    emailPromptSkip: 'スキップ',
+    emailPromptSubmit: '送信',
 
     loading1: '\u6027\u683C\u3092\u5206\u6790\u4E2D...',
     loading2: '\u6700\u9069\u306A\u6F22\u5B57\u3092\u9078\u5B9A\u4E2D...',

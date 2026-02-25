@@ -281,8 +281,8 @@ const SakuraEffect = () => {
 };
 
 // Calligrapher Email Signup Section (payment already done at start)
-const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, explanationUser, paymentIntentId }) => {
-  const [email, setEmail] = useState('');
+const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, explanationUser, paymentIntentId, initialEmail }) => {
+  const [email, setEmail] = useState(initialEmail || '');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -455,7 +455,7 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
 };
 
 // Result Component
-const ResultCard = ({ result, language, userName, paymentIntentId }) => {
+const ResultCard = ({ result, language, userName, paymentIntentId, preEmail }) => {
   const { t } = useTranslation();
   const calligrapherRef = useRef(null);
   const [hintVisible, setHintVisible] = useState(true);
@@ -581,6 +581,7 @@ const ResultCard = ({ result, language, userName, paymentIntentId }) => {
           explanationJa={result.explanation?.ja || result.explanation}
           explanationUser={result.explanation?.[language] || result.explanation?.en}
           paymentIntentId={paymentIntentId}
+          initialEmail={preEmail}
         />
       </div>
 
@@ -656,6 +657,9 @@ function App() {
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [servicePrice, setServicePrice] = useState(null); // null until loaded from API
   const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
+  const [showEmailPrompt, setShowEmailPrompt] = useState(false); // メール入力画面
+  const [preEmail, setPreEmail] = useState(''); // 生成前のメールアドレス
+  const [lastAnswerInfo, setLastAnswerInfo] = useState(null); // 最後の回答情報を保持
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
   const partnerCode = sessionStorage.getItem('partnerCode');
@@ -831,8 +835,19 @@ function App() {
       return;
     }
 
-    // 最後の質問（GENERATE_RESULT）の場合
+    // 最後の質問（GENERATE_RESULT）の場合 → メール入力画面を表示
+    setLastAnswerInfo({ questionId: currentQuestionId, optionId });
+    setCurrentQuestion(null);
+    setShowEmailPrompt(true);
+    window.scrollTo(0, 0);
+  };
+
+  // メール入力画面から生成を開始
+  const handleEmailPromptContinue = async () => {
+    setShowEmailPrompt(false);
     setLoading(true);
+
+    const { questionId: lastQuestionId, optionId: lastOptionId } = lastAnswerInfo;
 
     // セッションがまだ準備できていない場合は待つ
     let currentSessionId = sessionIdRef.current;
@@ -850,11 +865,11 @@ function App() {
 
     try {
       // 最後の回答をpendingに追加
-      const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language)
+      const lastSubmit = ApiClient.submitAnswer(currentSessionId, lastQuestionId, lastOptionId, language)
         .then(() => ({ ok: true }))
         .catch(err => {
           console.error('Last submit failed:', err);
-          return { ok: false, questionId: currentQuestionId, optionId };
+          return { ok: false, questionId: lastQuestionId, optionId: lastOptionId };
         });
       pendingSubmitsRef.current.push(lastSubmit);
 
@@ -874,7 +889,6 @@ function App() {
       // 漢字名生成
       const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
       setResult(kanjiResult);
-      setCurrentQuestion(null);
     } catch (err) {
       setError('Failed to generate result');
       console.error(err);
@@ -1060,13 +1074,59 @@ function App() {
     return <div className="error">{error}</div>;
   }
 
+  // メール入力画面（生成前）
+  if (showEmailPrompt) {
+    return (
+      <>
+        <div className="container">
+          <LanguageSelector />
+          <div className="question-card">
+            <p className="question-text" style={{ fontSize: '1rem', lineHeight: '1.8' }}>
+              {t('emailPromptMessage')}
+            </p>
+            <input
+              type="email"
+              className="name-input"
+              value={preEmail}
+              onChange={(e) => {
+                const filtered = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, '');
+                setPreEmail(filtered);
+              }}
+              placeholder={t('emailPlaceholder')}
+              inputMode="email"
+              autoComplete="email"
+              autoFocus
+            />
+            <div className="navigation-buttons">
+              <button
+                className="back-button"
+                onClick={handleEmailPromptContinue}
+              >
+                {t('emailPromptSkip')}
+              </button>
+              <button
+                className="submit-button"
+                onClick={handleEmailPromptContinue}
+              >
+                {preEmail.trim() ? t('emailPromptSubmit') : t('emailPromptSkip')}
+              </button>
+            </div>
+          </div>
+        </div>
+        <footer className="footer">
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
+        </footer>
+      </>
+    );
+  }
+
   // 結果表示
   if (result) {
     return (
       <>
         <div className="container result-container">
           <LanguageSelector />
-          <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} />
+          <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} preEmail={preEmail} />
         </div>
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
