@@ -326,10 +326,88 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
   };
 
   if (submitted) {
+    const shareText = `My name in kanji is ${kanjiName} #MyKanjiName @yourkanjiname`;
+    const shareUrl = 'https://app.kanjiname.jp';
+
+    const handleCopyText = (text) => {
+      navigator.clipboard.writeText(text).catch(() => {});
+    };
+
     return (
       <div className="calligrapher-section">
         <div className="calligrapher-success">
           <p>{t('thankYou')}</p>
+        </div>
+
+        {/* SNS Share Section */}
+        <div className="share-section">
+          <h4 className="share-title">{t('shareTitle') || 'Share your kanji name'}</h4>
+
+          {/* Kanji name preview card for sharing */}
+          <div className="share-preview">
+            <p className="share-preview-label">{t('yourKanjiName')}</p>
+            <p className="share-preview-kanji">{kanjiName}</p>
+          </div>
+
+          {/* SNS buttons */}
+          <div className="share-buttons">
+            <a
+              href={`https://www.instagram.com/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="share-btn share-btn-instagram"
+              aria-label="Share on Instagram"
+            >
+              Instagram
+            </a>
+            <a
+              href={`https://www.tiktok.com/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="share-btn share-btn-tiktok"
+              aria-label="Share on TikTok"
+            >
+              TikTok
+            </a>
+            <a
+              href={`https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="share-btn share-btn-x"
+              aria-label="Share on X"
+            >
+              X
+            </a>
+          </div>
+
+          {/* Copyable hashtag and handle */}
+          <div className="share-tags">
+            <button
+              className="share-tag"
+              onClick={() => handleCopyText('#MyKanjiName')}
+              title={t('copyTag') || 'Copy'}
+            >
+              #MyKanjiName
+            </button>
+            <button
+              className="share-tag"
+              onClick={() => handleCopyText('@yourkanjiname')}
+              title={t('copyTag') || 'Copy'}
+            >
+              @yourkanjiname
+            </button>
+          </div>
+
+          {/* Copy-paste share text */}
+          <div className="share-template">
+            <p className="share-template-text">"{shareText}"</p>
+            <button
+              className="share-copy-btn"
+              onClick={() => handleCopyText(shareText)}
+            >
+              {t('copyText') || 'Copy'}
+            </button>
+          </div>
         </div>
       </div>
     );

@@ -746,6 +746,157 @@ body::before {
   margin: 0;
 }
 
+/* ===================================
+   SNS Share Section (after calligraphy request)
+   =================================== */
+
+.share-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(199, 84, 80, 0.15);
+}
+
+.share-title {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin: 0 0 20px;
+}
+
+.share-preview {
+  background: rgba(250, 248, 245, 0.8);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.share-preview-label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 8px;
+}
+
+.share-preview-kanji {
+  font-size: 48px;
+  color: #c75450;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 100px;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.share-btn-instagram {
+  background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737);
+  color: #fff;
+}
+
+.share-btn-tiktok {
+  background: #010101;
+  color: #fff;
+}
+
+.share-btn-x {
+  background: #000;
+  color: #fff;
+}
+
+.share-tags {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.share-tag {
+  display: inline-block;
+  background: #fff;
+  color: #c75450;
+  border: 1px solid rgba(199, 84, 80, 0.3);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.share-tag:hover {
+  background: rgba(199, 84, 80, 0.06);
+}
+
+.share-tag:active {
+  transform: scale(0.95);
+}
+
+.share-template {
+  background: #fff;
+  border: 1px solid rgba(199, 84, 80, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.share-template-text {
+  flex: 1;
+  font-size: 14px;
+  color: #555;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.share-copy-btn {
+  background: #c75450;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.share-copy-btn:hover {
+  background: #a33f3c;
+}
+
+.share-copy-btn:active {
+  transform: scale(0.95);
+}
+
 .calligrapher-error {
   margin-top: 15px;
   padding: 12px;
@@ -1055,6 +1206,26 @@ body::before {
   .calligrapher-samples {
     max-width: 280px;
     gap: 10px;
+  }
+
+  .share-preview-kanji {
+    font-size: 36px;
+  }
+
+  .share-buttons {
+    gap: 8px;
+  }
+
+  .share-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    min-width: 80px;
+  }
+
+  .share-template {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
   }
 
   .footer {

@@ -33,6 +33,11 @@ const translations = {
     thankYou: 'Thank you! Your calligraphy will be delivered to your email within one week.',
     requestError: 'Failed to send request. Please try again.',
 
+    // Share section
+    shareTitle: 'Share your kanji name',
+    copyTag: 'Copy',
+    copyText: 'Copy',
+
     // Landing page
     landingTitle: 'Get Your Unique Kanji Name',
     landingDesc: 'Discover your personalized Japanese kanji name, handwritten by a professional calligrapher and delivered to your email.',
@@ -77,6 +82,9 @@ const translations = {
     sending: 'Envoi en cours...',
     thankYou: 'Merci ! Votre calligraphie vous sera envoy\u00e9e par e-mail sous une semaine.',
     requestError: 'Échec de l\'envoi. Veuillez réessayer.',
+    shareTitle: 'Partagez votre nom en kanji',
+    copyTag: 'Copier',
+    copyText: 'Copier',
 
     landingTitle: 'Obtenez votre nom Kanji unique',
     landingDesc: 'Découvrez votre nom japonais personnalisé en kanji, écrit à la main par un calligraphe professionnel.',
@@ -120,6 +128,9 @@ const translations = {
     sending: 'Wird gesendet...',
     thankYou: 'Vielen Dank! Ihre Kalligraphie wird Ihnen innerhalb einer Woche per E-Mail zugesandt.',
     requestError: 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    shareTitle: 'Teilen Sie Ihren Kanji-Namen',
+    copyTag: 'Kopieren',
+    copyText: 'Kopieren',
 
     landingTitle: 'Erhalten Sie Ihren einzigartigen Kanji-Namen',
     landingDesc: 'Entdecken Sie Ihren personalisierten japanischen Kanji-Namen, handgeschrieben von einem professionellen Kalligraphen.',
@@ -163,6 +174,9 @@ const translations = {
     sending: 'Enviando...',
     thankYou: '\u00a1Gracias! Su caligraf\u00eda ser\u00e1 enviada a su correo electr\u00f3nico en un plazo de una semana.',
     requestError: 'Error al enviar. Por favor, int\u00e9ntalo de nuevo.',
+    shareTitle: 'Comparta su nombre en kanji',
+    copyTag: 'Copiar',
+    copyText: 'Copiar',
 
     landingTitle: 'Obtén tu nombre Kanji único',
     landingDesc: 'Descubre tu nombre japonés personalizado en kanji, escrito a mano por un calígrafo profesional.',
@@ -206,6 +220,9 @@ const translations = {
     sending: 'Enviando...',
     thankYou: 'Obrigado! Sua caligrafia ser\u00e1 enviada para o seu e-mail dentro de uma semana.',
     requestError: 'Falha ao enviar. Por favor, tente novamente.',
+    shareTitle: 'Compartilhe seu nome em kanji',
+    copyTag: 'Copiar',
+    copyText: 'Copiar',
 
     landingTitle: 'Obtenha seu nome Kanji único',
     landingDesc: 'Descubra seu nome japonês personalizado em kanji, escrito à mão por um calígrafo profissional.',
@@ -249,6 +266,9 @@ const translations = {
     sending: 'Invio in corso...',
     thankYou: 'Grazie! La tua calligrafia ti sar\u00e0 inviata via e-mail entro una settimana.',
     requestError: 'Invio non riuscito. Riprova.',
+    shareTitle: 'Condividi il tuo nome in kanji',
+    copyTag: 'Copia',
+    copyText: 'Copia',
 
     landingTitle: 'Ottieni il tuo nome Kanji unico',
     landingDesc: 'Scopri il tuo nome giapponese personalizzato in kanji, scritto a mano da un calligrafo professionista.',
@@ -292,6 +312,9 @@ const translations = {
     sending: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E48\u0E07...',
     thankYou: '\u0E02\u0E2D\u0E1A\u0E04\u0E38\u0E13! \u0E07\u0E32\u0E19\u0E40\u0E02\u0E35\u0E22\u0E19\u0E1E\u0E39\u0E48\u0E01\u0E31\u0E19\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13\u0E08\u0E30\u0E16\u0E39\u0E01\u0E2A\u0E48\u0E07\u0E17\u0E32\u0E07\u0E2D\u0E35\u0E40\u0E21\u0E25\u0E20\u0E32\u0E22\u0E43\u0E19\u0E2B\u0E19\u0E36\u0E48\u0E07\u0E2A\u0E31\u0E1B\u0E14\u0E32\u0E2B\u0E4C',
     requestError: '\u0E2A\u0E48\u0E07\u0E44\u0E21\u0E48\u0E2A\u0E33\u0E40\u0E23\u0E47\u0E08 \u0E01\u0E23\u0E38\u0E13\u0E32\u0E25\u0E2D\u0E07\u0E2D\u0E35\u0E01\u0E04\u0E23\u0E31\u0E49\u0E07',
+    shareTitle: '\u0E41\u0E0A\u0E23\u0E4C\u0E0A\u0E37\u0E48\u0E2D\u0E04\u0E31\u0E19\u0E08\u0E34\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13',
+    copyTag: '\u0E04\u0E31\u0E14\u0E25\u0E2D\u0E01',
+    copyText: '\u0E04\u0E31\u0E14\u0E25\u0E2D\u0E01',
 
     landingTitle: 'รับชื่อคันจิที่ไม่ซ้ำใครของคุณ',
     landingDesc: 'ค้นพบชื่อญี่ปุ่นเฉพาะตัวในรูปแบบคันจิ เขียนด้วยมือโดยนักเขียนพู่กันมืออาชีพ',
@@ -335,6 +358,9 @@ const translations = {
     sending: '\u0110ang g\u1EEDi...',
     thankYou: 'C\u1EA3m \u01A1n b\u1EA1n! T\u00e1c ph\u1EA9m th\u01B0 ph\u00e1p s\u1EBD \u0111\u01B0\u1EE3c g\u1EEDi \u0111\u1EBFn email c\u1EE7a b\u1EA1n trong v\u00f2ng m\u1ED9t tu\u1EA7n.',
     requestError: 'G\u1EEDi kh\u00f4ng th\u00e0nh c\u00f4ng. Vui l\u00f2ng th\u1EED l\u1EA1i.',
+    shareTitle: 'Chia s\u1EBB t\u00ean kanji c\u1EE7a b\u1EA1n',
+    copyTag: 'Sao ch\u00e9p',
+    copyText: 'Sao ch\u00e9p',
 
     landingTitle: 'Nhận tên Kanji độc đáo của bạn',
     landingDesc: 'Khám phá tên Nhật Bản cá nhân hóa bằng kanji, viết tay bởi nhà thư pháp chuyên nghiệp.',
@@ -378,6 +404,9 @@ const translations = {
     sending: 'Mengirim...',
     thankYou: 'Terima kasih! Kaligrafi Anda akan dikirim ke email Anda dalam satu minggu.',
     requestError: 'Gagal mengirim. Silakan coba lagi.',
+    shareTitle: 'Bagikan nama kanji Anda',
+    copyTag: 'Salin',
+    copyText: 'Salin',
 
     landingTitle: 'Dapatkan Nama Kanji Unik Anda',
     landingDesc: 'Temukan nama Jepang pribadi Anda dalam kanji, ditulis tangan oleh kaligrafer profesional.',
@@ -421,6 +450,9 @@ const translations = {
     sending: '\uC804\uC1A1 \uC911...',
     thankYou: '\uAC10\uC0AC\uD569\uB2C8\uB2E4! \uC11C\uC608 \uC791\uD488\uC740 1\uC8FC\uC77C \uC774\uB0B4\uC5D0 \uC774\uBA54\uC77C\uB85C \uBCF4\uB0B4\uB4DC\uB9BD\uB2C8\uB2E4.',
     requestError: '\uC804\uC1A1\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4. \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.',
+    shareTitle: '\uD55C\uC790 \uC774\uB984\uC744 \uACF5\uC720\uD558\uC138\uC694',
+    copyTag: '\uBCF5\uC0AC',
+    copyText: '\uBCF5\uC0AC',
 
     landingTitle: '나만의 한자 이름을 받으세요',
     landingDesc: '나만의 특별한 한자 이름을 만들고, 전문 서예가가 정성껏 손글씨로 보내드립니다.',
@@ -464,6 +496,9 @@ const translations = {
     sending: '\u9001\u4FE1\u4E2D...',
     thankYou: '\u3042\u308A\u304C\u3068\u3046\u3054\u3056\u3044\u307E\u3059\uFF01\u66F8\u9053\u4F5C\u54C1\u306F1\u9031\u9593\u4EE5\u5185\u306B\u30E1\u30FC\u30EB\u306B\u3066\u304A\u5C4A\u3051\u3044\u305F\u3057\u307E\u3059\u3002',
     requestError: '\u9001\u4FE1\u306B\u5931\u6557\u3057\u307E\u3057\u305F\u3002\u3082\u3046\u4E00\u5EA6\u304A\u8A66\u3057\u304F\u3060\u3055\u3044\u3002',
+    shareTitle: '\u6F22\u5B57\u540D\u3092\u30B7\u30A7\u30A2\u3057\u3088\u3046',
+    copyTag: '\u30B3\u30D4\u30FC',
+    copyText: '\u30B3\u30D4\u30FC',
 
     landingTitle: 'あなただけの漢字名を手に入れよう',
     landingDesc: 'あなただけのオリジナル漢字名を作成し、プロの書道家が心を込めて手書きでお届けします。',

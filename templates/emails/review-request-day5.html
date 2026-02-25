@@ -1,0 +1,179 @@
+<!--
+  Phase B: Automated Review Request Email (Day 5-7)
+  Purpose: Sent automatically 5-7 days after purchase/delivery
+  Tone: Warm, curious — "How is your kanji name fitting into your life?"
+
+  Placeholders:
+    {{first_name}}  - Customer's first name (e.g., "Paul")
+    {{kanji_name}}   - Customer's kanji name (e.g., "美勇")
+
+  Google Review Link: https://g.page/r/Cft5gcCZVQfoEAI/review
+
+  Trigger: Stripe payment_intent.succeeded + 5-7 days
+  Exclude: Customers who have already left a review
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How does your kanji name look at home?</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f2ef;font-family:'Helvetica Neue',Arial,'Noto Sans JP',sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f2ef;padding:40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);">
+
+          <!-- Header with Logo -->
+          <tr>
+            <td style="padding:32px 40px;text-align:center;border-bottom:1px solid #f0ece8;">
+              <img src="https://app.kanjiname.jp/images/logo_color.png" alt="Your Kanji Name" width="260" style="max-width:100%;height:auto;">
+            </td>
+          </tr>
+
+          <!-- Kanji Name Display -->
+          <tr>
+            <td style="padding:28px 40px 0;" align="center">
+              <table cellpadding="0" cellspacing="0" style="background:#faf8f5;border-radius:16px;padding:24px 40px;width:100%;">
+                <tr>
+                  <td align="center">
+                    <p style="margin:0 0 6px;font-size:12px;color:#999;letter-spacing:0.1em;text-transform:uppercase;">Your Kanji Name</p>
+                    <p style="margin:0;font-size:48px;color:#c75450;font-weight:700;letter-spacing:0.1em;">{{kanji_name}}</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="padding:28px 40px 0;">
+              <p style="margin:0 0 16px;font-size:16px;color:#333;">Hi {{first_name}},</p>
+              <p style="margin:0 0 16px;font-size:14px;color:#555;line-height:1.9;">
+                It's been a few days since you received your kanji name
+                <span style="color:#c75450;font-weight:600;">{{kanji_name}}</span>.
+                We'd love to know &mdash; have you had a chance to share it with
+                friends or display your calligraphy?
+              </p>
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">
+                Your story can help other travelers discover the beauty of
+                Japanese calligraphy. Would you take a moment to share your experience?
+              </p>
+            </td>
+          </tr>
+
+          <!-- CTA Button -->
+          <tr>
+            <td style="padding:28px 40px;" align="center">
+              <a href="https://g.page/r/Cft5gcCZVQfoEAI/review"
+                 style="display:inline-block;background:#c75450;color:#ffffff;padding:16px 40px;border-radius:50px;font-size:16px;font-weight:600;text-decoration:none;letter-spacing:0.02em;">
+                Leave a Review
+              </a>
+              <p style="margin:12px 0 0;font-size:12px;color:#999;">Takes less than 2 minutes</p>
+            </td>
+          </tr>
+
+          <!-- Guide Questions - "Your Kanji Story" Section -->
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <table cellpadding="0" cellspacing="0" style="background:#faf8f5;border-radius:12px;padding:24px;width:100%;">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 16px;font-size:15px;font-weight:700;color:#c75450;letter-spacing:0.03em;">
+                      Tell us your kanji story
+                    </p>
+                    <table cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="padding:8px 0;font-size:14px;color:#555;line-height:1.7;">
+                          <span style="display:inline-block;width:24px;height:24px;background:#c75450;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:10px;vertical-align:middle;">1</span>
+                          What does your kanji name mean to you?
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;font-size:14px;color:#555;line-height:1.7;">
+                          <span style="display:inline-block;width:24px;height:24px;background:#c75450;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:10px;vertical-align:middle;">2</span>
+                          How did you display your calligraphy?
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding:8px 0;font-size:14px;color:#555;line-height:1.7;">
+                          <span style="display:inline-block;width:24px;height:24px;background:#c75450;color:#fff;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;margin-right:10px;vertical-align:middle;">3</span>
+                          What was your friend's reaction when they saw your kanji name?
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- SNS Share Section -->
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <table cellpadding="0" cellspacing="0" style="border:1px solid #f0ece8;border-radius:12px;padding:20px 24px;width:100%;">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#333;">
+                      Share your kanji name on social media
+                    </p>
+                    <p style="margin:0 0 12px;font-size:13px;color:#555;line-height:1.7;">
+                      Post a photo with your calligraphy and tag us!
+                    </p>
+                    <p style="margin:0;font-size:14px;">
+                      <span style="display:inline-block;background:#faf8f5;color:#c75450;padding:6px 14px;border-radius:20px;font-weight:600;font-size:13px;margin-right:6px;">#MyKanjiName</span>
+                      <span style="display:inline-block;background:#faf8f5;color:#c75450;padding:6px 14px;border-radius:20px;font-weight:600;font-size:13px;">@yourkanjiname</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Photo Review Incentive -->
+          <tr>
+            <td style="padding:0 40px 28px;">
+              <table cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#faf8f5,#f5f0eb);border-radius:12px;padding:20px 24px;width:100%;">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#c75450;">
+                      Bonus: Share a photo with your review
+                    </p>
+                    <p style="margin:0;font-size:13px;color:#555;line-height:1.7;">
+                      Include a photo of your calligraphy in your review, and we'll gift a
+                      free kanji name for a friend! Just email us your review link at
+                      <a href="mailto:contact@kanjiname.jp" style="color:#c75450;text-decoration:none;">contact@kanjiname.jp</a>.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Closing -->
+          <tr>
+            <td style="padding:0 40px 32px;">
+              <p style="margin:0;font-size:14px;color:#555;line-height:1.9;">
+                Thank you for being part of the Your Kanji Name story.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 40px;border-top:1px solid #f0ece8;text-align:center;">
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">Your Kanji Name Team</p>
+              <p style="margin:0 0 4px;font-size:12px;color:#aaa;">
+                <a href="mailto:contact@kanjiname.jp" style="color:#c75450;text-decoration:none;">contact@kanjiname.jp</a>
+              </p>
+              <p style="margin:0;font-size:11px;color:#ccc;">&copy; 2026 Your Kanji Name</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
