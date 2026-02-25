@@ -970,7 +970,7 @@ function App() {
               className="lp-hero-cta"
               onClick={() => document.getElementById('lp-payment').scrollIntoView({ behavior: 'smooth' })}
             >
-              {t('lpHeroCta')} — ${servicePrice ? (servicePrice / 100).toFixed(0) : '20'}
+              {t('lpHeroCta')}
             </button>
             <p className="lp-hero-lang">{t('lpHeroLang')}</p>
           </section>
