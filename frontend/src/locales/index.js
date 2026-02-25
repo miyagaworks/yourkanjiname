@@ -77,7 +77,7 @@ const translations = {
     loading1: 'Analyzing your personality...',
     loading2: 'Selecting the perfect kanji...',
     loading3: 'Creating your story...',
-    loading4: 'Almost done...'
+    loading4: 'Enter your email on the next page to receive your calligraphy'
   },
 
   // French
@@ -144,7 +144,7 @@ const translations = {
     loading1: 'Analyse de votre personnalit\u00e9...',
     loading2: 'S\u00e9lection des kanji parfaits...',
     loading3: 'Cr\u00e9ation de votre histoire...',
-    loading4: 'Presque termin\u00e9...'
+    loading4: 'Entrez votre e-mail sur la page suivante pour recevoir votre calligraphie'
   },
 
   // German
@@ -211,7 +211,7 @@ const translations = {
     loading1: 'Analyse Ihrer Pers\u00f6nlichkeit...',
     loading2: 'Auswahl der perfekten Kanji...',
     loading3: 'Erstellung Ihrer Geschichte...',
-    loading4: 'Fast fertig...'
+    loading4: 'Geben Sie auf der nächsten Seite Ihre E-Mail ein, um Ihre Kalligraphie zu erhalten'
   },
 
   // Spanish
@@ -278,7 +278,7 @@ const translations = {
     loading1: 'Analizando tu personalidad...',
     loading2: 'Seleccionando los kanji perfectos...',
     loading3: 'Creando tu historia...',
-    loading4: 'Casi listo...'
+    loading4: 'Ingresa tu correo en la siguiente página para recibir tu caligrafía'
   },
 
   // Portuguese
@@ -345,7 +345,7 @@ const translations = {
     loading1: 'Analisando sua personalidade...',
     loading2: 'Selecionando os kanji perfeitos...',
     loading3: 'Criando sua história...',
-    loading4: 'Quase pronto...'
+    loading4: 'Insira seu e-mail na próxima página para receber sua caligrafia'
   },
 
   // Italian
@@ -412,7 +412,7 @@ const translations = {
     loading1: 'Analisi della tua personalit\u00e0...',
     loading2: 'Selezione dei kanji perfetti...',
     loading3: 'Creazione della tua storia...',
-    loading4: 'Quasi finito...'
+    loading4: 'Inserisci la tua e-mail nella prossima pagina per ricevere la tua calligrafia'
   },
 
   // Thai
@@ -479,7 +479,7 @@ const translations = {
     loading1: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E27\u0E34\u0E40\u0E04\u0E23\u0E32\u0E30\u0E2B\u0E4C\u0E1A\u0E38\u0E04\u0E25\u0E34\u0E01\u0E20\u0E32\u0E1E\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
     loading2: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E04\u0E31\u0E19\u0E08\u0E34\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21...',
     loading3: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E23\u0E32\u0E27\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
-    loading4: '\u0E43\u0E01\u0E25\u0E49\u0E40\u0E2A\u0E23\u0E47\u0E08\u0E41\u0E25\u0E49\u0E27...'
+    loading4: 'กรอกอีเมลในหน้าถัดไปเพื่อรับงานเขียนพู่กันของคุณ'
   },
 
   // Vietnamese
@@ -546,7 +546,7 @@ const translations = {
     loading1: '\u0110ang ph\u00e2n t\u00edch t\u00ednh c\u00e1ch c\u1EE7a b\u1EA1n...',
     loading2: '\u0110ang ch\u1ECDn kanji ho\u00e0n h\u1EA3o...',
     loading3: '\u0110ang t\u1EA1o c\u00e2u chuy\u1EC7n c\u1EE7a b\u1EA1n...',
-    loading4: 'S\u1EAFp xong r\u1ED3i...'
+    loading4: 'Nhập email ở trang tiếp theo để nhận tác phẩm thư pháp của bạn'
   },
 
   // Indonesian
@@ -613,7 +613,7 @@ const translations = {
     loading1: 'Menganalisis kepribadian Anda...',
     loading2: 'Memilih kanji yang sempurna...',
     loading3: 'Membuat cerita Anda...',
-    loading4: 'Hampir selesai...'
+    loading4: 'Masukkan email di halaman berikutnya untuk menerima kaligrafi Anda'
   },
 
   // Korean
@@ -680,7 +680,7 @@ const translations = {
     loading1: '\uB2F9\uC2E0\uC758 \uC131\uACA9\uC744 \uBD84\uC11D \uC911...',
     loading2: '\uC644\uBCBD\uD55C \uD55C\uC790\uB97C \uC120\uD0DD \uC911...',
     loading3: '\uB2F9\uC2E0\uC758 \uC774\uC57C\uAE30\uB97C \uC791\uC131 \uC911...',
-    loading4: '\uAC70\uC758 \uC644\uB8CC...'
+    loading4: '다음 페이지에서 이메일을 입력하면 서예 작품을 받을 수 있습니다'
   },
 
   // Japanese
@@ -747,7 +747,7 @@ const translations = {
     loading1: '\u6027\u683C\u3092\u5206\u6790\u4E2D...',
     loading2: '\u6700\u9069\u306A\u6F22\u5B57\u3092\u9078\u5B9A\u4E2D...',
     loading3: '\u8AAC\u660E\u6587\u3092\u4F5C\u6210\u4E2D...',
-    loading4: '\u3082\u3046\u3059\u3050\u5B8C\u6210\u3067\u3059...'
+    loading4: '次のページでメールアドレスを入力すると書道作品をお届けします'
   }
 };
 
