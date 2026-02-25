@@ -1085,9 +1085,30 @@ function App() {
     );
   }
 
-  // ローディング表示
+  // ローディング表示（生成中）
   if (loading && !currentQuestion && !result) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <>
+        <div className="container">
+          <div className="loading-overlay">
+            <div className="loader">
+              <div className="spinner"></div>
+            </div>
+            <div className="loading-text">
+              <div className="loading-step">{t(LOADING_MESSAGE_KEYS[loadingStep])}</div>
+              <div className="loading-progress">
+                {LOADING_MESSAGE_KEYS.map((_, i) => (
+                  <span key={i} className={`progress-dot ${i <= loadingStep ? 'active' : ''}`} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer className="footer">
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
+        </footer>
+      </>
+    );
   }
 
   // エラー表示
