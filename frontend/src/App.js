@@ -655,7 +655,7 @@ function App() {
   const [showTerms, setShowTerms] = useState(false);
   const [hasPaid, setHasPaid] = useState(false);
   const [paymentIntentId, setPaymentIntentId] = useState(null);
-  const [servicePrice, setServicePrice] = useState(null); // null until loaded from API
+  const [, setServicePrice] = useState(null); // price loaded from API via PaymentModal
   const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
   const [showEmailPrompt, setShowEmailPrompt] = useState(false); // メール入力画面
   const [preEmail, setPreEmail] = useState(''); // 生成前のメールアドレス
