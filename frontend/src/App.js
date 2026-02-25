@@ -657,9 +657,7 @@ function App() {
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [, setServicePrice] = useState(null); // price loaded from API via PaymentModal
   const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
-  const [showEmailPrompt, setShowEmailPrompt] = useState(false); // メール入力画面
-  const [preEmail, setPreEmail] = useState(''); // 生成前のメールアドレス
-  const [lastAnswerInfo, setLastAnswerInfo] = useState(null); // 最後の回答情報を保持
+  const [preEmail] = useState(''); // ResultCardに渡すメールアドレス（将来の拡張用）
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
   const partnerCode = sessionStorage.getItem('partnerCode');
@@ -885,61 +883,6 @@ function App() {
     })();
   };
 
-  // メール入力画面から生成を開始
-  const handleEmailPromptContinue = async () => {
-    setShowEmailPrompt(false);
-    setLoading(true);
-
-    const { questionId: lastQuestionId, optionId: lastOptionId } = lastAnswerInfo;
-
-    // セッションがまだ準備できていない場合は待つ
-    let currentSessionId = sessionIdRef.current;
-    if (!currentSessionId) {
-      for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
-        await new Promise(r => setTimeout(r, 100));
-      }
-      currentSessionId = sessionIdRef.current;
-      if (!currentSessionId) {
-        setError('Session not ready. Please try again.');
-        setLoading(false);
-        return;
-      }
-    }
-
-    try {
-      // 最後の回答をpendingに追加
-      const lastSubmit = ApiClient.submitAnswer(currentSessionId, lastQuestionId, lastOptionId, language)
-        .then(() => ({ ok: true }))
-        .catch(err => {
-          console.error('Last submit failed:', err);
-          return { ok: false, questionId: lastQuestionId, optionId: lastOptionId };
-        });
-      pendingSubmitsRef.current.push(lastSubmit);
-
-      // すべてのバックグラウンド送信が完了するのを待つ
-      const results = await Promise.all(pendingSubmitsRef.current);
-      pendingSubmitsRef.current = [];
-
-      // 失敗した回答をリトライ
-      const failed = results.filter(r => r && !r.ok);
-      if (failed.length > 0) {
-        console.warn(`Retrying ${failed.length} failed answer submission(s)...`);
-        await Promise.all(
-          failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
-        );
-      }
-
-      // 漢字名生成
-      const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
-      setResult(kanjiResult);
-    } catch (err) {
-      setError('Failed to generate result');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   // Terms page
   if (isTermsPage) {
     return <Terms language="ja" onBack={() => window.history.back()} />;
@@ -1150,52 +1093,6 @@ function App() {
   // エラー表示
   if (error) {
     return <div className="error">{error}</div>;
-  }
-
-  // メール入力画面（生成前）
-  if (showEmailPrompt) {
-    return (
-      <>
-        <div className="container">
-          <LanguageSelector />
-          <div className="question-card">
-            <p className="question-text" style={{ fontSize: '1rem', lineHeight: '1.8' }}>
-              {t('emailPromptMessage')}
-            </p>
-            <input
-              type="email"
-              className="name-input"
-              value={preEmail}
-              onChange={(e) => {
-                const filtered = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, '');
-                setPreEmail(filtered);
-              }}
-              placeholder={t('emailPlaceholder')}
-              inputMode="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <div className="navigation-buttons">
-              <button
-                className="back-button"
-                onClick={handleEmailPromptContinue}
-              >
-                {t('emailPromptSkip')}
-              </button>
-              <button
-                className="submit-button"
-                onClick={handleEmailPromptContinue}
-              >
-                {preEmail.trim() ? t('emailPromptSubmit') : t('emailPromptSkip')}
-              </button>
-            </div>
-          </div>
-        </div>
-        <footer className="footer">
-          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
-        </footer>
-      </>
-    );
   }
 
   // 結果表示
