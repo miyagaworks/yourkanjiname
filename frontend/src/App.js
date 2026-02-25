@@ -445,10 +445,10 @@ const CalligrapherSection = ({ language, kanjiName, userName, explanationJa, exp
       {error && <p className="calligrapher-error">{error}</p>}
 
       <div className="calligrapher-samples">
-        <img src="/images/calligraphy/05.png" alt="Sample 1" />
-        <img src="/images/calligraphy/06.png" alt="Sample 2" />
-        <img src="/images/calligraphy/07.png" alt="Sample 3" />
-        <img src="/images/calligraphy/08.png" alt="Sample 4" />
+        <img src="/images/calligraphy/01.png" alt="Sample 1" />
+        <img src="/images/calligraphy/02.png" alt="Sample 2" />
+        <img src="/images/calligraphy/03.png" alt="Sample 3" />
+        <img src="/images/calligraphy/04.png" alt="Sample 4" />
       </div>
     </div>
   );
@@ -954,72 +954,107 @@ function App() {
   if (showLanding && !hasPaid) {
     return (
       <>
-        <div className="container landing-container">
+        <div className="landing-page">
           <LanguageSelector />
-          <div className="landing-card">
+
+          {/* Section 1: Hero */}
+          <section className="lp-hero">
             <img
               src="/images/logo_color.svg"
               alt="Your Kanji Name"
-              className="landing-logo"
+              className="lp-hero-logo"
             />
-            <h1 className="landing-title">{t('landingTitle') || 'Get Your Unique Kanji Name'}</h1>
-            <p className="landing-description">
-              {t('landingDesc') || 'Discover your personalized Japanese kanji name, handwritten by a professional calligrapher and delivered to your email.'}
-            </p>
+            <h1 className="lp-hero-title">{t('lpHeroTitle')}</h1>
+            <p className="lp-hero-sub">{t('lpHeroSub')}</p>
+            <button
+              className="lp-hero-cta"
+              onClick={() => document.getElementById('lp-payment').scrollIntoView({ behavior: 'smooth' })}
+            >
+              {t('lpHeroCta')} — ${servicePrice ? (servicePrice / 100).toFixed(0) : '20'}
+            </button>
+            <p className="lp-hero-lang">{t('lpHeroLang')}</p>
+          </section>
 
-            <div className="landing-samples">
-              <img src="/images/calligraphy/01.png" alt="Sample 1" />
-              <img src="/images/calligraphy/02.png" alt="Sample 2" />
-              <img src="/images/calligraphy/03.png" alt="Sample 3" />
-              <img src="/images/calligraphy/04.png" alt="Sample 4" />
+          {/* Section 2: Gallery */}
+          <section className="lp-gallery">
+            <h2 className="lp-section-title">{t('lpGalleryTitle')}</h2>
+            <div className="lp-gallery-grid">
+              {[
+                { img: '05.png', kanji: '慎匠', reading: 'Shinshō', meaningKey: 'lpGalleryMeaning1' },
+                { img: '06.png', kanji: '智将', reading: 'Tomomasa', meaningKey: 'lpGalleryMeaning2' },
+                { img: '07.png', kanji: '理和', reading: 'Riwa', meaningKey: 'lpGalleryMeaning3' },
+                { img: '08.png', kanji: '理寧', reading: 'Rinei', meaningKey: 'lpGalleryMeaning4' },
+              ].map((item) => (
+                <div className="lp-gallery-item" key={item.kanji}>
+                  <img
+                    src={`/images/calligraphy/${item.img}`}
+                    alt={item.kanji}
+                    loading="lazy"
+                  />
+                  <p className="lp-gallery-kanji">{item.kanji} <span>({item.reading})</span></p>
+                  <p className="lp-gallery-meaning">{t(item.meaningKey)}</p>
+                </div>
+              ))}
             </div>
+          </section>
 
-            <div className="landing-features">
-              <div className="feature">
-                <span className="feature-icon">1</span>
-                <span>{t('feature1') || 'Answer a few questions about yourself'}</span>
+          {/* Section 3: How It Works */}
+          <section className="lp-how">
+            <h2 className="lp-section-title">{t('lpHowTitle')}</h2>
+            <div className="lp-steps">
+              <div className="lp-step">
+                <span className="lp-step-num">1</span>
+                <div>
+                  <p className="lp-step-title">{t('lpStep1')}</p>
+                </div>
               </div>
-              <div className="feature">
-                <span className="feature-icon">2</span>
-                <span>{t('feature2') || 'AI generates your unique kanji name'}</span>
+              <div className="lp-step">
+                <span className="lp-step-num">2</span>
+                <div>
+                  <p className="lp-step-title">{t('lpStep2')}</p>
+                </div>
               </div>
-              <div className="feature">
-                <span className="feature-icon">3</span>
-                <span>{t('feature3') || 'Professional calligraphy delivered by email'}</span>
+              <div className="lp-step">
+                <span className="lp-step-num">3</span>
+                <div>
+                  <p className="lp-step-title">{t('lpStep3')}</p>
+                  <p className="lp-step-detail">{t('lpStep3Detail')}</p>
+                </div>
               </div>
             </div>
+          </section>
+
+          {/* Section 4: Social Proof */}
+          <section className="lp-proof">
+            <p className="lp-proof-stars">★★★★★</p>
+            <p className="lp-proof-rating">4.8</p>
+            <p className="lp-proof-text">{t('lpProofText')}</p>
+          </section>
+
+          {/* Section 5: Closing CTA + Payment */}
+          <section className="lp-cta" id="lp-payment">
+            <h2 className="lp-cta-tagline">{t('lpCtaTagline')}</h2>
 
             {skipPayment ? (
-              <>
-                <button className="start-free-btn" onClick={handleSkipPayment}>
-                  {t('startFree') || 'Start Free'}
-                </button>
-              </>
+              <button className="lp-hero-cta" onClick={handleSkipPayment}>
+                {t('startFree')}
+              </button>
             ) : (
-              <>
-                {servicePrice && (
-                  <div className="landing-price">
-                    <span className="price-label">{t('priceLabel') || 'Service Fee'}</span>
-                    <span className="price-amount">${(servicePrice / 100).toFixed(2)} USD</span>
-                  </div>
-                )}
-
-                <PaymentModal
-                  email=""
-                  kanjiName=""
-                  partnerCode={partnerCode}
-                  onSuccess={handlePaymentSuccess}
-                  onCancel={() => {}}
-                  isLandingPage={true}
-                  onPriceLoaded={handlePriceLoaded}
-                />
-              </>
+              <PaymentModal
+                email=""
+                kanjiName=""
+                partnerCode={partnerCode}
+                onSuccess={handlePaymentSuccess}
+                onCancel={() => {}}
+                isLandingPage={true}
+                onPriceLoaded={handlePriceLoaded}
+              />
             )}
 
             <button className="terms-link" onClick={() => setShowTerms(true)}>
-              {t('termsLink') || 'Terms of Service'}
+              {t('termsLink')}
             </button>
-          </div>
+          </section>
         </div>
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
