@@ -544,9 +544,9 @@ const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
 // Main App Component
 function App() {
-  // Check if store landing page (kanjiname.jp without app. subdomain)
-  const isStoreLandingPage = window.location.hostname === 'kanjiname.jp' ||
-    window.location.hostname === 'www.kanjiname.jp' ||
+  // Check if store landing page (kanjiname.jp/partner)
+  const isStoreLandingPage =
+    ((window.location.hostname === 'kanjiname.jp' || window.location.hostname === 'www.kanjiname.jp') && window.location.pathname === '/partner') ||
     window.location.pathname === '/store';
 
   // Check if admin, partner, ambassador, or tanka page
