@@ -60,9 +60,10 @@ const translations = {
     lpGalleryMeaning4: 'Intellect like polished jade, peace like a still lake',
     lpHowTitle: 'How It Works',
     lpStep1: 'Take a 2-min personality quiz',
-    lpStep2: 'AI picks kanji that match your personality',
-    lpStep3: 'Receive handwritten calligraphy & your name\'s story',
-    lpStep3Detail: 'Sent to your email within a week',
+    lpStep2: 'Enter your email address',
+    lpStep3: 'We\'ll send your perfect kanji name & its meaning',
+    lpStep3Detail: 'Delivered to your email within 10 minutes',
+    lpStep3Detail2: 'Handwritten calligraphy within 3 business days',
     lpProofText: 'Loved by 5,000+ travelers',
     lpCtaTagline: 'Your trip. Your name. Your story.',
 
@@ -77,7 +78,14 @@ const translations = {
     loading1: 'Analyzing your personality...',
     loading2: 'Selecting the perfect kanji...',
     loading3: 'Creating your story...',
-    loading4: 'Enter your email on the next page to receive your calligraphy'
+    loading4: 'Enter your email on the next page to receive your calligraphy',
+
+    // Email input screen (after quiz)
+    emailInputTitle: 'Please enter your email address',
+    emailInputDesc: "We'll send your perfect kanji name and its story within 10 minutes",
+    emailInputCalligraphy: 'Calligraphy by our calligrapher: delivered within 3 business days (excl. weekends/holidays)',
+    emailSubmittedThankYou: "Thank you! We'll send your kanji name and its meaning to your email within 10 minutes.",
+    emailSubmittedCalligraphy: 'Your handwritten calligraphy will be delivered within 3 business days (excl. weekends/holidays).'
   },
 
   // French
@@ -129,9 +137,10 @@ const translations = {
     lpGalleryMeaning4: 'Un intellect de jade poli, une paix de lac immobile',
     lpHowTitle: 'Comment ça marche',
     lpStep1: 'Répondez à un quiz de personnalité de 2 min',
-    lpStep2: 'L\'IA choisit les kanji qui correspondent à votre personnalité',
-    lpStep3: 'Recevez une calligraphie manuscrite et l\'histoire de votre nom',
-    lpStep3Detail: 'Envoyé par e-mail sous une semaine',
+    lpStep2: 'Entrez votre adresse e-mail',
+    lpStep3: 'Nous vous envoyons votre nom kanji parfait et sa signification',
+    lpStep3Detail: 'Livré par e-mail sous 10 minutes',
+    lpStep3Detail2: 'Calligraphie manuscrite sous 3 jours ouvrés',
     lpProofText: 'Adoré par plus de 5 000 voyageurs',
     lpCtaTagline: 'Votre voyage. Votre nom. Votre histoire.',
 
@@ -144,7 +153,13 @@ const translations = {
     loading1: 'Analyse de votre personnalit\u00e9...',
     loading2: 'S\u00e9lection des kanji parfaits...',
     loading3: 'Cr\u00e9ation de votre histoire...',
-    loading4: 'Entrez votre e-mail sur la page suivante pour recevoir votre calligraphie'
+    loading4: 'Entrez votre e-mail sur la page suivante pour recevoir votre calligraphie',
+
+    emailInputTitle: 'Veuillez entrer votre adresse e-mail',
+    emailInputDesc: 'Nous vous enverrons votre nom kanji parfait et son histoire sous 10 minutes',
+    emailInputCalligraphy: 'Calligraphie par notre calligraphe : livrée sous 3 jours ouvrés (hors week-ends/jours fériés)',
+    emailSubmittedThankYou: 'Merci ! Nous vous enverrons votre nom kanji et sa signification par e-mail sous 10 minutes.',
+    emailSubmittedCalligraphy: 'Votre calligraphie manuscrite sera livrée sous 3 jours ouvrés (hors week-ends/jours fériés).'
   },
 
   // German
@@ -196,9 +211,10 @@ const translations = {
     lpGalleryMeaning4: 'Intellekt wie geschliffene Jade, Frieden wie ein stiller See',
     lpHowTitle: 'So funktioniert es',
     lpStep1: 'Machen Sie ein 2-minütiges Persönlichkeitsquiz',
-    lpStep2: 'KI wählt Kanji passend zu Ihrer Persönlichkeit',
-    lpStep3: 'Erhalten Sie handgeschriebene Kalligraphie und die Geschichte Ihres Namens',
-    lpStep3Detail: 'Zustellung per E-Mail innerhalb einer Woche',
+    lpStep2: 'Geben Sie Ihre E-Mail-Adresse ein',
+    lpStep3: 'Wir senden Ihnen Ihren perfekten Kanji-Namen und seine Bedeutung',
+    lpStep3Detail: 'Zustellung per E-Mail innerhalb von 10 Minuten',
+    lpStep3Detail2: 'Handgeschriebene Kalligraphie innerhalb von 3 Werktagen',
     lpProofText: 'Beliebt bei über 5.000 Reisenden',
     lpCtaTagline: 'Ihre Reise. Ihr Name. Ihre Geschichte.',
 
@@ -211,7 +227,13 @@ const translations = {
     loading1: 'Analyse Ihrer Pers\u00f6nlichkeit...',
     loading2: 'Auswahl der perfekten Kanji...',
     loading3: 'Erstellung Ihrer Geschichte...',
-    loading4: 'Geben Sie auf der nächsten Seite Ihre E-Mail ein, um Ihre Kalligraphie zu erhalten'
+    loading4: 'Geben Sie auf der nächsten Seite Ihre E-Mail ein, um Ihre Kalligraphie zu erhalten',
+
+    emailInputTitle: 'Bitte geben Sie Ihre E-Mail-Adresse ein',
+    emailInputDesc: 'Wir senden Ihnen Ihren perfekten Kanji-Namen und seine Geschichte innerhalb von 10 Minuten',
+    emailInputCalligraphy: 'Kalligraphie von unserem Kalligraphen: Zustellung innerhalb von 3 Werktagen (ohne Wochenenden/Feiertage)',
+    emailSubmittedThankYou: 'Vielen Dank! Wir senden Ihren Kanji-Namen und seine Bedeutung innerhalb von 10 Minuten an Ihre E-Mail.',
+    emailSubmittedCalligraphy: 'Ihre handgeschriebene Kalligraphie wird innerhalb von 3 Werktagen (ohne Wochenenden/Feiertage) zugestellt.'
   },
 
   // Spanish
@@ -263,9 +285,10 @@ const translations = {
     lpGalleryMeaning4: 'Intelecto como jade pulido, paz como un lago en calma',
     lpHowTitle: 'Cómo funciona',
     lpStep1: 'Realiza un quiz de personalidad de 2 minutos',
-    lpStep2: 'La IA elige kanji que coinciden con tu personalidad',
-    lpStep3: 'Recibe caligrafía manuscrita y la historia de tu nombre',
-    lpStep3Detail: 'Enviado a tu correo en una semana',
+    lpStep2: 'Ingresa tu correo electrónico',
+    lpStep3: 'Te enviamos tu nombre kanji perfecto y su significado',
+    lpStep3Detail: 'Entregado a tu correo en 10 minutos',
+    lpStep3Detail2: 'Caligrafía manuscrita en 3 días hábiles',
     lpProofText: 'Amado por más de 5.000 viajeros',
     lpCtaTagline: 'Tu viaje. Tu nombre. Tu historia.',
 
@@ -278,7 +301,13 @@ const translations = {
     loading1: 'Analizando tu personalidad...',
     loading2: 'Seleccionando los kanji perfectos...',
     loading3: 'Creando tu historia...',
-    loading4: 'Ingresa tu correo en la siguiente página para recibir tu caligrafía'
+    loading4: 'Ingresa tu correo en la siguiente página para recibir tu caligrafía',
+
+    emailInputTitle: 'Por favor, ingresa tu correo electrónico',
+    emailInputDesc: 'Te enviaremos tu nombre kanji perfecto y su historia en 10 minutos',
+    emailInputCalligraphy: 'Caligrafía de nuestro calígrafo: entregada en 3 días hábiles (excl. fines de semana/festivos)',
+    emailSubmittedThankYou: '¡Gracias! Te enviaremos tu nombre kanji y su significado a tu correo en 10 minutos.',
+    emailSubmittedCalligraphy: 'Tu caligrafía manuscrita será entregada en 3 días hábiles (excl. fines de semana/festivos).'
   },
 
   // Portuguese
@@ -330,9 +359,10 @@ const translations = {
     lpGalleryMeaning4: 'Intelecto como jade polido, paz como um lago sereno',
     lpHowTitle: 'Como funciona',
     lpStep1: 'Faça um quiz de personalidade de 2 minutos',
-    lpStep2: 'A IA escolhe kanji que combinam com sua personalidade',
-    lpStep3: 'Receba caligrafia manuscrita e a história do seu nome',
-    lpStep3Detail: 'Enviado por e-mail em uma semana',
+    lpStep2: 'Insira seu endereço de e-mail',
+    lpStep3: 'Enviaremos seu nome kanji perfeito e seu significado',
+    lpStep3Detail: 'Entregue por e-mail em 10 minutos',
+    lpStep3Detail2: 'Caligrafia manuscrita em 3 dias úteis',
     lpProofText: 'Amado por mais de 5.000 viajantes',
     lpCtaTagline: 'Sua viagem. Seu nome. Sua história.',
 
@@ -345,7 +375,13 @@ const translations = {
     loading1: 'Analisando sua personalidade...',
     loading2: 'Selecionando os kanji perfeitos...',
     loading3: 'Criando sua história...',
-    loading4: 'Insira seu e-mail na próxima página para receber sua caligrafia'
+    loading4: 'Insira seu e-mail na próxima página para receber sua caligrafia',
+
+    emailInputTitle: 'Por favor, insira seu endereço de e-mail',
+    emailInputDesc: 'Enviaremos seu nome kanji perfeito e sua história em 10 minutos',
+    emailInputCalligraphy: 'Caligrafia pelo nosso calígrafo: entregue em 3 dias úteis (excl. fins de semana/feriados)',
+    emailSubmittedThankYou: 'Obrigado! Enviaremos seu nome kanji e seu significado para seu e-mail em 10 minutos.',
+    emailSubmittedCalligraphy: 'Sua caligrafia manuscrita será entregue em 3 dias úteis (excl. fins de semana/feriados).'
   },
 
   // Italian
@@ -397,9 +433,10 @@ const translations = {
     lpGalleryMeaning4: 'Intelletto come giada levigata, pace come un lago immobile',
     lpHowTitle: 'Come funziona',
     lpStep1: 'Fai un quiz di personalità di 2 minuti',
-    lpStep2: 'L\'IA sceglie i kanji che corrispondono alla tua personalità',
-    lpStep3: 'Ricevi calligrafia manuscritta e la storia del tuo nome',
-    lpStep3Detail: 'Inviato alla tua e-mail entro una settimana',
+    lpStep2: 'Inserisci il tuo indirizzo e-mail',
+    lpStep3: 'Ti invieremo il tuo nome kanji perfetto e il suo significato',
+    lpStep3Detail: 'Consegnato alla tua e-mail entro 10 minuti',
+    lpStep3Detail2: 'Calligrafia manuscritta entro 3 giorni lavorativi',
     lpProofText: 'Amato da oltre 5.000 viaggiatori',
     lpCtaTagline: 'Il tuo viaggio. Il tuo nome. La tua storia.',
 
@@ -412,7 +449,13 @@ const translations = {
     loading1: 'Analisi della tua personalit\u00e0...',
     loading2: 'Selezione dei kanji perfetti...',
     loading3: 'Creazione della tua storia...',
-    loading4: 'Inserisci la tua e-mail nella prossima pagina per ricevere la tua calligrafia'
+    loading4: 'Inserisci la tua e-mail nella prossima pagina per ricevere la tua calligrafia',
+
+    emailInputTitle: 'Inserisci il tuo indirizzo e-mail',
+    emailInputDesc: 'Ti invieremo il tuo nome kanji perfetto e la sua storia entro 10 minuti',
+    emailInputCalligraphy: 'Calligrafia dal nostro calligrafo: consegnata entro 3 giorni lavorativi (esclusi weekend/festivi)',
+    emailSubmittedThankYou: 'Grazie! Ti invieremo il tuo nome kanji e il suo significato via e-mail entro 10 minuti.',
+    emailSubmittedCalligraphy: 'La tua calligrafia scritta a mano sarà consegnata entro 3 giorni lavorativi (esclusi weekend/festivi).'
   },
 
   // Thai
@@ -464,9 +507,10 @@ const translations = {
     lpGalleryMeaning4: 'สติปัญญาดุจหยกขัดเงา สงบดุจทะเลสาบนิ่ง',
     lpHowTitle: 'ขั้นตอนการใช้งาน',
     lpStep1: 'ทำแบบทดสอบบุคลิกภาพ 2 นาที',
-    lpStep2: 'AI เลือกคันจิที่ตรงกับบุคลิกของคุณ',
-    lpStep3: 'รับงานเขียนพู่กันและเรื่องราวชื่อของคุณ',
-    lpStep3Detail: 'ส่งถึงอีเมลของคุณภายในหนึ่งสัปดาห์',
+    lpStep2: 'กรอกอีเมลของคุณ',
+    lpStep3: 'เราจะส่งชื่อคันจิที่เหมาะกับคุณและความหมาย',
+    lpStep3Detail: 'ส่งถึงอีเมลของคุณภายใน 10 นาที',
+    lpStep3Detail2: 'งานเขียนพู่กันภายใน 3 วันทำการ',
     lpProofText: 'เป็นที่รักของนักเดินทางกว่า 5,000 คน',
     lpCtaTagline: 'การเดินทางของคุณ ชื่อของคุณ เรื่องราวของคุณ',
 
@@ -479,7 +523,13 @@ const translations = {
     loading1: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E27\u0E34\u0E40\u0E04\u0E23\u0E32\u0E30\u0E2B\u0E4C\u0E1A\u0E38\u0E04\u0E25\u0E34\u0E01\u0E20\u0E32\u0E1E\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
     loading2: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E40\u0E25\u0E37\u0E2D\u0E01\u0E04\u0E31\u0E19\u0E08\u0E34\u0E17\u0E35\u0E48\u0E40\u0E2B\u0E21\u0E32\u0E30\u0E2A\u0E21...',
     loading3: '\u0E01\u0E33\u0E25\u0E31\u0E07\u0E2A\u0E23\u0E49\u0E32\u0E07\u0E40\u0E23\u0E37\u0E48\u0E2D\u0E07\u0E23\u0E32\u0E27\u0E02\u0E2D\u0E07\u0E04\u0E38\u0E13...',
-    loading4: 'กรอกอีเมลในหน้าถัดไปเพื่อรับงานเขียนพู่กันของคุณ'
+    loading4: 'กรอกอีเมลในหน้าถัดไปเพื่อรับงานเขียนพู่กันของคุณ',
+
+    emailInputTitle: 'กรุณากรอกอีเมลของคุณ',
+    emailInputDesc: 'เราจะส่งชื่อคันจิที่เหมาะกับคุณและเรื่องราวภายใน 10 นาที',
+    emailInputCalligraphy: 'งานเขียนพู่กันโดยนักเขียนพู่กัน: จัดส่งภายใน 3 วันทำการ (ไม่รวมวันหยุดสุดสัปดาห์/วันหยุดนักขัตฤกษ์)',
+    emailSubmittedThankYou: 'ขอบคุณ! เราจะส่งชื่อคันจิและความหมายไปยังอีเมลของคุณภายใน 10 นาที',
+    emailSubmittedCalligraphy: 'งานเขียนพู่กันด้วยมือจะจัดส่งภายใน 3 วันทำการ (ไม่รวมวันหยุดสุดสัปดาห์/วันหยุดนักขัตฤกษ์)'
   },
 
   // Vietnamese
@@ -531,9 +581,10 @@ const translations = {
     lpGalleryMeaning4: 'Trí tuệ như ngọc mài sáng, bình yên như mặt hồ tĩnh lặng',
     lpHowTitle: 'Cách thức hoạt động',
     lpStep1: 'Làm bài trắc nghiệm tính cách 2 phút',
-    lpStep2: 'AI chọn kanji phù hợp với tính cách của bạn',
-    lpStep3: 'Nhận thư pháp viết tay và câu chuyện về tên của bạn',
-    lpStep3Detail: 'Gửi qua email trong vòng một tuần',
+    lpStep2: 'Nhập địa chỉ email của bạn',
+    lpStep3: 'Chúng tôi sẽ gửi tên kanji hoàn hảo và ý nghĩa của nó',
+    lpStep3Detail: 'Gửi qua email trong vòng 10 phút',
+    lpStep3Detail2: 'Thư pháp viết tay trong 3 ngày làm việc',
     lpProofText: 'Được yêu thích bởi hơn 5.000 du khách',
     lpCtaTagline: 'Chuyến đi của bạn. Tên của bạn. Câu chuyện của bạn.',
 
@@ -546,7 +597,13 @@ const translations = {
     loading1: '\u0110ang ph\u00e2n t\u00edch t\u00ednh c\u00e1ch c\u1EE7a b\u1EA1n...',
     loading2: '\u0110ang ch\u1ECDn kanji ho\u00e0n h\u1EA3o...',
     loading3: '\u0110ang t\u1EA1o c\u00e2u chuy\u1EC7n c\u1EE7a b\u1EA1n...',
-    loading4: 'Nhập email ở trang tiếp theo để nhận tác phẩm thư pháp của bạn'
+    loading4: 'Nhập email ở trang tiếp theo để nhận tác phẩm thư pháp của bạn',
+
+    emailInputTitle: 'Vui lòng nhập địa chỉ email của bạn',
+    emailInputDesc: 'Chúng tôi sẽ gửi tên kanji hoàn hảo và câu chuyện của nó trong vòng 10 phút',
+    emailInputCalligraphy: 'Thư pháp bởi nhà thư pháp: gửi trong 3 ngày làm việc (không tính cuối tuần/ngày lễ)',
+    emailSubmittedThankYou: 'Cảm ơn bạn! Chúng tôi sẽ gửi tên kanji và ý nghĩa đến email của bạn trong vòng 10 phút.',
+    emailSubmittedCalligraphy: 'Tác phẩm thư pháp viết tay sẽ được gửi trong vòng 3 ngày làm việc (không tính cuối tuần/ngày lễ).'
   },
 
   // Indonesian
@@ -598,9 +655,10 @@ const translations = {
     lpGalleryMeaning4: 'Kecerdasan bagai giok berkilau, kedamaian bagai danau yang tenang',
     lpHowTitle: 'Cara Kerjanya',
     lpStep1: 'Ikuti kuis kepribadian 2 menit',
-    lpStep2: 'AI memilih kanji yang sesuai dengan kepribadian Anda',
-    lpStep3: 'Terima kaligrafi tulisan tangan dan kisah nama Anda',
-    lpStep3Detail: 'Dikirim ke email Anda dalam satu minggu',
+    lpStep2: 'Masukkan alamat email Anda',
+    lpStep3: 'Kami akan mengirimkan nama kanji sempurna dan maknanya',
+    lpStep3Detail: 'Dikirim ke email Anda dalam 10 menit',
+    lpStep3Detail2: 'Kaligrafi tulisan tangan dalam 3 hari kerja',
     lpProofText: 'Disukai oleh lebih dari 5.000 wisatawan',
     lpCtaTagline: 'Perjalanan Anda. Nama Anda. Kisah Anda.',
 
@@ -613,7 +671,13 @@ const translations = {
     loading1: 'Menganalisis kepribadian Anda...',
     loading2: 'Memilih kanji yang sempurna...',
     loading3: 'Membuat cerita Anda...',
-    loading4: 'Masukkan email di halaman berikutnya untuk menerima kaligrafi Anda'
+    loading4: 'Masukkan email di halaman berikutnya untuk menerima kaligrafi Anda',
+
+    emailInputTitle: 'Silakan masukkan alamat email Anda',
+    emailInputDesc: 'Kami akan mengirimkan nama kanji sempurna dan ceritanya dalam 10 menit',
+    emailInputCalligraphy: 'Kaligrafi oleh kaligrafer kami: dikirim dalam 3 hari kerja (tidak termasuk akhir pekan/hari libur)',
+    emailSubmittedThankYou: 'Terima kasih! Kami akan mengirimkan nama kanji dan maknanya ke email Anda dalam 10 menit.',
+    emailSubmittedCalligraphy: 'Karya kaligrafi tulisan tangan akan dikirim dalam 3 hari kerja (tidak termasuk akhir pekan/hari libur).'
   },
 
   // Korean
@@ -665,9 +729,10 @@ const translations = {
     lpGalleryMeaning4: '깎아낸 옥 같은 지성, 고요한 호수 같은 평화',
     lpHowTitle: '이용 방법',
     lpStep1: '2분 성격 퀴즈에 응답하기',
-    lpStep2: 'AI가 당신의 성격에 맞는 한자를 선택',
-    lpStep3: '손으로 쓴 서예와 이름의 이야기를 받기',
-    lpStep3Detail: '일주일 이내에 이메일로 전송',
+    lpStep2: '이메일 주소를 입력하세요',
+    lpStep3: '당신에게 딱 맞는 한자 이름과 의미를 보내드립니다',
+    lpStep3Detail: '10분 이내에 이메일로 전송',
+    lpStep3Detail2: '손글씨 서예는 영업일 기준 3일 이내',
     lpProofText: '5,000명 이상의 여행자가 사랑한',
     lpCtaTagline: '당신의 여행. 당신의 이름. 당신의 이야기.',
 
@@ -680,7 +745,13 @@ const translations = {
     loading1: '\uB2F9\uC2E0\uC758 \uC131\uACA9\uC744 \uBD84\uC11D \uC911...',
     loading2: '\uC644\uBCBD\uD55C \uD55C\uC790\uB97C \uC120\uD0DD \uC911...',
     loading3: '\uB2F9\uC2E0\uC758 \uC774\uC57C\uAE30\uB97C \uC791\uC131 \uC911...',
-    loading4: '다음 페이지에서 이메일을 입력하면 서예 작품을 받을 수 있습니다'
+    loading4: '다음 페이지에서 이메일을 입력하면 서예 작품을 받을 수 있습니다',
+
+    emailInputTitle: '이메일 주소를 입력해 주세요',
+    emailInputDesc: '10분 이내에 당신에게 딱 맞는 한자 이름과 이야기를 보내드립니다',
+    emailInputCalligraphy: '서예가의 서예 작품: 3영업일 이내 배송 (주말/공휴일 제외)',
+    emailSubmittedThankYou: '감사합니다! 10분 이내에 한자 이름과 의미를 이메일로 보내드립니다.',
+    emailSubmittedCalligraphy: '손글씨 서예 작품은 3영업일 이내(주말/공휴일 제외)에 배송됩니다.'
   },
 
   // Japanese
@@ -732,9 +803,10 @@ const translations = {
     lpGalleryMeaning4: '磨かれた翡翠のような知性、静かな湖のような安らぎ',
     lpHowTitle: 'ご利用の流れ',
     lpStep1: '2分の性格診断クイズに回答',
-    lpStep2: 'AIがあなたの性格に合った漢字を選定',
-    lpStep3: '手書きの書道とあなたの名前の物語をお届け',
-    lpStep3Detail: '1週間以内にメールでお届け',
+    lpStep2: 'メールアドレスを入力',
+    lpStep3: 'あなたにピッタリの漢字名と意味をお届け',
+    lpStep3Detail: '10分以内にメールでお届け',
+    lpStep3Detail2: '手書きの書道は3営業日以内にお届け',
     lpProofText: '5,000人以上の旅行者に愛されています',
     lpCtaTagline: 'あなたの旅。あなたの名前。あなたの物語。',
 
@@ -747,7 +819,13 @@ const translations = {
     loading1: '\u6027\u683C\u3092\u5206\u6790\u4E2D...',
     loading2: '\u6700\u9069\u306A\u6F22\u5B57\u3092\u9078\u5B9A\u4E2D...',
     loading3: '\u8AAC\u660E\u6587\u3092\u4F5C\u6210\u4E2D...',
-    loading4: '次のページでメールアドレスを入力すると書道作品をお届けします'
+    loading4: '次のページでメールアドレスを入力すると書道作品をお届けします',
+
+    emailInputTitle: 'メールアドレスをご入力ください',
+    emailInputDesc: '10分以内にあなたにピッタリの漢字名と説明文をお送りいたします',
+    emailInputCalligraphy: '書道家による書道作品は3営業日以内（土日祝は除く）にお届けいたします',
+    emailSubmittedThankYou: 'ありがとうございます！10分以内にあなたの漢字名と説明文をメールでお届けします。',
+    emailSubmittedCalligraphy: '手書きの書道作品は3営業日以内（土日祝は除く）にお届けいたします。'
   }
 };
 

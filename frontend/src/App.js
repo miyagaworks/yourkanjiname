@@ -618,6 +618,120 @@ const ScoreBar = ({ label, score }) => {
   );
 };
 
+// Email Input Screen (post-quiz, pre-generation)
+const EmailInputScreen = ({ language, userName, sessionIdRef, pendingSubmitsRef, paymentIntentId }) => {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+  const { t } = useTranslation();
+
+  const partnerCode = sessionStorage.getItem('partnerCode');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    setSubmitting(true);
+    setError(null);
+    try {
+      // まず保留中の回答送信を待つ
+      if (pendingSubmitsRef.current.length > 0) {
+        const results = await Promise.all(pendingSubmitsRef.current);
+        pendingSubmitsRef.current = [];
+
+        const failed = results.filter(r => r && !r.ok);
+        if (failed.length > 0) {
+          await Promise.all(
+            failed.map(f => ApiClient.submitAnswer(sessionIdRef.current, f.questionId, f.optionId, language))
+          );
+        }
+      }
+
+      const response = await fetch(`${API_BASE_URL}/submit-email`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: sessionIdRef.current,
+          email,
+          user_name: userName,
+          language,
+          payment_intent_id: paymentIntentId,
+          partner_code: partnerCode
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Request failed');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Failed to submit email:', err);
+      setError(t('requestError') || 'Failed to send request. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="calligrapher-section">
+        <div className="calligrapher-success">
+          <p>{t('emailSubmittedThankYou')}</p>
+        </div>
+        <p className="calligrapher-note">{t('emailSubmittedCalligraphy')}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="calligrapher-section">
+      <h3 className="calligrapher-title">{t('emailInputTitle')}</h3>
+      <p className="calligrapher-description">{t('emailInputDesc')}</p>
+      <p className="calligrapher-warning">{t('emailWarning')}</p>
+
+      <form className="calligrapher-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          className="calligrapher-email"
+          value={email}
+          onChange={(e) => {
+            const filtered = e.target.value.replace(/[^a-zA-Z0-9@._+-]/g, '');
+            setEmail(filtered);
+          }}
+          placeholder={t('emailPlaceholder')}
+          inputMode="email"
+          autoComplete="email"
+          autoFocus
+          required
+        />
+        <button
+          type="submit"
+          className="calligrapher-submit"
+          disabled={!email.trim() || submitting}
+        >
+          {submitting ? t('sending') : t('sendCalligraphy')} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle', position: 'relative', top: '-2px' }} />
+        </button>
+      </form>
+      {error && <p className="calligrapher-error">{error}</p>}
+
+      <p className="calligrapher-note">{t('emailInputCalligraphy')}</p>
+
+      <div className="calligrapher-photo">
+        <img src="/images/calligraphy/shodo.png" alt="Calligrapher at work" />
+      </div>
+
+      <div className="calligrapher-samples">
+        <img src="/images/calligraphy/01.png" alt="Sample 1" />
+        <img src="/images/calligraphy/02.png" alt="Sample 2" />
+        <img src="/images/calligraphy/03.png" alt="Sample 3" />
+        <img src="/images/calligraphy/04.png" alt="Sample 4" />
+      </div>
+    </div>
+  );
+};
+
 // Loading messages keys for progressive display
 const LOADING_MESSAGE_KEYS = ['loading1', 'loading2', 'loading3', 'loading4'];
 
@@ -645,7 +759,7 @@ function App() {
   const [result, setResult] = useState(null);
   const { language } = useLanguage();
   const { t } = useTranslation();
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState('');
@@ -657,7 +771,7 @@ function App() {
   const [paymentIntentId, setPaymentIntentId] = useState(null);
   const [, setServicePrice] = useState(null); // price loaded from API via PaymentModal
   const [answerHistory, setAnswerHistory] = useState([]); // 回答履歴を追跡
-  const [preEmail] = useState(''); // ResultCardに渡すメールアドレス（将来の拡張用）
+  const [showEmailInput, setShowEmailInput] = useState(false); // メール先行フロー用
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
   const partnerCode = sessionStorage.getItem('partnerCode');
@@ -669,13 +783,20 @@ function App() {
     document.head.appendChild(style);
   }, []);
 
-  // プレビューモード: 結果ページを直接表示
+  // プレビューモード: 結果ページ or メール入力画面を直接表示
   useEffect(() => {
     if (PREVIEW_MODE === 'result') {
       setShowSplash(false);
       setShowNameInput(false);
       setUserName('John');
       setResult(MOCK_RESULT);
+    } else if (PREVIEW_MODE === 'email') {
+      setShowSplash(false);
+      setShowLanding(false);
+      setHasPaid(true);
+      setShowNameInput(false);
+      setUserName('John');
+      setShowEmailInput(true);
     }
   }, []);
 
@@ -833,54 +954,23 @@ function App() {
       return;
     }
 
-    // 最後の質問（GENERATE_RESULT）の場合 → 直接ローディング＆生成を開始
+    // 最後の質問（GENERATE_RESULT）の場合 → メール入力画面を表示
     setCurrentQuestion(null);
-    setLoading(true);
     window.scrollTo(0, 0);
 
-    // 直接生成処理を実行
-    (async () => {
-      let currentSessionId = sessionIdRef.current;
-      if (!currentSessionId) {
-        for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
-          await new Promise(r => setTimeout(r, 100));
-        }
-        currentSessionId = sessionIdRef.current;
-        if (!currentSessionId) {
-          setError('Session not ready. Please try again.');
-          setLoading(false);
-          return;
-        }
-      }
+    // 最後の回答送信はバックグラウンドで実行
+    if (sessionIdRef.current && currentQuestionId !== 'Q0') {
+      const promise = ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
+        .then(() => ({ ok: true }))
+        .catch(err => {
+          console.error('Last submit failed:', err);
+          return { ok: false, questionId: currentQuestionId, optionId };
+        });
+      pendingSubmitsRef.current.push(promise);
+    }
 
-      try {
-        const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language)
-          .then(() => ({ ok: true }))
-          .catch(err => {
-            console.error('Last submit failed:', err);
-            return { ok: false, questionId: currentQuestionId, optionId };
-          });
-        pendingSubmitsRef.current.push(lastSubmit);
-
-        const results = await Promise.all(pendingSubmitsRef.current);
-        pendingSubmitsRef.current = [];
-
-        const failed = results.filter(r => r && !r.ok);
-        if (failed.length > 0) {
-          await Promise.all(
-            failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
-          );
-        }
-
-        const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
-        setResult(kanjiResult);
-      } catch (err) {
-        setError('Failed to generate result');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    // メール入力画面へ遷移
+    setShowEmailInput(true);
   };
 
   // Terms page
@@ -1005,6 +1095,7 @@ function App() {
                 <div>
                   <p className="lp-step-title">{t('lpStep3')}</p>
                   <p className="lp-step-detail">{t('lpStep3Detail')}</p>
+                  <p className="lp-step-detail">{t('lpStep3Detail2')}</p>
                 </div>
               </div>
             </div>
@@ -1085,6 +1176,27 @@ function App() {
     );
   }
 
+  // メール入力画面（Q16回答後）
+  if (showEmailInput) {
+    return (
+      <>
+        <div className="container">
+          <LanguageSelector />
+          <EmailInputScreen
+            language={language}
+            userName={userName}
+            sessionIdRef={sessionIdRef}
+            pendingSubmitsRef={pendingSubmitsRef}
+            paymentIntentId={paymentIntentId}
+          />
+        </div>
+        <footer className="footer">
+          <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
+        </footer>
+      </>
+    );
+  }
+
   // ローディング表示（生成中）
   if (loading && !currentQuestion && !result) {
     return (
@@ -1122,7 +1234,7 @@ function App() {
       <>
         <div className="container result-container">
           <LanguageSelector />
-          <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} preEmail={preEmail} />
+          <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} preEmail="" />
         </div>
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>
