@@ -457,7 +457,7 @@ async function sendEmail(to, subject, html, scheduledAt) {
     };
 
     if (scheduledAt) {
-      payload.scheduledAt = scheduledAt;
+      payload.scheduled_at = scheduledAt;
     }
 
     const response = await fetch('https://api.resend.com/emails', {
