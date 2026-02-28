@@ -704,7 +704,7 @@ const EmailInputScreen = ({ language, userName, sessionIdRef, pendingSubmitsRef,
           className="calligrapher-submit"
           disabled={!email.trim()}
         >
-          {t('sendCalligraphy')} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle', position: 'relative', top: '-2px' }} />
+          {t('sendCalligraphy')} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle', position: 'relative', top: '-1px' }} />
         </button>
       </form>
 
