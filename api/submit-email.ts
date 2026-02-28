@@ -57,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     for (let i = 0; i < 30; i++) {
       try {
         const check = await dbPool.query(
-          'SELECT id FROM sessions WHERE id = $1',
+          'SELECT session_id FROM sessions WHERE session_id = $1',
           [session_id]
         );
         if (check.rows.length > 0) {
