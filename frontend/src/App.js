@@ -622,56 +622,49 @@ const ScoreBar = ({ label, score }) => {
 const EmailInputScreen = ({ language, userName, sessionIdRef, pendingSubmitsRef, paymentIntentId }) => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState(null);
   const { t } = useTranslation();
 
   const partnerCode = sessionStorage.getItem('partnerCode');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!email.trim()) return;
 
-    setSubmitting(true);
-    setError(null);
-    try {
-      // まず保留中の回答送信を待つ
-      if (pendingSubmitsRef.current.length > 0) {
-        const results = await Promise.all(pendingSubmitsRef.current);
-        pendingSubmitsRef.current = [];
+    // 即座にありがとう画面へ遷移（APIレスポンスを待たない）
+    setSubmitted(true);
 
-        const failed = results.filter(r => r && !r.ok);
-        if (failed.length > 0) {
-          await Promise.all(
-            failed.map(f => ApiClient.submitAnswer(sessionIdRef.current, f.questionId, f.optionId, language))
-          );
+    // バックグラウンドで回答送信＋メール送信APIを呼び出す（fire-and-forget）
+    (async () => {
+      try {
+        // 保留中の回答送信を先に処理
+        if (pendingSubmitsRef.current.length > 0) {
+          const results = await Promise.all(pendingSubmitsRef.current);
+          pendingSubmitsRef.current = [];
+
+          const failed = results.filter(r => r && !r.ok);
+          if (failed.length > 0) {
+            await Promise.all(
+              failed.map(f => ApiClient.submitAnswer(sessionIdRef.current, f.questionId, f.optionId, language))
+            );
+          }
         }
+
+        fetch(`${API_BASE_URL}/submit-email`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionIdRef.current,
+            email,
+            user_name: userName,
+            language,
+            payment_intent_id: paymentIntentId,
+            partner_code: partnerCode
+          })
+        }).catch(err => console.error('Submit email API error:', err));
+      } catch (err) {
+        console.error('Background submit error:', err);
       }
-
-      const response = await fetch(`${API_BASE_URL}/submit-email`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          session_id: sessionIdRef.current,
-          email,
-          user_name: userName,
-          language,
-          payment_intent_id: paymentIntentId,
-          partner_code: partnerCode
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Request failed');
-      }
-
-      setSubmitted(true);
-    } catch (err) {
-      console.error('Failed to submit email:', err);
-      setError(t('requestError') || 'Failed to send request. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
+    })();
   };
 
   if (submitted) {
@@ -709,12 +702,11 @@ const EmailInputScreen = ({ language, userName, sessionIdRef, pendingSubmitsRef,
         <button
           type="submit"
           className="calligrapher-submit"
-          disabled={!email.trim() || submitting}
+          disabled={!email.trim()}
         >
-          {submitting ? t('sending') : t('sendCalligraphy')} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle', position: 'relative', top: '-2px' }} />
+          {t('sendCalligraphy')} <LuSend style={{ marginLeft: '8px', verticalAlign: 'middle', position: 'relative', top: '-2px' }} />
         </button>
       </form>
-      {error && <p className="calligrapher-error">{error}</p>}
 
       <p className="calligrapher-note">{t('emailInputCalligraphy')}</p>
 
