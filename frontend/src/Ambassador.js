@@ -136,20 +136,20 @@ function Ambassador() {
             {/* Summary Stats */}
             <div className="payment-stats">
               <div className="stat-card highlight">
-                <div className="stat-label">今月のロイヤリティ</div>
+                <div className="stat-label">今月の紹介料</div>
                 <div className="stat-value">${dashboard.current_month?.royalty_amount?.toFixed(2) || '0.00'}</div>
                 <div className="stat-sublabel">{dashboard.current_month?.year_month}</div>
               </div>
               <div className="stat-card">
-                <div className="stat-label">未払いロイヤリティ</div>
+                <div className="stat-label">未払い紹介料</div>
                 <div className="stat-value pending-amount">${dashboard.summary?.pending_royalty?.toFixed(2) || '0.00'}</div>
               </div>
               <div className="stat-card">
-                <div className="stat-label">累計ロイヤリティ</div>
+                <div className="stat-label">累計紹介料</div>
                 <div className="stat-value">${dashboard.summary?.total_royalty?.toFixed(2) || '0.00'}</div>
               </div>
               <div className="stat-card">
-                <div className="stat-label">ロイヤリティ率</div>
+                <div className="stat-label">紹介料率</div>
                 <div className="stat-value">{(dashboard.ambassador?.royalty_rate * 100).toFixed(0)}%</div>
               </div>
             </div>
@@ -245,7 +245,7 @@ function Ambassador() {
                     <th>月</th>
                     <th>決済数</th>
                     <th>売上</th>
-                    <th>ロイヤリティ</th>
+                    <th>紹介料</th>
                     <th>支払い状態</th>
                     <th>支払日</th>
                   </tr>
@@ -256,7 +256,7 @@ function Ambassador() {
                       <td data-label="月">{ms.year_month}</td>
                       <td data-label="決済数">{ms.total_payments}</td>
                       <td data-label="売上">${ms.total_revenue?.toFixed(2)}</td>
-                      <td data-label="ロイヤリティ" className="royalty-amount">${ms.royalty_amount?.toFixed(2)}</td>
+                      <td data-label="紹介料" className="royalty-amount">${ms.royalty_amount?.toFixed(2)}</td>
                       <td data-label="状態">
                         <span className={`status-badge ${ms.payout_status === 'paid' ? 'status-sent' : 'status-pending'}`}>
                           {ms.payout_status === 'paid' ? '支払い済' : '未払い'}

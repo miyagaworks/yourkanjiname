@@ -1262,7 +1262,7 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
-                      <label>ロイヤリティ率</label>
+                      <label>紹介料率</label>
                       <select
                         value={partnerForm.royalty_rate}
                         onChange={(e) => setPartnerForm({...partnerForm, royalty_rate: e.target.value})}
@@ -1354,7 +1354,7 @@ function Admin() {
                   <th>コード</th>
                   <th>店舗名</th>
                   <th>メール</th>
-                  <th>ロイヤリティ率</th>
+                  <th>紹介料率</th>
                   <th>総売上</th>
                   <th>未払い</th>
                   <th>状態</th>
@@ -1494,7 +1494,7 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
-                      <label>ロイヤリティ率</label>
+                      <label>紹介料率</label>
                       <select
                         value={editingPartner.royalty_rate}
                         onChange={(e) => setEditingPartner({...editingPartner, royalty_rate: e.target.value})}
@@ -1686,7 +1686,7 @@ function Admin() {
                   <th>対象月</th>
                   <th>決済数</th>
                   <th>売上</th>
-                  <th>ロイヤリティ</th>
+                  <th>紹介料</th>
                   <th>振込先</th>
                   <th>操作</th>
                 </tr>
@@ -1702,7 +1702,7 @@ function Admin() {
                     <td data-label="対象月">{p.pending_months?.join(', ') || '-'}</td>
                     <td data-label="決済数">{p.total_payments}</td>
                     <td data-label="売上">${p.total_revenue?.toFixed(2)}</td>
-                    <td data-label="ロイヤリティ" className="royalty-amount">${p.pending_royalty?.toFixed(2)}</td>
+                    <td data-label="紹介料" className="royalty-amount">${p.pending_royalty?.toFixed(2)}</td>
                     <td data-label="振込先" className="bank-info">
                       {p.bank_name ? (
                         <span>
@@ -1739,7 +1739,7 @@ function Admin() {
                 <tr>
                   <th>パートナー</th>
                   <th>対象月</th>
-                  <th>ロイヤリティ</th>
+                  <th>紹介料</th>
                   <th>為替レート</th>
                   <th>振込手数料</th>
                   <th>振込金額</th>
@@ -1751,7 +1751,7 @@ function Admin() {
                   <tr key={s.id}>
                     <td data-label="パートナー">{s.partner_name}</td>
                     <td data-label="対象月">{s.year_month}</td>
-                    <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
+                    <td data-label="紹介料">${s.royalty_amount?.toFixed(2)}</td>
                     <td data-label="為替">{s.exchange_rate_jpy ? `¥${parseFloat(s.exchange_rate_jpy).toFixed(2)}` : '-'}</td>
                     <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
                     <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
@@ -1799,7 +1799,7 @@ function Admin() {
                       <span>{selectedPayout.total_payments}件</span>
                     </div>
                     <div className="payout-detail-row">
-                      <span>ロイヤリティ (USD):</span>
+                      <span>紹介料 (USD):</span>
                       <span className="highlight-amount">${selectedPayout.pending_royalty?.toFixed(2)}</span>
                     </div>
                   </div>
@@ -2119,7 +2119,7 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
-                      <label>ロイヤリティ率</label>
+                      <label>紹介料率</label>
                       <select
                         value={salespersonForm.royalty_rate}
                         onChange={(e) => setSalespersonForm({...salespersonForm, royalty_rate: e.target.value})}
@@ -2160,7 +2160,7 @@ function Admin() {
                   <th>コード</th>
                   <th>氏名</th>
                   <th>メール</th>
-                  <th>ロイヤリティ率</th>
+                  <th>紹介料率</th>
                   <th>契約期間</th>
                   <th>紹介パートナー数</th>
                   <th>総売上</th>
@@ -2258,7 +2258,7 @@ function Admin() {
                       />
                     </div>
                     <div className="form-row">
-                      <label>ロイヤリティ率</label>
+                      <label>紹介料率</label>
                       <select
                         value={editingSalesperson.royalty_rate}
                         onChange={(e) => setEditingSalesperson({...editingSalesperson, royalty_rate: e.target.value})}
@@ -2346,7 +2346,7 @@ function Admin() {
                   <th>対象月</th>
                   <th>決済数</th>
                   <th>売上</th>
-                  <th>ロイヤリティ</th>
+                  <th>紹介料</th>
                   <th>操作</th>
                 </tr>
               </thead>
@@ -2361,7 +2361,7 @@ function Admin() {
                     <td data-label="対象月">{sp.months?.map(m => m.year_month).join(', ') || '-'}</td>
                     <td data-label="決済数">{sp.months?.reduce((sum, m) => sum + m.total_payments, 0) || 0}</td>
                     <td data-label="売上">${sp.months?.reduce((sum, m) => sum + m.total_revenue, 0).toFixed(2) || '0.00'}</td>
-                    <td data-label="ロイヤリティ" className="royalty-amount">${sp.total_royalty?.toFixed(2)}</td>
+                    <td data-label="紹介料" className="royalty-amount">${sp.total_royalty?.toFixed(2)}</td>
                     <td>
                       <button
                         onClick={() => openSalespersonPayoutModal(sp)}
@@ -2386,7 +2386,7 @@ function Admin() {
                 <tr>
                   <th>アンバサダー</th>
                   <th>対象月</th>
-                  <th>ロイヤリティ</th>
+                  <th>紹介料</th>
                   <th>為替レート</th>
                   <th>振込手数料</th>
                   <th>振込金額</th>
@@ -2398,7 +2398,7 @@ function Admin() {
                   <tr key={s.id}>
                     <td data-label="アンバサダー">{s.name}</td>
                     <td data-label="対象月">{s.year_month}</td>
-                    <td data-label="ロイヤリティ">${s.royalty_amount?.toFixed(2)}</td>
+                    <td data-label="紹介料">${s.royalty_amount?.toFixed(2)}</td>
                     <td data-label="為替">{s.exchange_rate_jpy ? `¥${parseFloat(s.exchange_rate_jpy).toFixed(2)}` : '-'}</td>
                     <td data-label="手数料">¥{s.transfer_fee_jpy?.toLocaleString() || '0'}</td>
                     <td data-label="振込額" className="royalty-amount">¥{s.net_payout_jpy?.toLocaleString() || '-'}</td>
@@ -2437,7 +2437,7 @@ function Admin() {
                       <span>{selectedSalespersonPayout.months?.reduce((sum, m) => sum + m.total_payments, 0)}件</span>
                     </div>
                     <div className="payout-detail-row">
-                      <span>ロイヤリティ (USD):</span>
+                      <span>紹介料 (USD):</span>
                       <span className="highlight-amount">${selectedSalespersonPayout.total_royalty?.toFixed(2)}</span>
                     </div>
                   </div>

@@ -45,7 +45,7 @@ async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
           <!-- Header -->
           <tr>
             <td style="background:linear-gradient(135deg,#c75450,#a33f3c);padding:32px 40px;text-align:center;">
-              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.05em;">ロイヤリティのお振込完了のお知らせ</h1>
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.05em;">紹介料のお振込完了のお知らせ</h1>
               <p style="margin:8px 0 0;color:rgba(255,255,255,0.8);font-size:13px;">${now}</p>
             </td>
           </tr>
@@ -55,7 +55,7 @@ async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
               <p style="margin:0 0 20px;font-size:16px;color:#333;line-height:1.8;">${ambassador.name} 様</p>
               <p style="margin:0 0 24px;font-size:14px;color:#555;line-height:1.9;">
                 いつもYour Kanji Nameアンバサダープログラムにご参加いただき、誠にありがとうございます。<br>
-                下記の通り、ロイヤリティのお振込が完了いたしましたのでご報告いたします。
+                下記の通り、紹介料のお振込が完了いたしましたのでご報告いたします。
               </p>
             </td>
           </tr>
@@ -84,7 +84,7 @@ async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
                 </tr>
                 <tr>
                   <td style="padding:14px 0;border-bottom:1px solid #f0ece8;">
-                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">ロイヤリティ（税込）</span>
+                    <span style="display:block;font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;">紹介料（税込）</span>
                     <span style="font-size:16px;color:#333;">$${payoutDetails.royalty_usd.toFixed(2)} USD</span>
                   </td>
                 </tr>
@@ -149,7 +149,7 @@ async function sendAmbassadorPayoutEmail(ambassador, payoutDetails) {
       body: JSON.stringify({
         from: fromEmail,
         to: ambassador.email,
-        subject: `【Your Kanji Name】ロイヤリティお振込完了のお知らせ（${formattedMonths}）`,
+        subject: `【Your Kanji Name】紹介料お振込完了のお知らせ（${formattedMonths}）`,
         html: html
       })
     });

@@ -236,7 +236,7 @@ function PartnerDashboard({ partner, onLogout }) {
           <div className="overview-tab">
             <div className="stats-grid">
               <div className="stat-card highlight">
-                <div className="stat-label">未払いロイヤリティ</div>
+                <div className="stat-label">未払い紹介料</div>
                 <div className="stat-value">{formatJPY(stats.pending_royalty)}</div>
                 <div className="stat-note">{formatCurrency(stats.pending_royalty)}</div>
               </div>
@@ -254,7 +254,7 @@ function PartnerDashboard({ partner, onLogout }) {
               </div>
 
               <div className="stat-card">
-                <div className="stat-label">累計ロイヤリティ</div>
+                <div className="stat-label">累計紹介料</div>
                 <div className="stat-value">{formatJPY(stats.all_time.royalty)}</div>
                 <div className="stat-note">還元率 {(dashboardData.partner.royalty_rate * 100).toFixed(0)}%</div>
               </div>
@@ -276,7 +276,7 @@ function PartnerDashboard({ partner, onLogout }) {
                     <tr>
                       <th>日付</th>
                       <th>金額</th>
-                      <th>ロイヤリティ</th>
+                      <th>紹介料</th>
                       <th>状態</th>
                     </tr>
                   </thead>
@@ -313,7 +313,7 @@ function PartnerDashboard({ partner, onLogout }) {
                       <th>月</th>
                       <th>件数</th>
                       <th>売上</th>
-                      <th>ロイヤリティ</th>
+                      <th>紹介料</th>
                       <th>状態</th>
                       <th>振込金額</th>
                       <th>支払日</th>
@@ -358,7 +358,7 @@ function PartnerDashboard({ partner, onLogout }) {
                   <p>
                     合計: {monthly_history.reduce((sum, m) => sum + m.payments, 0)}件 /
                     売上 {formatJPY(monthly_history.reduce((sum, m) => sum + m.revenue, 0))} /
-                    ロイヤリティ {formatJPY(monthly_history.reduce((sum, m) => sum + m.royalty, 0))}
+                    紹介料 {formatJPY(monthly_history.reduce((sum, m) => sum + m.royalty, 0))}
                   </p>
                 </div>
               </>
@@ -396,7 +396,7 @@ function PartnerDashboard({ partner, onLogout }) {
                     <div className="month-stats-summary">
                       <span>{monthStats.payments}件</span>
                       <span>売上: {formatJPY(monthStats.revenue)}</span>
-                      <span>ロイヤリティ: {formatJPY(monthStats.royalty)}</span>
+                      <span>紹介料: {formatJPY(monthStats.royalty)}</span>
                       <span className={`payout-badge payout-${monthStats.payout_status}`}>
                         {getPayoutStatusLabel(monthStats.payout_status)}
                       </span>
@@ -414,7 +414,7 @@ function PartnerDashboard({ partner, onLogout }) {
                         <tr>
                           <th>日時</th>
                           <th>金額</th>
-                          <th>ロイヤリティ</th>
+                          <th>紹介料</th>
                           <th>状態</th>
                         </tr>
                       </thead>
@@ -444,7 +444,7 @@ function PartnerDashboard({ partner, onLogout }) {
           <div className="qrcode-tab">
             <div className="qrcode-card">
               <h2>アフィリエイトリンク</h2>
-              <p>このリンクまたはQRコードをお客様に共有してください。お客様が購入を完了すると、{(dashboardData.partner.royalty_rate * 100).toFixed(0)}%のロイヤリティが獲得できます！</p>
+              <p>このリンクまたはQRコードをお客様に共有してください。お客様が購入を完了すると、{(dashboardData.partner.royalty_rate * 100).toFixed(0)}%の紹介料が獲得できます！</p>
 
               <div className="affiliate-link-box">
                 <input

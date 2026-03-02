@@ -115,7 +115,7 @@ function StoreLanding() {
             <span className="benefit-number">2</span>
             <img src="/images/partner/wakuwaku.png" alt="" className="benefit-icon-img" />
             <h3>売上の10%を<br />毎月受け取れる</h3>
-            <p>1件あたり約90円のロイヤリティ。<br />月10人で900円、100人で9,000円の不労所得に。</p>
+            <p>1件あたり約90円の紹介料。<br />月10人で900円、100人で9,000円の不労所得に。</p>
           </div>
           <div className="benefit-card">
             <span className="benefit-number">3</span>
@@ -167,7 +167,7 @@ function StoreLanding() {
             <div className="step-number">5</div>
             <div className="step-content">
               <h3>毎月10%をお振込</h3>
-              <p>翌月10日にロイヤリティをお支払い</p>
+              <p>翌月10日に紹介料をお支払い</p>
             </div>
           </div>
         </div>
@@ -213,7 +213,7 @@ function StoreLanding() {
               <span className="calc-value">25日</span>
             </div>
             <div className="calc-row calc-last">
-              <span>1件あたりのロイヤリティ</span>
+              <span>1件あたりの紹介料</span>
               <span className="calc-value">約90円</span>
             </div>
             <div className="calc-divider"></div>
@@ -240,11 +240,11 @@ function StoreLanding() {
           </div>
           <div className="faq-item">
             <h3><FaQuestionCircle className="faq-icon faq-q" /><span>いつ振り込まれますか？</span></h3>
-            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>毎月10日</strong>に前月分のロイヤリティをお振込みします。</span></p>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>毎月10日</strong>に前月分の紹介料をお振込みします。</span></p>
           </div>
           <div className="faq-item">
             <h3><FaQuestionCircle className="faq-icon faq-q" /><span>最低利用件数はありますか？</span></h3>
-            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>ありません</strong>。1件からロイヤリティが発生します。</span></p>
+            <p><MdQuestionAnswer className="faq-icon faq-a" /><span><strong>ありません</strong>。1件から紹介料が発生します。</span></p>
           </div>
         </div>
       </section>
