@@ -751,7 +751,7 @@ function App() {
   const [result, setResult] = useState(null);
   const { language } = useLanguage();
   const { t } = useTranslation();
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState('');
@@ -946,23 +946,54 @@ function App() {
       return;
     }
 
-    // 最後の質問（GENERATE_RESULT）の場合 → メール入力画面を表示
+    // 最後の質問（GENERATE_RESULT）の場合 → 直接ローディング＆生成を開始
     setCurrentQuestion(null);
+    setLoading(true);
     window.scrollTo(0, 0);
 
-    // 最後の回答送信はバックグラウンドで実行
-    if (sessionIdRef.current && currentQuestionId !== 'Q0') {
-      const promise = ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
-        .then(() => ({ ok: true }))
-        .catch(err => {
-          console.error('Last submit failed:', err);
-          return { ok: false, questionId: currentQuestionId, optionId };
-        });
-      pendingSubmitsRef.current.push(promise);
-    }
+    // 直接生成処理を実行
+    (async () => {
+      let currentSessionId = sessionIdRef.current;
+      if (!currentSessionId) {
+        for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
+          await new Promise(r => setTimeout(r, 100));
+        }
+        currentSessionId = sessionIdRef.current;
+        if (!currentSessionId) {
+          setError('Session not ready. Please try again.');
+          setLoading(false);
+          return;
+        }
+      }
 
-    // メール入力画面へ遷移
-    setShowEmailInput(true);
+      try {
+        const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language)
+          .then(() => ({ ok: true }))
+          .catch(err => {
+            console.error('Last submit failed:', err);
+            return { ok: false, questionId: currentQuestionId, optionId };
+          });
+        pendingSubmitsRef.current.push(lastSubmit);
+
+        const results = await Promise.all(pendingSubmitsRef.current);
+        pendingSubmitsRef.current = [];
+
+        const failed = results.filter(r => r && !r.ok);
+        if (failed.length > 0) {
+          await Promise.all(
+            failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
+          );
+        }
+
+        const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
+        setResult(kanjiResult);
+      } catch (err) {
+        setError('Failed to generate result');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    })();
   };
 
   // Terms page
