@@ -72,7 +72,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...partner,
           royalty_rate: parseFloat(partner.royalty_rate),
-          price_usd: (parseFloat(partner.price_usd) || 6.00).toFixed(2),
+          price_usd: (parseFloat(partner.price_usd) || 8.00).toFixed(2),
           total_payments: parseInt(partner.total_payments),
           total_revenue: parseFloat(partner.total_revenue),
           total_royalty: parseFloat(partner.total_revenue) * parseFloat(partner.royalty_rate)
@@ -248,7 +248,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...result.rows[0],
           royalty_rate: parseFloat(result.rows[0].royalty_rate),
-          price_usd: (parseFloat(result.rows[0].price_usd) || 6.00).toFixed(2)
+          price_usd: (parseFloat(result.rows[0].price_usd) || 8.00).toFixed(2)
         }
       });
 
