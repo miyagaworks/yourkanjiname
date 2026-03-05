@@ -31,6 +31,7 @@ module.exports = async function handler(req, res) {
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
           p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.price_usd, p.status,
           p.salesperson_id, p.salesperson_contract_start, p.salesperson_contract_months,
+          p.ambassador_royalty_override,
           s.name as salesperson_name,
           p.created_at, p.updated_at,
           COALESCE(pay_stats.total_payments, 0) as total_payments,
@@ -66,6 +67,7 @@ module.exports = async function handler(req, res) {
         partners: result.rows.map(row => ({
           ...row,
           royalty_rate: parseFloat(row.royalty_rate),
+          ambassador_royalty_override: row.ambassador_royalty_override !== null ? parseFloat(row.ambassador_royalty_override) : null,
           price_usd: (parseFloat(row.price_usd) || 8.00).toFixed(2),
           total_payments: parseInt(row.total_payments),
           total_revenue: parseFloat(row.total_revenue),
@@ -91,7 +93,8 @@ module.exports = async function handler(req, res) {
         price_usd,
         salesperson_id,
         salesperson_contract_start,
-        salesperson_contract_months
+        salesperson_contract_months,
+        ambassador_royalty_override
       } = req.body;
 
       // Validate required fields
@@ -136,11 +139,13 @@ module.exports = async function handler(req, res) {
         INSERT INTO partners (
           code, name, email, password_hash, contact_name, phone, address,
           bank_name, bank_branch, bank_account, royalty_rate, price_usd, status,
-          salesperson_id, salesperson_contract_start, salesperson_contract_months
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'active', $13, $14, $15)
+          salesperson_id, salesperson_contract_start, salesperson_contract_months,
+          ambassador_royalty_override
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, 'active', $13, $14, $15, $16)
         RETURNING id, code, name, email, contact_name, phone, address,
                   bank_name, bank_branch, bank_account, royalty_rate, price_usd, status,
-                  salesperson_id, salesperson_contract_start, salesperson_contract_months, created_at
+                  salesperson_id, salesperson_contract_start, salesperson_contract_months,
+                  ambassador_royalty_override, created_at
       `, [
         code,
         name,
@@ -156,7 +161,8 @@ module.exports = async function handler(req, res) {
         price_usd || 8.00,
         salesperson_id || null,
         salesperson_id ? (salesperson_contract_start || new Date().toISOString().split('T')[0]) : null,
-        salesperson_id ? (salesperson_contract_months || 12) : null
+        salesperson_id ? (salesperson_contract_months || 12) : null,
+        salesperson_id && ambassador_royalty_override !== undefined && ambassador_royalty_override !== '' ? ambassador_royalty_override : null
       ]);
 
       return res.status(201).json({

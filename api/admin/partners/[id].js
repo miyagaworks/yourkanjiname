@@ -39,6 +39,7 @@ module.exports = async function handler(req, res) {
           p.id, p.code, p.name, p.email, p.contact_name, p.phone, p.address,
           p.bank_name, p.bank_branch, p.bank_account, p.royalty_rate, p.price_usd, p.status,
           p.salesperson_id, p.salesperson_contract_start, p.salesperson_contract_months,
+          p.ambassador_royalty_override,
           s.name as salesperson_name,
           p.created_at, p.updated_at,
           COALESCE(COUNT(pay.id), 0) as total_payments,
@@ -72,6 +73,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...partner,
           royalty_rate: parseFloat(partner.royalty_rate),
+          ambassador_royalty_override: partner.ambassador_royalty_override !== null ? parseFloat(partner.ambassador_royalty_override) : null,
           price_usd: (parseFloat(partner.price_usd) || 8.00).toFixed(2),
           total_payments: parseInt(partner.total_payments),
           total_revenue: parseFloat(partner.total_revenue),
@@ -101,7 +103,8 @@ module.exports = async function handler(req, res) {
         status,
         salesperson_id,
         salesperson_contract_start,
-        salesperson_contract_months
+        salesperson_contract_months,
+        ambassador_royalty_override
       } = req.body;
 
       // Build update query dynamically
@@ -215,6 +218,12 @@ module.exports = async function handler(req, res) {
         values.push(salesperson_contract_months || null);
       }
 
+      if (ambassador_royalty_override !== undefined) {
+        paramCount++;
+        updates.push(`ambassador_royalty_override = $${paramCount}`);
+        values.push(ambassador_royalty_override !== null && ambassador_royalty_override !== '' ? ambassador_royalty_override : null);
+      }
+
       if (updates.length === 0) {
         return res.status(400).json({
           error: { code: 'INVALID_REQUEST', message: 'No fields to update' }
@@ -232,7 +241,7 @@ module.exports = async function handler(req, res) {
         RETURNING id, code, name, email, contact_name, phone, address,
                   bank_name, bank_branch, bank_account, royalty_rate, price_usd, status,
                   salesperson_id, salesperson_contract_start, salesperson_contract_months,
-                  created_at, updated_at
+                  ambassador_royalty_override, created_at, updated_at
       `;
 
       const result = await dbPool.query(updateQuery, values);
@@ -248,6 +257,7 @@ module.exports = async function handler(req, res) {
         partner: {
           ...result.rows[0],
           royalty_rate: parseFloat(result.rows[0].royalty_rate),
+          ambassador_royalty_override: result.rows[0].ambassador_royalty_override !== null ? parseFloat(result.rows[0].ambassador_royalty_override) : null,
           price_usd: (parseFloat(result.rows[0].price_usd) || 8.00).toFixed(2)
         }
       });

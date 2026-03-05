@@ -146,6 +146,7 @@ module.exports = async function handler(req, res) {
       SELECT
         p.id, p.code, p.name, p.status,
         p.salesperson_contract_start, p.salesperson_contract_months,
+        p.ambassador_royalty_override,
         COALESCE(stats.total_payments, 0) as total_payments,
         COALESCE(stats.total_revenue, 0) as total_revenue
       FROM partners p
@@ -214,7 +215,11 @@ module.exports = async function handler(req, res) {
       is_active: isContractActive(p.salesperson_contract_start, p.salesperson_contract_months),
       remaining_months: getRemainingMonths(p.salesperson_contract_start, p.salesperson_contract_months),
       total_payments: parseInt(p.total_payments),
-      total_revenue: parseFloat(p.total_revenue)
+      total_revenue: parseFloat(p.total_revenue),
+      ambassador_royalty_override: p.ambassador_royalty_override !== null ? parseFloat(p.ambassador_royalty_override) : null,
+      effective_royalty_rate: p.ambassador_royalty_override !== null
+        ? parseFloat(p.ambassador_royalty_override)
+        : parseFloat(salesperson.royalty_rate)
     }));
 
     return res.json({

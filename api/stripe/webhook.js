@@ -148,6 +148,7 @@ module.exports = async function handler(req, res) {
               p.salesperson_id,
               p.salesperson_contract_start,
               p.salesperson_contract_months,
+              p.ambassador_royalty_override,
               s.royalty_rate as salesperson_royalty_rate
             FROM partners p
             LEFT JOIN salespersons s ON p.salesperson_id = s.id AND s.status = 'active'
@@ -164,7 +165,9 @@ module.exports = async function handler(req, res) {
               partner.salesperson_contract_start,
               partner.salesperson_contract_months
             )) {
-              const salespersonRoyaltyRate = parseFloat(partner.salesperson_royalty_rate) || 0.10;
+              const salespersonRoyaltyRate = partner.ambassador_royalty_override !== null
+                ? parseFloat(partner.ambassador_royalty_override)
+                : (parseFloat(partner.salesperson_royalty_rate) || 0.10);
               await updateSalespersonMonthlyStats(dbPool, partner.salesperson_id, amount, salespersonRoyaltyRate);
             }
           }
@@ -208,6 +211,7 @@ module.exports = async function handler(req, res) {
                 p.salesperson_id,
                 p.salesperson_contract_start,
                 p.salesperson_contract_months,
+                p.ambassador_royalty_override,
                 s.royalty_rate as salesperson_royalty_rate
               FROM partners p
               LEFT JOIN salespersons s ON p.salesperson_id = s.id
@@ -235,7 +239,9 @@ module.exports = async function handler(req, res) {
                 partner.salesperson_contract_start,
                 partner.salesperson_contract_months
               )) {
-                const salespersonRoyaltyRate = parseFloat(partner.salesperson_royalty_rate) || 0.10;
+                const salespersonRoyaltyRate = partner.ambassador_royalty_override !== null
+                  ? parseFloat(partner.ambassador_royalty_override)
+                  : (parseFloat(partner.salesperson_royalty_rate) || 0.10);
                 const salespersonRoyaltyAmount = parseFloat(amount) * salespersonRoyaltyRate;
 
                 await dbPool.query(`

@@ -24,7 +24,8 @@ function Admin() {
   const [partnerForm, setPartnerForm] = useState({
     code: '', name: '', email: '', password: '', contact_name: '',
     phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '8.00',
-    salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12'
+    salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12',
+    ambassador_royalty_override: ''
   });
   const [editingPartner, setEditingPartner] = useState(null);
 
@@ -469,7 +470,8 @@ function Admin() {
         setPartnerForm({
           code: '', name: '', email: '', password: '', contact_name: '',
           phone: '', address: '', bank_name: '', bank_branch: '', bank_account: '', royalty_rate: '0.10', price_usd: '8.00',
-          salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12'
+          salesperson_id: '', salesperson_contract_start: '', salesperson_contract_months: '12',
+          ambassador_royalty_override: ''
         });
         fetchPartners();
       } else {
@@ -1267,6 +1269,7 @@ function Admin() {
                         value={partnerForm.royalty_rate}
                         onChange={(e) => setPartnerForm({...partnerForm, royalty_rate: e.target.value})}
                       >
+                        <option value="0.00">0%（紹介料なし）</option>
                         <option value="0.05">5%</option>
                         <option value="0.10">10%</option>
                         <option value="0.15">15%</option>
@@ -1331,6 +1334,23 @@ function Admin() {
                             <option value="24">24ヶ月</option>
                             <option value="9999">無制限</option>
                           </select>
+                        </div>
+                        <div className="form-row">
+                          <label>アンバサダー紹介料率オーバーライド</label>
+                          <select
+                            value={partnerForm.ambassador_royalty_override}
+                            onChange={(e) => setPartnerForm({...partnerForm, ambassador_royalty_override: e.target.value})}
+                          >
+                            <option value="">デフォルト（アンバサダー設定値）</option>
+                            <option value="0.00">0%</option>
+                            <option value="0.05">5%</option>
+                            <option value="0.10">10%</option>
+                            <option value="0.15">15%</option>
+                            <option value="0.20">20%</option>
+                            <option value="0.25">25%</option>
+                            <option value="0.30">30%</option>
+                          </select>
+                          <small className="form-hint">空欄の場合、アンバサダーのデフォルト紹介料率が適用されます</small>
                         </div>
                       </>
                     )}
@@ -1417,7 +1437,8 @@ function Admin() {
                       status: editingPartner.status,
                       salesperson_id: editingPartner.salesperson_id || null,
                       salesperson_contract_start: editingPartner.salesperson_contract_start || null,
-                      salesperson_contract_months: editingPartner.salesperson_contract_months || null
+                      salesperson_contract_months: editingPartner.salesperson_contract_months || null,
+                      ambassador_royalty_override: editingPartner.salesperson_id && editingPartner.ambassador_royalty_override !== undefined && editingPartner.ambassador_royalty_override !== '' ? editingPartner.ambassador_royalty_override : null
                     };
                     if (editingPartner.new_password) {
                       updates.password = editingPartner.new_password;
@@ -1496,6 +1517,7 @@ function Admin() {
                         value={editingPartner.royalty_rate}
                         onChange={(e) => setEditingPartner({...editingPartner, royalty_rate: e.target.value})}
                       >
+                        <option value="0.00">0%（紹介料なし）</option>
                         <option value="0.05">5%</option>
                         <option value="0.10">10%</option>
                         <option value="0.15">15%</option>
@@ -1579,6 +1601,23 @@ function Admin() {
                             <option value="24">24ヶ月</option>
                             <option value="9999">無制限</option>
                           </select>
+                        </div>
+                        <div className="form-row">
+                          <label>アンバサダー紹介料率オーバーライド</label>
+                          <select
+                            value={editingPartner.ambassador_royalty_override !== null && editingPartner.ambassador_royalty_override !== undefined ? String(editingPartner.ambassador_royalty_override) : ''}
+                            onChange={(e) => setEditingPartner({...editingPartner, ambassador_royalty_override: e.target.value})}
+                          >
+                            <option value="">デフォルト（アンバサダー設定値）</option>
+                            <option value="0.00">0%</option>
+                            <option value="0.05">5%</option>
+                            <option value="0.10">10%</option>
+                            <option value="0.15">15%</option>
+                            <option value="0.20">20%</option>
+                            <option value="0.25">25%</option>
+                            <option value="0.30">30%</option>
+                          </select>
+                          <small className="form-hint">空欄の場合、アンバサダーのデフォルト紹介料率が適用されます</small>
                         </div>
                       </>
                     )}

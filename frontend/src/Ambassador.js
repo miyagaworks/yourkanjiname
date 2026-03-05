@@ -115,7 +115,7 @@ function Ambassador() {
 
   // Dashboard
   return (
-    <div className="admin-container">
+    <div className="admin-container ambassador-dashboard">
       <header className="admin-header">
         <h1>ダッシュボード</h1>
         <div className="header-right">
@@ -134,7 +134,7 @@ function Ambassador() {
         ) : dashboard ? (
           <>
             {/* Summary Stats */}
-            <div className="payment-stats">
+            <div className="ambassador-stats-grid">
               <div className="stat-card highlight">
                 <div className="stat-label">今月の紹介料</div>
                 <div className="stat-value">${dashboard.current_month?.royalty_amount?.toFixed(2) || '0.00'}</div>
@@ -152,9 +152,6 @@ function Ambassador() {
                 <div className="stat-label">紹介料率</div>
                 <div className="stat-value">{(dashboard.ambassador?.royalty_rate * 100).toFixed(0)}%</div>
               </div>
-            </div>
-
-            <div className="payment-stats">
               <div className="stat-card">
                 <div className="stat-label">紹介パートナー</div>
                 <div className="stat-value">{dashboard.summary?.partner_count || 0}</div>
@@ -189,6 +186,7 @@ function Ambassador() {
                     <th>コード</th>
                     <th>契約期間</th>
                     <th>残り期間</th>
+                    <th>紹介料率</th>
                     <th>決済数</th>
                     <th>売上</th>
                     <th>状態</th>
@@ -217,6 +215,13 @@ function Ambassador() {
                             </span>
                           ) : (
                             <span className="expired-contract">終了</span>
+                          )}
+                        </td>
+                        <td data-label="紹介料率">
+                          {p.ambassador_royalty_override !== null && p.ambassador_royalty_override !== undefined ? (
+                            <span className="override-rate">{((p.effective_royalty_rate || 0) * 100).toFixed(0)}%</span>
+                          ) : (
+                            <span>{((p.effective_royalty_rate ?? dashboard.ambassador?.royalty_rate ?? 0) * 100).toFixed(0)}%</span>
                           )}
                         </td>
                         <td data-label="決済数">{p.total_payments}</td>
