@@ -85,7 +85,12 @@ const translations = {
     emailInputDesc: "We'll send your perfect kanji name and its story within 10 minutes",
     emailInputCalligraphy: 'Calligraphy by our calligrapher: delivered within 3 business days (excl. weekends/holidays)',
     emailSubmittedThankYou: "Thank you! We'll send your kanji name and its meaning to your email within 10 minutes.",
-    emailSubmittedCalligraphy: 'Your handwritten calligraphy will be delivered within 3 business days (excl. weekends/holidays).'
+    emailSubmittedCalligraphy: 'Your handwritten calligraphy will be delivered within 3 business days (excl. weekends/holidays).',
+
+    // Error handling
+    sessionError: 'Failed to prepare your session. Please try again.',
+    generationError: 'Failed to generate your result. Please try again.',
+    retry: 'Retry'
   },
 
   // French
@@ -159,7 +164,12 @@ const translations = {
     emailInputDesc: 'Nous vous enverrons votre nom kanji parfait et son histoire sous 10 minutes',
     emailInputCalligraphy: 'Calligraphie par notre calligraphe : livrée sous 3 jours ouvrés (hors week-ends/jours fériés)',
     emailSubmittedThankYou: 'Merci ! Nous vous enverrons votre nom kanji et sa signification par e-mail sous 10 minutes.',
-    emailSubmittedCalligraphy: 'Votre calligraphie manuscrite sera livrée sous 3 jours ouvrés (hors week-ends/jours fériés).'
+    emailSubmittedCalligraphy: 'Votre calligraphie manuscrite sera livrée sous 3 jours ouvrés (hors week-ends/jours fériés).',
+
+    // Error handling
+    sessionError: 'Échec de la préparation de votre session. Veuillez réessayer.',
+    generationError: 'Échec de la génération de votre résultat. Veuillez réessayer.',
+    retry: 'Réessayer'
   },
 
   // German
@@ -233,7 +243,12 @@ const translations = {
     emailInputDesc: 'Wir senden Ihnen Ihren perfekten Kanji-Namen und seine Geschichte innerhalb von 10 Minuten',
     emailInputCalligraphy: 'Kalligraphie von unserem Kalligraphen: Zustellung innerhalb von 3 Werktagen (ohne Wochenenden/Feiertage)',
     emailSubmittedThankYou: 'Vielen Dank! Wir senden Ihren Kanji-Namen und seine Bedeutung innerhalb von 10 Minuten an Ihre E-Mail.',
-    emailSubmittedCalligraphy: 'Ihre handgeschriebene Kalligraphie wird innerhalb von 3 Werktagen (ohne Wochenenden/Feiertage) zugestellt.'
+    emailSubmittedCalligraphy: 'Ihre handgeschriebene Kalligraphie wird innerhalb von 3 Werktagen (ohne Wochenenden/Feiertage) zugestellt.',
+
+    // Error handling
+    sessionError: 'Vorbereitung Ihrer Sitzung fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    generationError: 'Generierung Ihres Ergebnisses fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    retry: 'Erneut versuchen'
   },
 
   // Spanish
@@ -307,7 +322,12 @@ const translations = {
     emailInputDesc: 'Te enviaremos tu nombre kanji perfecto y su historia en 10 minutos',
     emailInputCalligraphy: 'Caligrafía de nuestro calígrafo: entregada en 3 días hábiles (excl. fines de semana/festivos)',
     emailSubmittedThankYou: '¡Gracias! Te enviaremos tu nombre kanji y su significado a tu correo en 10 minutos.',
-    emailSubmittedCalligraphy: 'Tu caligrafía manuscrita será entregada en 3 días hábiles (excl. fines de semana/festivos).'
+    emailSubmittedCalligraphy: 'Tu caligrafía manuscrita será entregada en 3 días hábiles (excl. fines de semana/festivos).',
+
+    // Error handling
+    sessionError: 'Error al preparar tu sesión. Por favor, inténtalo de nuevo.',
+    generationError: 'Error al generar tu resultado. Por favor, inténtalo de nuevo.',
+    retry: 'Reintentar'
   },
 
   // Portuguese
@@ -381,7 +401,12 @@ const translations = {
     emailInputDesc: 'Enviaremos seu nome kanji perfeito e sua história em 10 minutos',
     emailInputCalligraphy: 'Caligrafia pelo nosso calígrafo: entregue em 3 dias úteis (excl. fins de semana/feriados)',
     emailSubmittedThankYou: 'Obrigado! Enviaremos seu nome kanji e seu significado para seu e-mail em 10 minutos.',
-    emailSubmittedCalligraphy: 'Sua caligrafia manuscrita será entregue em 3 dias úteis (excl. fins de semana/feriados).'
+    emailSubmittedCalligraphy: 'Sua caligrafia manuscrita será entregue em 3 dias úteis (excl. fins de semana/feriados).',
+
+    // Error handling
+    sessionError: 'Falha ao preparar sua sessão. Por favor, tente novamente.',
+    generationError: 'Falha ao gerar seu resultado. Por favor, tente novamente.',
+    retry: 'Tentar novamente'
   },
 
   // Italian
@@ -455,7 +480,12 @@ const translations = {
     emailInputDesc: 'Ti invieremo il tuo nome kanji perfetto e la sua storia entro 10 minuti',
     emailInputCalligraphy: 'Calligrafia dal nostro calligrafo: consegnata entro 3 giorni lavorativi (esclusi weekend/festivi)',
     emailSubmittedThankYou: 'Grazie! Ti invieremo il tuo nome kanji e il suo significato via e-mail entro 10 minuti.',
-    emailSubmittedCalligraphy: 'La tua calligrafia scritta a mano sarà consegnata entro 3 giorni lavorativi (esclusi weekend/festivi).'
+    emailSubmittedCalligraphy: 'La tua calligrafia scritta a mano sarà consegnata entro 3 giorni lavorativi (esclusi weekend/festivi).',
+
+    // Error handling
+    sessionError: 'Preparazione della sessione non riuscita. Riprova.',
+    generationError: 'Generazione del risultato non riuscita. Riprova.',
+    retry: 'Riprova'
   },
 
   // Thai
@@ -529,7 +559,12 @@ const translations = {
     emailInputDesc: 'เราจะส่งชื่อคันจิที่เหมาะกับคุณและเรื่องราวภายใน 10 นาที',
     emailInputCalligraphy: 'งานเขียนพู่กันโดยนักเขียนพู่กัน: จัดส่งภายใน 3 วันทำการ (ไม่รวมวันหยุดสุดสัปดาห์/วันหยุดนักขัตฤกษ์)',
     emailSubmittedThankYou: 'ขอบคุณ! เราจะส่งชื่อคันจิและความหมายไปยังอีเมลของคุณภายใน 10 นาที',
-    emailSubmittedCalligraphy: 'งานเขียนพู่กันด้วยมือจะจัดส่งภายใน 3 วันทำการ (ไม่รวมวันหยุดสุดสัปดาห์/วันหยุดนักขัตฤกษ์)'
+    emailSubmittedCalligraphy: 'งานเขียนพู่กันด้วยมือจะจัดส่งภายใน 3 วันทำการ (ไม่รวมวันหยุดสุดสัปดาห์/วันหยุดนักขัตฤกษ์)',
+
+    // Error handling
+    sessionError: 'เตรียมเซสชันไม่สำเร็จ กรุณาลองอีกครั้ง',
+    generationError: 'สร้างผลลัพธ์ไม่สำเร็จ กรุณาลองอีกครั้ง',
+    retry: 'ลองอีกครั้ง'
   },
 
   // Vietnamese
@@ -603,7 +638,12 @@ const translations = {
     emailInputDesc: 'Chúng tôi sẽ gửi tên kanji hoàn hảo và câu chuyện của nó trong vòng 10 phút',
     emailInputCalligraphy: 'Thư pháp bởi nhà thư pháp: gửi trong 3 ngày làm việc (không tính cuối tuần/ngày lễ)',
     emailSubmittedThankYou: 'Cảm ơn bạn! Chúng tôi sẽ gửi tên kanji và ý nghĩa đến email của bạn trong vòng 10 phút.',
-    emailSubmittedCalligraphy: 'Tác phẩm thư pháp viết tay sẽ được gửi trong vòng 3 ngày làm việc (không tính cuối tuần/ngày lễ).'
+    emailSubmittedCalligraphy: 'Tác phẩm thư pháp viết tay sẽ được gửi trong vòng 3 ngày làm việc (không tính cuối tuần/ngày lễ).',
+
+    // Error handling
+    sessionError: 'Chuẩn bị phiên không thành công. Vui lòng thử lại.',
+    generationError: 'Tạo kết quả không thành công. Vui lòng thử lại.',
+    retry: 'Thử lại'
   },
 
   // Indonesian
@@ -677,7 +717,12 @@ const translations = {
     emailInputDesc: 'Kami akan mengirimkan nama kanji sempurna dan ceritanya dalam 10 menit',
     emailInputCalligraphy: 'Kaligrafi oleh kaligrafer kami: dikirim dalam 3 hari kerja (tidak termasuk akhir pekan/hari libur)',
     emailSubmittedThankYou: 'Terima kasih! Kami akan mengirimkan nama kanji dan maknanya ke email Anda dalam 10 menit.',
-    emailSubmittedCalligraphy: 'Karya kaligrafi tulisan tangan akan dikirim dalam 3 hari kerja (tidak termasuk akhir pekan/hari libur).'
+    emailSubmittedCalligraphy: 'Karya kaligrafi tulisan tangan akan dikirim dalam 3 hari kerja (tidak termasuk akhir pekan/hari libur).',
+
+    // Error handling
+    sessionError: 'Gagal menyiapkan sesi Anda. Silakan coba lagi.',
+    generationError: 'Gagal membuat hasil Anda. Silakan coba lagi.',
+    retry: 'Coba lagi'
   },
 
   // Korean
@@ -751,7 +796,12 @@ const translations = {
     emailInputDesc: '10분 이내에 당신에게 딱 맞는 한자 이름과 이야기를 보내드립니다',
     emailInputCalligraphy: '서예가의 서예 작품: 3영업일 이내 배송 (주말/공휴일 제외)',
     emailSubmittedThankYou: '감사합니다! 10분 이내에 한자 이름과 의미를 이메일로 보내드립니다.',
-    emailSubmittedCalligraphy: '손글씨 서예 작품은 3영업일 이내(주말/공휴일 제외)에 배송됩니다.'
+    emailSubmittedCalligraphy: '손글씨 서예 작품은 3영업일 이내(주말/공휴일 제외)에 배송됩니다.',
+
+    // Error handling
+    sessionError: '세션 준비에 실패했습니다. 다시 시도해 주세요.',
+    generationError: '결과 생성에 실패했습니다. 다시 시도해 주세요.',
+    retry: '다시 시도'
   },
 
   // Japanese
@@ -825,7 +875,12 @@ const translations = {
     emailInputDesc: '10分以内にあなたにピッタリの漢字名と説明文をお送りいたします',
     emailInputCalligraphy: '書道家による書道作品は3営業日以内（土日祝は除く）にお届けいたします',
     emailSubmittedThankYou: 'ありがとうございます！10分以内にあなたの漢字名と説明文をメールでお届けします。',
-    emailSubmittedCalligraphy: '手書きの書道作品は3営業日以内（土日祝は除く）にお届けいたします。'
+    emailSubmittedCalligraphy: '手書きの書道作品は3営業日以内（土日祝は除く）にお届けいたします。',
+
+    // Error handling
+    sessionError: 'セッションの準備に失敗しました。もう一度お試しください。',
+    generationError: '結果の生成に失敗しました。もう一度お試しください。',
+    retry: '再試行'
   }
 };
 

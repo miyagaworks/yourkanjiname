@@ -63,6 +63,24 @@ const MOCK_RESULT = {
   }
 };
 
+// レスポンスが失敗（4xx/5xx）の場合、status/code を持つ Error を throw する
+async function throwIfNotOk(response) {
+  if (response.ok) return;
+  let code;
+  let message;
+  try {
+    const data = await response.json();
+    code = data?.error?.code;
+    message = data?.error?.message;
+  } catch {
+    // レスポンスがJSONでない場合（タイムアウト時の504など）は無視
+  }
+  const error = new Error(message || `Request failed with status ${response.status}`);
+  error.status = response.status;
+  error.code = code;
+  throw error;
+}
+
 // API Client
 const ApiClient = {
   async createSession(userName) {
@@ -71,6 +89,7 @@ const ApiClient = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ user_name: userName })
     });
+    await throwIfNotOk(response);
     const data = await response.json();
     return data.session_id;
   },
@@ -79,6 +98,7 @@ const ApiClient = {
     const response = await fetch(
       `${API_BASE_URL}/sessions?session_id=${sessionId}&action=next-question&lang=${lang}`
     );
+    await throwIfNotOk(response);
     return await response.json();
   },
 
@@ -92,6 +112,7 @@ const ApiClient = {
         answer_option: answerOption
       })
     });
+    await throwIfNotOk(response);
     return await response.json();
   },
 
@@ -100,6 +121,7 @@ const ApiClient = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' }
     });
+    await throwIfNotOk(response);
     return await response.json();
   }
 };
@@ -662,6 +684,7 @@ function App() {
   const [preEmail] = useState(''); // ResultCardに渡すメールアドレス（将来の拡張用）
   const sessionIdRef = useRef(null);
   const pendingSubmitsRef = useRef([]);
+  const retryActionRef = useRef(null); // 再試行時に呼ぶ関数を保持
   const partnerCode = sessionStorage.getItem('partnerCode');
 
   // 背景画像を設定
@@ -754,6 +777,20 @@ function App() {
     setShowNameInput(true);
   };
 
+  // セッション作成（失敗時に再試行できるよう名前付き関数として保持）
+  const initializeSession = async (name) => {
+    try {
+      const newSessionId = await ApiClient.createSession(name);
+      sessionIdRef.current = newSessionId;
+      setSessionId(newSessionId);
+    } catch (err) {
+      console.error(err);
+      retryActionRef.current = () => initializeSession(name);
+      setError('sessionError');
+      setLoading(false);
+    }
+  };
+
   // 名前入力後にセッション初期化
   const handleNameSubmit = async (e) => {
     e.preventDefault();
@@ -765,14 +802,7 @@ function App() {
     setShowNameInput(false);
 
     // セッション作成はバックグラウンドで実行
-    try {
-      const newSessionId = await ApiClient.createSession(userName.trim());
-      sessionIdRef.current = newSessionId;
-      setSessionId(newSessionId);
-    } catch (err) {
-      setError('Failed to initialize session');
-      console.error(err);
-    }
+    await initializeSession(userName.trim());
   };
 
   // 戻る処理
@@ -799,6 +829,54 @@ function App() {
       percentage: Math.round((stepNum / 16) * 100)
     });
     window.scrollTo(0, 0);
+  };
+
+  // 最後の質問の回答送信〜生成〜結果保存（失敗時に再試行できるよう名前付き関数として保持）
+  const submitFinalAnswerAndGenerate = async (questionId, optionId) => {
+    setLoading(true);
+
+    let currentSessionId = sessionIdRef.current;
+    if (!currentSessionId) {
+      for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+      currentSessionId = sessionIdRef.current;
+      if (!currentSessionId) {
+        retryActionRef.current = () => submitFinalAnswerAndGenerate(questionId, optionId);
+        setError('sessionError');
+        setLoading(false);
+        return;
+      }
+    }
+
+    try {
+      const lastSubmit = ApiClient.submitAnswer(currentSessionId, questionId, optionId, language)
+        .then(() => ({ ok: true }))
+        .catch(err => {
+          console.error('Last submit failed:', err);
+          return { ok: false, questionId, optionId };
+        });
+      pendingSubmitsRef.current.push(lastSubmit);
+
+      const results = await Promise.all(pendingSubmitsRef.current);
+      pendingSubmitsRef.current = [];
+
+      const failed = results.filter(r => r && !r.ok);
+      if (failed.length > 0) {
+        await Promise.all(
+          failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
+        );
+      }
+
+      const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
+      setResult(kanjiResult);
+    } catch (err) {
+      console.error(err);
+      retryActionRef.current = () => submitFinalAnswerAndGenerate(questionId, optionId);
+      setError('generationError');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 回答送信
@@ -837,52 +915,8 @@ function App() {
 
     // 最後の質問（GENERATE_RESULT）の場合 → 直接ローディング＆生成を開始
     setCurrentQuestion(null);
-    setLoading(true);
     window.scrollTo(0, 0);
-
-    // 直接生成処理を実行
-    (async () => {
-      let currentSessionId = sessionIdRef.current;
-      if (!currentSessionId) {
-        for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
-          await new Promise(r => setTimeout(r, 100));
-        }
-        currentSessionId = sessionIdRef.current;
-        if (!currentSessionId) {
-          setError('Session not ready. Please try again.');
-          setLoading(false);
-          return;
-        }
-      }
-
-      try {
-        const lastSubmit = ApiClient.submitAnswer(currentSessionId, currentQuestionId, optionId, language)
-          .then(() => ({ ok: true }))
-          .catch(err => {
-            console.error('Last submit failed:', err);
-            return { ok: false, questionId: currentQuestionId, optionId };
-          });
-        pendingSubmitsRef.current.push(lastSubmit);
-
-        const results = await Promise.all(pendingSubmitsRef.current);
-        pendingSubmitsRef.current = [];
-
-        const failed = results.filter(r => r && !r.ok);
-        if (failed.length > 0) {
-          await Promise.all(
-            failed.map(f => ApiClient.submitAnswer(currentSessionId, f.questionId, f.optionId, language))
-          );
-        }
-
-        const kanjiResult = await ApiClient.generateKanjiName(currentSessionId, language);
-        setResult(kanjiResult);
-      } catch (err) {
-        setError('Failed to generate result');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    submitFinalAnswerAndGenerate(currentQuestionId, optionId);
   };
 
   // Terms page
@@ -1101,6 +1135,7 @@ function App() {
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder={t('namePlaceholder')}
+                maxLength={100}
                 autoFocus
               />
               <button
@@ -1148,7 +1183,21 @@ function App() {
 
   // エラー表示
   if (error) {
-    return <div className="error">{error}</div>;
+    return (
+      <div className="error">
+        <p style={{ color: '#1a202c' }}>{t(error)}</p>
+        <button
+          className="submit-button"
+          style={{ marginTop: '24px' }}
+          onClick={() => {
+            setError(null);
+            retryActionRef.current?.();
+          }}
+        >
+          {t('retry')}
+        </button>
+      </div>
+    );
   }
 
   // 結果表示
