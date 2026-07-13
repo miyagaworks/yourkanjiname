@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Supported languages in display order (based on Hiroshima visitor statistics)
-export const SUPPORTED_LANGUAGES = ['en', 'fr', 'de', 'es', 'pt', 'it', 'th', 'vi', 'id', 'ko', 'ja'];
+// 'pt' は一時撤去中: questions.json に pt 翻訳が存在しないため（再追加時は翻訳整備が先）
+export const SUPPORTED_LANGUAGES = ['en', 'fr', 'de', 'es', 'it', 'th', 'vi', 'id', 'ko', 'ja'];
 
 // Language configuration
 export const LANGUAGE_CONFIG = {
