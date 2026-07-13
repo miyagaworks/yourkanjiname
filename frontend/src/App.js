@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense } from 'react';
 import './App.css';
 import questionsData from './questions.json';
 import { useLanguage } from './contexts/LanguageContext';
 import { useTranslation } from './hooks/useTranslation';
 import LanguageSelector from './components/LanguageSelector';
-import Admin from './Admin';
-import Partner from './Partner';
-import Ambassador from './Ambassador';
 import PaymentModal from './components/PaymentModal';
-import Terms from './Terms';
-import Privacy from './Privacy';
-import TankaPrompt from './TankaPrompt';
-import StoreLanding from './StoreLanding';
 import { LuSend } from 'react-icons/lu';
+
+// 管理画面・パートナー向け等の画面は一般ユーザーの初回バンドルから除外する（遅延読み込み）
+const Admin = React.lazy(() => import('./Admin'));
+const Partner = React.lazy(() => import('./Partner'));
+const Ambassador = React.lazy(() => import('./Ambassador'));
+const Terms = React.lazy(() => import('./Terms'));
+const Privacy = React.lazy(() => import('./Privacy'));
+const TankaPrompt = React.lazy(() => import('./TankaPrompt'));
+const StoreLanding = React.lazy(() => import('./StoreLanding'));
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
@@ -885,37 +887,65 @@ function App() {
 
   // Terms page
   if (isTermsPage) {
-    return <Terms language="ja" onBack={() => window.history.back()} />;
+    return (
+      <Suspense fallback={null}>
+        <Terms language="ja" onBack={() => window.history.back()} />
+      </Suspense>
+    );
   }
 
   // Privacy policy page
   if (isPrivacyPage) {
-    return <Privacy language="ja" onBack={() => window.history.back()} />;
+    return (
+      <Suspense fallback={null}>
+        <Privacy language="ja" onBack={() => window.history.back()} />
+      </Suspense>
+    );
   }
 
   // Store landing page (kanjiname.jp without app. subdomain)
   if (isStoreLandingPage) {
-    return <StoreLanding />;
+    return (
+      <Suspense fallback={null}>
+        <StoreLanding />
+      </Suspense>
+    );
   }
 
   // Tanka prompt tool page
   if (isTankaPage) {
-    return <TankaPrompt />;
+    return (
+      <Suspense fallback={null}>
+        <TankaPrompt />
+      </Suspense>
+    );
   }
 
   // Partner page
   if (isPartnerPage) {
-    return <Partner />;
+    return (
+      <Suspense fallback={null}>
+        <Partner />
+      </Suspense>
+    );
   }
 
   // Ambassador page
   if (isAmbassadorPage) {
-    return <Ambassador />;
+    return (
+      <Suspense fallback={null}>
+        <Ambassador />
+      </Suspense>
+    );
   }
 
   // Admin page
   if (isAdminPage) {
-    return <Admin />;
+    return (
+      <Suspense fallback={null}>
+        <Admin />
+      </Suspense>
+    );
   }
 
   // スプラッシュスクリーン
@@ -933,7 +963,11 @@ function App() {
 
   // 利用規約ページ
   if (showTerms) {
-    return <Terms language={language} onBack={() => setShowTerms(false)} />;
+    return (
+      <Suspense fallback={null}>
+        <Terms language={language} onBack={() => setShowTerms(false)} />
+      </Suspense>
+    );
   }
 
   // ランディングページ（決済前）
