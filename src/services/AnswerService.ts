@@ -29,21 +29,14 @@ export class AnswerService {
       throw error;
     }
 
-    // Check if already answered
-    const checkQuery = 'SELECT * FROM answers WHERE session_id = $1 AND question_id = $2';
-    const checkResult = await this.pool.query(checkQuery, [sessionId, questionId]);
-
-    if (checkResult.rows.length > 0) {
-      const error: any = new Error('Question already answered');
-      error.code = 'ALREADY_ANSWERED';
-      throw error;
-    }
-
-    // Insert answer
+    // Insert answer, or update it if this question was already answered
+    // (回答の修正を許可する。answered_at は更新しない — 生成処理が回答を
+    // answered_at 昇順で並べて使用しているため、更新すると回答順序が変わる)
     const insertQuery = `
       INSERT INTO answers (session_id, question_id, answer_option)
       VALUES ($1, $2, $3)
-      RETURNING *
+      ON CONFLICT (session_id, question_id)
+      DO UPDATE SET answer_option = EXCLUDED.answer_option
     `;
     await this.pool.query(insertQuery, [sessionId, questionId, answerOption]);
 
