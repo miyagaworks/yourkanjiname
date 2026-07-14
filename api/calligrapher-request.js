@@ -31,7 +31,10 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const { email, kanji_name, user_name, language, explanation_ja, explanation_user_lang } = req.body;
+    const {
+      email, kanji_name, user_name, language, explanation_ja, explanation_user_lang,
+      payment_intent_id, partner_code
+    } = req.body;
 
     // Validate required fields
     if (!email || !kanji_name) {
@@ -53,12 +56,19 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // 決済記録とのつき合わせ用（M-4）。不正型・文字数超過はDB列の上限を超えないようNULL扱いにする。
+    const sanitizeBoundedString = (value, maxLength) =>
+      (typeof value === 'string' && value.length > 0 && value.length <= maxLength) ? value : null;
+    const validatedPaymentIntentId = sanitizeBoundedString(payment_intent_id, 100);
+    const validatedPartnerCode = sanitizeBoundedString(partner_code, 20);
+
     // Save to database
     const dbPool = getPool();
     const insertQuery = `
       INSERT INTO calligraphy_requests (
-        email, kanji_name, user_name, language, explanation_ja, explanation_user_lang, status, created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, 'pending', NOW())
+        email, kanji_name, user_name, language, explanation_ja, explanation_user_lang,
+        payment_intent_id, partner_code, status, created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending', NOW())
       RETURNING id
     `;
 
@@ -70,7 +80,9 @@ module.exports = async function handler(req, res) {
         user_name || null,
         language || 'en',
         explanation_ja || null,
-        explanation_user_lang || null
+        explanation_user_lang || null,
+        validatedPaymentIntentId,
+        validatedPartnerCode
       ]);
       requestId = result.rows[0]?.id;
       console.log('Calligraphy request saved with ID:', requestId);

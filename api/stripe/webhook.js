@@ -115,6 +115,22 @@ module.exports = async function handler(req, res) {
         const amount = paymentIntent.amount / 100; // Convert cents to dollars
         const partnerId = metadata.partner_id ? parseInt(metadata.partner_id, 10) : null;
 
+        // metadata.session_id はPaymentIntent作成時点（セッション作成前）に確定するため
+        // 常に空になりうる（M-4）。sessions側に後からpayment_intent_idが書き込まれていれば
+        // 逆引きする（api/sessions.tsのセッション作成がこのwebhookより先に完了していた場合）。
+        let resolvedSessionId = metadata.session_id || null;
+        if (!resolvedSessionId) {
+          try {
+            const sessionLookup = await dbPool.query(
+              `SELECT session_id FROM sessions WHERE payment_intent_id = $1 ORDER BY created_at DESC LIMIT 1`,
+              [paymentIntent.id]
+            );
+            resolvedSessionId = sessionLookup.rows[0]?.session_id || null;
+          } catch (lookupError) {
+            console.error('Failed to look up session_id for payment intent:', lookupError);
+          }
+        }
+
         // Use INSERT ... ON CONFLICT for idempotency (prevents duplicate records)
         const upsertResult = await dbPool.query(`
           INSERT INTO payments (
@@ -124,11 +140,12 @@ module.exports = async function handler(req, res) {
           ON CONFLICT (stripe_payment_intent_id)
           DO UPDATE SET
             status = 'succeeded',
+            session_id = COALESCE(payments.session_id, EXCLUDED.session_id),
             updated_at = NOW()
           WHERE payments.status != 'succeeded'
           RETURNING id, (xmax = 0) as inserted
         `, [
-          metadata.session_id || null,
+          resolvedSessionId,
           paymentIntent.id,
           amount,
           paymentIntent.currency || 'usd',

@@ -90,6 +90,7 @@ const translations = {
     // Error handling
     sessionError: 'Failed to prepare your session. Please try again.',
     generationError: 'Failed to generate your result. Please try again.',
+    paymentRequiredError: "We couldn't confirm your payment. Please try again.",
     retry: 'Retry',
 
     // Start new diagnosis
@@ -190,6 +191,7 @@ const translations = {
     // Error handling
     sessionError: 'Échec de la préparation de votre session. Veuillez réessayer.',
     generationError: 'Échec de la génération de votre résultat. Veuillez réessayer.',
+    paymentRequiredError: 'Échec de la confirmation de votre paiement. Veuillez réessayer.',
     retry: 'Réessayer',
 
     // Start new diagnosis
@@ -290,6 +292,7 @@ const translations = {
     // Error handling
     sessionError: 'Vorbereitung Ihrer Sitzung fehlgeschlagen. Bitte versuchen Sie es erneut.',
     generationError: 'Generierung Ihres Ergebnisses fehlgeschlagen. Bitte versuchen Sie es erneut.',
+    paymentRequiredError: 'Zahlungsbestätigung fehlgeschlagen. Bitte versuchen Sie es erneut.',
     retry: 'Erneut versuchen',
 
     // Start new diagnosis
@@ -390,6 +393,7 @@ const translations = {
     // Error handling
     sessionError: 'Error al preparar tu sesión. Por favor, inténtalo de nuevo.',
     generationError: 'Error al generar tu resultado. Por favor, inténtalo de nuevo.',
+    paymentRequiredError: 'Error al confirmar tu pago. Por favor, inténtalo de nuevo.',
     retry: 'Reintentar',
 
     // Start new diagnosis
@@ -490,6 +494,7 @@ const translations = {
     // Error handling
     sessionError: 'Falha ao preparar sua sessão. Por favor, tente novamente.',
     generationError: 'Falha ao gerar seu resultado. Por favor, tente novamente.',
+    paymentRequiredError: 'Falha ao confirmar seu pagamento. Por favor, tente novamente.',
     retry: 'Tentar novamente',
 
     // Start new diagnosis
@@ -590,6 +595,7 @@ const translations = {
     // Error handling
     sessionError: 'Preparazione della sessione non riuscita. Riprova.',
     generationError: 'Generazione del risultato non riuscita. Riprova.',
+    paymentRequiredError: 'Conferma del pagamento non riuscita. Riprova.',
     retry: 'Riprova',
 
     // Start new diagnosis
@@ -690,6 +696,7 @@ const translations = {
     // Error handling
     sessionError: 'เตรียมเซสชันไม่สำเร็จ กรุณาลองอีกครั้ง',
     generationError: 'สร้างผลลัพธ์ไม่สำเร็จ กรุณาลองอีกครั้ง',
+    paymentRequiredError: 'ยืนยันการชำระเงินไม่สำเร็จ กรุณาลองอีกครั้ง',
     retry: 'ลองอีกครั้ง',
 
     // Start new diagnosis
@@ -790,6 +797,7 @@ const translations = {
     // Error handling
     sessionError: 'Chuẩn bị phiên không thành công. Vui lòng thử lại.',
     generationError: 'Tạo kết quả không thành công. Vui lòng thử lại.',
+    paymentRequiredError: 'Xác nhận thanh toán không thành công. Vui lòng thử lại.',
     retry: 'Thử lại',
 
     // Start new diagnosis
@@ -890,6 +898,7 @@ const translations = {
     // Error handling
     sessionError: 'Gagal menyiapkan sesi Anda. Silakan coba lagi.',
     generationError: 'Gagal membuat hasil Anda. Silakan coba lagi.',
+    paymentRequiredError: 'Gagal mengonfirmasi pembayaran Anda. Silakan coba lagi.',
     retry: 'Coba lagi',
 
     // Start new diagnosis
@@ -990,6 +999,7 @@ const translations = {
     // Error handling
     sessionError: '세션 준비에 실패했습니다. 다시 시도해 주세요.',
     generationError: '결과 생성에 실패했습니다. 다시 시도해 주세요.',
+    paymentRequiredError: '결제 확인에 실패했습니다. 다시 시도해 주세요.',
     retry: '다시 시도',
 
     // Start new diagnosis
@@ -1090,6 +1100,7 @@ const translations = {
     // Error handling
     sessionError: 'セッションの準備に失敗しました。もう一度お試しください。',
     generationError: '結果の生成に失敗しました。もう一度お試しください。',
+    paymentRequiredError: 'お支払いの確認ができませんでした。もう一度お試しください。',
     retry: '再試行',
 
     // Start new diagnosis

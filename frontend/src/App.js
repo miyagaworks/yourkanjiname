@@ -83,11 +83,11 @@ async function throwIfNotOk(response) {
 
 // API Client
 const ApiClient = {
-  async createSession(userName) {
+  async createSession(userName, paymentIntentId) {
     const response = await fetch(`${API_BASE_URL}/sessions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_name: userName })
+      body: JSON.stringify({ user_name: userName, payment_intent_id: paymentIntentId })
     });
     await throwIfNotOk(response);
     const data = await response.json();
@@ -885,14 +885,16 @@ function App() {
   // セッション作成（失敗時に再試行できるよう名前付き関数として保持）
   const initializeSession = async (name) => {
     try {
-      const newSessionId = await ApiClient.createSession(name);
+      const newSessionId = await ApiClient.createSession(name, paymentIntentId);
       sessionIdRef.current = newSessionId;
       setSessionId(newSessionId);
       saveProgress({ sessionId: newSessionId, userName: name });
     } catch (err) {
       console.error(err);
       retryActionRef.current = () => initializeSession(name);
-      setError('sessionError');
+      // 決済確認が通らなかった場合（サーバー側決済チェック強制モード時のみ発生）は専用文言を表示。
+      // それ以外（DB障害等）は既存のsessionErrorのまま。再試行の仕組みは両方で維持する。
+      setError(err.code === 'PAYMENT_REQUIRED' ? 'paymentRequiredError' : 'sessionError');
       setLoading(false);
     }
   };
