@@ -93,7 +93,25 @@ const translations = {
     retry: 'Retry',
 
     // Start new diagnosis
-    startNew: 'Start New Quiz'
+    startNew: 'Start New Quiz',
+
+    // Payment modal
+    paymentNotCompleted: 'Payment was not completed. Please try again.',
+    cancel: 'Cancel',
+    processing: 'Processing...',
+    payAndStart: 'Pay {{amount}} & Start',
+    demoCodeRequired: 'Please enter a code.',
+    demoCodeInvalid: 'Invalid code.',
+    demoCodeError: 'An error occurred while verifying the code.',
+    demoValidating: 'Checking...',
+    demoApply: 'Apply',
+    paymentInitFailed: 'Failed to initialize payment',
+    demoApplied: 'Demo code applied!',
+    preparingPayment: 'Preparing payment...',
+    close: 'Close',
+    promoCodeToggle: 'Have a promo code?',
+    completePurchase: 'Complete Your Purchase',
+    loadingRestore: 'Checking your previous result...'
   },
 
   // French
@@ -175,7 +193,25 @@ const translations = {
     retry: 'Réessayer',
 
     // Start new diagnosis
-    startNew: 'Commencer un nouveau quiz'
+    startNew: 'Commencer un nouveau quiz',
+
+    // Payment modal
+    paymentNotCompleted: 'Le paiement n\'a pas été finalisé. Veuillez réessayer.',
+    cancel: 'Annuler',
+    processing: 'Traitement en cours...',
+    payAndStart: 'Payer {{amount}} et commencer',
+    demoCodeRequired: 'Veuillez saisir un code.',
+    demoCodeInvalid: 'Code invalide.',
+    demoCodeError: 'Une erreur est survenue lors de la vérification du code.',
+    demoValidating: 'Vérification...',
+    demoApply: 'Appliquer',
+    paymentInitFailed: 'Échec de l\'initialisation du paiement.',
+    demoApplied: 'Code de démonstration appliqué !',
+    preparingPayment: 'Préparation du paiement...',
+    close: 'Fermer',
+    promoCodeToggle: 'Vous avez un code promo ?',
+    completePurchase: 'Finalisez votre achat',
+    loadingRestore: 'Vérification de votre résultat précédent...'
   },
 
   // German
@@ -257,7 +293,25 @@ const translations = {
     retry: 'Erneut versuchen',
 
     // Start new diagnosis
-    startNew: 'Neues Quiz starten'
+    startNew: 'Neues Quiz starten',
+
+    // Payment modal
+    paymentNotCompleted: 'Die Zahlung wurde nicht abgeschlossen. Bitte versuchen Sie es erneut.',
+    cancel: 'Abbrechen',
+    processing: 'Wird verarbeitet...',
+    payAndStart: '{{amount}} zahlen & starten',
+    demoCodeRequired: 'Bitte geben Sie einen Code ein.',
+    demoCodeInvalid: 'Ungültiger Code.',
+    demoCodeError: 'Bei der Überprüfung des Codes ist ein Fehler aufgetreten.',
+    demoValidating: 'Wird überprüft...',
+    demoApply: 'Anwenden',
+    paymentInitFailed: 'Initialisierung der Zahlung fehlgeschlagen.',
+    demoApplied: 'Demo-Code angewendet!',
+    preparingPayment: 'Zahlung wird vorbereitet...',
+    close: 'Schließen',
+    promoCodeToggle: 'Sie haben einen Promo-Code?',
+    completePurchase: 'Schließen Sie Ihren Kauf ab',
+    loadingRestore: 'Ihr vorheriges Ergebnis wird überprüft...'
   },
 
   // Spanish
@@ -339,7 +393,25 @@ const translations = {
     retry: 'Reintentar',
 
     // Start new diagnosis
-    startNew: 'Comenzar un nuevo quiz'
+    startNew: 'Comenzar un nuevo quiz',
+
+    // Payment modal
+    paymentNotCompleted: 'El pago no se completó. Por favor, inténtalo de nuevo.',
+    cancel: 'Cancelar',
+    processing: 'Procesando...',
+    payAndStart: 'Pagar {{amount}} y comenzar',
+    demoCodeRequired: 'Por favor, ingresa un código.',
+    demoCodeInvalid: 'Código no válido.',
+    demoCodeError: 'Error al verificar el código.',
+    demoValidating: 'Comprobando...',
+    demoApply: 'Aplicar',
+    paymentInitFailed: 'Error al inicializar el pago.',
+    demoApplied: '¡Código de demostración aplicado!',
+    preparingPayment: 'Preparando el pago...',
+    close: 'Cerrar',
+    promoCodeToggle: '¿Tienes un código promocional?',
+    completePurchase: 'Completa tu compra',
+    loadingRestore: 'Comprobando tu resultado anterior...'
   },
 
   // Portuguese
@@ -421,7 +493,25 @@ const translations = {
     retry: 'Tentar novamente',
 
     // Start new diagnosis
-    startNew: 'Começar um novo quiz'
+    startNew: 'Começar um novo quiz',
+
+    // Payment modal
+    paymentNotCompleted: 'O pagamento não foi concluído. Por favor, tente novamente.',
+    cancel: 'Cancelar',
+    processing: 'Processando...',
+    payAndStart: 'Pagar {{amount}} e começar',
+    demoCodeRequired: 'Por favor, insira um código.',
+    demoCodeInvalid: 'Código inválido.',
+    demoCodeError: 'Falha ao verificar o código.',
+    demoValidating: 'Verificando...',
+    demoApply: 'Aplicar',
+    paymentInitFailed: 'Falha ao inicializar o pagamento.',
+    demoApplied: 'Código de demonstração aplicado!',
+    preparingPayment: 'Preparando o pagamento...',
+    close: 'Fechar',
+    promoCodeToggle: 'Tem um código promocional?',
+    completePurchase: 'Conclua sua compra',
+    loadingRestore: 'Verificando seu resultado anterior...'
   },
 
   // Italian
@@ -503,7 +593,25 @@ const translations = {
     retry: 'Riprova',
 
     // Start new diagnosis
-    startNew: 'Inizia un nuovo quiz'
+    startNew: 'Inizia un nuovo quiz',
+
+    // Payment modal
+    paymentNotCompleted: 'Il pagamento non è stato completato. Riprova.',
+    cancel: 'Annulla',
+    processing: 'Elaborazione in corso...',
+    payAndStart: 'Paga {{amount}} e inizia',
+    demoCodeRequired: 'Inserisci un codice.',
+    demoCodeInvalid: 'Codice non valido.',
+    demoCodeError: 'Errore durante la verifica del codice.',
+    demoValidating: 'Verifica in corso...',
+    demoApply: 'Applica',
+    paymentInitFailed: 'Inizializzazione del pagamento non riuscita.',
+    demoApplied: 'Codice demo applicato!',
+    preparingPayment: 'Preparazione del pagamento...',
+    close: 'Chiudi',
+    promoCodeToggle: 'Hai un codice promozionale?',
+    completePurchase: 'Completa il tuo acquisto',
+    loadingRestore: 'Verifica del tuo risultato precedente...'
   },
 
   // Thai
@@ -585,7 +693,25 @@ const translations = {
     retry: 'ลองอีกครั้ง',
 
     // Start new diagnosis
-    startNew: 'เริ่มแบบทดสอบใหม่'
+    startNew: 'เริ่มแบบทดสอบใหม่',
+
+    // Payment modal
+    paymentNotCompleted: 'การชำระเงินไม่สำเร็จ กรุณาลองอีกครั้ง',
+    cancel: 'ยกเลิก',
+    processing: 'กำลังดำเนินการ...',
+    payAndStart: 'ชำระ {{amount}} และเริ่มต้น',
+    demoCodeRequired: 'กรุณากรอกรหัส',
+    demoCodeInvalid: 'รหัสไม่ถูกต้อง',
+    demoCodeError: 'เกิดข้อผิดพลาดระหว่างการตรวจสอบรหัส',
+    demoValidating: 'กำลังตรวจสอบ...',
+    demoApply: 'ใช้',
+    paymentInitFailed: 'ไม่สามารถเริ่มต้นการชำระเงินได้',
+    demoApplied: 'ใช้รหัสเดโมเรียบร้อยแล้ว!',
+    preparingPayment: 'กำลังเตรียมการชำระเงิน...',
+    close: 'ปิด',
+    promoCodeToggle: 'มีโค้ดโปรโมชั่น?',
+    completePurchase: 'ทำการสั่งซื้อให้เสร็จสมบูรณ์',
+    loadingRestore: 'กำลังตรวจสอบผลลัพธ์ก่อนหน้าของคุณ...'
   },
 
   // Vietnamese
@@ -667,7 +793,25 @@ const translations = {
     retry: 'Thử lại',
 
     // Start new diagnosis
-    startNew: 'Bắt đầu trắc nghiệm mới'
+    startNew: 'Bắt đầu trắc nghiệm mới',
+
+    // Payment modal
+    paymentNotCompleted: 'Thanh toán chưa hoàn tất. Vui lòng thử lại.',
+    cancel: 'Hủy',
+    processing: 'Đang xử lý...',
+    payAndStart: 'Thanh toán {{amount}} và bắt đầu',
+    demoCodeRequired: 'Vui lòng nhập mã.',
+    demoCodeInvalid: 'Mã không hợp lệ.',
+    demoCodeError: 'Đã xảy ra lỗi trong quá trình xác minh mã.',
+    demoValidating: 'Đang kiểm tra...',
+    demoApply: 'Áp dụng',
+    paymentInitFailed: 'Không thể khởi tạo thanh toán.',
+    demoApplied: 'Đã áp dụng mã demo!',
+    preparingPayment: 'Đang chuẩn bị thanh toán...',
+    close: 'Đóng',
+    promoCodeToggle: 'Bạn có mã khuyến mãi?',
+    completePurchase: 'Hoàn tất mua hàng',
+    loadingRestore: 'Đang kiểm tra kết quả trước đó của bạn...'
   },
 
   // Indonesian
@@ -749,7 +893,25 @@ const translations = {
     retry: 'Coba lagi',
 
     // Start new diagnosis
-    startNew: 'Mulai Kuis Baru'
+    startNew: 'Mulai Kuis Baru',
+
+    // Payment modal
+    paymentNotCompleted: 'Pembayaran tidak berhasil diselesaikan. Silakan coba lagi.',
+    cancel: 'Batal',
+    processing: 'Memproses...',
+    payAndStart: 'Bayar {{amount}} dan Mulai',
+    demoCodeRequired: 'Silakan masukkan kode.',
+    demoCodeInvalid: 'Kode tidak valid.',
+    demoCodeError: 'Terjadi kesalahan saat memverifikasi kode.',
+    demoValidating: 'Memeriksa...',
+    demoApply: 'Terapkan',
+    paymentInitFailed: 'Gagal menginisialisasi pembayaran.',
+    demoApplied: 'Kode demo diterapkan!',
+    preparingPayment: 'Menyiapkan pembayaran...',
+    close: 'Tutup',
+    promoCodeToggle: 'Punya kode promo?',
+    completePurchase: 'Selesaikan Pembelian Anda',
+    loadingRestore: 'Memeriksa hasil sebelumnya Anda...'
   },
 
   // Korean
@@ -831,7 +993,25 @@ const translations = {
     retry: '다시 시도',
 
     // Start new diagnosis
-    startNew: '새 퀴즈 시작하기'
+    startNew: '새 퀴즈 시작하기',
+
+    // Payment modal
+    paymentNotCompleted: '결제가 완료되지 않았습니다. 다시 시도해 주세요.',
+    cancel: '취소',
+    processing: '처리 중...',
+    payAndStart: '{{amount}} 결제하고 시작하기',
+    demoCodeRequired: '코드를 입력해 주세요.',
+    demoCodeInvalid: '유효하지 않은 코드입니다.',
+    demoCodeError: '코드 확인 중 오류가 발생했습니다.',
+    demoValidating: '확인 중...',
+    demoApply: '적용',
+    paymentInitFailed: '결제 초기화에 실패했습니다.',
+    demoApplied: '데모 코드가 적용되었습니다!',
+    preparingPayment: '결제 준비 중...',
+    close: '닫기',
+    promoCodeToggle: '프로모션 코드가 있으신가요?',
+    completePurchase: '구매 완료하기',
+    loadingRestore: '이전 결과 확인 중...'
   },
 
   // Japanese
@@ -913,7 +1093,25 @@ const translations = {
     retry: '再試行',
 
     // Start new diagnosis
-    startNew: '新しい診断を始める'
+    startNew: '新しい診断を始める',
+
+    // Payment modal
+    paymentNotCompleted: 'お支払いが完了しませんでした。もう一度お試しください。',
+    cancel: 'キャンセル',
+    processing: '処理中...',
+    payAndStart: '{{amount}}を支払って始める',
+    demoCodeRequired: 'コードを入力してください',
+    demoCodeInvalid: '無効なコードです',
+    demoCodeError: '検証中にエラーが発生しました',
+    demoValidating: '確認中...',
+    demoApply: '適用',
+    paymentInitFailed: '決済の初期化に失敗しました。',
+    demoApplied: 'デモコードが適用されました！',
+    preparingPayment: '決済を準備中...',
+    close: '閉じる',
+    promoCodeToggle: 'プロモコードをお持ちの方',
+    completePurchase: 'お支払い手続き',
+    loadingRestore: '前回の結果を確認中...'
   }
 };
 

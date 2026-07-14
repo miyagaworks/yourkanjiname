@@ -7,6 +7,7 @@ import {
   useElements
 } from '@stripe/react-stripe-js';
 import './PaymentModal.css';
+import { useTranslation } from '../hooks/useTranslation';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
@@ -19,6 +20,7 @@ const stripePromise = stripeKey ? loadStripe(stripeKey) : null;
 const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { t } = useTranslation();
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
@@ -47,7 +49,7 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
     } else if (paymentIntent && paymentIntent.status === 'succeeded') {
       onSuccess(paymentIntent.id);
     } else {
-      setErrorMessage('Payment was not completed. Please try again.');
+      setErrorMessage(t('paymentNotCompleted'));
       setIsProcessing(false);
     }
   };
@@ -75,7 +77,7 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
               className="payment-cancel-btn"
               disabled={isProcessing}
             >
-              Cancel
+              {t('cancel')}
             </button>
           )}
           <button
@@ -83,7 +85,7 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
             className={`payment-submit-btn ${isLandingPage ? 'landing-submit' : ''}`}
             disabled={!stripe || isProcessing}
           >
-            {isProcessing ? 'Processing...' : `Pay $${(amount / 100).toFixed(2)} & Start`}
+            {isProcessing ? t('processing') : t('payAndStart', { amount: `$${(amount / 100).toFixed(2)}` })}
           </button>
         </div>
       )}
@@ -93,13 +95,14 @@ const PaymentForm = ({ onSuccess, onCancel, amount, isLandingPage }) => {
 
 // Demo code input component
 const DemoCodeInput = ({ onValidCode, onCancel, sessionId }) => {
+  const { t } = useTranslation();
   const [code, setCode] = useState('');
   const [validating, setValidating] = useState(false);
   const [error, setError] = useState(null);
 
   const handleValidate = async () => {
     if (!code.trim()) {
-      setError('コードを入力してください');
+      setError(t('demoCodeRequired'));
       return;
     }
 
@@ -121,10 +124,10 @@ const DemoCodeInput = ({ onValidCode, onCancel, sessionId }) => {
       if (data.valid) {
         onValidCode(data);
       } else {
-        setError(data.error?.message || '無効なコードです');
+        setError(data.error?.message || t('demoCodeInvalid'));
       }
     } catch (err) {
-      setError('検証中にエラーが発生しました');
+      setError(t('demoCodeError'));
     } finally {
       setValidating(false);
     }
@@ -146,7 +149,7 @@ const DemoCodeInput = ({ onValidCode, onCancel, sessionId }) => {
           disabled={validating || !code.trim()}
           className="demo-code-btn"
         >
-          {validating ? '確認中...' : '適用'}
+          {validating ? t('demoValidating') : t('demoApply')}
         </button>
       </div>
       {error && <p className="demo-code-error">{error}</p>}
@@ -165,6 +168,7 @@ const PaymentModal = ({
   isLandingPage = false,
   onPriceLoaded
 }) => {
+  const { t, language } = useTranslation();
   const [clientSecret, setClientSecret] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -216,12 +220,15 @@ const PaymentModal = ({
         setLoading(false);
       } catch (err) {
         console.error('Failed to create payment intent:', err);
-        setError(err.message || 'Failed to initialize payment');
+        setError(err.message || t('paymentInitFailed'));
         setLoading(false);
       }
     };
 
     createPaymentIntent();
+    // tはuseTranslationが再レンダリングごとに返す非メモ化関数のため、依存配列に含めると
+    // マウント時1回のみを意図したPayment Intent作成が再実行されてしまう（決済ロジックは変更しない）
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [partnerCode, email, kanjiName, onPriceLoaded]);
 
   // If Stripe is not configured, don't render anything
@@ -231,6 +238,7 @@ const PaymentModal = ({
 
   const stripeOptions = {
     clientSecret,
+    locale: language,
     appearance: {
       theme: 'stripe',
       variables: {
@@ -247,14 +255,14 @@ const PaymentModal = ({
         {demoApplied && (
           <div className="demo-applied-message">
             <span className="demo-check">✓</span>
-            <p>デモコードが適用されました！</p>
+            <p>{t('demoApplied')}</p>
           </div>
         )}
 
         {!demoApplied && loading && (
           <div className="payment-loading">
             <div className="spinner"></div>
-            <p>Preparing payment...</p>
+            <p>{t('preparingPayment')}</p>
           </div>
         )}
 
@@ -262,7 +270,7 @@ const PaymentModal = ({
           <div className="payment-error-container">
             <p>{error}</p>
             <button onClick={() => window.location.reload()} className="payment-retry-btn">
-              Retry
+              {t('retry')}
             </button>
           </div>
         )}
@@ -283,7 +291,7 @@ const PaymentModal = ({
                 onClick={() => setShowDemoCode(!showDemoCode)}
                 className="demo-code-toggle-btn"
               >
-                {showDemoCode ? '閉じる' : 'プロモコードをお持ちの方'}
+                {showDemoCode ? t('close') : t('promoCodeToggle')}
               </button>
               {showDemoCode && (
                 <DemoCodeInput
@@ -304,7 +312,7 @@ const PaymentModal = ({
     <div className="payment-modal-overlay" onClick={onCancel}>
       <div className="payment-modal" onClick={e => e.stopPropagation()}>
         <div className="payment-modal-header">
-          <h2>Complete Your Purchase</h2>
+          <h2>{t('completePurchase')}</h2>
           <button className="payment-modal-close" onClick={onCancel}>&times;</button>
         </div>
 
@@ -312,14 +320,14 @@ const PaymentModal = ({
           {demoApplied && (
             <div className="demo-applied-message">
               <span className="demo-check">✓</span>
-              <p>デモコードが適用されました！</p>
+              <p>{t('demoApplied')}</p>
             </div>
           )}
 
           {!demoApplied && loading && (
             <div className="payment-loading">
               <div className="spinner"></div>
-              <p>Preparing payment...</p>
+              <p>{t('preparingPayment')}</p>
             </div>
           )}
 
@@ -327,7 +335,7 @@ const PaymentModal = ({
             <div className="payment-error-container">
               <p>{error}</p>
               <button onClick={onCancel} className="payment-cancel-btn">
-                Close
+                {t('close')}
               </button>
             </div>
           )}
@@ -348,7 +356,7 @@ const PaymentModal = ({
                   onClick={() => setShowDemoCode(!showDemoCode)}
                   className="demo-code-toggle-btn"
                 >
-                  {showDemoCode ? '閉じる' : 'プロモコードをお持ちの方'}
+                  {showDemoCode ? t('close') : t('promoCodeToggle')}
                 </button>
                 {showDemoCode && (
                   <DemoCodeInput

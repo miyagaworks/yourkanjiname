@@ -714,6 +714,7 @@ function App() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
+  const [isRestoring, setIsRestoring] = useState(false); // 復帰処理中の照会か（ローディング文言の出し分け用）
   const [error, setError] = useState(null);
   const [userName, setUserName] = useState('');
   const [showNameInput, setShowNameInput] = useState(false);
@@ -825,6 +826,8 @@ function App() {
     }
 
     // 既存結果の問い合わせ中は既存のフルスクリーンローディングを転用する
+    // （isRestoringを立て、生成中の文言ではなく復帰専用の文言を表示する）
+    setIsRestoring(true);
     setLoading(true);
     ApiClient.getResult(savedSessionId)
       .then((resultData) => {
@@ -848,7 +851,10 @@ function App() {
           setShowNameInput(true);
         }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setIsRestoring(false);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -1255,7 +1261,7 @@ function App() {
     );
   }
 
-  // ローディング表示（生成中）
+  // ローディング表示（生成中 / 復帰時の照会中）
   if (loading && !currentQuestion && !result) {
     return (
       <>
@@ -1265,12 +1271,18 @@ function App() {
               <div className="spinner"></div>
             </div>
             <div className="loading-text">
-              <div className="loading-step">{t(LOADING_MESSAGE_KEYS[loadingStep])}</div>
-              <div className="loading-progress">
-                {LOADING_MESSAGE_KEYS.map((_, i) => (
-                  <span key={i} className={`progress-dot ${i <= loadingStep ? 'active' : ''}`} />
-                ))}
-              </div>
+              {isRestoring ? (
+                <p className="loading-step">{t('loadingRestore')}</p>
+              ) : (
+                <>
+                  <div className="loading-step">{t(LOADING_MESSAGE_KEYS[loadingStep])}</div>
+                  <div className="loading-progress">
+                    {LOADING_MESSAGE_KEYS.map((_, i) => (
+                      <span key={i} className={`progress-dot ${i <= loadingStep ? 'active' : ''}`} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
