@@ -53,3 +53,4 @@ tmp/
 # Server logs
 server.log
 *.log
+.vercel
