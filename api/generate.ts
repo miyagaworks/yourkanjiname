@@ -21,7 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handlePreflight(req, res)) return;
 
   try {
-    const { session_id, action } = req.query;
+    const { session_id, action, lang } = req.query;
 
     if (!session_id) {
       return res.status(400).json({
@@ -34,7 +34,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // POST /api/generate - Generate kanji name
     if (req.method === 'POST') {
-      const result = await generationService.generateKanjiName(session_id as string);
+      const language = typeof lang === 'string' && lang.trim() !== '' ? lang : 'en';
+      const result = await generationService.generateKanjiName(session_id as string, language);
       return res.json(result);
     }
 

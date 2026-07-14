@@ -544,18 +544,22 @@ const ResultCard = ({ result, language, userName, paymentIntentId, preEmail }) =
     return null;
   }
 
-  // For kanji meaning, use user language if available, fallback to en, then ja
+  // For kanji meaning: language-specific field (ja/en) > AI-generated user-language
+  // meaning (fr/de/es/it/th/vi/id/ko) > en > ja
   const getMeaning = (kanji) => {
     if (kanji[`meaning_${language}`]) return kanji[`meaning_${language}`];
-    if (language === 'ja') return kanji.meaning_ja;
+    if (kanji.meaning_user) return kanji.meaning_user;
     return kanji.meaning_en || kanji.meaning_ja;
   };
 
-  // For explanation, use user language if available, fallback to en, then ja
+  // For explanation: language-specific field (ja/en) > AI-generated user-language
+  // explanation (fr/de/es/it/th/vi/id/ko) > existing en/ja fallback
   const getExplanation = () => {
     let text;
     if (result.explanation?.[language]) {
       text = result.explanation[language];
+    } else if (result.explanation?.user) {
+      text = result.explanation.user;
     } else if (language === 'ja') {
       text = result.explanation?.ja || result.explanation;
     } else {
@@ -642,7 +646,7 @@ const ResultCard = ({ result, language, userName, paymentIntentId, preEmail }) =
           kanjiName={result.kanji_name}
           userName={userName}
           explanationJa={result.explanation?.ja || result.explanation}
-          explanationUser={result.explanation?.[language] || result.explanation?.en}
+          explanationUser={result.explanation?.[language] || result.explanation?.user || result.explanation?.en}
           paymentIntentId={paymentIntentId}
           initialEmail={preEmail}
         />

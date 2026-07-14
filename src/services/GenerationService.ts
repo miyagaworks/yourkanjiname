@@ -68,7 +68,7 @@ export class GenerationService {
     const kanjiResult = await aiService.generateKanjiName(userProfile, userName, language);
 
     // Save result to database (simplified - store AI result)
-    await this.saveAIResult(sessionId, kanjiResult, scoringResult);
+    await this.saveAIResult(sessionId, kanjiResult, scoringResult, language);
 
     // Mark session as completed
     await this.sessionService.completeSession(sessionId, kanjiResult.kanji_name);
@@ -103,17 +103,20 @@ export class GenerationService {
         char: row.first_kanji_char,
         meaning_en: row.first_kanji_meaning_en,
         meaning_ja: row.first_kanji_meaning_ja,
+        meaning_user: row.first_kanji_meaning_user,
         pronunciation: ''
       },
       second_kanji: {
         char: row.second_kanji_char,
         meaning_en: row.second_kanji_meaning_en,
         meaning_ja: row.second_kanji_meaning_ja,
+        meaning_user: row.second_kanji_meaning_user,
         pronunciation: ''
       },
       explanation: {
         ja: row.explanation_ja,
-        en: row.explanation_en
+        en: row.explanation_en,
+        user: row.explanation_user
       },
       matching_scores: {
         total: row.matching_score,
@@ -177,7 +180,7 @@ export class GenerationService {
   /**
    * Save AI-generated result to database
    */
-  private async saveAIResult(sessionId: string, kanjiResult: any, scoringResult: any) {
+  private async saveAIResult(sessionId: string, kanjiResult: any, scoringResult: any, language: string) {
     const query = `
       INSERT INTO naming_results (
         session_id,
@@ -186,16 +189,20 @@ export class GenerationService {
         second_kanji_char,
         first_kanji_meaning_ja,
         first_kanji_meaning_en,
+        first_kanji_meaning_user,
         second_kanji_meaning_ja,
         second_kanji_meaning_en,
+        second_kanji_meaning_user,
         matching_score,
         gender_match_score,
         motivation_match_score,
         subtype_match_score,
         explanation_ja,
-        explanation_en
+        explanation_en,
+        explanation_user,
+        result_language
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
     `;
 
     await this.pool.query(query, [
@@ -205,14 +212,18 @@ export class GenerationService {
       kanjiResult.second_kanji.char,
       kanjiResult.first_kanji.meaning_ja,
       kanjiResult.first_kanji.meaning_en,
+      kanjiResult.first_kanji.meaning_user ?? null,
       kanjiResult.second_kanji.meaning_ja,
       kanjiResult.second_kanji.meaning_en,
+      kanjiResult.second_kanji.meaning_user ?? null,
       Math.round(kanjiResult.matching_scores.total),
       Math.round(kanjiResult.matching_scores.gender_match),
       Math.round(kanjiResult.matching_scores.motivation_match),
       0, // subtype_match_score not calculated separately
       kanjiResult.explanation.ja,
-      kanjiResult.explanation.en
+      kanjiResult.explanation.en,
+      kanjiResult.explanation.user ?? null,
+      language ?? null
     ]);
   }
 
