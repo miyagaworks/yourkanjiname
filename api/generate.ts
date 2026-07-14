@@ -9,6 +9,8 @@ import { GenerationService } from '../src/services/GenerationService';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { setCorsHeaders, handlePreflight } = require('./lib/security');
 
+export const maxDuration = 60; // Vercel Pro: allow up to 60s for generation
+
 const generationService = new GenerationService();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
