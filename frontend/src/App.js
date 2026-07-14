@@ -123,8 +123,47 @@ const ApiClient = {
     });
     await throwIfNotOk(response);
     return await response.json();
+  },
+
+  // 決済済みセッションの復帰用: 既存の生成結果を取得（GET /api/generate?action=result）
+  async getResult(sessionId) {
+    const response = await fetch(`${API_BASE_URL}/generate?session_id=${sessionId}&action=result`);
+    await throwIfNotOk(response);
+    return await response.json();
   }
 };
+
+// 決済済み進捗のlocalStorage永続化（リロード/タブ閉じ/ブラウザバック後の二重課金防止）
+const PROGRESS_STORAGE_KEY = 'kanjiname_progress';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return (parsed && typeof parsed === 'object') ? parsed : null;
+  } catch {
+    // プライベートブラウジング等でlocalStorageが使えない場合は「保存なし」として扱う
+    return null;
+  }
+}
+
+function saveProgress(patch) {
+  try {
+    const current = loadProgress() || {};
+    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify({ ...current, ...patch }));
+  } catch {
+    // 保存に失敗しても致命的にしない（ベストエフォート）
+  }
+}
+
+function clearProgress() {
+  try {
+    localStorage.removeItem(PROGRESS_STORAGE_KEY);
+  } catch {
+    // 無視
+  }
+}
 
 // Progress Bar Component
 const ProgressBar = ({ progress }) => {
@@ -755,12 +794,67 @@ function App() {
     return q.next;
   };
 
+  // 決済済みユーザーの復帰処理（リロード/タブ閉じ/ブラウザバック後、
+  // ランディング（決済導線）に戻さず前回の状態に復帰させる）
+  useEffect(() => {
+    if (PREVIEW_MODE) return; // プレビューモードでは復帰処理をスキップ（既存挙動を変えない）
+
+    const saved = loadProgress();
+    if (!saved || !saved.hasPaid) return; // 未決済 or 保存なし → 通常のランディングフローのまま
+
+    // 支払済みと判明した時点で同期的に確定させる。200応答を待ってからだと、
+    // コールドスタート等でfetchがスプラッシュの3秒タイマーを超えた場合に
+    // showLanding && !hasPaid が一瞬trueになり、支払済みユーザーに決済導線が
+    // 再度見えてしまう（分岐の並び順は変更していない）。
+    setHasPaid(true);
+    setShowLanding(false);
+    setShowSplash(false);
+    setPaymentIntentId(saved.paymentIntentId || null);
+
+    const savedSessionId = saved.sessionId || null;
+    const savedUserName = saved.userName || '';
+
+    if (!savedSessionId) {
+      // 復元できるセッションがない（決済直後、名前入力前に離脱した等）
+      setShowNameInput(true);
+      return;
+    }
+
+    // 既存結果の問い合わせ中は既存のフルスクリーンローディングを転用する
+    setLoading(true);
+    ApiClient.getResult(savedSessionId)
+      .then((resultData) => {
+        sessionIdRef.current = savedSessionId;
+        setSessionId(savedSessionId);
+        if (savedUserName) setUserName(savedUserName);
+        setResult(resultData);
+      })
+      .catch((err) => {
+        // 404（未生成）でもその他のエラーでも、復帰処理としてはエラー画面を
+        // 出さずQ0再開 or 名前入力にフォールバックする
+        console.error('Failed to restore result, falling back to question flow:', err);
+        if (savedUserName) {
+          // Q0から再開（回答はAnswerServiceのupsertにより再送信しても安全）
+          sessionIdRef.current = savedSessionId;
+          setSessionId(savedSessionId);
+          setUserName(savedUserName);
+          setCurrentQuestion(formatQuestion('Q0', 0));
+          setProgress({ current_step: 0, total_steps: 16, percentage: 0 });
+        } else {
+          setShowNameInput(true);
+        }
+      })
+      .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // 決済成功後の処理
   const handlePaymentSuccess = (intentId) => {
     setPaymentIntentId(intentId);
     setHasPaid(true);
     setShowLanding(false);
     setShowNameInput(true);
+    saveProgress({ hasPaid: true, paymentIntentId: intentId });
   };
 
   // 価格読み込み完了
@@ -775,6 +869,7 @@ function App() {
     setHasPaid(true);
     setShowLanding(false);
     setShowNameInput(true);
+    saveProgress({ hasPaid: true, paymentIntentId: 'skip_payment_test' });
   };
 
   // セッション作成（失敗時に再試行できるよう名前付き関数として保持）
@@ -783,6 +878,7 @@ function App() {
       const newSessionId = await ApiClient.createSession(name);
       sessionIdRef.current = newSessionId;
       setSessionId(newSessionId);
+      saveProgress({ sessionId: newSessionId, userName: name });
     } catch (err) {
       console.error(err);
       retryActionRef.current = () => initializeSession(name);
@@ -1207,6 +1303,17 @@ function App() {
         <div className="container result-container">
           <LanguageSelector />
           <ResultCard result={result} language={language} userName={userName} paymentIntentId={paymentIntentId} preEmail={preEmail} />
+          <button
+            type="button"
+            className="submit-button"
+            style={{ marginTop: '24px' }}
+            onClick={() => {
+              clearProgress();
+              window.location.reload();
+            }}
+          >
+            {t('startNew')}
+          </button>
         </div>
         <footer className="footer">
           <p>&copy; {new Date().getFullYear()} Your Kanji Name. All rights reserved.</p>

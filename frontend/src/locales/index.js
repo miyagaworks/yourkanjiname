@@ -90,7 +90,10 @@ const translations = {
     // Error handling
     sessionError: 'Failed to prepare your session. Please try again.',
     generationError: 'Failed to generate your result. Please try again.',
-    retry: 'Retry'
+    retry: 'Retry',
+
+    // Start new diagnosis
+    startNew: 'Start New Quiz'
   },
 
   // French
@@ -169,7 +172,10 @@ const translations = {
     // Error handling
     sessionError: 'Échec de la préparation de votre session. Veuillez réessayer.',
     generationError: 'Échec de la génération de votre résultat. Veuillez réessayer.',
-    retry: 'Réessayer'
+    retry: 'Réessayer',
+
+    // Start new diagnosis
+    startNew: 'Commencer un nouveau quiz'
   },
 
   // German
@@ -248,7 +254,10 @@ const translations = {
     // Error handling
     sessionError: 'Vorbereitung Ihrer Sitzung fehlgeschlagen. Bitte versuchen Sie es erneut.',
     generationError: 'Generierung Ihres Ergebnisses fehlgeschlagen. Bitte versuchen Sie es erneut.',
-    retry: 'Erneut versuchen'
+    retry: 'Erneut versuchen',
+
+    // Start new diagnosis
+    startNew: 'Neues Quiz starten'
   },
 
   // Spanish
@@ -327,7 +336,10 @@ const translations = {
     // Error handling
     sessionError: 'Error al preparar tu sesión. Por favor, inténtalo de nuevo.',
     generationError: 'Error al generar tu resultado. Por favor, inténtalo de nuevo.',
-    retry: 'Reintentar'
+    retry: 'Reintentar',
+
+    // Start new diagnosis
+    startNew: 'Comenzar un nuevo quiz'
   },
 
   // Portuguese
@@ -406,7 +418,10 @@ const translations = {
     // Error handling
     sessionError: 'Falha ao preparar sua sessão. Por favor, tente novamente.',
     generationError: 'Falha ao gerar seu resultado. Por favor, tente novamente.',
-    retry: 'Tentar novamente'
+    retry: 'Tentar novamente',
+
+    // Start new diagnosis
+    startNew: 'Começar um novo quiz'
   },
 
   // Italian
@@ -485,7 +500,10 @@ const translations = {
     // Error handling
     sessionError: 'Preparazione della sessione non riuscita. Riprova.',
     generationError: 'Generazione del risultato non riuscita. Riprova.',
-    retry: 'Riprova'
+    retry: 'Riprova',
+
+    // Start new diagnosis
+    startNew: 'Inizia un nuovo quiz'
   },
 
   // Thai
@@ -564,7 +582,10 @@ const translations = {
     // Error handling
     sessionError: 'เตรียมเซสชันไม่สำเร็จ กรุณาลองอีกครั้ง',
     generationError: 'สร้างผลลัพธ์ไม่สำเร็จ กรุณาลองอีกครั้ง',
-    retry: 'ลองอีกครั้ง'
+    retry: 'ลองอีกครั้ง',
+
+    // Start new diagnosis
+    startNew: 'เริ่มแบบทดสอบใหม่'
   },
 
   // Vietnamese
@@ -643,7 +664,10 @@ const translations = {
     // Error handling
     sessionError: 'Chuẩn bị phiên không thành công. Vui lòng thử lại.',
     generationError: 'Tạo kết quả không thành công. Vui lòng thử lại.',
-    retry: 'Thử lại'
+    retry: 'Thử lại',
+
+    // Start new diagnosis
+    startNew: 'Bắt đầu trắc nghiệm mới'
   },
 
   // Indonesian
@@ -722,7 +746,10 @@ const translations = {
     // Error handling
     sessionError: 'Gagal menyiapkan sesi Anda. Silakan coba lagi.',
     generationError: 'Gagal membuat hasil Anda. Silakan coba lagi.',
-    retry: 'Coba lagi'
+    retry: 'Coba lagi',
+
+    // Start new diagnosis
+    startNew: 'Mulai Kuis Baru'
   },
 
   // Korean
@@ -801,7 +828,10 @@ const translations = {
     // Error handling
     sessionError: '세션 준비에 실패했습니다. 다시 시도해 주세요.',
     generationError: '결과 생성에 실패했습니다. 다시 시도해 주세요.',
-    retry: '다시 시도'
+    retry: '다시 시도',
+
+    // Start new diagnosis
+    startNew: '새 퀴즈 시작하기'
   },
 
   // Japanese
@@ -880,7 +910,10 @@ const translations = {
     // Error handling
     sessionError: 'セッションの準備に失敗しました。もう一度お試しください。',
     generationError: '結果の生成に失敗しました。もう一度お試しください。',
-    retry: '再試行'
+    retry: '再試行',
+
+    // Start new diagnosis
+    startNew: '新しい診断を始める'
   }
 };
 
