@@ -34,7 +34,8 @@ env 変更・再デプロイ・本番検証は Super が直接実行（Vercel CL
 
 <known-fact>
 ## 本番状態（2026-07-15 切替後、全て実測）
-- git HEAD = origin/main = `875abe1`、作業ツリークリーン。**本セッションでのコード変更・コミットなし**
+- git 最新コミットは本引き継ぎノート自身（`docs: 2026-07-15 強制モード切替完了…`）。
+  作業ツリークリーン・HEAD=origin/main。**本セッションでのコード変更なし**（コミットはこの引き継ぎノートのみ）
 - Vercel 本番 env に `PAYMENT_CHECK_MODE = enforce` を追加（Production スコープ、`vercel env ls` で登録確認済み）
 - 再デプロイ: `yourkanjiname-3hz2xliaq-senrigan.vercel.app`（status=Ready）。
   本番エイリアス（kanjiname.jp / app.kanjiname.jp / www.kanjiname.jp）に昇格済み
@@ -88,7 +89,8 @@ env 変更・再デプロイ・本番検証は Super が直接実行（Vercel CL
 <next-action>
 次セッションの Super が最初にやること:
 1. このノートを Read（前ノート 2026-07-15-m4-m5 の <task> は本ノートで完了済み）
-2. git status / git log --oneline -3 で確認（クリーン・HEAD=875abe1 を期待。本セッションでコミットなし）
+2. git status / git log --oneline -3 で確認（作業ツリークリーン。最新コミットはこの引き継ぎノートの
+   docs コミット、その親が前ノート `875abe1`。決済ゲート関連のコード変更はなし）
 3. 強制モードは本番稼働中。新規タスクがなければ監査残項目（L-1 等）か上記バックログから
 </next-action>
 
