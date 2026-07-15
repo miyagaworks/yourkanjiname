@@ -5,7 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "npm run typecheck:api && tsc",
+    "typecheck:api": "tsc -p tsconfig.api.json --noEmit",
     "start": "node dist/server.js",
     "test": "jest",
     "test:watch": "jest --watch",
