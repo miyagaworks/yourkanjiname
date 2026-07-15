@@ -939,22 +939,26 @@ function App() {
     window.scrollTo(0, 0);
   };
 
+  // セッションIDが用意されるまで待つ（sessionIdRef.current があれば即返す。
+  // なければ100ms間隔で最大50回=5秒ポーリングし、取得できなければnullを返す）
+  const waitForSessionId = async () => {
+    if (sessionIdRef.current) return sessionIdRef.current;
+    for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+    return sessionIdRef.current;
+  };
+
   // 最後の質問の回答送信〜生成〜結果保存（失敗時に再試行できるよう名前付き関数として保持）
   const submitFinalAnswerAndGenerate = async (questionId, optionId) => {
     setLoading(true);
 
-    let currentSessionId = sessionIdRef.current;
+    const currentSessionId = await waitForSessionId();
     if (!currentSessionId) {
-      for (let i = 0; i < 50 && !sessionIdRef.current; i++) {
-        await new Promise(r => setTimeout(r, 100));
-      }
-      currentSessionId = sessionIdRef.current;
-      if (!currentSessionId) {
-        retryActionRef.current = () => submitFinalAnswerAndGenerate(questionId, optionId);
-        setError('sessionError');
-        setLoading(false);
-        return;
-      }
+      retryActionRef.current = () => submitFinalAnswerAndGenerate(questionId, optionId);
+      setError('sessionError');
+      setLoading(false);
+      return;
     }
 
     try {
@@ -1009,13 +1013,22 @@ function App() {
       window.scrollTo(0, 0);
 
       // 回答送信はバックグラウンドで実行（Promiseを追跡、失敗時はリトライ用に情報を保持）
-      if (sessionIdRef.current && currentQuestionId !== 'Q0') {
-        const promise = ApiClient.submitAnswer(sessionIdRef.current, currentQuestionId, optionId, language)
-          .then(() => ({ ok: true }))
-          .catch(err => {
+      // セッション未準備でも回答を破棄しない: waitForSessionIdで最大5秒待ってから送信する
+      if (currentQuestionId !== 'Q0') {
+        const promise = (async () => {
+          const targetSessionId = sessionIdRef.current ?? await waitForSessionId();
+          if (!targetSessionId) {
+            console.error('Background submit skipped: session not ready after wait', currentQuestionId);
+            return { ok: false, questionId: currentQuestionId, optionId };
+          }
+          try {
+            await ApiClient.submitAnswer(targetSessionId, currentQuestionId, optionId, language);
+            return { ok: true };
+          } catch (err) {
             console.error('Background submit failed:', err);
             return { ok: false, questionId: currentQuestionId, optionId };
-          });
+          }
+        })();
         pendingSubmitsRef.current.push(promise);
       }
       return;
